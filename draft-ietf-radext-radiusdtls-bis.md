@@ -338,6 +338,18 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 
 [^pskid]: TODO: What is the correct term here? "PSK Identifier"? Probably not "TLS Identifier" as it was in RFC6614
 
+## Server Identity
+
+For clients it may be important to uniquely identify a server, i.e. to decide whether all connections to this server are down or if there is already an active connection to a server that was discovered using dynamic discovery described in {{RFC7585}}.
+In RADIUS/UDP a server identity could be simply described as the tuple of destination IP address and destination port.
+
+For RADIUS/(D)TLS, this distinction is not that simple, i.e. because different RADIUS servers are hidden behind a load balancer with one public IP address, and the load balancer dispatches the connections based on the Server Name Indication in the first TLS handshake record.
+
+Therefore, a RAIDUS/(D)TLS server is uniquely identified by the destination IP address, transport protocol (DTLS or TLS), destination port and server name as used in the Server Name Indication during the TLS handshake.
+Connections MUST NOT be treated as connections to the same servers if the presented server certificate is the same.
+Connections to the same destination IP address and port, but using different protocols SHOULD be treated as connections to different servers.
+Connectiosn to the same destination IP address and port and using the same transport protocol, but with different server names used in the Server Name Indication, including the combination where one connection did not use SNI, SHOULD be treated as connections to different servers.
+
 ## RADIUS Datagrams
 
 [^src_6614_2_5]
