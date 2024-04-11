@@ -73,6 +73,7 @@ An example for a worldwide roaming environment that uses RADIUS over TLS to secu
   These specifications have been merged into this document.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3
 * RFC6614 allowed usage of TLS compression, this document forbids it.
+* RFC6614 and RFC7360 did not have any reference to Server Name Indication, this specification requires clients to implement SNI.
 * RFC6614 only requires support for the trust model "certificates with PKIX". This document changes this. For servers, "certificates with PKIX" and "TLS-PSK" is now mandated and clients must implement one of the two.
 * The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
 * The specification regarding steps for certificate verification has been updated
@@ -228,6 +229,7 @@ Additionally, the following requirements have to be met for the (D)TLS session:
 * Negotiation of a cipher suite providing for confidentiality as well as integrity protection is REQUIRED.
 * The peers MUST NOT negotiate compression.
 * The session MUST be mutually authenticated (see {{mutual_auth}})
+* RADIUS/(D)TLS clients MUST support Server Name Indication in the (D)TLS handshake
 
 [^add_which]: TODO: Add text which recommendations of RFC9325 must be followed and why
 
@@ -814,6 +816,11 @@ The original specification of RADIUS/TLS does not forbid the usage of compressio
 As per {{RFC9325, Section 3.3}}, compression should not be used due to the possibility of compression-related attacks, unless the application protocol is proven to be not open to such attacks.
 Since some attributes of the RADIUS packets within the TLS tunnel contain values that an attacker could at least partially choose (i.e. username, MAC address or EAP message), there is a possibility for compression-related attacks, that could potentially reveal data in other RADIUS attributes through length of the TLS record.
 To circumvent this attack, this specification forbids the usage of TLS compression.
+
+The specification in {{RFC6614}} did not include any text around Server Name Indication (SNI).
+This is most likely due to the fact that the initial incentive of the specification was to just provide an easy-to-migrate-to security layer for existing RADIUS deployments.
+With the TLS layer, several features of TLS can be used to add deployment scenarios that otherwise would not have been possible.
+By adding Server Name Indication, a RAIDUS/(D)TLS server can now provide different services (i.e. access to different roaming consortia) under the same destination IP address and port, or could distinguish clients by the server name they use in the SNI extension of the TLS Client Hello and present a different server certificate or apply specific policies.
 
 # IANA Considerations
 
