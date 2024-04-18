@@ -1501,7 +1501,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
         </table>
 <p id="section-3.2-3">RADIUS/(D)TLS does not use separate ports for authentication, accounting and dynamic authorization changes.
 The source port is arbitrary.
-<span class="cref" id="considerations">TODO: add reference to considerations regarding the multi-purpose use of one port.<span class="crefSource">Janfred</span></span><a href="#section-3.2-3" class="pilcrow">¶</a></p>
+For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_datagrams" class="auto internal xref">Section 4.4</a>.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <p id="section-3.2-4">RADIUS/TLS servers <span class="bcp14">MUST</span> immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
 They <span class="bcp14">MUST</span> close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 <p id="section-3.2-5">RADIUS/DTLS servers <span class="bcp14">MUST</span> silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS negotiation or a packet sent over a DTLS session established earlier.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
@@ -1746,7 +1746,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
         </ul>
 </section>
 </div>
-<div id="radius-datagrams">
+<div id="radius_datagrams">
 <section id="section-4.4">
         <h3 id="name-radius-datagrams">
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-radius-datagrams" class="section-name selfRef">RADIUS Datagrams</a>
