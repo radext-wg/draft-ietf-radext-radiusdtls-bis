@@ -156,7 +156,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 
 RADIUS/(D)TLS does not use separate ports for authentication, accounting and dynamic authorization changes.
 The source port is arbitrary.
-[^considerations]{:jf}
+For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_datagrams}}.
 
 RADIUS/TLS servers MUST immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
 They MUST close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.
@@ -164,8 +164,6 @@ They MUST close the connection and discard any data sent if the connecting clien
 RADIUS/DTLS servers MUST silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS negotiation or a packet sent over a DTLS session established earlier.
 
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
-
-[^considerations]: TODO: add reference to considerations regarding the multi-purpose use of one port.
 
 ## Detecting Live Servers
 
@@ -336,6 +334,7 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 * TLS-PSK Identifier
 
 ## RADIUS Datagrams
+{:#radius_datagrams}
 
 [^src_6614_2_5]
 
