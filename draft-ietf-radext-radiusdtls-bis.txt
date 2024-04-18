@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 13 October 2024                                   11 April 2024
+Expires: 20 October 2024                                   18 April 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 October 2024.
+   This Internet-Draft will expire on 20 October 2024.
 
 Copyright Notice
 
@@ -452,10 +452,7 @@ Table of Contents
 
    *  Implementations SHOULD indicate their trusted Certification
       authorities (CAs).  See [RFC5246], Section 7.4.4 and [RFC6066],
-      Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for TLS 1.3
-      // TODO: CA-Indication for DTLS.
-      //
-      // -- Janfred
+      Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for TLS 1.3.
 
    *  RADIUS/(D)TLS clients validate the servers identity to match their
       local configuration:
@@ -505,11 +502,8 @@ Table of Contents
          configured IP address is matched against the presented
          addresses in the subjectAltName:iPAddr extension; if no such
          exist, against the presented CN component of the certificate
-         subject.
-         // TODO: Find out if there are matching rules for subnet
-         // configuration.
-         //
-         // -- Janfred
+         subject.  For clients configured by IP range, the certificate
+         MUST be valid for the IP address the client is currently using.
 
       -  It is possible for a RADIUS/(D)TLS server to not require
          additional name checks for incoming RADIUS/(D)TLS clients, i.e.
@@ -575,10 +569,6 @@ Table of Contents
 
    In TLS-PSK operation, a client is uniquely identified by its TLS-PSK
    identifier.
-   // TODO: What is the correct term here?  "PSK Identifier"?  Probably
-   // not "TLS Identifier" as it was in RFC6614
-   //
-   // -- Janfred
 
    In Raw-Public-Key operation, a client is uniquely identified by the
    Raw public key.
@@ -1001,8 +991,8 @@ Table of Contents
    Sessions (both 4-tuple and entry) MUST be deleted when a TLS Closure
    Alert ([RFC5246], Section 7.2.1) or a fatal TLS Error Alert
    ([RFC5246], Section 7.2.2) is received.
-   // TODO: Rephrase this to "if closed for any reason" after validating
-   // that this is what we mean.
+   // TODO: Suggestion from Alan: "if closed for any reason", but not
+   // sure if this is what we mean.
    //
    // -- Janfred When a session is deleted due to it failing security
    requirements, the DTLS session MUST be closed, any TLS session
