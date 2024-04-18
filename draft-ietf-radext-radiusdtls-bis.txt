@@ -292,11 +292,8 @@ Table of Contents
 
    RADIUS/(D)TLS does not use separate ports for authentication,
    accounting and dynamic authorization changes.  The source port is
-   arbitrary.
-   // TODO: add reference to considerations regarding the multi-purpose
-   // use of one port.
-   //
-   // -- Janfred
+   arbitrary.  For considerations regarding the multi-purpose use of one
+   port for authentication and accounting see Section 4.4.
 
    RADIUS/TLS servers MUST immediately start the TLS negotiation when a
    new connection to the RADIUS/TLS port is opened.  They MUST close the
