@@ -254,7 +254,7 @@ If implemented it MUST use the following rules:
 * Implementations MUST allow the configuration of a list of trusted Certificate Authorities for new TLS sessions.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trusted Certification authorities (CAs).
-  See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3 [^dtls-ca-ind]{:jf}
+  See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration:
   - If the expected RADIUS/(D)TLS server was configured as a hostname, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component of the certificate subject
   - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
@@ -266,15 +266,14 @@ If implemented it MUST use the following rules:
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate
   * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component in the certificate subject.
-  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject. [^ipaddr-cidr]{:jf}
+  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
+    For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
   * It is possible for a RADIUS/(D)TLS server to not require additional name checks for incoming RADIUS/(D)TLS clients, i.e. if the client used dynamic lookup.
     In this case, the certificate is accepted immediately after the {{RFC5280}} trust chain checks.
     This MUST NOT be used outside of trusted network environments or without additional certificate attribute checks in place.
 * Implementations MAY allow a configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values in subjectAltName:URI or a set of allowed X.509v3 Certificate Policies).
 * When the configured trust base changes (e.g., removal of a CA from the list of trusted CAs; issuance of a new CRL for a given CA), implementations SHOULD renegotiate the TLS session to reassess the connecting peer's continued authorization.[^may-should-trustbase]{:jf}
 
-[^dtls-ca-ind]: TODO: CA-Indication for DTLS.
-[^ipaddr-cidr]: TODO: Find out if there are matching rules for subnet configuration.
 [^may-should-trustbase]: Open discussion: RFC6614 says "may" here. I think this should be a "should". There are some discussions to change this to "must". Input from TLS/UTA experts is appreciated.
 
 ### Authentication using X.509 certificate fingerprints
@@ -304,7 +303,7 @@ Since the shared secret is associated with the origin IP address, if more than o
 
 Depending on the operation mode, the RADIUS/(D)TLS client identity can be determined differently.
 
-In TLS-PSK operation, a client is uniquely identified by its TLS-PSK identifier.[^pskid]{:jf}
+In TLS-PSK operation, a client is uniquely identified by its TLS-PSK identifier.
 
 In Raw-Public-Key operation, a client is uniquely identified by the Raw public key.
 
@@ -335,8 +334,6 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 
 * Originating IP address
 * TLS-PSK Identifier
-
-[^pskid]: TODO: What is the correct term here? "PSK Identifier"? Probably not "TLS Identifier" as it was in RFC6614
 
 ## RADIUS Datagrams
 
@@ -623,7 +620,7 @@ This requirement can likely be reached by simply processing the packet through t
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.[^proxymitigation]{:jf}
 
 [^proxymitigation]: In RFC7360 there is a final paragraph about mitigation of the 4-tuple problem by using a local proxy. I'm not sure if this is the right place here, i'd rather move that to a general "Implementation Guidelines" paragraph.
-[^closed_for_any_reason]: TODO: Rephrase this to "if closed for any reason" after validating that this is what we mean.
+[^closed_for_any_reason]: TODO: Suggestion from Alan: "if closed for any reason", but not sure if this is what we mean.
 
 ### Client Session Management
 
