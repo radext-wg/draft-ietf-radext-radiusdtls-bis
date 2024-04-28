@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-25T00:38:10.982513+00:00",
+  "timestamp": "2024-04-28T00:39:21.361190+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -49,7 +49,32 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOLrzygc6HDCk-",
+      "title": "Add / update text on UDP -> TCP and TCP -> UDP proxying issues",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/2",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "6613 etc. discuss UDP to TCP, but not TCP to UDP.\r\n\r\nPlus, there's the whole issue of Accounting-Request and Acct-Delay-Time being updated on retransmits.  Which contributes to congestive collapse when doing UDP to TCP proxying.\r\n\r\nFor TCP to UDP, it may be rarer, but it's possible.  Should the proxy then take care of retransmitting packets over UDP?\r\n\r\nI need to suggest some text.",
+      "createdAt": "2024-04-26T12:50:13Z",
+      "updatedAt": "2024-04-26T15:51:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "NONE",
+          "body": "RFC 2866 says:\r\n\r\n```\r\n A forwarding server may either perform its forwarding function in a\r\n   pass through manner, where it sends retransmissions on as soon as it\r\n   gets them, or it may take responsibility for retransmissions, for\r\n   example in cases where the network link between forwarding and remote\r\n   server has very different characteristics than the link between NAS\r\n   and forwarding server.\r\n```\r\n\r\nAlex Clouter also mentioned we have the same issue on TCP -> TCP proxying, if the two connections have different throughputs",
+          "createdAt": "2024-04-26T15:51:03Z",
+          "updatedAt": "2024-04-26T15:51:03Z"
+        }
+      ]
+    }
+  ],
   "pulls": [
     {
       "number": 1,
