@@ -354,14 +354,53 @@ Due to the use of one single port for all packet types, it is required that a RA
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
-Operating RADIUS proxies that use both UDP-based transports like RADIUS/UDP or RADIUS/DTLS and TCP-based transports like RADIUS/TLS requires different handing of packets.
-TCP based transports do not need retransmissions, since the reliable transport is provided by the TCP layer.
-Therefore, retransmission of RADIUS packets is forbidden over RADIUS/TLS.
-If a request is received over RADIUS/TLS and forwarded over RADIUS/UDP or RADIUS/DTLS, the proxy needs perform its own retransmissions for outstanding packets.
+When proxy forwards packets, it is possible that the incoming and outgoing links have substantially different properties.  This issue is most notable in UDP to TCP proxying, but there are still possible issues even when the same transport is used on both incoming and outgoing links.  {{RFC 2866, Section 1.2}} noted this issue many years ago:
 
-[^forwarding_stub]{:jf}
+~~~~
+A forwarding server may either perform its forwarding function in a
+pass through manner, where it sends retransmissions on as soon as it
+gets them, or it may take responsibility for retransmissions, for
+example in cases where the network link between forwarding and remote
+server has very different characteristics than the link between NAS
+and forwarding server.
+~~~~
 
-[^forwarding_stub]: TODO: This section is currently a stub. Alan mentioned that we should have a section about handling this, especially around Accounting packets with Acct-Delay-Time. I need more text around this, help welcome.
+These differences are most notable in throughput, and in differing retransmission requirements.
+
+### Throughput Differences lead to Network Collapse
+
+An incoming link to the proxy may have substantially lower throughput than the outgoing link.  Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.  In both situation, the proxy is left with a difficult choice about what to do with the incoming packets.
+
+As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.  As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
+
+The situation is made worse by the sub-optimal behavior of Accounting-Request packets.  {{RFC 2866, Section 5.2}} defines the Acct-Delay-Time attribute, which is supposed to be updated on retransmissions.  However, when the value of the attribute is updated, changing the Acct-Delay-Time causes the Identifier to change.  The "retransmitted" packet is therefore not, in fact, retransmitted, but is instead a brand new packet.  This behavior increases the number of packets handled by proxies, which leads to congestive collapse.  This design also violates the "end-to-end" principles discussed in {{RFC35359, Section 2.8}} which discusses congestion avoidance:
+
+~~~~
+With Relays, Proxies or Store and Forward proxies, two separate and
+de-coupled transport connections are used.  One connection operates
+between the AAA client and agent, and another between the agent and
+server.  Since the two transport connections are de-coupled,
+transport layer ACKs do not flow end-to-end, and self-clocking does
+not occur.
+~~~~
+
+In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-elay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retranmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
+
+This change is imperfect, but will at least help to avoid congestive collapse.
+
+## Differing Retransmission Requirements
+
+Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retranmissions as per {{!RFC 5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
+
+When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
+
+When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC 5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
+
+That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport  Those retranmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
+
+The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
+
+In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
 
 # RADIUS/TLS specific specifications
 
