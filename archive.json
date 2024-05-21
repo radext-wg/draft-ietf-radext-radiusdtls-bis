@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-19T00:40:12.525444+00:00",
+  "timestamp": "2024-05-21T00:37:21.947987+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -275,6 +275,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOLrzygc5v_-MV",
+      "title": "try to address proxying issues.  Helps with #2",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/3",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "My initial stab at addressing the proxying issues.",
+      "createdAt": "2024-05-20T20:26:01Z",
+      "updatedAt": "2024-05-20T20:26:01Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0e3b595bd851c9e1fcf4e0bd227f269f8609754e",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "issue2",
+      "headRefOid": "5d64d5f3f674c55f0e4f9293f3388898d3566bbc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
