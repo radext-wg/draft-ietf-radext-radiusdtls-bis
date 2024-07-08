@@ -88,7 +88,7 @@ Table of Contents
      4.5.  Forwarding RADIUS packets between UDP and TCP based
            transports
        4.5.1.  Throughput Differences lead to Network Collapse
-     4.6.  Differing Retransmission Requirements
+       4.5.2.  Differing Retransmission Requirements
    5.  RADIUS/TLS specific specifications
      5.1.  Duplicates and Retransmissions
      5.2.  Malformed Packets and Unknown clients
@@ -176,6 +176,10 @@ Table of Contents
       [RFC7360] only recommended it.  This specification mandates the
       use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 
+   *  [RFC6613] only included limited text around retransmissions, this
+      document now gives more guidance on how to handle retransmissions,
+      especially across different transports.
+
    The rationales behind some of these changes are outlined in
    Section 8.
 
@@ -216,11 +220,6 @@ Table of Contents
    (Section 3.1), port usage and shared secrets (Section 3.2).
 
 3.1.  Packet format
-
-
-   // Source: RFC6613, Section 2.1 with minimal changes: Removed
-   // paragraph about required ability to store shared secrets.  Also
-   // added last paragraphs from RFC 7360, Section 2.1
 
    The RADIUS packet format is unchanged from [RFC2865], [RFC2866] and
    [RFC5176].  Specifically, all of the following portions of RADIUS
@@ -312,10 +311,6 @@ Table of Contents
 
 3.3.  Detecting Live Servers
 
-
-   // Source: RFC6613, Section 2.4 with minor modifications, Last
-   // paragraph: RFC6613 Section 2.6.5.
-
    As RADIUS is a "hop-by-hop" protocol, a RADIUS proxy shields the
    client from any information about downstream servers.  While the
    client may be able to deduce the operational state of the local
@@ -385,13 +380,6 @@ Table of Contents
 
 4.1.  (D)TLS requirements
 
-
-   // Source: Mainly RFC6614, Section 2.3, Items 1 and 2, but without
-   // peer authentication models (in next section) or unnecessary text
-   // (e.g.  MTI cipher suites, we just rely on the TLS cipher suites.
-   // Maybe explicitly mention that the MTI ciphers from TLS are also
-   // mandatory for this?)
-
    As defined in Section 3.2, RAIDUS/(D)TLS clients must establish a
    (D)TLS session immediately upon connecting to a new server.
 
@@ -421,9 +409,6 @@ Table of Contents
    *  The session MUST be mutually authenticated (see Section 4.2)
 
 4.2.  Mutual authentication
-
-
-   // Source: RFC6614, Section 2.3, Item 3 with modifications.
 
    RADIUS/(D)TLS servers MUST authenticate clients, and RADIUS/(D)TLS
    clients MUST authenticate the server.  RADIUS is designed to be used
@@ -554,9 +539,6 @@ Table of Contents
 
 4.3.  Connecting Client Identity
 
-
-   // Source: RFC6614, Section 2.4 with small modifications
-
    In RADIUS/UDP, clients are uniquely identified by their IP addresses.
    Since the shared secret is associated with the origin IP address, if
    more than one RADIUS client is associated with the same IP address,
@@ -625,10 +607,6 @@ Table of Contents
    *  TLS-PSK Identifier
 
 4.4.  RADIUS Datagrams
-
-
-   // Source: RFC 6614, Section 2.5 with small modifications and without
-   // example list
 
    RADIUS/(D)TLS clients transmit the same packet types on the
    connection they initiated as a RADIUS/UDP client would, RADIUS/(D)TLS
@@ -720,7 +698,7 @@ Table of Contents
    This change is imperfect, but will at least help to avoid congestive
    collapse.
 
-4.6.  Differing Retransmission Requirements
+4.5.2.  Differing Retransmission Requirements
 
    Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports
    are required to perform retranmissions as per [RFC5080],
@@ -771,9 +749,6 @@ Table of Contents
 
 5.1.  Duplicates and Retransmissions
 
-
-   // Source: RFC6613, Section 2.6.1, with small modifications
-
    As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit
    RADIUS packets over a given TCP connection.  Similarly, if there is
    no response to a RADIUS packet over one RADIUS/TLS connection,
@@ -812,17 +787,14 @@ Table of Contents
    packets from non-conforming clients.
 
    RADIUS packets SHOULD NOT be retransmitted to the same destination IP
-   an numerical port, but over a different transport protocol.  There is
-   no guarantee in RADIUS that the two ports are in any way related.
+   and numerical port, but over a different transport protocol.  There
+   is no guarantee in RADIUS that the two ports are in any way related.
    This requirement does not, however, forbid the practice of putting
    multiple servers into a failover or load-balancing pool.  In that
    situation, RADIUS requests MAY be retransmitted to another server
    that is known to be part of the same pool.
 
 5.2.  Malformed Packets and Unknown clients
-
-
-   // Source: RFC 6613, Section 2.6.4 with small modifications.
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -880,10 +852,6 @@ Table of Contents
 
 5.3.  TCP Applications Are Not UDP Applications
 
-
-   // Source: RFC6613, Section 2.6.7 (TCP != UDP) and Section 2.6.2
-   // (HoL-Blocking) with small modifications
-
    Implementors should be aware that programming a robust TCP-based
    application can be very different from programming a robust UDP-based
    application.
@@ -915,9 +883,6 @@ Table of Contents
 
 6.1.  RADIUS packet lengths
 
-
-   // Source: RFC7360, Section 2.1, last paragraphs
-
    The DTLS encryption adds an additional overhead to each packet sent.
    RADIUS/DTLS implementations MUST support sending and receiving RADIUS
    packets of 4096 bytes in length, with a corresponding increase in the
@@ -931,9 +896,6 @@ Table of Contents
    length field as padding and ignore it on reception.
 
 6.2.  Server behavior
-
-
-   // Source: RFC7360, Section 3.2 with small modifications
 
    When a RADIUS/DTLS server receives packets on the configured RADIUS/
    DTLS port, all packets MUST be treated as being DTLS.  RADIUS/UDP
@@ -960,9 +922,6 @@ Table of Contents
    traffic to downbidding attacks and is NOT RECOMMENDED.
 
 6.3.  Client behavior
-
-
-   // Source: RFC7360, Section 4
 
    When a RADIUS/DTLS client sends packet to the assigned RADIUS/DTLS
    port, all packets MUST be DTLS.  RADIUS/UDP packets MUST NOT be sent
@@ -992,9 +951,6 @@ Table of Contents
    // -- Janfred
 
 6.4.  Session Management
-
-
-   // Source; RFC7360, Section 5
 
    Where RADIUS/TLS can rely on the TCP state machine to perform session
    tracking, RADIUS/DTLS cannot.  As a result, implementations of
@@ -1026,9 +982,6 @@ Table of Contents
    // -- Janfred
 
 6.4.1.  Server Session Management
-
-
-   // Source: RFC7360, Section 5.1
 
    A RADIUS/DTLS server MUST track ongoing DTLS sessions for each
    client, based on the following 4-tuple:
@@ -1063,9 +1016,6 @@ Table of Contents
       data.
 
 6.4.1.1.  Session Opening and Closing
-
-
-   // Source: RFC7360, Section 5.1.1 with small modifications
 
    Session tracking is subject to Denial-of-Service (DoS) attacks due to
    the ability of an attacker to forge UDP traffic.  RADIUS/DTLS servers
@@ -1155,9 +1105,6 @@ Table of Contents
    // -- Janfred
 
 6.4.2.  Client Session Management
-
-
-   // Source: RFC7360, Section 5.2 with modifications
 
    RADIUS/DTLS clients SHOULD use PMTU discovery [RFC6520] to determine
    the PMTU between the client and server, prior to sending any RADIUS
@@ -1249,10 +1196,10 @@ Table of Contents
    secret is set to a static string ("radsec" for RADIUS/TLS, "radius/
    dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will
    also result in complete disclosure of the whole RADIUS packet,
-   including the encrypted RADIUS attributes, to any intermediate IP
-   node eavesdropping on the conversation.  To prevent this, while
-   keeping a NULL encryption cipher suite active, the only option is to
-   set a different shared secret for RADIUS.  In this case, the security
+   including the encrypted RADIUS attributes, to any middle-person
+   eavesdropping on the conversation.  To prevent this, while keeping a
+   NULL encryption cipher suite active, the only option is to set a
+   different shared secret for RADIUS.  In this case, the security
    considerations for confidentiality of RADIUS/UDP packets apply.
    Following the recommendations in [RFC9325], Section 4.1, this
    specification forbids the usage of NULL encryption cipher suites for
@@ -1475,11 +1422,10 @@ Table of Contents
 
    *  Assignment notes: The TCP port 2083 was already previously
       assigned by IANA for "RadSec", an early implementation of RADIUS/
-      TLS, prior to issuance of the experimental RFC 6614.  [This
-      document] updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/
-      DTLS), while maintaining backward compatibility, if configured.
-      For further details see RFC 6614, Appendix A or [This document]
-      Appendix C.
+      TLS, prior to issuance of the experimental RFC 6614.  [RFCXXXX]
+      updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS), while
+      maintaining backward compatibility, if configured.  For further
+      details see RFC 6614, Appendix A or [RFCXXXX] Appendix C.
 
 10.  References
 
@@ -1768,7 +1714,8 @@ Acknowledgments
    Status-Server watchdog algorithm.
 
    Thanks to Alan DeKok for his constant review of this document over
-   its whole process.
+   its whole process and his many text contributions, like text around
+   forwarding issues between TCP and UDP based transports.
 
 Authors' Addresses
 
