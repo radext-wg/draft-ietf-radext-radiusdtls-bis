@@ -354,7 +354,7 @@ Due to the use of one single port for all packet types, it is required that a RA
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
-When proxy forwards packets, it is possible that the incoming and outgoing links have substantially different properties.  This issue is most notable in UDP to TCP proxying, but there are still possible issues even when the same transport is used on both incoming and outgoing links.  {{RFC 2866, Section 1.2}} noted this issue many years ago:
+When proxy forwards packets, it is possible that the incoming and outgoing links have substantially different properties.  This issue is most notable in UDP to TCP proxying, but there are still possible issues even when the same transport is used on both incoming and outgoing links.  {{RFC2866, Section 1.2}} noted this issue many years ago:
 
 ~~~~
 A forwarding server may either perform its forwarding function in a
@@ -373,7 +373,7 @@ An incoming link to the proxy may have substantially lower throughput than the o
 
 As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.  As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
 
-The situation is made worse by the sub-optimal behavior of Accounting-Request packets.  {{RFC 2866, Section 5.2}} defines the Acct-Delay-Time attribute, which is supposed to be updated on retransmissions.  However, when the value of the attribute is updated, changing the Acct-Delay-Time causes the Identifier to change.  The "retransmitted" packet is therefore not, in fact, retransmitted, but is instead a brand new packet.  This behavior increases the number of packets handled by proxies, which leads to congestive collapse.  This design also violates the "end-to-end" principles discussed in {{RFC35359, Section 2.8}} which discusses congestion avoidance:
+The situation is made worse by the sub-optimal behavior of Accounting-Request packets.  {{RFC2866, Section 5.2}} defines the Acct-Delay-Time attribute, which is supposed to be updated on retransmissions.  However, when the value of the attribute is updated, changing the Acct-Delay-Time causes the Identifier to change.  The "retransmitted" packet is therefore not, in fact, retransmitted, but is instead a brand new packet.  This behavior increases the number of packets handled by proxies, which leads to congestive collapse.  This design also violates the "end-to-end" principles discussed in {{RFC3539, Section 2.8}} which discusses congestion avoidance:
 
 ~~~~
 With Relays, Proxies or Store and Forward proxies, two separate and
@@ -390,13 +390,13 @@ This change is imperfect, but will at least help to avoid congestive collapse.
 
 ## Differing Retransmission Requirements
 
-Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retranmissions as per {{!RFC 5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
+Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retranmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
-When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC 5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
+When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
 
-That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport  Those retranmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
+That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retranmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
 
 The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
