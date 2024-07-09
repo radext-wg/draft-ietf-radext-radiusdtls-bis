@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-07T00:43:10.755603+00:00",
+  "timestamp": "2024-07-09T00:39:30.384624+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -57,7 +57,7 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/2",
       "state": "OPEN",
       "author": "alandekok",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "6613 etc. discuss UDP to TCP, but not TCP to UDP.\r\n\r\nPlus, there's the whole issue of Accounting-Request and Acct-Delay-Time being updated on retransmits.  Which contributes to congestive collapse when doing UDP to TCP proxying.\r\n\r\nFor TCP to UDP, it may be rarer, but it's possible.  Should the proxy then take care of retransmitting packets over UDP?\r\n\r\nI need to suggest some text.",
@@ -67,7 +67,7 @@
       "comments": [
         {
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "RFC 2866 says:\r\n\r\n```\r\n A forwarding server may either perform its forwarding function in a\r\n   pass through manner, where it sends retransmissions on as soon as it\r\n   gets them, or it may take responsibility for retransmissions, for\r\n   example in cases where the network link between forwarding and remote\r\n   server has very different characteristics than the link between NAS\r\n   and forwarding server.\r\n```\r\n\r\nAlex Clouter also mentioned we have the same issue on TCP -> TCP proxying, if the two connections have different throughputs",
           "createdAt": "2024-04-26T15:51:03Z",
           "updatedAt": "2024-04-26T15:51:03Z"
@@ -88,10 +88,10 @@
       "labels": [],
       "body": "SNI was not part of RFC6614 or RFC7360.\r\n\r\nThis is possibly breaking backwards compatibility, so I don't want to change this without a discussion within the WG.\r\n\r\nThis Pull Request can be used to comment on aspects of the text.",
       "createdAt": "2024-04-11T11:54:05Z",
-      "updatedAt": "2024-04-12T13:18:09Z",
+      "updatedAt": "2024-07-08T17:54:15Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "6bdcae992394e79b9470f1805845a566b24c2a29",
+      "baseRefOid": "97c3d68c2250b7970014b23aa2793f1de3d88ea5",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_server_name_indication",
       "headRefOid": "7d83c0346f5b7c8cbe4f49fa2280f16c872d11fd",
@@ -107,7 +107,7 @@
             "abbreviatedOid": "d7a8074"
           },
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-11T13:07:24Z",
@@ -127,7 +127,7 @@
             "abbreviatedOid": "d7a8074"
           },
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-11T13:10:09Z",
@@ -147,7 +147,7 @@
             "abbreviatedOid": "d7a8074"
           },
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-11T13:10:32Z",
@@ -167,7 +167,7 @@
             "abbreviatedOid": "d7a8074"
           },
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-11T13:12:34Z",
@@ -187,7 +187,7 @@
             "abbreviatedOid": "7d83c03"
           },
           "author": "alandekok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-11T13:13:52Z",
@@ -281,24 +281,26 @@
       "id": "PR_kwDOLrzygc5v_-MV",
       "title": "try to address proxying issues.  Helps with #2",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "alandekok",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "My initial stab at addressing the proxying issues.",
       "createdAt": "2024-05-20T20:26:01Z",
-      "updatedAt": "2024-05-20T20:26:01Z",
+      "updatedAt": "2024-07-08T17:49:22Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "0e3b595bd851c9e1fcf4e0bd227f269f8609754e",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "issue2",
       "headRefOid": "5d64d5f3f674c55f0e4f9293f3388898d3566bbc",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-07-08T17:49:21Z",
+      "mergedAt": "2024-07-08T17:49:21Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "36cab8101d92b069730f390e8251f3f2a44d5ea1"
+      },
       "comments": [],
       "reviews": []
     }
