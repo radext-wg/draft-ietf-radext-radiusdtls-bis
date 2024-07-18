@@ -1,0 +1,308 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-07-18T00:39:34.324140+00:00",
+  "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOLrzygc6HDCk-",
+      "title": "Add / update text on UDP -> TCP and TCP -> UDP proxying issues",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/2",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "6613 etc. discuss UDP to TCP, but not TCP to UDP.\r\n\r\nPlus, there's the whole issue of Accounting-Request and Acct-Delay-Time being updated on retransmits.  Which contributes to congestive collapse when doing UDP to TCP proxying.\r\n\r\nFor TCP to UDP, it may be rarer, but it's possible.  Should the proxy then take care of retransmitting packets over UDP?\r\n\r\nI need to suggest some text.",
+      "createdAt": "2024-04-26T12:50:13Z",
+      "updatedAt": "2024-04-26T15:51:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "RFC 2866 says:\r\n\r\n```\r\n A forwarding server may either perform its forwarding function in a\r\n   pass through manner, where it sends retransmissions on as soon as it\r\n   gets them, or it may take responsibility for retransmissions, for\r\n   example in cases where the network link between forwarding and remote\r\n   server has very different characteristics than the link between NAS\r\n   and forwarding server.\r\n```\r\n\r\nAlex Clouter also mentioned we have the same issue on TCP -> TCP proxying, if the two connections have different throughputs",
+          "createdAt": "2024-04-26T15:51:03Z",
+          "updatedAt": "2024-04-26T15:51:03Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOLrzygc5sWeGl",
+      "title": "Add text around Server Name Indication",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/1",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "SNI was not part of RFC6614 or RFC7360.\r\n\r\nThis is possibly breaking backwards compatibility, so I don't want to change this without a discussion within the WG.\r\n\r\nThis Pull Request can be used to comment on aspects of the text.",
+      "createdAt": "2024-04-11T11:54:05Z",
+      "updatedAt": "2024-07-08T17:54:15Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "97c3d68c2250b7970014b23aa2793f1de3d88ea5",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_server_name_indication",
+      "headRefOid": "7d83c0346f5b7c8cbe4f49fa2280f16c872d11fd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc523DiS",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-11T13:07:24Z",
+          "updatedAt": "2024-04-11T13:07:24Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "TLS servers _may_ be hidden behind a load balancer.",
+              "createdAt": "2024-04-11T13:07:24Z",
+              "updatedAt": "2024-04-11T13:07:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc523E9V",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-11T13:10:09Z",
+          "updatedAt": "2024-04-11T13:10:10Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "What about 7585, where the destination IP isn't known in advance?\r\n\r\nI think it's preferable to base server identity on the presented server credentials.  i.e. the certificate, and not any IP/port information.\r\n\r\nThat is, we have multiple connections to the same server certificate (or similar certificate identification fields), then the client should treat all of those connections as being similar.",
+              "createdAt": "2024-04-11T13:10:09Z",
+              "updatedAt": "2024-04-11T13:10:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc523FKx",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-11T13:10:32Z",
+          "updatedAt": "2024-04-11T13:10:33Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "This seems backwards to me?  Is this a typo, or am I missing something?",
+              "createdAt": "2024-04-11T13:10:33Z",
+              "updatedAt": "2024-04-11T13:10:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc523GPL",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-11T13:12:34Z",
+          "updatedAt": "2024-04-11T13:12:34Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "It's less about SNI than presented certificate, I think.  The distinction is important.\r\n\r\nOnce a client verifies the server identity (and that it matches the SNI), then it's possible to put all similar connections into a connection pool.  And it's OK to key that off of the SNI string, but I think it should be clear that it's being based off of the _identity_ , and not the SNI.",
+              "createdAt": "2024-04-11T13:12:34Z",
+              "updatedAt": "2024-04-11T13:12:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc523G8C",
+          "commit": {
+            "abbreviatedOid": "7d83c03"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-11T13:13:52Z",
+          "updatedAt": "2024-04-11T13:13:52Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "I'm not clear how a server can \"distinguish clients\" by SNI.  Perhaps instead just \"present different identities to clients based on SNI\". ",
+              "createdAt": "2024-04-11T13:13:52Z",
+              "updatedAt": "2024-04-11T13:13:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc52_KIR",
+          "commit": {
+            "abbreviatedOid": "7d83c03"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T09:00:49Z",
+          "updatedAt": "2024-04-12T09:00:49Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "How about this:\r\n\r\n```suggestion\r\nBy adding Server Name Indication, a RAIDUS/(D)TLS server can now provide different services (i.e. access to different roaming consortia) under the same destination IP address and port, or could present different certificates to clients or apply specific policies depending the server name the clients use in the SNI extension of the TLS Client Hello.\r\n```",
+              "createdAt": "2024-04-12T09:00:49Z",
+              "updatedAt": "2024-04-12T09:00:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc52_Mli",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T09:04:45Z",
+          "updatedAt": "2024-04-12T09:04:45Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "See discussion on the ML on that one:\r\nhttps://mailarchive.ietf.org/arch/msg/radext/pX1cn_RnaRnqeu5MBXc-sohK_SQ",
+              "createdAt": "2024-04-12T09:04:45Z",
+              "updatedAt": "2024-04-12T09:04:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc52_NCK",
+          "commit": {
+            "abbreviatedOid": "d7a8074"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T09:05:44Z",
+          "updatedAt": "2024-04-12T09:05:45Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nFor RADIUS/(D)TLS, this distinction is not that simple, i.e. because different RADIUS servers may be hidden behind a load balancer with one public IP address, and the load balancer dispatches the connections based on the Server Name Indication in the first TLS handshake record.\r\n```",
+              "createdAt": "2024-04-12T09:05:44Z",
+              "updatedAt": "2024-04-12T09:05:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc53B5ys",
+          "commit": {
+            "abbreviatedOid": "7d83c03"
+          },
+          "author": "mcr",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-04-12T13:18:09Z",
+          "updatedAt": "2024-04-12T13:18:09Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOLrzygc5v_-MV",
+      "title": "try to address proxying issues.  Helps with #2",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/3",
+      "state": "MERGED",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "My initial stab at addressing the proxying issues.",
+      "createdAt": "2024-05-20T20:26:01Z",
+      "updatedAt": "2024-07-08T17:49:22Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0e3b595bd851c9e1fcf4e0bd227f269f8609754e",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "issue2",
+      "headRefOid": "5d64d5f3f674c55f0e4f9293f3388898d3566bbc",
+      "closedAt": "2024-07-08T17:49:21Z",
+      "mergedAt": "2024-07-08T17:49:21Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "36cab8101d92b069730f390e8251f3f2a44d5ea1"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
