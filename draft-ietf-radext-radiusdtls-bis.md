@@ -316,6 +316,16 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 * Originating IP address
 * TLS-PSK Identifier
 
+## Session Resumption
+
+Session resumption lowers the time and effort required to start a (D)TLS session and increases network responsiveness. This is especially helpful when using short idle timeouts. 
+
+RADIUS/(D)TLS clients and servers SHOULD implement session resumption, preferably stateless session resumption as given in {{!RFC5077}}. Implementations supporting session resumption MUST cache data during the initial full handshake, sufficient to allow authorization descisions to be made during resumption.
+
+When resuming a (D)TLS session, both client and server MUST re-authorize the connection by using the original, cached data. In particular, this includes the X.509 certificate (when using PKIX trust model) as well as any policies associated with that identity such as restrictions on source IP address. The re-authorization MUST give the same result as if a full handshake was performed at the time of resumption. 
+
+If cached data cannot be retrieved securely, resumption MUST NOT be done, either immediately closing the connection or reverting to a full handshake. If a resumed session is closed immediately after being established the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full handshake instead.
+
 ## RADIUS Datagrams
 {:#radius_datagrams}
 
@@ -589,9 +599,6 @@ RADIUS/DTLS servers SHOULD also monitor the total number of open sessions.
 They SHOULD have a "maximum sessions" setting exposed to administrators as a configurable parameter.
 When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
 
-RADIUS/DTLS servers SHOULD implement session resumption, preferably stateless session resumption as given in {{!RFC5077}}.
-This practice lowers the time and effort required to start a DTLS session with a client and increases network responsiveness.
-
 Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
 For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
 Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 4-tuple and thus causing the server to close an active (and authenticated) DTLS session.
@@ -620,9 +627,6 @@ In those cases, implementations MAY delete the underlying DTLS session.
 
 RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
 This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.
-
-RADIUS/DTLS clients SHOULD implement session resumption, preferably stateless session resumption as given in {{RFC5077}}.
-This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.
 
 # Security Considerations
 {: #security_considerations}
