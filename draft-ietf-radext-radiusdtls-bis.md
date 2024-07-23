@@ -236,30 +236,31 @@ RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST imple
 
 If implemented it MUST use the following rules:
 
-* Implementations MUST allow the configuration of a list of trusted Certificate Authorities for new TLS sessions.
+* Implementations MUST allow the configuration of a list of trusted Certificate Authorities for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trusted Certification authorities (CAs).
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
-* RADIUS/(D)TLS clients validate the servers identity to match their local configuration:
-  - If the expected RADIUS/(D)TLS server was configured as a hostname, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component of the certificate subject
-  - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
-  - If the RADIUS/(D)TLS server was not configured but discovered as per {{!RFC7585}}, the client executes the following checks in this order, accepting the certificate on the first match:
-    * The realm which was used as input to the discovery is matched against the presented realm names from the subjectAltName:naiRealm extension.
-    * If the discovery process yielded a hostname, this hostname is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component of the certificate subject.
-      Implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before relying on this for trust checks.
-    * If the previous checks fail, the certificate MAY Be accepted without further name checks immediately after the {{RFC5280}} trust chain checks, if configured by the administrator.
-* RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
-  The database may enumerate acceptable clients either by IP address or by a name component in the certificate
-  * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component in the certificate subject.
-  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
-    For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
-  * It is possible for a RADIUS/(D)TLS server to not require additional name checks for incoming RADIUS/(D)TLS clients, i.e. if the client used dynamic lookup.
-    In this case, the certificate is accepted immediately after the {{RFC5280}} trust chain checks.
-    This MUST NOT be used outside of trusted network environments or without additional certificate attribute checks in place.
-* Implementations MAY allow a configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values in subjectAltName:URI or a set of allowed X.509v3 Certificate Policies).
-* When the configured trust base changes (e.g., removal of a CA from the list of trusted CAs; issuance of a new CRL for a given CA), implementations SHOULD renegotiate the TLS session to reassess the connecting peer's continued authorization.[^may-should-trustbase]{:jf}
+* When the configured trust base changes (e.g., removal of a CA from the list of trusted CAs; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued authorization. Note that TLS 1.3 no longer supports renegotiation to fulfill this requirement. [^may-should-trustbase]{:jf}
 
 [^may-should-trustbase]: Open discussion: RFC6614 says "may" here. I think this should be a "should". There are some discussions to change this to "must". Input from TLS/UTA experts is appreciated.
+
+RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
+* The Common Name RDN MUST NOT be used to identify peers
+* If configured by the administrator, the identity check MAY be omitted after a sucessful {{RFC5280}} trust chain check. The certificate MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
+* Certifcates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
+* RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
+  - If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented realm names in the subjectAltName:naiRealm extension.
+  - If the expected RADIUS/(D)TLS server was configured as a hostname, or yielded by a dynamic discovery procedure, the configured name is matched against the presented names from the subjectAltName:DNS extension. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid. 
+  - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
+* RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
+  The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
+  * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension.
+  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
+    For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
+  * Implementation MAY consider additional subjectAltName extensions to identify a client.
+  * If the client used dynamic lookup, there is likely no configured identity to verify.
+    In this case, the acceptance of the certificate MUST be validated using a certificate policy OID or other attribute checks unless both peers are part of a trsted network.
+* Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values in subjectAltName:URI or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using X.509 certificate fingerprints
 
