@@ -381,6 +381,15 @@ The above requirements are a logical extension of the common practice where a cl
 
 In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
 
+## Cached response packets
+
+If a (D)TLS session or the underlying connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) associated with that connection MUST be discarded.
+A RADIUS server SHOULD stop the processing of any requests associated with that (D)TLS session.
+No response to these requests can be sent over the (D)TLS connection, so any further processing is pointless.
+This requirement applies not only to RADIUS servers, but also to proxies.
+When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
+Since the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy.
+
 # RADIUS/TLS specific specifications
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
@@ -394,13 +403,6 @@ However, if the TLS session or TCP connection is closed or broken, retransmissio
 RADIUS request packets that have not yet received a response MAY be transmitted by a RADIUS/TLS client over a new connection.
 As this procedure involves using a new source port, the ID of the packet MAY change.
 If the ID changes, any security attributes such as Message-Authenticator MUST be recalculated.
-
-If a TLS session or the underlying TCP connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) associated with that connection MUST be discarded.
-A RADIUS server SHOULD stop the processing of any requests associated with that TLS session.
-No response to these requests can be sent over the TLS connection, so any further processing is pointless.
-This requirement applies not only to RADIUS servers, but also to proxies.
-When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
-Since the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy.
 
 Despite the above discussion, RADIUS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
