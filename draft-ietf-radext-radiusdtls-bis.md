@@ -695,7 +695,7 @@ The reason is that the session is expected to be used for transport of RADIUS pa
 
 Any non-RADIUS traffic on that session means the other party is misbehaving and is a potentially security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
-Since the shared secret is static, this again means the other party is misbehaving.
+Since the shared secret is static, this again means the other party is misbehaving or has been misconfigured.
 
 We wish to avoid the situation where a third party can send well-formed RADIUS packets to a RADIUS proxy that cause a (D)TLS session to close.
 Therefore, in other situations, the session SOULD remain open in the face of non-conforming packets.
