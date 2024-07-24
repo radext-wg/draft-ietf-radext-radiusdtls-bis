@@ -241,17 +241,17 @@ If implemented it MUST use the following rules:
 * Implementations SHOULD indicate their trusted Certification authorities (CAs).
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration:
-  - If the expected RADIUS/(D)TLS server was configured as a hostname, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component of the certificate subject
-  - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
+  - If the expected RADIUS/(D)TLS server was configured as a hostname, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no matches exist, against the presented CN component of the certificate subject
+  - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no matches exist, against the presented CN component of the certificate subject.
   - If the RADIUS/(D)TLS server was not configured but discovered as per {{!RFC7585}}, the client executes the following checks in this order, accepting the certificate on the first match:
     * The realm which was used as input to the discovery is matched against the presented realm names from the subjectAltName:naiRealm extension.
-    * If the discovery process yielded a hostname, this hostname is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component of the certificate subject.
+    * If the discovery process yielded a hostname, this hostname is matched against the presented names from the subjectAltName:DNS extension; if no matches exist, against the presented CN component of the certificate subject.
       Implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before relying on this for trust checks.
     * If the previous checks fail, the certificate MAY Be accepted without further name checks immediately after the {{RFC5280}} trust chain checks, if configured by the administrator.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate
-  * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no such exist, against the presented CN component in the certificate subject.
-  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no such exist, against the presented CN component of the certificate subject.
+  * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension; if no matches exist, against the presented CN component in the certificate subject.
+  * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension; if no matches exist, against the presented CN component of the certificate subject.
     For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
   * It is possible for a RADIUS/(D)TLS server to not require additional name checks for incoming RADIUS/(D)TLS clients, i.e. if the client used dynamic lookup.
     In this case, the certificate is accepted immediately after the {{RFC5280}} trust chain checks.
