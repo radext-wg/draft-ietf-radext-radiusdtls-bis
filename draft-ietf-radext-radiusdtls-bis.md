@@ -388,7 +388,7 @@ A RADIUS server SHOULD stop the processing of any requests associated with that 
 No response to these requests can be sent over the (D)TLS connection, so any further processing is pointless.
 This requirement applies not only to RADIUS servers, but also to proxies.
 When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
-Since the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy.
+Since the client connection is closed, those responses from the home server to the proxy server MUST be silently discarded by the proxy.
 
 # RADIUS/TLS specific specifications
 
