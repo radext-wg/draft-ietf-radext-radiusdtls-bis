@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-23T00:40:25.785451+00:00",
+  "timestamp": "2024-07-25T00:40:22.969445+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -301,6 +301,265 @@
       "mergeCommit": {
         "oid": "36cab8101d92b069730f390e8251f3f2a44d5ea1"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOLrzygc52L816",
+      "title": "apply RFC9525 guidance for validating certificate identities",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/4",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
+      "createdAt": "2024-07-23T09:00:17Z",
+      "updatedAt": "2024-07-23T09:00:17Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-rfc9525-guidance",
+      "headRefOid": "6429e990b896600357f9a76710eadc5e79c3c3a5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOLrzygc52M_3H",
+      "title": "unify idle-timeout between TLS and DTLS",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/5",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "TLS and DTLS specify idle timeout and session limits with different levels of detail. Those limits should apply to both equally.",
+      "createdAt": "2024-07-23T11:31:57Z",
+      "updatedAt": "2024-07-23T17:00:15Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-idle-timeout",
+      "headRefOid": "3948044cefd019cfa011de3e24ccd05335dd0011",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6CydbS",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Thanks for your input. Highly appreciated. See the comments in the review",
+          "createdAt": "2024-07-23T15:03:42Z",
+          "updatedAt": "2024-07-23T15:23:05Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "I can imagine that this can lead to problems.\r\n\r\nOne would be Reverse-CoA where you rely on sending the CoA packet \"backwards\" through RAIDUS/(D)TLS and that doesn't work if the client is behind a NAT, unless the connection stays open.\r\n\r\nThe second would be monitoring.\r\nIf you have a number of Service Providers, all behind a NAT, then the only good monitoring for Liveness of the SP is \"does the server have a (D)TLS session with this client\"\r\nIf the client would just close it, then this monitoring would not be possible anymore.\r\n\r\nI would suggest: Replace `SHOULD` with `MAY` and add some text like `[...], the configuration SHOULD allow to disable the idle timeout session shutdown`",
+              "createdAt": "2024-07-23T15:03:42Z",
+              "updatedAt": "2024-07-23T15:23:05Z"
+            },
+            {
+              "originalPosition": 6,
+              "body": "I don't understand this last sentence (and unfortunately I can't infer from context what word is missing)",
+              "createdAt": "2024-07-23T15:19:46Z",
+              "updatedAt": "2024-07-23T15:23:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6CzkYv",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-23T17:00:15Z",
+          "updatedAt": "2024-07-23T17:00:15Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "maybe add a note about reverse CoA, and say also that systems SHOULD leave at least one connection open, to avoid delays opening new connections when traffic goes from zero to >0",
+              "createdAt": "2024-07-23T17:00:15Z",
+              "updatedAt": "2024-07-23T17:00:15Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOLrzygc52OTP7",
+      "title": "move TLS response cache invalidation to common section",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/6",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Invalidation of response cache applies to both TLS and DTLS since both are TLS session based. Move paragraph to the common section.",
+      "createdAt": "2024-07-23T14:20:26Z",
+      "updatedAt": "2024-07-24T16:29:31Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-response-cache",
+      "headRefOid": "92ce41898e586c140a12050c9c68ffeebe760e3d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "```\r\nSince the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy\r\n```\r\n\r\nMaybe make this MUST?  If the home server replies, there's no way for the proxy to send the packet anywhere.",
+          "createdAt": "2024-07-23T17:03:07Z",
+          "updatedAt": "2024-07-23T17:03:07Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "body": "> Maybe make this MUST? If the home server replies, there's no way for the proxy to send the packet anywhere.\r\n\r\nAgreed; updated.",
+          "createdAt": "2024-07-24T16:29:30Z",
+          "updatedAt": "2024-07-24T16:29:30Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOLrzygc52OyfL",
+      "title": "unify session resumption",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/7",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "TLS session resumption is currently a SHOULD requirement for DTLS and for TLS-PSK.\r\n\r\nUnify this recommendation for all use of (D)TLS and provide guidance for re-authorization as proposed by TLS-PSK.",
+      "createdAt": "2024-07-23T15:22:02Z",
+      "updatedAt": "2024-07-24T16:22:28Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-session-resumption",
+      "headRefOid": "28da1b8ed627e6d410f89d907c9f0dc68fd5f7e9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I've be in favor of making it a MUST.  I don't see any benefit for an implementation to _not_ implement resumption.",
+          "createdAt": "2024-07-23T17:01:57Z",
+          "updatedAt": "2024-07-23T17:01:57Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "body": "> I've be in favor of making it a MUST. I don't see any benefit for an implementation to _not_ implement resumption.\r\n\r\nI vote against a MUST. The benefit for implementos is saving time and effort (if a particular device or application is unlikely to gain much from it, thinking of Wifi APs rather just keep a connection open at all times). And _not_ implementing it doesn't break anything.",
+          "createdAt": "2024-07-24T16:22:27Z",
+          "updatedAt": "2024-07-24T16:22:27Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOLrzygc52Xkvx",
+      "title": "Edits to grammar/spelling.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/8",
+      "state": "OPEN",
+      "author": "ethan-thompson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Grammatical edits as per my comments in the mailing list.",
+      "createdAt": "2024-07-24T17:08:36Z",
+      "updatedAt": "2024-07-24T17:08:36Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "ethompson-grammar-edits",
+      "headRefOid": "4c4f7e86e4f0eed27e468a3f59741032c6a1e9a0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOLrzygc52Xohl",
+      "title": "Update draft-ietf-radext-radiusdtls-bis.md flow",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/9",
+      "state": "OPEN",
+      "author": "ethan-thompson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I believe \"if no matches exist\" flows better in the text.",
+      "createdAt": "2024-07-24T17:17:48Z",
+      "updatedAt": "2024-07-24T17:17:48Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "Edits-to-text-flow",
+      "headRefOid": "8bc754363c6fada03b5b62a2b7e1024aace4e35f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOLrzygc52XqPe",
+      "title": "Update draft-ietf-radext-radiusdtls-bis.md clarity",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/10",
+      "state": "OPEN",
+      "author": "ethan-thompson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarifying that a bad RADIUS secret could be caused by a misbehaving party OR a misconfigured one.",
+      "createdAt": "2024-07-24T17:22:44Z",
+      "updatedAt": "2024-07-24T17:22:44Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "misbehaving-or-misconfigured-party",
+      "headRefOid": "2eec15be8d84d7a7dca662e858d100eac849854c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
