@@ -246,20 +246,19 @@ If implemented it MUST use the following rules:
 
 RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 * The Common Name RDN MUST NOT be used to identify peers
-* If configured by the administrator, the identity check MAY be omitted after a sucessful {{RFC5280}} trust chain check. The certificate MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
 * Certifcates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
   - If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented realm names in the subjectAltName:naiRealm extension.
   - If the expected RADIUS/(D)TLS server was configured as a hostname, or yielded by a dynamic discovery procedure, the configured name is matched against the presented names from the subjectAltName:DNS extension. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid. 
   - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
+  - Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT connect to servers without doing so. Omitting the identity verification can allow attackers to loop RADIUS traffic back to the originating client.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
   * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension.
   * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
     For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
   * Implementation MAY consider additional subjectAltName extensions to identify a client.
-  * If the client used dynamic lookup, there is likely no configured identity to verify.
-    In this case, the acceptance of the certificate MUST be validated using a certificate policy OID or other attribute checks unless both peers are part of a trsted network.
+  * If configured by the administrator, the identity check MAY be omitted after a sucessful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trsted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values in subjectAltName:URI or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using X.509 certificate fingerprints
