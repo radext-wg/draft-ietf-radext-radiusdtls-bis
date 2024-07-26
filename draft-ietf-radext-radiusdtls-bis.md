@@ -383,7 +383,7 @@ In an ideal world, a proxy could also apply the suggestion of the previous secti
 
 ## Session limits and timeout
 
-While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that radius client/servers often from long-running peer relationships translating to long-running connections.
+While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that radius client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
 Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session. 
 
