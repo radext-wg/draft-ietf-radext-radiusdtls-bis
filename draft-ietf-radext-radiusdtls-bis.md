@@ -387,12 +387,12 @@ While RADIUS/UDP could be implemented mostly stateless (except for the requests 
 
 Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session. 
 
-The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by hartbeat or watchdog traffic.
-Therefoe, both RADIUS/(D)TLS clients and servers SHOULD close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits. 
+The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by hartbeat or watchdog traffic, occupying resources.
+Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and SHOULD allow to disable idle timeout completely. 
 
-On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable of fail to detect non-functional connections.
+On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections. Some scenarios or RADIUS protocol extensions like Reverse-CoA {{?I-D.ietf-radext-reverse-coa}} MAY also require that a connection be kept open at all times, so clients MAY immediately re-open the connection.
 
-The exact value of the idle timeout depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more dificult to define but may be in the range of 10 to 15min, depending on the available resources.
+The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more dificult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
 # RADIUS/TLS specific specifications
 
