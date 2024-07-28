@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-25T00:40:22.969445+00:00",
+  "timestamp": "2024-07-28T00:44:08.911994+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -316,18 +316,26 @@
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-07-23T09:00:17Z",
+      "updatedAt": "2024-07-26T18:39:26Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-rfc9525-guidance",
-      "headRefOid": "6429e990b896600357f9a76710eadc5e79c3c3a5",
+      "headRefOid": "ba9b92b9b6a8a8252c8c9dbebd3c64de8ec5f48a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "body": "Regarding the 'Selfie attack' discussion on the radext mailing list, this prposal might need an update too, related to omitting the identity check... ",
+          "createdAt": "2024-07-25T11:20:15Z",
+          "updatedAt": "2024-07-25T11:20:15Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -342,13 +350,13 @@
       "labels": [],
       "body": "TLS and DTLS specify idle timeout and session limits with different levels of detail. Those limits should apply to both equally.",
       "createdAt": "2024-07-23T11:31:57Z",
-      "updatedAt": "2024-07-23T17:00:15Z",
+      "updatedAt": "2024-07-26T18:04:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-idle-timeout",
-      "headRefOid": "3948044cefd019cfa011de3e24ccd05335dd0011",
+      "headRefOid": "7efae6bceb6ed11212a611d2e8da900d12e48870",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -398,6 +406,86 @@
               "body": "maybe add a note about reverse CoA, and say also that systems SHOULD leave at least one connection open, to avoid delays opening new connections when traffic goes from zero to >0",
               "createdAt": "2024-07-23T17:00:15Z",
               "updatedAt": "2024-07-23T17:00:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6DEgTC",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-25T11:05:23Z",
+          "updatedAt": "2024-07-25T11:05:23Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Ah, mabye its just the type r/from/form/, but the point was to emphasize that current setups often use long-lived TLS connections.\r\n\r\nI will try to reword...",
+              "createdAt": "2024-07-25T11:05:23Z",
+              "updatedAt": "2024-07-25T11:05:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6DElT9",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-25T11:16:07Z",
+          "updatedAt": "2024-07-25T11:16:07Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "Have to get a bit more into Reverse-CoA.\r\n\r\nI guess in the end this puts even more emphasis on the statement to which values to use:  'it very much depends...'. There is no one size fits all here.",
+              "createdAt": "2024-07-25T11:16:07Z",
+              "updatedAt": "2024-07-25T11:16:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6DKax2",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-25T22:08:20Z",
+          "updatedAt": "2024-07-25T22:08:20Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "ok, I think the from/form correction clarifies what is meant.\r\nLet's see what the WG says",
+              "createdAt": "2024-07-25T22:08:20Z",
+              "updatedAt": "2024-07-25T22:08:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6DRqCa",
+          "commit": {
+            "abbreviatedOid": "3948044"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-26T18:04:55Z",
+          "updatedAt": "2024-07-26T18:04:55Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "I think advising cilents to keep a connection open would be a bit misplaced in _this_ document (e.g. with dynamic discovery it might not be apropriate), but its very valid to acknowledge that some scenarios do require it.\r\n\r\nA quick cross-read of reverse-CoA, it might more clearly state that the client MUST keep at least one conneciton open (it's kind of implied, but not clearly stated).",
+              "createdAt": "2024-07-26T18:04:55Z",
+              "updatedAt": "2024-07-26T18:04:55Z"
             }
           ]
         }
@@ -523,7 +611,7 @@
       "labels": [],
       "body": "I believe \"if no matches exist\" flows better in the text.",
       "createdAt": "2024-07-24T17:17:48Z",
-      "updatedAt": "2024-07-24T17:17:48Z",
+      "updatedAt": "2024-07-25T09:55:49Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -534,7 +622,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "body": "These statements (matching CN) are obsoleted by RFC9525 anyway. PR #4 (should we accept it) removes them completely. ",
+          "createdAt": "2024-07-25T09:55:48Z",
+          "updatedAt": "2024-07-25T09:55:48Z"
+        }
+      ],
       "reviews": []
     },
     {
