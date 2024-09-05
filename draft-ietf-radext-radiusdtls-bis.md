@@ -261,6 +261,10 @@ If implemented it MUST use the following rules:
 
 [^may-should-trustbase]: Open discussion: RFC6614 says "may" here. I think this should be a "should". There are some discussions to change this to "must". Input from TLS/UTA experts is appreciated.
 
+If implemented, RADIUS/(D)TLS clients SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer. Instead, the clients SHOULD start off with an empty CA list. The addition of a CA SHOULD be done only when manually configured by an administrator.
+
+This scenario is the opposite of web browsers, where they are preconfigured with many known CAs. The goal there is security from third-party observers, but also the ability to communicate with any unknown site that presents a signed certificate. In contrast, the goal of RADIUS/DTLS is both security from third-party observers and the ability to communicate with only a small set of well-known servers.
+
 ### Authentication using X.509 certificate fingerprints
 
 RADIUS/(D)TLS implementations SHOULD allow the configuration of a list of trusted certificates, identified via fingerprint of the DER encoded certificate bytes.
