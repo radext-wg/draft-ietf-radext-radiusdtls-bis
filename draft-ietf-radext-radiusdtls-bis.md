@@ -624,6 +624,30 @@ This practice causes increased complexity in the client application and increase
 RADIUS/DTLS clients SHOULD implement session resumption, preferably stateless session resumption as given in {{RFC5077}}.
 This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.
 
+# Implementation Guidelines
+
+The text above describes the protocol. In this section, we give additional implementation guidelines. These guidelines are not part of the protocol, but they may help implementors create simple, secure, and interoperable implementations.
+
+## Client Implementations
+
+RADIUS/(D)TLS clients should use connected sockets where possible. Use of connected sockets means that the underlying kernel tracks the sessions so that the client subsystem does not need to manage multiple sessions on one socket.
+
+RADIUS/(D)TLS clients should use a single source (IP + port) when sending packets to a particular RADIUS/(D)TLS server. Doing so minimizes the number of (D)TLS session setups. It also ensures that information about the home server state is discovered only once.
+
+In practice, this means that RADIUS/(D)TLS clients with multiple internal RADIUS sources should use a local proxy that arbitrates all RADIUS traffic between the client and all servers. The proxy should accept traffic only from the authorized subsystems on the client machine and should proxy that traffic to known servers. Each authorized subsystem should include an attribute that uniquely identifies that subsystem to the proxy so that the proxy can apply origin-specific proxy rules and security policies. We suggest using NAS-Identifier for this purpose.
+
+The local proxy should be able to interact with multiple servers at the same time. There is no requirement that each server have its own unique proxy on the client, as that would be inefficient.
+
+The suggestion to use a local proxy means that there is only one process that discovers network and/or connectivity issues with a server. If each client subsystem communicated directly with a server, issues with that server would have to be discovered independently by each subsystem. The side effect would be increased delays in re-routing traffic, error reporting, and network instabilities.
+
+Each client subsystem can include a subsystem-specific NAS-Identifier in each request. The format of this attribute is implementation-specific. The proxy should verify that the request originated from the local system, ideally via a loopback address. The proxy MUST then rewrite any subsystem-specific NAS-Identifier to a NAS-Identifier that identifies the client as a whole, or remove the NAS-Identifier entirely and replace it with NAS-IP-Address or NAS-IPv6-Address.
+
+In traditional RADIUS, the cost to set up a new "session" between a client and server was minimal. The client subsystem could simply open a port, send a packet, wait for the response, and then close the port. With RADIUS/(D)TLS, the connection setup is significantly more expensive. In addition, there may be a requirement to use (D)TLS in order to communicate with a server, as other options may not be supported by that server. The knowledge of what protocol to use is best managed by a dedicated RADIUS subsystem rather than by each individual subsystem on the client.
+
+## Server Implementations
+
+RADIUS/(D)TLS servers should not use connected sockets to read (D)TLS packets from a client. This recommendation exists because a connected socket will accept packets only from one source IP address and port. This limitation would prevent the server from accepting packets from multiple clients on the same port.
+
 # Security Considerations
 {: #security_considerations}
 
