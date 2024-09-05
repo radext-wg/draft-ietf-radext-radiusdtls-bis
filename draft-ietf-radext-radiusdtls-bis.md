@@ -585,6 +585,8 @@ The server SHOULD delete idle DTLS sessions after an "idle timeout".[^idle-timeo
 
 [^idle-timeout-conf]: RFC 7360 adds a paragraph about that the idle timeout should not be exposed to the admin as configurable parameter and references a mechanism to determine this value from the application-layer watchdog, but I didn't find the specification anywhere.
 
+This session "idle timeout" SHOULD be exposed to the administrator as a configurable setting. It SHOULD NOT be set to less than 60 seconds and SHOULD NOT be set to more than 600 seconds (10 minutes).
+
 RADIUS/DTLS servers SHOULD also monitor the total number of open sessions.
 They SHOULD have a "maximum sessions" setting exposed to administrators as a configurable parameter.
 When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
