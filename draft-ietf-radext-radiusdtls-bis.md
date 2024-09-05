@@ -368,6 +368,7 @@ In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients
 This change is imperfect, but will at least help to avoid congestive collapse.
 
 ### Differing Retransmission Requirements
+{:#differing_retransmission_requirements}
 
 Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retranmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
@@ -381,11 +382,21 @@ The above requirements are a logical extension of the common practice where a cl
 
 In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
 
+## EAP Sessions
+When RADIUS clients send EAP requests using RADIUS/(D)TLS, they MUST choose the same connection for all packets related to one EAP session. This practice ensures that problems with any one connection affect the minimum number of EAP sessions.
+
+A simple method that may work in many situations is to hash the contents of the Calling-Station-Id attribute, which normally contains the Media Access Control (MAC) address. The output of that hash can be used to select a particular connection.
+
+However, EAP packets for one EAP session can still be transported from client to server over multiple paths, due to issues with a client connection. Therefore, when a server receives a RADIUS request containing and EAP request, it MUST be processed without considering the transport protocol. The algorithm suggested in {{RFC5080, Section 2.1.1}} SHOULD be used to track EAP sessions, as it is independent of the source port and transport protocol.
+
+The retransmission requirements of {{differing_retransmission_requirements}}, above, and {{duplicates_and_retransmissions}}, below, MUST be applied to RADIUS-encapsulated EAP packets. That is, EAP retransmissions MUST NOT result in retransmissions of RADIUS packets over a particular connection. EAP retransmissions MAY result in restransmission of RADIUS packets over a different connection, but only when the previous connection is marked DOWN.
+
 # RADIUS/TLS specific specifications
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
 
 ## Duplicates and Retransmissions
+{:#duplicates_and_retransmissions}
 
 As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit RADIUS packets over a given TCP connection.
 Similarly, if there is no response to a RADIUS packet over one RADIUS/TLS connection, implementations MUST NOT retransmit that packet over a different connection to the same destination IP address and port, while the first connection is in the OKAY state ({{RFC3539, Appendix A}}. [^what_is_a_server_2]{:jf}
