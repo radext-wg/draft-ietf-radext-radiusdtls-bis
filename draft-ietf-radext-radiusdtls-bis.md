@@ -210,6 +210,8 @@ As RADIUS has no provisions for capability signaling, there is also no way for a
 Servers and clients need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.
 This action has to be taken by the administrators of the two systems.
 
+When a RADIUS/(D)TLS node fails to connect, it leads to continuous retries, with exponentially growing intervals between every try. If multiple servers are defined, the node MAY attempt to establish a connection to these other servers in parallel in order to implement quick failover.
+
 Implementations MUST follow the recommendations given in {{!RFC9325}}.[^add_which]{:jf}
 Additionally, the following requirements have to be met for the (D)TLS session:
 
