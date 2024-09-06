@@ -278,6 +278,7 @@ RADIUS/(D)TLS client implementations SHOULD support the use of TLS-PSK, but MUST
 Further guidance on the usage of TLS-PSK in RADIUS/(D)TLS is given in {{?I-D.ietf-radext-tls-psk}}.
 
 ## Connecting Client Identity
+{:#connecting_client_identity}
 
 In RADIUS/UDP, clients are uniquely identified by their IP addresses.
 Since the shared secret is associated with the origin IP address, if more than one RADIUS client is associated with the same IP address, then those clients also must utilize the same shared secret, a practice that is inherently insecure, as noted in {{!RFC5247}}.
@@ -739,6 +740,14 @@ The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
+
+## Network Address Translation
+
+Network Address Translation (NAT) is fundamentally incompatible with RADIUS/UDP. RADIUS/UDP uses the source IP address to determine the shared secret for the client, and NAT hides many clients behind one source IP address. As a result, RADIUS/UDP clients cannot be located behind a NAT gateway.
+
+In addition, port reuse on a NAT gateway means that packets from different clients may appear to come from the same source port on the NAT. That is, a RADIUS server may receive a RADIUS/DTLS packet from one source IP/port combination, followed by the reception of a RADIUS/UDP packet from that same source IP/port combination. If this behavior is allowed, then the server would have an inconsistent view of the client’s security profile, allowing an attacker to choose the most insecure method.
+
+If more than one client is located behind a NAT gateway, then every client behind the NAT MUST use a secure transport such as (D)TLS. As discussed in {{connecting_client_identity}}, a method for uniquely identifying each client MUST be used.
 
 # Design Decisions
 {: #design_decisions}
