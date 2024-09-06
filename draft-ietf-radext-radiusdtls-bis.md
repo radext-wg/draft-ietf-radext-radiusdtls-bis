@@ -740,6 +740,10 @@ The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
 
+## Crypto-Agility
+
+{{?I-D.ietf-radext-deprecating-radius}} makes efforts to deprecate insecure practices in RADIUS. We refer readers to {{I-D.ietf-radext-deprecating-radius}} for details on crypto-agility.
+
 # Design Decisions
 {: #design_decisions}
 
