@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-08T00:48:05.497681+00:00",
+  "timestamp": "2024-09-10T00:43:45.250437+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -918,7 +918,7 @@
       "labels": [],
       "body": "Added some basic text to reference the Deprecating Insecure Practices in RADIUS document (to address RFC 7360 Section 10.1)",
       "createdAt": "2024-09-06T16:02:52Z",
-      "updatedAt": "2024-09-06T20:24:33Z",
+      "updatedAt": "2024-09-09T14:08:26Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -936,6 +936,13 @@
           "body": "Perhaps\r\n\r\n\r\n# Crypto-Agility\r\n\r\nCrypto-agility requirements were discussed extensively in {{RFC6421}}.  {{RFC6614, Appendix C}} described how these requirements were met for RADIUS/TLS.  {{RFC7360, Section 10.1}} described how these requirements were met for RADIUS/DTLS.   The final outcome of the {{RFC6421}} crypto-agility requirements are discussed in {{?I-D.ietf-radext-deprecating-radius, Section 6.3}}.\r\n\r\nThis specification defers to {{?I-D.ietf-radext-deprecating-radius}} for all discussion of crypto-agility in RADIUS.  In short, TLS satisfies the requirements of {{?I-D.ietf-radext-deprecating-radius}}, and there is no need to define RADIUS-specific cryptographic primitives.\r\n\r\n\r\n",
           "createdAt": "2024-09-06T20:24:16Z",
           "updatedAt": "2024-09-06T20:24:33Z"
+        },
+        {
+          "author": "ethan-thompson",
+          "authorAssociation": "NONE",
+          "body": "Yes, I like your suggestion much better",
+          "createdAt": "2024-09-09T14:08:24Z",
+          "updatedAt": "2024-09-09T14:08:24Z"
         }
       ],
       "reviews": []
