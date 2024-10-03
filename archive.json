@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-01T00:52:05.073899+00:00",
+  "timestamp": "2024-10-03T00:45:49.124145+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -544,7 +544,7 @@
       "labels": [],
       "body": "TLS session resumption is currently a SHOULD requirement for DTLS and for TLS-PSK.\r\n\r\nUnify this recommendation for all use of (D)TLS and provide guidance for re-authorization as proposed by TLS-PSK.",
       "createdAt": "2024-07-23T15:22:02Z",
-      "updatedAt": "2024-07-24T16:22:28Z",
+      "updatedAt": "2024-10-01T18:27:49Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -569,6 +569,13 @@
           "body": "> I've be in favor of making it a MUST. I don't see any benefit for an implementation to _not_ implement resumption.\r\n\r\nI vote against a MUST. The benefit for implementos is saving time and effort (if a particular device or application is unlikely to gain much from it, thinking of Wifi APs rather just keep a connection open at all times). And _not_ implementing it doesn't break anything.",
           "createdAt": "2024-07-24T16:22:27Z",
           "updatedAt": "2024-07-24T16:22:27Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Perhaps a server MUST implement it.  I expect that all of them will do it anyways, so there's no harm here.\r\n\r\nClients which expect to implement many connections SHOULD implement it.  Clients which rarely open connections do not benefit as much from session resumption.",
+          "createdAt": "2024-10-01T18:27:47Z",
+          "updatedAt": "2024-10-01T18:27:47Z"
         }
       ],
       "reviews": []
@@ -611,7 +618,7 @@
       "labels": [],
       "body": "I believe \"if no matches exist\" flows better in the text.",
       "createdAt": "2024-07-24T17:17:48Z",
-      "updatedAt": "2024-07-25T09:55:49Z",
+      "updatedAt": "2024-10-01T18:24:48Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -629,6 +636,13 @@
           "body": "These statements (matching CN) are obsoleted by RFC9525 anyway. PR #4 (should we accept it) removes them completely. ",
           "createdAt": "2024-07-25T09:55:48Z",
           "updatedAt": "2024-07-25T09:55:48Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> These statements (matching CN) are obsoleted by RFC9525 anyway. PR #4 (should we accept it) removes them completely.\r\n\r\n+1",
+          "createdAt": "2024-10-01T18:24:46Z",
+          "updatedAt": "2024-10-01T18:24:46Z"
         }
       ],
       "reviews": []
@@ -671,7 +685,7 @@
       "labels": [],
       "body": " Added two sentences about exposing the idle timeout configuration to the administrator (from RFC 7360 Section 5.1.1)",
       "createdAt": "2024-09-05T17:54:37Z",
-      "updatedAt": "2024-09-05T17:54:37Z",
+      "updatedAt": "2024-10-01T18:26:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -682,7 +696,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Seems good to me",
+          "createdAt": "2024-10-01T18:26:13Z",
+          "updatedAt": "2024-10-01T18:26:13Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -723,7 +745,7 @@
       "labels": [],
       "body": "Added EAP section to include details from RFC 6613",
       "createdAt": "2024-09-05T17:56:26Z",
-      "updatedAt": "2024-09-05T17:56:26Z",
+      "updatedAt": "2024-10-01T13:57:58Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -735,7 +757,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6LgHgs",
+          "commit": {
+            "abbreviatedOid": "e09d7eb"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T13:57:58Z",
+          "updatedAt": "2024-10-01T13:57:58Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "I'm a bit confused about this MUST requirement.\r\n\r\nJust for my own understanding: we are talking about actual clients (i.e. NAS), and not proxies?\r\n\r\nI'm not very familiar with EAP on a NAS. I would expect that a client is always aware of the EAP sessions - but its details area outside of this specification. To me this is a prerequieiste for this MUST statement. If we can't guarantee this for a client, then we can't put a MUST here.\r\n\r\nThe second paragraph is confusing me. Having to keep EAP sessions together based on a radius attribute is something a proxy might do - as stated above a client should already know the EAP sessions. If a client has to guess the EAP sessions from a radius attribute, we can't call this a MUST.\r\n\r\nI would propose to remove the second paragraph (if my initial assumption of clients having perfect knowledge about EAP sessions is true).",
+              "createdAt": "2024-10-01T13:57:58Z",
+              "updatedAt": "2024-10-01T13:57:58Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 14,
@@ -749,7 +792,7 @@
       "labels": [],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2024-09-05T18:20:21Z",
+      "updatedAt": "2024-10-01T18:18:38Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -799,6 +842,46 @@
               "body": "The use of unconnected sockets is only for UDP / DTLS.",
               "createdAt": "2024-09-05T18:20:21Z",
               "updatedAt": "2024-09-05T18:20:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6LhOL6",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T15:32:45Z",
+          "updatedAt": "2024-10-01T15:32:45Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "I'm opposing this recommendation. \r\n\r\nTo my knowledge, the stated limitation not beeing able to accept packets from different clients on the same port is wrong.\r\n\r\nUsing connected UDP sockets works perfectly fine and simplifies DTLS implementation a lot. Having to manually manage DTLS sessions and hand over received DTLS frames to the correct TLS context would be extremely tedious. Using connected UDP sockets and letting the TLS library do the hard work is way easier. ",
+              "createdAt": "2024-10-01T15:32:45Z",
+              "updatedAt": "2024-10-01T15:32:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6LijjY",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T18:18:37Z",
+          "updatedAt": "2024-10-01T18:18:38Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "Where the src/dst ip/port is known in advance, connected UDP sockets work fine.  Where there is instead a \"wildcard\" socket for receiving packets from known clients but unknown source ports, connected UDP sockets have unavoidable race conditions in the network stack.\r\n\r\nA RADIUS server would typically perform the following steps to get a connected socket:\r\n\r\n1. open wildcard socket \"*:1812\" for UDP\r\n2. accept packets for that socket\r\n3. see new client source IP and source port\r\n4. Open new UDP socket on the same source IP/port (SO_REUSEADDR / SO_REUSEPORT)\r\n5. call connect() to connect to the client source IP and port\r\n6. receive packets on the connected socket\r\n\r\nFor a TCP connection, steps (4) and (5) are handled by `accept()`, which is atomic.  It both opens a new socket, and ties that socket to a particular src/dst IP/port.\r\n\r\nIn contrast for UDP, steps (4) and (5) are done as separate system calls by the application.  There is no clear way to know what happens to packets during that window.\r\n\r\ni.e. if there are multiple packets in the receive queue, does the `connect()` pull all packets out of the wildcard socket, and move them to the new socket?  Or do some packets go to the new connected socket, while other packets go to the original wildcard socket?\r\n\r\nAll of this is OS dependent.\r\n\r\nIf will _usually_ work, for the simple reason that the inter-packet spacing is larger than the time between system calls in steps (4) and (5).  But there is no _guarantee_ that it works.\r\n\r\nIf we do suggest that connected sockets are fine, then these issues should be explained, so that implementors are aware of them and can address them. \r\n\r\nThis issue is address in more detail in a cloudflare article:  https://blog.cloudflare.com/everything-you-ever-wanted-to-know-about-udp-sockets-but-were-afraid-to-ask-part-1/",
+              "createdAt": "2024-10-01T18:18:38Z",
+              "updatedAt": "2024-10-01T18:18:38Z"
             }
           ]
         }
