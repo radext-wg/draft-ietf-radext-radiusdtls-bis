@@ -261,6 +261,11 @@ If implemented it MUST use the following rules:
 
 [^may-should-trustbase]: Open discussion: RFC6614 says "may" here. I think this should be a "should". There are some discussions to change this to "must". Input from TLS/UTA experts is appreciated.
 
+If this model is implemented, RADIUS/(D)TLS clients SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer. Instead, the clients SHOULD start off with an empty CA list. The addition of a CA SHOULD be done only when manually configured by an administrator.
+
+The goal of RADIUS/(D)TLS is to securely communicate with only a small set of well-known peers.
+These peers will use specific certificates, potentially even from a private purpose-specific CA.
+This scenario is different from a common use case of PKIX where an entity wants to communicate securely with unknown remote entities (i.e. web browsing), that use the public CAs to establish a trust path to this unknown entity.
 ### Authentication using X.509 certificate fingerprints
 
 RADIUS/(D)TLS implementations SHOULD allow the configuration of a list of trusted certificates, identified via fingerprint of the DER encoded certificate bytes.
