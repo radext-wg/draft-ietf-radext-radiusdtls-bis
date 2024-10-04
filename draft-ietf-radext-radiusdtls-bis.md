@@ -348,7 +348,7 @@ These differences are most notable in throughput, and in differing retransmissio
 
 ### Throughput Differences lead to Network Collapse
 
-An incoming link to the proxy may have substantially lower throughput than the outgoing link.  Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.  In both situation, the proxy is left with a difficult choice about what to do with the incoming packets.
+An incoming link to the proxy may have substantially lower throughput than the outgoing link.  Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.  In both situations, the proxy is left with a difficult choice about what to do with the incoming packets.
 
 As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.  As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
 
@@ -363,7 +363,7 @@ transport layer ACKs do not flow end-to-end, and self-clocking does
 not occur.
 ~~~~
 
-In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-elay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retranmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
+In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retranmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
 
 This change is imperfect, but will at least help to avoid congestive collapse.
 
@@ -693,7 +693,7 @@ To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of 
 If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS session be closed.
 The reason is that the session is expected to be used for transport of RADIUS packets only.
 
-Any non-RADIUS traffic on that session means the other party is misbehaving and is a potentially security risk.
+Any non-RADIUS traffic on that session means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.
 
@@ -765,8 +765,8 @@ For RADIUS clients, that may run on more constrained nodes, the implementations 
 The experience of the deployment of RADIUS/TLS as specified in {{RFC6614}} has shown that most actors still rely on RADIUS/UDP.
 Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification we wanted to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.
 
-As with the supported transports, the assumption is that RADIUS servers are generally believed to be less constrained that RADIUS clients.
-Since some client implementations already support using certificates for mutual authentication and there are several use cases, where Pre-shared keys are not usable (e.g. a dynamic federation with changing members), the decision was made that, analog to the supported transports, RADIUS servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
+As with the supported transports, the assumption is that RADIUS servers are generally believed to be less constrained than RADIUS clients.
+Since some client implementations already support using certificates for mutual authentication and there are several use cases, where pre-shared keys are not usable (e.g. a dynamic federation with changing members), the decision was made that, analog to the supported transports, RADIUS servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
 RADIUS clients again can choose which method is better suited for them, but must, for compatibility reasons, implement at least one of the two.
 
 ## Changes in application of TLS
