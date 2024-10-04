@@ -258,7 +258,7 @@ RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer i
   * For clients configured by their source IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
     For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
   * Implementation MAY consider additional subjectAltName extensions to identify a client.
-  * If configured by the administrator, the identity check MAY be omitted after a sucessful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trsted network.
+  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values in subjectAltName:URI or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using X.509 certificate fingerprints
