@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 9 January 2025                                      8 July 2024
+Expires: 7 April 2025                                     4 October 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2025.
+   This Internet-Draft will expire on 7 April 2025.
 
 Copyright Notice
 
@@ -658,8 +658,8 @@ Table of Contents
    An incoming link to the proxy may have substantially lower throughput
    than the outgoing link.  Perhaps the network characteristics on the
    two links are different, or perhaps the home server is slow.  In both
-   situation, the proxy is left with a difficult choice about what to do
-   with the incoming packets.
+   situations, the proxy is left with a difficult choice about what to
+   do with the incoming packets.
 
    As RADIUS does not provide for connection-based congestion control,
    there is no way for the proxy to signal on the incoming link that the
@@ -688,7 +688,7 @@ Table of Contents
 
    In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/
    TLS clients which originate Accounting-Request packets (i.e. not
-   proxies) do not include Acct-elay-Time in those packets.  Instead,
+   proxies) do not include Acct-Delay-Time in those packets.  Instead,
    those clients SHOULD include Event-Timestamp, which is the time at
    which the original event occurred.  The Event-Timestamp MUST NOT be
    updated on any retranmissions, as that would both negate the meaning
@@ -1267,7 +1267,7 @@ Table of Contents
    used for transport of RADIUS packets only.
 
    Any non-RADIUS traffic on that session means the other party is
-   misbehaving and is a potentially security risk.  Similarly, any
+   misbehaving and is potentially a security risk.  Similarly, any
    RADIUS traffic failing authentication vector or Message-Authenticator
    validation means that two parties do not have a common shared secret.
    Since the shared secret is static, this again means the other party
@@ -1382,10 +1382,10 @@ Table of Contents
    administrative overhead.
 
    As with the supported transports, the assumption is that RADIUS
-   servers are generally believed to be less constrained that RADIUS
+   servers are generally believed to be less constrained than RADIUS
    clients.  Since some client implementations already support using
    certificates for mutual authentication and there are several use
-   cases, where Pre-shared keys are not usable (e.g. a dynamic
+   cases, where pre-shared keys are not usable (e.g. a dynamic
    federation with changing members), the decision was made that, analog
    to the supported transports, RADIUS servers must implement both
    certificates with PKIX trust model and TLS-PSK as means of mutual
@@ -1562,9 +1562,9 @@ Table of Contents
 
    [I-D.ietf-radext-tls-psk]
               DeKok, A., "RADIUS and TLS-PSK", Work in Progress,
-              Internet-Draft, draft-ietf-radext-tls-psk-09, 29 February
+              Internet-Draft, draft-ietf-radext-tls-psk-10, 1 August
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              radext-tls-psk-09>.
+              radext-tls-psk-10>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
