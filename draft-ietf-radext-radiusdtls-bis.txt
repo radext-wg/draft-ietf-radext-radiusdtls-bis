@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 7 April 2025                                     4 October 2024
+Expires: 8 April 2025                                     5 October 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2025.
+   This Internet-Draft will expire on 8 April 2025.
 
 Copyright Notice
 
@@ -79,10 +79,12 @@ Table of Contents
      4.1.  (D)TLS requirements
      4.2.  Mutual authentication
        4.2.1.  Authentication using X.509 certificates with PKIX trust
-               model
+               model (TLS-X.509-PKIX)
        4.2.2.  Authentication using X.509 certificate fingerprints
+               (TLS-X.509-FINGERPRINT)
        4.2.3.  Authentication using Raw Public Keys
-       4.2.4.  Authentication using TLS-PSK
+               (TLS-RAW-PUBLIC-KEYS)
+       4.2.4.  Authentication using TLS-PSK (TLS-PSK)
      4.3.  Connecting Client Identity
      4.4.  RADIUS Datagrams
      4.5.  Forwarding RADIUS packets between UDP and TCP based
@@ -127,14 +129,14 @@ Table of Contents
 
 1.  Introduction
 
-   The RADIUS protocol as described in [RFC2865], [RFC2866], [RFC5176]
-   and others is a widely deployed authentication, authorization and
-   accounting solution.  However, the deployment experience has shown
-   several shortcomings, as its dependency on the unreliable transport
-   protocol UDP and the lack of confidentiality for large parts of its
-   packet payload.  Additionally the confidentiality and integrity
-   mechanisms rely on the MD5 algorithm, which has been proven to be
-   insecure.  Although RADIUS/(D)TLS does not remove the MD5-based
+   The RADIUS protocol is a widely deployed authentication,
+   authorization and accounting solution.  It is defined in [RFC2865],
+   [RFC2866], [RFC5176] and others.  The deployment experience has shown
+   several shortcomings, such as its dependency on the unreliable
+   transport protocol UDP and the lack of confidentiality for large
+   parts of its packet payload.  Additionally the confidentiality and
+   integrity mechanisms rely on the MD5 algorithm, which has been proven
+   to be insecure.  Although RADIUS/(D)TLS does not remove the MD5-based
    mechanisms, it adds confidentiality and integrity protection through
    the TLS layer.  For an updated version of RADIUS/(D)TLS without need
    for MD5 see [I-D.ietf-radext-radiusv11]
@@ -156,21 +158,23 @@ Table of Contents
       These specifications have been merged into this document.
 
    *  RFC6614 marked TLSv1.1 or later as mandatory, this specification
-      requires TLSv1.2 as minimum and recommends usage of TLSv1.3
+      requires TLSv1.2 as minimum and recommends usage of TLSv1.3..
 
    *  RFC6614 allowed usage of TLS compression, this document forbids
       it.
 
    *  RFC6614 only requires support for the trust model "certificates
-      with PKIX".  This document changes this.  For servers,
-      "certificates with PKIX" and "TLS-PSK" is now mandated and clients
-      must implement one of the two.
+      with PKIX" ([RFC6614], Section 2.3).  This document changes this.
+      For servers, TLS-X.509-PKIX (Section 4.2.1, equivalent to
+      "certificates with PKIX" in RFC6614) and TLS-PSK (Section 4.2.4)
+      is now mandated and clients must implement at least one of the
+      two.
 
    *  The mandatory-to-implement cipher suites are not referenced
       directly, this is replaced by a pointer to the TLS BCP.
 
    *  The specification regarding steps for certificate verification has
-      been updated
+      been updated.
 
    *  [RFC6613] mandated the use of Status-Server as watchdog algorithm,
       [RFC7360] only recommended it.  This specification mandates the
@@ -264,12 +268,12 @@ Table of Contents
    specification.  This includes the usage of the outdated security
    mechanisms in RADIUS that are based on shared secrets and MD5.  This
    is not considered a security issue, since integrity and
-   confidentiality are provided by the (D)TLS layer.  See Section 7 or
-   [I-D.ietf-radext-radiusv11] for more details.
+   confidentiality are provided by the (D)TLS layer.  See Section 7 of
+   this document or [I-D.ietf-radext-radiusv11] for more details.
 
    We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means
    that RADIUS packets have an additional overhead due to DTLS.  This is
-   discussed further in Section 6
+   discussed further in Section 6.
 
 3.2.  Default ports and shared secrets
 
@@ -333,7 +337,7 @@ Table of Contents
    destinations, if the client erroneously believes that the proxy is
    unresponsive.
 
-   It is REQUIRED that implementations utilize the existence of a TCP/
+   RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/
    DTLS connection along with the application-layer watchdog defined in
    [RFC3539], Section 3.4 to determine the liveliness of the server.
 
@@ -355,19 +359,18 @@ Table of Contents
    //
    // -- Janfred
 
-   It is REQUIRED that RADIUS/(D)TLS clients implement the Status-Server
-   extension as described in [RFC5997] as the application level watchdog
-   to detect the liveliness of the peer in the absence of responses.
-   Since RADIUS has a limitation of 256 simultaneous "in flight" packets
-   due to the length of the ID field ([RFC3539], Section 2.4), it is
-   RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each
-   session for Status-Server packets.  This value was picked arbitrary,
-   as there is no reason to choose any other value over another for this
-   use.
+   RADIUS/(D)TLS clients MUST implement the Status-Server extension as
+   described in [RFC5997] as the application level watchdog to detect
+   the liveliness of the peer in the absence of responses.  Since RADIUS
+   has a limitation of 256 simultaneous "in flight" packets due to the
+   length of the ID field ([RFC3539], Section 2.4), it is RECOMMENDED
+   that RADIUS/(D)TLS clients reserve ID zero (0) on each session for
+   Status-Server packets.  This value was picked arbitrary, as there is
+   no reason to choose any other value over another for this use.
 
    For RADIUS/TLS, the peers MAY send TCP keepalives as described in
-   [RFC9293], Section 3.8.4, for RADIUS/DTLS connections, the peers MAY
-   send periodic keepalives as defined in [RFC6520], as a way of
+   [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the peers MAY
+   send periodic keepalives as defined in [RFC6520].  This is a way of
    proactively and rapidly triggering a connection DOWN notification
    from the network stack.  These liveliness checks are essentially
    redundant in the presence of an application-layer watchdog, but may
@@ -376,11 +379,11 @@ Table of Contents
 4.  Packet / Connection Handling
 
    This section defines the behaviour for RADIUS/(D)TLS peers for
-   handling of incoming packets and establishment of a (D)TLS session
+   handling of incoming packets and establishment of a (D)TLS session.
 
 4.1.  (D)TLS requirements
 
-   As defined in Section 3.2, RAIDUS/(D)TLS clients must establish a
+   As defined in Section 3.2, RAIDUS/(D)TLS clients MUST establish a
    (D)TLS session immediately upon connecting to a new server.
 
    RADIUS/(D)TLS has no notion of negotiating (D)TLS in an ongoing
@@ -418,9 +421,11 @@ Table of Contents
    RADIUS itself, due to the fixed shared secret.
 
    RADIUS/(D)TLS allows for the following different modes of mutual
-   authentication.
+   authentication, which will be further specified in this section: *
+   TLS-X.509-PKIX * TLS-X.509-FINGERPRINT * TLS-RAW-PUBLIC-KEY * TLS-PSK
 
 4.2.1.  Authentication using X.509 certificates with PKIX trust model
+        (TLS-X.509-PKIX)
 
    All RADIUS/(D)TLS server implementations MUST implement this model.
    RADIUS/(D)TLS client implementations SHOULD implement this model, but
@@ -429,7 +434,7 @@ Table of Contents
    If implemented it MUST use the following rules:
 
    *  Implementations MUST allow the configuration of a list of trusted
-      Certificate Authorities for new TLS sessions.
+      Certificate Authorities (CAs) for new TLS sessions.
 
    *  Certificate validation MUST include the verification rules as per
       [RFC5280].
@@ -444,7 +449,7 @@ Table of Contents
       -  If the expected RADIUS/(D)TLS server was configured as a
          hostname, the configured name is matched against the presented
          names from the subjectAltName:DNS extension; if no such exist,
-         against the presented CN component of the certificate subject
+         against the presented CN component of the certificate subject.
 
       -  If the expected RADIUS/(D)TLS server was configured as an IP
          address, the configured IP address is matched against the
@@ -468,9 +473,10 @@ Table of Contents
             ensure the authenticity of the DNS result before relying on
             this for trust checks.
 
-         o  If the previous checks fail, the certificate MAY Be accepted
+         o  If the previous checks fail, the certificate MAY be accepted
             without further name checks immediately after the [RFC5280]
-            trust chain checks, if configured by the administrator.
+            certificate path validation, if configured by the
+            administrator.
 
    *  RADIUS/(D)TLS servers validate the certificate of the
       RADIUS/(D)TLS client against a local database of acceptable
@@ -492,10 +498,10 @@ Table of Contents
       -  It is possible for a RADIUS/(D)TLS server to not require
          additional name checks for incoming RADIUS/(D)TLS clients, i.e.
          if the client used dynamic lookup.  In this case, the
-         certificate is accepted immediately after the [RFC5280] trust
-         chain checks.  This MUST NOT be used outside of trusted network
-         environments or without additional certificate attribute checks
-         in place.
+         certificate is accepted immediately after the [RFC5280]
+         certificate path validation.  This MUST NOT be used outside of
+         trusted network environments or without additional certificate
+         attribute checks in place.
 
    *  Implementations MAY allow a configuration of a set of additional
       properties of the certificate to check for a peer's authorization
@@ -514,7 +520,8 @@ Table of Contents
       //
       // -- Janfred
 
-4.2.2.  Authentication using X.509 certificate fingerprints
+4.2.2.  Authentication using X.509 certificate fingerprints (TLS-
+        X.509-FINGERPRINT)
 
    RADIUS/(D)TLS implementations SHOULD allow the configuration of a
    list of trusted certificates, identified via fingerprint of the DER
@@ -522,17 +529,17 @@ Table of Contents
    SHA-1 as hash algorithm for the fingerprint is REQUIRED, and support
    for the more contemporary hash function SHA-256 is RECOMMENDED.
 
-4.2.3.  Authentication using Raw Public Keys
+4.2.3.  Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
 
    RADIUS/(D)TLS implementations SHOULD support using Raw Public Keys
    [RFC7250] for mutual authentication.
 
-4.2.4.  Authentication using TLS-PSK
+4.2.4.  Authentication using TLS-PSK (TLS-PSK)
 
    RADIUS/(D)TLS server implementations MUST support the use of TLS-PSK.
    RADIUS/(D)TLS client implementations SHOULD support the use of TLS-
-   PSK, but MUST implement either this or the "Authentication using
-   X.509 certificates with PKIX" trust model.
+   PSK, but MUST implement either this or the TLS-X.509-PKIX trust
+   model.
 
    Further guidance on the usage of TLS-PSK in RADIUS/(D)TLS is given in
    [I-D.ietf-radext-tls-psk].
@@ -545,21 +552,20 @@ Table of Contents
    then those clients also must utilize the same shared secret, a
    practice that is inherently insecure, as noted in [RFC5247].
 
-   Depending on the operation mode, the RADIUS/(D)TLS client identity
+   Depending on the trust model used, the RADIUS/(D)TLS client identity
    can be determined differently.
 
-   In TLS-PSK operation, a client is uniquely identified by its TLS-PSK
+   With TLS-PSK, a client is uniquely identified by its TLS-PSK
    identifier.
 
-   In Raw-Public-Key operation, a client is uniquely identified by the
-   Raw public key.
+   With TLS-RAW-PUBLIC-KEY, a client is uniquely identified by the Raw
+   public key.
 
-   In TLS-X.509 mode using fingerprints, a client is uniquely identified
-   by the fingerprint of the presented client certificate.
+   With TLS-X.509-FINGERPRINT, a client is uniquely identified by the
+   fingerprint of the presented client certificate.
 
-   In TLS-X.509 mode using PKIX trust models, a client is uniquely
-   identified by the tuple of the serial number of the presented client
-   certificate and the issuer.
+   With TLS-X.509-PKIX, a client is uniquely identified by the tuple of
+   the serial number of the presented client certificate and the issuer.
 
    Note well: having identified a connecting entity does not mean the
    server necessarily wants to communicate with that client.  For
@@ -1196,14 +1202,13 @@ Table of Contents
    secret is set to a static string ("radsec" for RADIUS/TLS, "radius/
    dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will
    also result in complete disclosure of the whole RADIUS packet,
-   including the encrypted RADIUS attributes, to any middle-person
-   eavesdropping on the conversation.  To prevent this, while keeping a
-   NULL encryption cipher suite active, the only option is to set a
-   different shared secret for RADIUS.  In this case, the security
-   considerations for confidentiality of RADIUS/UDP packets apply.
-   Following the recommendations in [RFC9325], Section 4.1, this
-   specification forbids the usage of NULL encryption cipher suites for
-   RADIUS/(D)TLS.
+   including the encrypted RADIUS attributes, to any party eavesdropping
+   on the conversation.  To prevent this, while keeping a NULL
+   encryption cipher suite active, the only option is to set a different
+   shared secret for RADIUS.  In this case, the security considerations
+   for confidentiality of RADIUS/UDP packets apply.  Following the
+   recommendations in [RFC9325], Section 4.1, this specification forbids
+   the usage of NULL encryption cipher suites for RADIUS/(D)TLS.
 
 7.3.  Possibility of Denial-of-Service attacks
 
@@ -1211,19 +1216,19 @@ Table of Contents
    data that the server needs to store in comparison to RADIUS/UDP.
    Therefore, an attacker could try to exhaust server resources.
 
-   With RADIUS/UDP, any bogous RADIUS packet would fail the
-   cryptographic checks and the server would silently discard the bogous
-   packet.  For RADIUS/(D)TLS, the server needs to perform at least a
-   partial TLS handshake to determine whether or not the client is
-   authorized.  Performing a (D)TLS handshake is more complex than the
-   cryptographic check of a RADIUS packet.  An attacker could try to
-   trigger a high number of (D)TLS handshakes at the same time,
-   resulting in a high server load and potentially a Denial-of-Service.
-   To prevent this attack, a RADIUS/(D)TLS server SHOULD have
-   configurable limits on new connection attempts.
+   With RADIUS/UDP, any bogus RADIUS packet would fail the cryptographic
+   checks and the server would silently discard the bogus packet.  For
+   RADIUS/(D)TLS, the server needs to perform at least a partial TLS
+   handshake to determine whether or not the client is authorized.
+   Performing a (D)TLS handshake is more complex than the cryptographic
+   check of a RADIUS packet.  An attacker could try to trigger a high
+   number of (D)TLS handshakes at the same time, resulting in a high
+   server load and potentially a Denial-of-Service.  To prevent this
+   attack, a RADIUS/(D)TLS server SHOULD have configurable limits on new
+   connection attempts.
 
    Both TLS and DTLS need to store session information for each open
-   (D)TLS session.  Especially with DTLS, a bogous or misbehaving client
+   (D)TLS session.  Especially with DTLS, a bogus or misbehaving client
    could open an excessive number of DTLS sessions.  This session
    tracking could lead to a resource exhaustion on the server side,
    triggering a Denial-of-Service.  Therefore, RADIUS/(D)TLS servers
@@ -1243,7 +1248,7 @@ Table of Contents
    open DTLS sessions.  We recommend a limit of a few seconds,
    implementations SHOULD expose this timeout as configurable option to
    the administrator.  If a DTLS session is not established within this
-   timeframe, it is likely that this is a bogous connection.  In
+   timeframe, it is likely that this is a bogus connection.  In
    contrast, an established session might not send packets for longer
    periods of time, but since the peers are mutually authenticated this
    does not pose a problem other than the problems mentioned before.
@@ -1518,6 +1523,11 @@ Table of Contents
               DOI 10.17487/RFC6520, February 2012,
               <https://www.rfc-editor.org/rfc/rfc6520>.
 
+   [RFC6614]  Winter, S., McCauley, M., Venaas, S., and K. Wierenga,
+              "Transport Layer Security (TLS) Encryption for RADIUS",
+              RFC 6614, DOI 10.17487/RFC6614, May 2012,
+              <https://www.rfc-editor.org/rfc/rfc6614>.
+
    [RFC7250]  Wouters, P., Ed., Tschofenig, H., Ed., Gilmore, J.,
               Weiler, S., and T. Kivinen, "Using Raw Public Keys in
               Transport Layer Security (TLS) and Datagram Transport
@@ -1569,11 +1579,6 @@ Table of Contents
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
               <https://www.rfc-editor.org/rfc/rfc6613>.
-
-   [RFC6614]  Winter, S., McCauley, M., Venaas, S., and K. Wierenga,
-              "Transport Layer Security (TLS) Encryption for RADIUS",
-              RFC 6614, DOI 10.17487/RFC6614, May 2012,
-              <https://www.rfc-editor.org/rfc/rfc6614>.
 
    [RFC7360]  DeKok, A., "Datagram Transport Layer Security (DTLS) as a
               Transport Layer for RADIUS", RFC 7360,
