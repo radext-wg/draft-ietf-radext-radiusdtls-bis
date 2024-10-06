@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-03T00:45:49.124145+00:00",
+  "timestamp": "2024-10-06T00:51:02.968396+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -316,13 +316,13 @@
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-07-26T18:39:26Z",
+      "updatedAt": "2024-10-04T17:18:24Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-rfc9525-guidance",
-      "headRefOid": "ba9b92b9b6a8a8252c8c9dbebd3c64de8ec5f48a",
+      "headRefOid": "51a4072a1ffdb9bdbfdf22416208de45256993d4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -334,9 +334,157 @@
           "body": "Regarding the 'Selfie attack' discussion on the radext mailing list, this prposal might need an update too, related to omitting the identity check... ",
           "createdAt": "2024-07-25T11:20:15Z",
           "updatedAt": "2024-07-25T11:20:15Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "In regards to wildcard certificates, [RFC 9525](https://www.rfc-editor.org/rfc/rfc9525.html#name-matching-the-dns-domain-nam) talks about clients matching server wildcard certificate. How clear do we need to be about wildcard certificate use? For example, if software uses a wildcard certificate for accepting (D)TLS connections it must use a different non-wildcard certificate when it initiates a (D)TLS connections.",
+          "createdAt": "2024-10-04T17:16:33Z",
+          "updatedAt": "2024-10-04T17:16:33Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6L8fUz",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T12:02:38Z",
+          "updatedAt": "2024-10-04T12:02:38Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "As per Russ' comments in his [secdir early review](https://mailarchive.ietf.org/arch/msg/radext/LMeW527YwDyovkhP-_2VwmAT_Fk) this needs to be adjusted.\r\n\r\nI've tried to change the wording here as one example, I'm not sure if this is correct.\r\nWe should probably get confirmation from folks that this is in fact correct to say.\r\n\r\n```suggestion\r\n  - If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against any naiRealm label contained in the subjectAltName extension.\r\n```",
+              "createdAt": "2024-10-04T12:02:38Z",
+              "updatedAt": "2024-10-04T12:02:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L8gGw",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T12:04:23Z",
+          "updatedAt": "2024-10-04T12:04:23Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\n  - If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, the configured name is matched against the presented names from the subjectAltName:DNS extension. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid. \r\n```\r\n\r\nJust for clarity.",
+              "createdAt": "2024-10-04T12:04:23Z",
+              "updatedAt": "2024-10-04T12:04:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L8hlV",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T12:07:48Z",
+          "updatedAt": "2024-10-04T12:07:48Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "I would be more explicit here, because the \"without doing so\" is a bit vague.\r\nWhat is it exactly that we mean? Is it sufficient that the client checks the \"issuer\" attribute of the certificate?\r\nWhy is this sentence of looping just here? The loop attack could possibly also happen with other scenarios (like DNS without DNSSEC and the NAPTR just points back to the server)",
+              "createdAt": "2024-10-04T12:07:48Z",
+              "updatedAt": "2024-10-04T12:07:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L8iLS",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T12:09:03Z",
+          "updatedAt": "2024-10-04T12:09:03Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "```suggestion\r\n  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.\r\n```\r\n(just two typos)",
+              "createdAt": "2024-10-04T12:09:03Z",
+              "updatedAt": "2024-10-04T12:09:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L-biJ",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T15:51:42Z",
+          "updatedAt": "2024-10-04T15:51:42Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "The intention here is that a client MUST identy the server by any element that clearly identifies it. I think this includes subject, subjectAltNames, issuer+certificate serial (but not the issuer by itself).\r\n\r\nThe loop attack refers to the same issue we discussed regarding TLS-PSK, that an attacker could loop the TLS packets (without decrypting them) back to the client and it would accept that connection (if it generally accepts incomming connections, i.e. proxies).",
+              "createdAt": "2024-10-04T15:51:42Z",
+              "updatedAt": "2024-10-04T15:51:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L-gzS",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T16:03:32Z",
+          "updatedAt": "2024-10-04T16:03:32Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Thanks for the heads-up. I will try to incorporate Russ' feedback. Have to check RFC9525 again, maybe it already suggests the correct wording.",
+              "createdAt": "2024-10-04T16:03:32Z",
+              "updatedAt": "2024-10-04T16:03:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L_Xk8",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T17:18:24Z",
+          "updatedAt": "2024-10-04T17:18:24Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "I have two points here:\r\nFirst, the text should explicitly state something like \"Clients MUST NOT accept any certificate without validating at least something\" instead of the general \"without doing so\"\r\nSecond, the Loop attack is a general attack, so maybe it is worth to put it in security considerations, have a few words here about it and then reference the security considerations section for details?",
+              "createdAt": "2024-10-04T17:18:24Z",
+              "updatedAt": "2024-10-04T17:18:25Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 5,
@@ -585,24 +733,26 @@
       "id": "PR_kwDOLrzygc52Xkvx",
       "title": "Edits to grammar/spelling.",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/8",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Grammatical edits as per my comments in the mailing list.",
       "createdAt": "2024-07-24T17:08:36Z",
-      "updatedAt": "2024-07-24T17:08:36Z",
+      "updatedAt": "2024-10-04T13:54:34Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "ethompson-grammar-edits",
       "headRefOid": "4c4f7e86e4f0eed27e468a3f59741032c6a1e9a0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-04T12:14:03Z",
+      "mergedAt": "2024-10-04T12:14:03Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "35ae6a4ca2c9231c266cf008734673a1952814a7"
+      },
       "comments": [],
       "reviews": []
     },
@@ -611,21 +761,21 @@
       "id": "PR_kwDOLrzygc52Xohl",
       "title": "Update draft-ietf-radext-radiusdtls-bis.md flow",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/9",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I believe \"if no matches exist\" flows better in the text.",
       "createdAt": "2024-07-24T17:17:48Z",
-      "updatedAt": "2024-10-01T18:24:48Z",
+      "updatedAt": "2024-10-05T15:45:27Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "Edits-to-text-flow",
       "headRefOid": "8bc754363c6fada03b5b62a2b7e1024aace4e35f",
-      "closedAt": null,
+      "closedAt": "2024-10-05T15:45:27Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -643,6 +793,13 @@
           "body": "> These statements (matching CN) are obsoleted by RFC9525 anyway. PR #4 (should we accept it) removes them completely.\r\n\r\n+1",
           "createdAt": "2024-10-01T18:24:46Z",
           "updatedAt": "2024-10-01T18:24:46Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I will close this in favor of #4 , keeping the changes made here in mind.",
+          "createdAt": "2024-10-05T15:45:27Z",
+          "updatedAt": "2024-10-05T15:45:27Z"
         }
       ],
       "reviews": []
@@ -652,26 +809,75 @@
       "id": "PR_kwDOLrzygc52XqPe",
       "title": "Update draft-ietf-radext-radiusdtls-bis.md clarity",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/10",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Clarifying that a bad RADIUS secret could be caused by a misbehaving party OR a misconfigured one.",
       "createdAt": "2024-07-24T17:22:44Z",
-      "updatedAt": "2024-07-24T17:22:44Z",
+      "updatedAt": "2024-10-05T15:46:27Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "misbehaving-or-misconfigured-party",
       "headRefOid": "2eec15be8d84d7a7dca662e858d100eac849854c",
-      "closedAt": null,
+      "closedAt": "2024-10-05T15:46:26Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'll close this PR, if there are strong opinions in the interim about this, we can always include it, but I don't see the need.",
+          "createdAt": "2024-10-05T15:46:26Z",
+          "updatedAt": "2024-10-05T15:46:26Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6L8mOZ",
+          "commit": {
+            "abbreviatedOid": "2eec15b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T12:18:12Z",
+          "updatedAt": "2024-10-04T12:18:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "\"misconfigured\" would mean that it is acceptable to configure a shared secret. Since we mandate \"radsec\" resp. \"radius/dtls\" as shared secret, any deviation from that is (at least formally) not standard-compliant and thus misbehaving.\r\n\r\n(I know that most RADIUS/TLS implementations still allow to configure a custom shared secret)",
+              "createdAt": "2024-10-04T12:18:12Z",
+              "updatedAt": "2024-10-04T12:18:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L9ciw",
+          "commit": {
+            "abbreviatedOid": "2eec15b"
+          },
+          "author": "ethan-thompson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T13:56:33Z",
+          "updatedAt": "2024-10-04T13:56:33Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I see your point, and I agree. I suppose I was getting caught up on the difference between \"behaving maliciously\" and being \"misconfigured\", though on another pass I think \"misbehaving\" does not necessarily imply malice. I am happy to drop this edit",
+              "createdAt": "2024-10-04T13:56:33Z",
+              "updatedAt": "2024-10-04T13:59:11Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 11,
@@ -680,7 +886,7 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/11",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": " Added two sentences about exposing the idle timeout configuration to the administrator (from RFC 7360 Section 5.1.1)",
@@ -714,12 +920,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/12",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added text regarding the parallel connection requests detailed in RFC 6614 Section 2.3",
       "createdAt": "2024-09-05T17:55:47Z",
-      "updatedAt": "2024-09-05T17:55:47Z",
+      "updatedAt": "2024-10-04T13:04:02Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -730,7 +936,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would suggest to move this specification maybe even in an own paragraph.\r\n\r\nThis is not linked to (D)TLS directly, more in the direction of handling the underlying connection, and I think we need to add a few sentences for this exponential back-off mechanism.",
+          "createdAt": "2024-10-04T12:24:29Z",
+          "updatedAt": "2024-10-04T12:24:29Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It may be useful to have a section on managing connections, and distributing packets across connections.",
+          "createdAt": "2024-10-04T13:04:00Z",
+          "updatedAt": "2024-10-04T13:04:00Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -740,12 +961,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/13",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added EAP section to include details from RFC 6613",
       "createdAt": "2024-09-05T17:56:26Z",
-      "updatedAt": "2024-10-01T13:57:58Z",
+      "updatedAt": "2024-10-04T14:03:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -756,7 +977,50 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think it's worth noting that one has to be careful when proxying EAP requests.\r\nI agree with Fabian that if the RADIUS/(D)TLS client is the \"first in line\", they should know the EAP session and take care of the correct path themselves, so it is only relevant for proxies.\r\n\r\nI would include a bit more reasoning why EAP is different than other RADIUS traffic, so people reading this can understand why they should care.",
+          "createdAt": "2024-10-04T12:45:54Z",
+          "updatedAt": "2024-10-04T12:45:54Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think the connection / load-balancing issues are similar for a client which originates traffic, and a proxy which forwards traffic.  So the text should be similar.\r\n\r\nThe connection issue isn't limited to EAP, it's \"all packets for one session\".  e.g., MFA challenge / response.\r\n\r\nIf an authentication step takes one packet, then it doesn't matter how the client does packet load-balancing.  The failure of any one connection will only affect authentications which go over that one connection.\r\n\r\nWhen authentication requires multiple packets, we have a choice for load-balancing:\r\n\r\n1. put all packets for the same session over the same connection\r\n2. distribute packets for the same session across multiple connections\r\n\r\nThe client does not know if the server is an IdP / home server, or a proxy.  The client does not even know if the connections are to multiple \"equivalent\" home servers.  As a result, when the client initiates an authentication session with a particular server, that authentication session MUST be tied to one connection.  Distributing packets for one session across multiple connections means that in some valid architectures, multiple home servers will see packets for one authentication session.\r\n\r\nWhile this situation may work in some limited scenarios, it guarantees that authentication cannot work in other scenarios which are in use today.\r\n\r\nThe situation isn't much different if the next hop is a proxy.\r\n\r\nWith (1), the failure of any one connection will affect only the sessions which use that connection.  i.e. for 5 active connections which then has one fail, 1/5 of authentication sessions will be affected.  It is likely that those authentication sessions will fail, especially if the connections are to separate home servers.  At the minimum, 1/5 authentication sessions will experience increased timeouts and instability as the client does fail-over.\r\n\r\nWith (2) the failure of any one connection will affect _all_ of the authentication sessions.  In the above scenario, any multi-round authentication session will have 1/5 of the packets sent across each connection.  So when a connection fails, _every_ ongoing session is affected.\r\n\r\nIn order to help with network robustness, clients MUST put all packets for one authentication session across the same connection.  If that connections fails, clients MAY distribute packets to a different connection, but this will work in only limited situations, and those authentication sessions are likely to fail.\r\n\r\nThe issue is different for accounting.  Each packet is stand-alone, and the packets are far enough apart in time that there is no benefit to putting them on the same connection.",
+          "createdAt": "2024-10-04T13:25:23Z",
+          "updatedAt": "2024-10-04T13:25:23Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "But then we have the problem of defining a \"session\".\r\nWe don't have any reliable easy-to-find indication which RADIUS packets belong to the same session.\r\nSo as far as I can see we have two options here:\r\n\r\nOption 1: mandate that load-balancing must only be done on the basis of the source of the RADIUS packet (i.e. if your proxy has two connected clients (A,B) and two servers (C,D), the proxy MAY load-balance so that all packets from A go to C and all packets from B go to D. If every RADIUS peer in the chain follows this procedure, we will always have a deterministic path through the RADIUS proxy fabric.\r\nThis is the safe option, but also ineffective.\r\n\r\nOption 2: Mandate nothing. Just say \"Proxying is hard. Beware, there be dragons\" and elaborate on what operators may have to consider if they want to enable load-balancing.\r\nIf the operators are running a RADIUS service that is strictly single request-response, then there is no harm in randomly throwing the packets to all the servers equally.\r\nIf the operators know that their RADIUS service has sessions and the sessions have to go to the same server, then they can disable load-balancing and instead move to a hot-standby configuration",
+          "createdAt": "2024-10-04T13:35:27Z",
+          "updatedAt": "2024-10-04T13:36:17Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Oct 4, 2024, at 9:35 AM, Jan-Frederik Rieckers ***@***.***> wrote\n> But then we have the problem of defining a \"session\".\n> We don't have any reliable easy-to-find indication which RADIUS packets belong to the same session.\n\n  The State attribute connects multiple packets across one authentication session.\n\n  However, the State attribute is random, and can change between packets.  So we can't use that.\n\n  The practical solution as implemented by many sites is:\n\n* load-balance on hash of Calling-Station-Id if it exists\n* otherwise load-balance on hash of User-Name\n\n> So as far as I can see we have two options here:\n> \n> Option 1: mandate that load-balancing must only be done on the basis of the source of the RADIUS packet (i.e. if your proxy has two connected clients (A,B) and two servers (C,D), the proxy MAY load-balance so that all packets from A go to C and all packets from B go to D\n> This is the safe option, but also ineffective.\n\n  It doesn't work.\n\n> Option 2: Mandate nothing. Just say \"Proxying is hard. Beware, there be dragons\" and elaborate on what operators may have to consider if they want to enable load-balancing.\n\n  The RFCs contain near-zero discussion of load-balancing.  At the same time, implementors and administrators have converged on a common set of practices.  It would be good to at least document these practices as known working suggestions.\n\n> If the operators are running a RADIUS service that is strictly single request-response, then there is no harm in randomly throwing the packets to all the servers equally.\n\n  Yes.\n\n> If the operators know that their RADIUS service has sessions and the sessions have to go to the same server, then they can disable load-balancing and instead move to a hot-standby configuration\n\n  But if the load-balancing is done as described above, there's no need to do any of this.  Everything just works.  It doesn't matter if authentication sessions are one packet or many packets.  It doesn't matter if the next hop is an IdP / home server or proxy.  It doesn't matter what kind of architecture has been set up for load-balancing on the server side.\n\n  It all just works.",
+          "createdAt": "2024-10-04T13:55:07Z",
+          "updatedAt": "2024-10-04T13:55:07Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would opt for documenting some best practices, and suggest, but not mandate behavior.",
+          "createdAt": "2024-10-04T14:00:50Z",
+          "updatedAt": "2024-10-04T14:00:50Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Oct 4, 2024, at 10:01 AM, Jan-Frederik Rieckers ***@***.***> wrote:\n> I would opt for documenting some best practices, and suggest, but not mandate behavior.\n\n  Sure.  With the caveat that if this practice isn't followed, then things are likely to go wrong, for the above-described reasons.\n\n",
+          "createdAt": "2024-10-04T14:03:12Z",
+          "updatedAt": "2024-10-04T14:03:12Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc6LgHgs",
@@ -787,12 +1051,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/14",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2024-10-01T18:18:38Z",
+      "updatedAt": "2024-10-03T13:22:07Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -884,6 +1148,46 @@
               "updatedAt": "2024-10-01T18:18:38Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6LwOrL",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-03T05:26:33Z",
+          "updatedAt": "2024-10-03T05:26:34Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "I think here steps 4-5 are a non-issue. It may be in a general case (depending on the protocol, like quic), but since we are dealing explicitly with DTLS, its not.\r\n\r\nYes, between steps 3 and 5 any packet that arrives in that time frame _on the same 5-tuple_ will unpredictably be received by either the wildcard socekt or the connected socket. However in DTLS, there is no legal packat that can arrive _on the same 5-tuple_ between the initial client hello and an apropriate response from the server - which it will only send after connecting the socket. \r\n\r\n(sidenote: the initial client hello MUST fit into a single UDP packet; I stumbled over this when it didn't and OpenSSL would immediatley error out telling me so)\r\n\r\nThe worst thing that can happen is if duplicate UDP packets (client hello) arrive. If the connected socket gets it, I'm not shure how OpenSSL handles it, probably silently discards. If the wildcard socket gets it, it will try to connect another socket to the same 5-tuple, which will then fail.",
+              "createdAt": "2024-10-03T05:26:34Z",
+              "updatedAt": "2024-10-03T05:26:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6LzyKi",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-03T13:22:07Z",
+          "updatedAt": "2024-10-03T13:22:07Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "> However in DTLS, there is no legal packat that can arrive on the same 5-tuple between the initial client hello and an apropriate response from the server - which it will only send after connecting the socket.\r\n\r\nGood point.  I agree then that DTLS connections SHOULD use connected sockets.\r\n\r\nThis issue should be described and explained in the spec.",
+              "createdAt": "2024-10-03T13:22:07Z",
+              "updatedAt": "2024-10-03T13:22:07Z"
+            }
+          ]
         }
       ]
     },
@@ -894,18 +1198,18 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/15",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2024-09-06T14:01:18Z",
+      "updatedAt": "2024-10-04T14:57:24Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "client-trusted-authorities",
-      "headRefOid": "8f7c295b112df2d92df31df22414010e3c96b676",
+      "headRefOid": "daba6298ee529e95e6bbc0f78766654d43d63652",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -917,9 +1221,57 @@
           "body": "Looks good to me.",
           "createdAt": "2024-09-06T14:01:17Z",
           "updatedAt": "2024-09-06T14:01:17Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Oct 4, 2024, at 9:07 AM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> \u2b07\ufe0f Suggested change\r\n\r\n  Looks good.\r\n\r\n",
+          "createdAt": "2024-10-04T14:22:36Z",
+          "updatedAt": "2024-10-04T14:22:36Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6L8_ON",
+          "commit": {
+            "abbreviatedOid": "8f7c295"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T13:06:58Z",
+          "updatedAt": "2024-10-04T13:06:59Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "The idea is good, I completely agree.\r\n\r\nI'm just not really comfortable with the text, I've tried to re-word it a bit, maybe you see where my problems are.\r\nIf you have an alternative: I'm happy to throw my re-wording away ;)\r\n\r\n```suggestion\r\nIf this model is implemented, RADIUS/(D)TLS clients SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer. Instead, the clients SHOULD start off with an empty CA list. The addition of a CA SHOULD be done only when manually configured by an administrator.\r\n\r\nThe goal of RADIUS/(D)TLS is to securely communicate with only a small set of well-known peers.\r\nThese peers will use specific certificates, potentially even from a private purpose-specific CA.\r\nThis scenario is different from a common use case of PKIX where an entity wants to communicate securely with unknown remote entities (i.e. web browsing), that use the public CAs to establish a trust path to this unknown entity.\r\n```",
+              "createdAt": "2024-10-04T13:06:59Z",
+              "updatedAt": "2024-10-04T13:06:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6L-ASL",
+          "commit": {
+            "abbreviatedOid": "8f7c295"
+          },
+          "author": "ethan-thompson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T14:57:19Z",
+          "updatedAt": "2024-10-04T14:57:20Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "I am happy with these changes",
+              "createdAt": "2024-10-04T14:57:19Z",
+              "updatedAt": "2024-10-04T14:57:20Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 16,
@@ -928,12 +1280,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/16",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2024-09-06T14:03:00Z",
+      "updatedAt": "2024-10-04T14:21:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -951,9 +1303,37 @@
           "body": "Looks good to me.",
           "createdAt": "2024-09-06T14:02:59Z",
           "updatedAt": "2024-09-06T14:02:59Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Oct 4, 2024, at 9:19 AM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> +## Network Address Translation\r\n> +\r\n> +Network Address Translation (NAT) is fundamentally incompatible with RADIUS/UDP. RADIUS/UDP uses the source IP address to determine the shared secret for the client, and NAT hides many clients behind one source IP address. As a result, RADIUS/UDP clients cannot be located behind a NAT gateway.\r\n> +\r\n> +In addition, port reuse on a NAT gateway means that packets from different clients may appear to come from the same source port on the NAT. That is, a RADIUS server may receive a RADIUS/DTLS packet from one source IP/port combination, followed by the reception of a RADIUS/UDP packet from that same source IP/port combination. If this behavior is allowed, then the server would have an inconsistent view of the client\u2019s security profile, allowing an attacker to choose the most insecure method.\r\n> \r\n> I'm not sure exactly what the problem here is and if the proposed solution is correct.\r\n> \r\n> I'll try to put it the way I understand the problem:\r\n> \r\n> A 10.0.0.1 (RADIUS/DTLS) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:2083\r\n> B 10.0.0.2 (RADIUS/UDP) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:1812\r\n> \r\n> So now the RADIUS server has two UDP connections to 192.0.2.1:12345, but since the port on the RADIUS server side is different, the NAT can translate the UDP packets from source port 2083 to A and the ones from 1812 to B.\r\n\r\n  Yes.  The issue is the network security model.\r\n\r\n> In my view, the problem here is that, if the server mixes those up, the server is at fault for allowing the client list for RADIUS/UDP to merge with the client list for RADIUS/DTLS.\r\n> Those two client lists should be separate (at least in terms of IP-Addr/Port).\r\n\r\n  We don't know what source port will be used by the client.  So we can't rely on that.\r\n\r\n  All we know is that one IP is sending us RADIUS/UDP, and RADIUS/TLS.  The question is not just what to do, but what we _can_ do in that situation.\r\n\r\n> We cannot force every client behind a NAT to behave this way, because the NAT may be responsible for a huge variety of customer nets, and we can't mandate them to speak to each other.\r\n> \r\n> Example: Carrier-Grade NAT (CGN), Company A has a Dual-Stack internet connection with CGN for v4 and uses legacy-RADIUS, Company B has the same, but uses RADIUS/(D)TLS for their connection. We can't define a standard where Company A would now be forced to migrate to RADIUS/(D)TLS. They have no way of knowing that Company B is using DTLS with the same server. And we shouldn't mandate that the CGN keeps track of all possible connections and makes sure that no source port gets re-used if RADIUS/(D)TLS and RAIDUS/UDP are used with the same server.\r\n\r\n  Agreed.\r\n\r\n  To a certain extent, there is no technical reason why a server can't accept both RADIUS/UDP and RADIUS/TLS from the same source IP.  The packets are clearly distinguishable.\r\n\r\n  The problem we're trying to solve is to stop down-bidding attacks.  The simplest approach then is to say that both UDP and TLS may be allowed for compatibility, but that this configuration is NOT RECOMMENDED.",
+          "createdAt": "2024-10-04T14:21:48Z",
+          "updatedAt": "2024-10-04T14:21:48Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6L9F4L",
+          "commit": {
+            "abbreviatedOid": "3b26c02"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T13:18:51Z",
+          "updatedAt": "2024-10-04T13:18:51Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I'm not sure exactly what the problem here is and if the proposed solution is correct.\r\n\r\nI'll try to put it the way I understand the problem:\r\n\r\nA 10.0.0.1 (RADIUS/DTLS) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:2083\r\nB 10.0.0.2 (RADIUS/UDP) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:1812\r\n\r\nSo now the RADIUS server has two UDP connections to 192.0.2.1:12345, but since the port on the RADIUS server side is different, the NAT can translate the UDP packets from source port 2083 to A and the ones from 1812 to B.\r\n\r\nIn my view, the problem here is that, if the server mixes those up, the server is at fault for allowing the client list for RADIUS/UDP to merge with the client list for RADIUS/DTLS.\r\nThose two client lists should be separate (at least in terms of IP-Addr/Port).\r\n\r\nWe cannot force every client behind a NAT to behave this way, because the NAT may be responsible for a huge variety of customer nets, and we can't mandate them to speak to each other.\r\n\r\nExample: Carrier-Grade NAT (CGN), Company A has a Dual-Stack internet connection with CGN for v4 and uses legacy-RADIUS, Company B has the same, but uses RADIUS/(D)TLS for their connection. We can't define a standard where Company A would now be forced to migrate to RADIUS/(D)TLS. They have no way of knowing that Company B is using DTLS with the same server. And we shouldn't mandate that the CGN keeps track of all possible connections and makes sure that no source port gets re-used if RADIUS/(D)TLS and RAIDUS/UDP are used with the same server.",
+              "createdAt": "2024-10-04T13:18:51Z",
+              "updatedAt": "2024-10-04T13:18:51Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 17,
@@ -962,12 +1342,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/17",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added subsection for Wildcard Clients (from RFC 7360 Section 10.6)",
       "createdAt": "2024-09-06T13:50:05Z",
-      "updatedAt": "2024-09-06T14:01:37Z",
+      "updatedAt": "2024-10-04T17:22:08Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -985,6 +1365,27 @@
           "body": "Looks good to me.",
           "createdAt": "2024-09-06T14:01:36Z",
           "updatedAt": "2024-09-06T14:01:36Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks good, though I'm not convinced it warrants opening a whole new section. Maybe we could include this specification somewhere else?\r\nWe have a bit of discussion on IP ranges already in the \"Connecting Client Identity\" section (currently 4.3)\r\n\r\nEdit: Sorry, didn't see that this was in the security considerations section.\r\nMy point still somewhat stands, but with one addition: For security considerations, I would suggest to add a bit more text why this is not an issue with RADIUS/(D)TLS, what we gain from identifying the client, etc.",
+          "createdAt": "2024-10-04T13:22:09Z",
+          "updatedAt": "2024-10-04T13:24:47Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "Could we change 'wildcard' to something else? One reason is that because this document relates to TLS, it's easy to get confused between wildcard clients and wildcard certificates. The second reason is that it gives the possibility to use 'wildcard' only when discussing about wildcard certificate.\r\n\r\nI see that there's nothing about wildcard certificates currently in the draft or RFCs. There probably should be? Ban them altogether (easy) or define how they are to be used (more work). Edit: pull request #4 adds a note about wildcard certificates.",
+          "createdAt": "2024-10-04T17:03:18Z",
+          "updatedAt": "2024-10-04T17:07:13Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "+1 for not using \"wildcard\" when talking about clients.",
+          "createdAt": "2024-10-04T17:22:07Z",
+          "updatedAt": "2024-10-04T17:22:07Z"
         }
       ],
       "reviews": []
@@ -996,12 +1397,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/18",
       "state": "OPEN",
       "author": "ethan-thompson",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added some basic text to reference the Deprecating Insecure Practices in RADIUS document (to address RFC 7360 Section 10.1)",
       "createdAt": "2024-09-06T16:02:52Z",
-      "updatedAt": "2024-09-09T14:08:26Z",
+      "updatedAt": "2024-10-04T13:37:34Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1022,10 +1423,31 @@
         },
         {
           "author": "ethan-thompson",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Yes, I like your suggestion much better",
           "createdAt": "2024-09-09T14:08:24Z",
           "updatedAt": "2024-09-09T14:08:24Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I also like the suggestion from Alan.\r\nI'd reference the deprecating radius draft as normative and have them published as cluster. (But that's editorial. The content looks good to me)",
+          "createdAt": "2024-10-04T13:27:49Z",
+          "updatedAt": "2024-10-04T13:27:49Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'd prefer to publish the deprecating document first.  It's essentially done.  Given issues like the BlastRADIUS vulnerability, I think it's preferable to have an official RFC describing what to do.  Otherwise as we've seen, implementors may do \"inventive\" things.\r\n\r\nThe TLSbis document is likely to take a while to settle.",
+          "createdAt": "2024-10-04T13:34:47Z",
+          "updatedAt": "2024-10-04T13:34:47Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fine by me, in this case it's even easier to reference it as normative.",
+          "createdAt": "2024-10-04T13:37:32Z",
+          "updatedAt": "2024-10-04T13:37:32Z"
         }
       ],
       "reviews": []
