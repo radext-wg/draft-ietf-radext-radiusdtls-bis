@@ -251,7 +251,8 @@ RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer i
   - If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented realm names in the subjectAltName:naiRealm extension.
   - If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, the configured name is matched against the presented names from the subjectAltName:DNS extension. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid. 
   - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented addresses in the subjectAltName:iPAddr extension.
-  - Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT connect to servers without doing so. Omitting the identity verification can allow attackers to loop RADIUS traffic back to the originating client.
+  - Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
+  - Clients which also act as servers (i.e. proxies) MUST NOT accept any certificate that are used for outgoing connections. Omitting these checks can lead to seucurity issues see {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
   * For clients configured by DNS name, the configured name is matched against the presented names from the subjectAltName:DNS extension.
