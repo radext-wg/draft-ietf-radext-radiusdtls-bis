@@ -236,11 +236,11 @@ RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST imple
 
 If implemented it MUST use the following rules:
 
-* Implementations MUST allow the configuration of a list of trusted Certificate Authorities for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
+* Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CA){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
-* Implementations SHOULD indicate their trusted Certification authorities (CAs).
+* Implementations SHOULD indicate their trust anchors when opening or accpeting TLS sessions.
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
-* When the configured trust base changes (e.g., removal of a CA from the list of trusted CAs; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued authorization. Note that TLS 1.3 no longer supports renegotiation to fulfill this requirement. [^may-should-trustbase]{:jf}
+* When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued validity of the certificate path. Note that TLS 1.3 no longer supports renegotiation to fulfill this requirement. [^may-should-trustbase]{:jf}
 
 [^may-should-trustbase]: Open discussion: RFC6614 says "may" here. I think this should be a "should". There are some discussions to change this to "must". Input from TLS/UTA experts is appreciated.
 
