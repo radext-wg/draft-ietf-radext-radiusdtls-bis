@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-06T00:51:02.968396+00:00",
+  "timestamp": "2024-10-08T00:45:46.118768+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -316,13 +316,13 @@
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-10-04T17:18:24Z",
+      "updatedAt": "2024-10-07T12:42:19Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-rfc9525-guidance",
-      "headRefOid": "51a4072a1ffdb9bdbfdf22416208de45256993d4",
+      "headRefOid": "503d39d9a9e9b1ea9b6d604f5c3fcb2cfc9c5252",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -481,6 +481,26 @@
               "body": "I have two points here:\r\nFirst, the text should explicitly state something like \"Clients MUST NOT accept any certificate without validating at least something\" instead of the general \"without doing so\"\r\nSecond, the Loop attack is a general attack, so maybe it is worth to put it in security considerations, have a few words here about it and then reference the security considerations section for details?",
               "createdAt": "2024-10-04T17:18:24Z",
               "updatedAt": "2024-10-04T17:18:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MLBps",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T11:39:14Z",
+          "updatedAt": "2024-10-07T11:39:14Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "agreed to both points. This was as a last minute addition anyway, after it got mentioned in the TLS-PSK context.",
+              "createdAt": "2024-10-07T11:39:14Z",
+              "updatedAt": "2024-10-07T11:39:14Z"
             }
           ]
         }
@@ -891,7 +911,7 @@
       "labels": [],
       "body": " Added two sentences about exposing the idle timeout configuration to the administrator (from RFC 7360 Section 5.1.1)",
       "createdAt": "2024-09-05T17:54:37Z",
-      "updatedAt": "2024-10-01T18:26:14Z",
+      "updatedAt": "2024-10-06T20:00:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -909,6 +929,13 @@
           "body": "Seems good to me",
           "createdAt": "2024-10-01T18:26:13Z",
           "updatedAt": "2024-10-01T18:26:13Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This PR is possibly unnecessary if we choose to accept #5 ",
+          "createdAt": "2024-10-06T20:00:49Z",
+          "updatedAt": "2024-10-06T20:00:49Z"
         }
       ],
       "reviews": []
@@ -1056,7 +1083,7 @@
       "labels": [],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2024-10-03T13:22:07Z",
+      "updatedAt": "2024-10-07T11:26:57Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1067,7 +1094,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Oct 7, 2024, at 5:46 AM, Jan-Frederik Rieckers ***@***.***> wrote:\n> ..\n> +RADIUS/(D)TLS clients should use a single source (IP + port) when sending packets to a particular RADIUS/(D)TLS server. Doing so minimizes the number of (D)TLS session setups. It also ensures that information about the home server state is discovered only once.\n> \n> This could be a problem if a single RADIUS/(D)TLS peer has so much packet throughput that a single connection would be clogged (due to the limited ID space), and in this case the client would have to open a second connection to the same server to increase the usable space for packets-in-flight.\n> \n> I think we don't have text for that in the document yet, maybe it should be included in #13\n\n  Perhaps instead of a \"single\" connection, they should use the \"minimal\" number of connections.",
+          "createdAt": "2024-10-07T11:26:56Z",
+          "updatedAt": "2024-10-07T11:26:56Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc6IH8lB",
@@ -1186,6 +1221,66 @@
               "body": "> However in DTLS, there is no legal packat that can arrive on the same 5-tuple between the initial client hello and an apropriate response from the server - which it will only send after connecting the socket.\r\n\r\nGood point.  I agree then that DTLS connections SHOULD use connected sockets.\r\n\r\nThis issue should be described and explained in the spec.",
               "createdAt": "2024-10-03T13:22:07Z",
               "updatedAt": "2024-10-03T13:22:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MKCBu",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T09:43:11Z",
+          "updatedAt": "2024-10-07T09:43:11Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe text above describes the protocol. In this section, we give additional implementation guidelines. These guidelines are not part of the protocol, but they may help implementors create simple, secure, and efficient implementations.\r\n```\r\nI would argue that the \"interoperable\" part is the responsibility of the protocol specification. So I would not put \"interoperable\" here, but a different word. I'm not sure if \"efficient\" is the right one, maybe something along \"predictable\" in the meaning that administrators of different RADIUS/(D)TLS servers by different vendors can rely on a somewhat similar behavior under the same circumstances.",
+              "createdAt": "2024-10-07T09:43:11Z",
+              "updatedAt": "2024-10-07T09:43:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MKDhY",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T09:45:47Z",
+          "updatedAt": "2024-10-07T09:45:47Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "This could be a problem if a single RADIUS/(D)TLS peer has so much packet throughput that a single connection would be clogged (due to the limited ID space), and in this case the client would have to open a second connection to the same server to increase the usable space for packets-in-flight.\r\n\r\nI think we don't have text for that in the document yet, maybe it should be included in #13",
+              "createdAt": "2024-10-07T09:45:47Z",
+              "updatedAt": "2024-10-07T09:45:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MKJyX",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T09:56:47Z",
+          "updatedAt": "2024-10-07T09:56:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "We already have some of this text in the \"Client Subsystems\" section in the Security considerations. Would you suggest merging the \"Client Subsystems\" section in this section?\r\nOtherwise, this text should at least reference the security considerations.",
+              "createdAt": "2024-10-07T09:56:47Z",
+              "updatedAt": "2024-10-07T09:56:47Z"
             }
           ]
         }
