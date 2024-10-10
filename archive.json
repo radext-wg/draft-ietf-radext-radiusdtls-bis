@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T00:45:46.118768+00:00",
+  "timestamp": "2024-10-10T00:45:45.140537+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -316,7 +316,7 @@
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-10-07T12:42:19Z",
+      "updatedAt": "2024-10-08T18:52:59Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -501,6 +501,26 @@
               "body": "agreed to both points. This was as a last minute addition anyway, after it got mentioned in the TLS-PSK context.",
               "createdAt": "2024-10-07T11:39:14Z",
               "updatedAt": "2024-10-07T11:39:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MYtRg",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T18:52:59Z",
+          "updatedAt": "2024-10-08T18:52:59Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": ">  Second, the Loop attack is a general attack, so maybe it is worth to put it in security considerations, have a few words here about it and then reference the security considerations section for details?\r\n\r\nOne workaround would be to check that the client/server random (in OpenSSLese, `SSL_get_client_random` and `SSL_get_server_random`) do not match.",
+              "createdAt": "2024-10-08T18:52:59Z",
+              "updatedAt": "2024-10-08T18:52:59Z"
             }
           ]
         }
@@ -911,7 +931,7 @@
       "labels": [],
       "body": " Added two sentences about exposing the idle timeout configuration to the administrator (from RFC 7360 Section 5.1.1)",
       "createdAt": "2024-09-05T17:54:37Z",
-      "updatedAt": "2024-10-06T20:00:50Z",
+      "updatedAt": "2024-10-08T18:56:44Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -938,7 +958,28 @@
           "updatedAt": "2024-10-06T20:00:49Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6MYvE0",
+          "commit": {
+            "abbreviatedOid": "307e549"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T18:56:44Z",
+          "updatedAt": "2024-10-08T18:56:44Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Should be noted that for non-stream setup UDP sockets, Linux's Netfilter uses a timeout of 30 seconds, so might be worth lowering the bottom end to match?",
+              "createdAt": "2024-10-08T18:56:44Z",
+              "updatedAt": "2024-10-08T18:56:44Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 12,
@@ -993,7 +1034,7 @@
       "labels": [],
       "body": "Added EAP section to include details from RFC 6613",
       "createdAt": "2024-09-05T17:56:26Z",
-      "updatedAt": "2024-10-04T14:03:14Z",
+      "updatedAt": "2024-10-08T16:49:52Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1046,6 +1087,13 @@
           "body": "On Oct 4, 2024, at 10:01 AM, Jan-Frederik Rieckers ***@***.***> wrote:\n> I would opt for documenting some best practices, and suggest, but not mandate behavior.\n\n  Sure.  With the caveat that if this practice isn't followed, then things are likely to go wrong, for the above-described reasons.\n\n",
           "createdAt": "2024-10-04T14:03:12Z",
           "updatedAt": "2024-10-04T14:03:12Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "Hashing with primarily `Calling-Station-Id` and `User-Name`; \ud83d\udc4d for that. We use the both by default and it works. I haven't ever seen them change during the EAP authentication exchange. MAC address randomisation may cause the C-S-I to change, but that would affect the subsequent (re)authentications only.\r\n\r\nA note about hashing: Let's say that there are 5 connections and hashing uses modulo 5 to choose the next hop. When a connection goes down, it would be good if the hashing is still done so that the existing EAP exchanges do not switch the next hop, for example, hashing being done with module 4.",
+          "createdAt": "2024-10-08T16:49:50Z",
+          "updatedAt": "2024-10-08T16:49:50Z"
         }
       ],
       "reviews": [
@@ -1298,7 +1346,7 @@
       "labels": [],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2024-10-04T14:57:24Z",
+      "updatedAt": "2024-10-08T19:04:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1365,6 +1413,26 @@
               "updatedAt": "2024-10-04T14:57:20Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MYyzO",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T19:04:50Z",
+          "updatedAt": "2024-10-08T19:04:50Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I would suggest amending this to reflect should not be pre-configured as *already* trusted for the client.\r\n\r\nI could perceive an onboarding process that assists the administrator to know which CA to add as a trust anchor for the given client; it would show the chain but the administrator would still be expected to approve it.",
+              "createdAt": "2024-10-08T19:04:50Z",
+              "updatedAt": "2024-10-08T19:05:20Z"
+            }
+          ]
         }
       ]
     },
@@ -1380,7 +1448,7 @@
       "labels": [],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2024-10-04T14:21:50Z",
+      "updatedAt": "2024-10-08T18:05:08Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1425,6 +1493,26 @@
               "body": "I'm not sure exactly what the problem here is and if the proposed solution is correct.\r\n\r\nI'll try to put it the way I understand the problem:\r\n\r\nA 10.0.0.1 (RADIUS/DTLS) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:2083\r\nB 10.0.0.2 (RADIUS/UDP) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:1812\r\n\r\nSo now the RADIUS server has two UDP connections to 192.0.2.1:12345, but since the port on the RADIUS server side is different, the NAT can translate the UDP packets from source port 2083 to A and the ones from 1812 to B.\r\n\r\nIn my view, the problem here is that, if the server mixes those up, the server is at fault for allowing the client list for RADIUS/UDP to merge with the client list for RADIUS/DTLS.\r\nThose two client lists should be separate (at least in terms of IP-Addr/Port).\r\n\r\nWe cannot force every client behind a NAT to behave this way, because the NAT may be responsible for a huge variety of customer nets, and we can't mandate them to speak to each other.\r\n\r\nExample: Carrier-Grade NAT (CGN), Company A has a Dual-Stack internet connection with CGN for v4 and uses legacy-RADIUS, Company B has the same, but uses RADIUS/(D)TLS for their connection. We can't define a standard where Company A would now be forced to migrate to RADIUS/(D)TLS. They have no way of knowing that Company B is using DTLS with the same server. And we shouldn't mandate that the CGN keeps track of all possible connections and makes sure that no source port gets re-used if RADIUS/(D)TLS and RAIDUS/UDP are used with the same server.",
               "createdAt": "2024-10-04T13:18:51Z",
               "updatedAt": "2024-10-04T13:18:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MYUsP",
+          "commit": {
+            "abbreviatedOid": "3b26c02"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T18:05:08Z",
+          "updatedAt": "2024-10-08T18:05:08Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Fortunately any kind of NAT is not going to blend this to the same source IP and port (to the same destination IP and port) as it would have no way to figure out what to do with the responses from the server (ie. which client gets them); ignoring the case of the idle timeout ending a flow and starting the new one.\r\n\r\nOtherwise I can only see this attack working if a server ignored the destination IP/port. Maybe I am missing something...",
+              "createdAt": "2024-10-08T18:05:08Z",
+              "updatedAt": "2024-10-08T19:29:27Z"
             }
           ]
         }
