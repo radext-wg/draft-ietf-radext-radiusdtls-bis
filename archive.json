@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-10T00:45:45.140537+00:00",
+  "timestamp": "2024-10-13T00:50:43.473580+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -316,7 +316,7 @@
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-10-08T18:52:59Z",
+      "updatedAt": "2024-10-10T15:12:16Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -521,6 +521,46 @@
               "body": ">  Second, the Loop attack is a general attack, so maybe it is worth to put it in security considerations, have a few words here about it and then reference the security considerations section for details?\r\n\r\nOne workaround would be to check that the client/server random (in OpenSSLese, `SSL_get_client_random` and `SSL_get_server_random`) do not match.",
               "createdAt": "2024-10-08T18:52:59Z",
               "updatedAt": "2024-10-08T18:52:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MsyYP",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-10T14:24:36Z",
+          "updatedAt": "2024-10-10T14:24:36Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "don't know how exactly client/server random works, but even experimentally, I'm struggling to see how this would work.\r\n\r\nIf I call `get_client_random` and `get_server_random` both on the connecting and accepting side of a tls connection, I actually get 4 different values, even when both sides run in the same process and use the same ssl context.\r\n\r\nAm I missing something?",
+              "createdAt": "2024-10-10T14:24:36Z",
+              "updatedAt": "2024-10-10T14:24:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6MtVDT",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-10T15:12:16Z",
+          "updatedAt": "2024-10-10T15:12:16Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "> don't know how exactly client/server random works, but even experimentally, I'm struggling to see how this would work.\r\n> \r\n> If I call `get_client_random` and `get_server_random` both on the connecting and accepting side of a tls connection, I actually get 4 different values, even when both sides run in the same process and use the same ssl context.\r\n> \r\n> Am I missing something?\r\n\r\nThe first four bytes is the `gmt_unix_time` (legacy, and I think now purely random) when shown in `openssl s_client ...`, so that may be it, otherwise Works for Me(tm).\r\n\r\nApply the ghetto patch to https://github.com/openssl/openssl/tree/master/demos/sslecho, compile and run `sslecho s`:\r\n```\r\ndiff --git a/demos/sslecho/main.c b/demos/sslecho/main.c\r\nindex eec8e13a47..b4fca946cd 100644\r\n--- a/demos/sslecho/main.c\r\n+++ b/demos/sslecho/main.c\r\n@@ -7,6 +7,7 @@\r\n  *  https://www.openssl.org/source/license.html\r\n  */\r\n \r\n+#include <assert.h>\r\n #include <stdio.h>\r\n #include <unistd.h>\r\n #include <string.h>\r\n@@ -213,6 +214,18 @@ int main(int argc, char **argv)\r\n \r\n                 printf(\"Client SSL connection accepted\\n\\n\");\r\n \r\n+                unsigned char random[32];\r\n+                assert(SSL_get_client_random(ssl, random, sizeof(random)) == sizeof(random));\r\n+                printf(\"client random: \");\r\n+                for (int i = 0; i < sizeof(random); i++)\r\n+                    printf(\"%02X\", random[i]);\r\n+                printf(\"\\n\");\r\n+                assert(SSL_get_server_random(ssl, random, sizeof(random)) == sizeof(random));\r\n+                printf(\"server random: \");\r\n+                for (int i = 0; i < sizeof(random); i++)\r\n+                    printf(\"%02X\", random[i]);\r\n+                printf(\"\\n\");\r\n+\r\n                 /* Echo loop */\r\n                 while (true) {\r\n                     /* Get message from client; will fail if client closes connection */\r\n```\r\n\r\nAs the client run `openssl s_client -trace -connect localhost:4433`:\r\n```\r\nCONNECTED(00000003)\r\nSent Record\r\nHeader:\r\n  Version = TLS 1.0 (0x301)\r\n  Content Type = Handshake (22)\r\n  Length = 292\r\n    ClientHello, Length=288\r\n      client_version=0x303 (TLS 1.2)\r\n      Random:\r\n        gmt_unix_time=0x919DE39C                                                                <----\r\n        random_bytes (len=28): 97E42A6040AD6B9FA248D29B5C2C153E3F92AD9E14412CB875F8BF78         <----\r\n      session_id (len=32): 1557C0A035FB2A3DF97F5067FC534FC9E71BC106FB929E823A998467C893C6A0\r\n      cipher_suites (len=62)\r\n\r\n[snipped]\r\n\r\nReceived Record\r\nHeader:\r\n  Version = TLS 1.2 (0x303)\r\n  Content Type = Handshake (22)\r\n  Length = 122\r\n    ServerHello, Length=118\r\n      server_version=0x303 (TLS 1.2)\r\n      Random:\r\n        gmt_unix_time=0x99B5F850                                                              <----\r\n        random_bytes (len=28): 30BCD49D1F53AFE61C5A63B16AD7FABE3B444EEE5D1093D78E878639       <----\r\n      session_id (len=32): 1557C0A035FB2A3DF97F5067FC534FC9E71BC106FB929E823A998467C893C6A0\r\n      cipher_suite {0x13, 0x02} TLS_AES_256_GCM_SHA384\r\n      compression_method: No Compression (0x00)\r\n\r\n[snipped]\r\n```\r\n\r\nThe output I got matched.\r\n\r\nI am assuming this works in during the pre-establish handshake phase? That I did not test...",
+              "createdAt": "2024-10-10T15:12:16Z",
+              "updatedAt": "2024-10-10T15:19:04Z"
             }
           ]
         }
