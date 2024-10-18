@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 8 April 2025                                     5 October 2024
+Expires: 21 April 2025                                   18 October 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2025.
+   This Internet-Draft will expire on 21 April 2025.
 
 Copyright Notice
 
@@ -1280,7 +1280,7 @@ Table of Contents
 
    We wish to avoid the situation where a third party can send well-
    formed RADIUS packets to a RADIUS proxy that cause a (D)TLS session
-   to close.  Therefore, in other situations, the session SOULD remain
+   to close.  Therefore, in other situations, the session SHOULD remain
    open in the face of non-conforming packets.  Any malformed RADIUS
    packets sent by a third party will go through the security checks of
    the RADIUS proxy upon reception and will not be forwarded.  Well-
@@ -1571,10 +1571,11 @@ Table of Contents
               ietf-radext-radiusv11-10>.
 
    [I-D.ietf-radext-tls-psk]
-              DeKok, A., "RADIUS and TLS-PSK", Work in Progress,
-              Internet-Draft, draft-ietf-radext-tls-psk-10, 1 August
-              2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              radext-tls-psk-10>.
+              DeKok, A., "Operational Considerations for RADIUS and TLS-
+              PSK", Work in Progress, Internet-Draft, draft-ietf-radext-
+              tls-psk-11, 17 October 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-radext-
+              tls-psk-11>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
