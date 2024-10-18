@@ -707,7 +707,7 @@ Similarly, any RADIUS traffic failing authentication vector or Message-Authentic
 Since the shared secret is static, this again means the other party is misbehaving.
 
 We wish to avoid the situation where a third party can send well-formed RADIUS packets to a RADIUS proxy that cause a (D)TLS session to close.
-Therefore, in other situations, the session SOULD remain open in the face of non-conforming packets.
+Therefore, in other situations, the session SHOULD remain open in the face of non-conforming packets.
 Any malformed RADIUS packets sent by a third party will go through the security checks of the RADIUS proxy upon reception and will not be forwarded.
 Well-formed RADIUS packets with portions that the proxy does not understand do not pose a security risk to the security properties of the RADIUS/(D)TLS session and can be forwarded.
 This ensures forward compatibility with future RADIUS extensions.
