@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T00:46:11.401897+00:00",
+  "timestamp": "2024-10-20T00:56:29.486696+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1426,7 +1426,7 @@
       "labels": [],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2024-10-08T19:04:50Z",
+      "updatedAt": "2024-10-19T11:41:07Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1511,6 +1511,66 @@
               "body": "I would suggest amending this to reflect should not be pre-configured as *already* trusted for the client.\r\n\r\nI could perceive an onboarding process that assists the administrator to know which CA to add as a trust anchor for the given client; it would show the chain but the administrator would still be expected to approve it.",
               "createdAt": "2024-10-08T19:04:50Z",
               "updatedAt": "2024-10-08T19:05:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6NyyC-",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-18T20:13:50Z",
+          "updatedAt": "2024-10-18T20:13:50Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nIf this model is implemented, RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer that are enabled by default. Instead, the peers SHOULD start off with an empty CA list. The addition of a CA SHOULD be done only when manually configured by an administrator.\r\nThis does not mean that vendors or manufactures cannot include trust lists in their products, but enabling these lists should always be a conscious decision of the administrator.\r\n\r\nThe goal of RADIUS/(D)TLS is to securely communicate with only a small set of well-known peers.\r\nThese peers will use specific certificates, potentially even from a private purpose-specific CA.\r\nThis scenario is different from a common use case of PKIX where an entity wants to communicate securely with unknown remote entities (i.e. web browsing), that use the public CAs to establish a trust path to this unknown entity.\r\n```",
+              "createdAt": "2024-10-18T20:13:50Z",
+              "updatedAt": "2024-10-18T20:13:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6Nyyky",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-18T20:15:26Z",
+          "updatedAt": "2024-10-18T20:15:27Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "This is a suggestion to include the feedback from the interim.\r\nWordsmithing welcome, I'm not completely satisfied with the wording.\r\nLeaving the second should in lowercase was intended. This sentence is just information and not normative.",
+              "createdAt": "2024-10-18T20:15:26Z",
+              "updatedAt": "2024-10-18T20:15:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N0oja",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T11:41:07Z",
+          "updatedAt": "2024-10-19T11:41:07Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "I like the second part as is, it is helpful in explaining why someone should not just blindly leap and lean pre-trusting the web forum certs (which I probably would have done myself as an implementer), so my bike shedding suggestion is really only for the first part:\r\n\r\n\"If this model is implemented, RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer that are enabled by default. Instead, the peers SHOULD begin untrusted (ie. an empty CA list) and the process of trusting a given CA SHOULD be a manually step performed by an administrator.\r\n\r\nThis does not preclude vendors or manufactures including trust lists in their products, but the enabling of those lists should be a conscious decision by an administrator.\"",
+              "createdAt": "2024-10-19T11:41:07Z",
+              "updatedAt": "2024-10-19T11:41:07Z"
             }
           ]
         }
