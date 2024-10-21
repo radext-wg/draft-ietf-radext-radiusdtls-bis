@@ -81,6 +81,7 @@ An example for a worldwide roaming environment that uses RADIUS over TLS to secu
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
+* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation is now forbidden.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
 
