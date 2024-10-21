@@ -392,6 +392,19 @@ The above requirements are a logical extension of the common practice where a cl
 
 In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
 
+## Session limits and timeout
+
+While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that radius client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
+
+Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session. 
+
+The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by hartbeat or watchdog traffic, occupying resources.
+Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and SHOULD allow to disable idle timeout completely. 
+
+On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections. Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection. These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.
+
+The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more dificult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
+
 # RADIUS/TLS specific specifications
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
@@ -455,9 +468,6 @@ These requirements reduce the possibility for a misbehaving client or server to 
 ## TCP Applications Are Not UDP Applications
 
 Implementors should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.
-
-Implementations SHOULD have configurable connection limits, configurable limits on connection lifetime and idle timeouts and a configurable rate limit on new connections.
-Allowing an unbounded number or rate of TCP/TLS connections may result in resource exhaustion.
 
 Additionally, differences in the transport like Head of Line (HoL) blocking should be considered.
 
@@ -591,15 +601,6 @@ The granularity of this timestamp is not critical and could be limited to one-se
 The timestamp SHOULD be updated on reception of a valid RADIUS/DTLS packet, or a DTLS Heartbeat, but no more than once per interval.
 The timestamp MUST NOT be updated in other situations, such as when packets are "silently discarded".
 
-When a session has not received a packet for a period of time, it is labeled "idle".
-The server SHOULD delete idle DTLS sessions after an "idle timeout".[^idle-timeout-conf]{:jf}
-
-[^idle-timeout-conf]: RFC 7360 adds a paragraph about that the idle timeout should not be exposed to the admin as configurable parameter and references a mechanism to determine this value from the application-layer watchdog, but I didn't find the specification anywhere.
-
-RADIUS/DTLS servers SHOULD also monitor the total number of open sessions.
-They SHOULD have a "maximum sessions" setting exposed to administrators as a configurable parameter.
-When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
-
 RADIUS/DTLS servers SHOULD implement session resumption, preferably stateless session resumption as given in {{!RFC5077}}.
 This practice lowers the time and effort required to start a DTLS session with a client and increases network responsiveness.
 
@@ -618,11 +619,7 @@ Non-compliant, or unexpected packets will be ignored by the DTLS layer.[^proxymi
 
 RADIUS/DTLS clients SHOULD use PMTU discovery {{!RFC6520}} to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
 
-RADIUS/DTLS clients SHOULD proactively close sessions when they have been idle for a period of time.
-Clients SHOULD close a session when no traffic other than watchdog packet and (possibly) watchdog responses have been sent for three watchdog timeouts.
-This behavior ensures that clients do not waste resources on the server by causing it to track idle sessions.
-
-DTLS sessions MUST also be deleted when a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Response Authenticator.[^normalizespec]{:jf}
+DTLS sessions MUST be deleted when a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Response Authenticator.[^normalizespec]{:jf}
 
 There are other cases, when the specifications require that a packet received via a DTLS session be "silently discarded".
 In those cases, implementations MAY delete the underlying DTLS session.
