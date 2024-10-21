@@ -1422,17 +1422,29 @@ Table of Contents
    attacker just has to bounce the traffic back-and-forth, possibly
    leading to a complete denial-of-service.
 
-   Ideas for solutions: * Don't accept your own certificate.  * May not
-   be what you want. * Remember the client random and compare the server
-   random * May still not be good enough.  Depending on the
-   implementation could lead to different race conditions being
-   triggered.  * Maybe not all TLS implementations allow you to get the
-   client random? * Send a randomized number in the TLS client hello *
-   Number could be generated at startup (or even changed once in a
-   while).  Every outgoing TLS has this in the client hello, the server
-   can check if the "ID" number of the other end is the same to its own.
-   If it is: Drop the connection.  * But needs a TLS extension (or some
-   other smart way of doing this with the tools available)
+   Ideas for solutions:
+
+   *  Don't accept your own certificate.
+
+      -  May not be what you want.
+
+   *  Remember the client random and compare the server random
+
+      -  May still not be good enough.  Depending on the implementation
+         could lead to different race conditions being triggered.
+
+      -  Maybe not all TLS implementations allow you to get the client
+         random?
+
+   *  Send a randomized number in the TLS client hello
+
+      -  Number could be generated at startup (or even changed once in a
+         while).  Every outgoing TLS has this in the client hello, the
+         server can check if the "ID" number of the other end is the
+         same to its own.  If it is: Drop the connection.
+
+      -  But needs a TLS extension (or some other smart way of doing
+         this with the tools available)
 
 8.  Design Decisions
 

@@ -2276,15 +2276,39 @@ Server A receives it and also accepts it, since it sees the client OID.<a href="
 Client A sends packets, believing they are sent to the right home server.
 Server A receives packets from a valid-looking client and forwards them, since it is not responsible for the realm.
 Now every packet is stuck in an endless-loop and the attacker just has to bounce the traffic back-and-forth, possibly leading to a complete denial-of-service.<a href="#section-7.7-9" class="pilcrow">¶</a></p>
-<p id="section-7.7-10">Ideas for solutions:
-* Don't accept your own certificate.
-  * May not be what you want.
-* Remember the client random and compare the server random
-  * May still not be good enough. Depending on the implementation could lead to different race conditions being triggered.
-  * Maybe not all TLS implementations allow you to get the client random?
-* Send a randomized number in the TLS client hello
-  * Number could be generated at startup (or even changed once in a while). Every outgoing TLS has this in the client hello, the server can check if the "ID" number of the other end is the same to its own. If it is: Drop the connection.
-  * But needs a TLS extension (or some other smart way of doing this with the tools available)<a href="#section-7.7-10" class="pilcrow">¶</a></p>
+<p id="section-7.7-10">Ideas for solutions:<a href="#section-7.7-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.7-11.1">
+            <p id="section-7.7-11.1.1">Don't accept your own certificate.<a href="#section-7.7-11.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.7-11.1.2.1">
+                <p id="section-7.7-11.1.2.1.1">May not be what you want.<a href="#section-7.7-11.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.7-11.2">
+            <p id="section-7.7-11.2.1">Remember the client random and compare the server random<a href="#section-7.7-11.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.7-11.2.2.1">
+                <p id="section-7.7-11.2.2.1.1">May still not be good enough. Depending on the implementation could lead to different race conditions being triggered.<a href="#section-7.7-11.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.7-11.2.2.2">
+                <p id="section-7.7-11.2.2.2.1">Maybe not all TLS implementations allow you to get the client random?<a href="#section-7.7-11.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.7-11.3">
+            <p id="section-7.7-11.3.1">Send a randomized number in the TLS client hello<a href="#section-7.7-11.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.7-11.3.2.1">
+                <p id="section-7.7-11.3.2.1.1">Number could be generated at startup (or even changed once in a while). Every outgoing TLS has this in the client hello, the server can check if the "ID" number of the other end is the same to its own. If it is: Drop the connection.<a href="#section-7.7-11.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.7-11.3.2.2">
+                <p id="section-7.7-11.3.2.2.1">But needs a TLS extension (or some other smart way of doing this with the tools available)<a href="#section-7.7-11.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
 </section>
 </div>
 </section>
