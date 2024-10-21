@@ -21,7 +21,8 @@ Downref: Normative to Informational RFC 5997:
   Since we mandate use of Status-Server, we need to reference it here.
 
 Obsolete Normative to RFC 6347:
-: DTLSv1.2. Since we mandate use of DTLSv1.2, we need to reference it here.
+: DTLSv1.2, obsoleted by 9147 (DTLSv1.3)
+  Since we mandate use of DTLSv1.2, we need to reference it here.
 
 Downref Normative to Experimental RFC 7585:
 : Dynamic RADIUS Routing. Maybe 7585bis?
