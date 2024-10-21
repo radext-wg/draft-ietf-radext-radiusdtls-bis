@@ -245,7 +245,7 @@ RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST imple
 
 If implemented it MUST use the following rules:
 
-* Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CA){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
+* Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accpeting TLS sessions.
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
@@ -261,7 +261,7 @@ RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer i
   - If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   - Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
-  - Clients which also act as servers (i.e. proxies) may be suceptible to seucurity issues when a ClientHello is mirrored back to themselves. More issues are discussed in {{security_considerations}}.
+  - Clients which also act as servers (i.e. proxies) may be suceptible to seucurity issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
   * For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.
