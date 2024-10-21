@@ -439,9 +439,9 @@ Table of Contents
    If implemented it MUST use the following rules:
 
    *  Implementations MUST allow the configuration of a trust anchor
-      (i.e. a list of trusted Certificate Authorities (CA)[RFC5280]) for
-      new TLS sessions.  This list SHOULD be application specific and
-      not use a global system trust store.
+      (i.e. a list of trusted Certificate Authorities (CAs)[RFC5280])
+      for new TLS sessions.  This list SHOULD be application specific
+      and not use a global system trust store.
 
    *  Certificate validation MUST include the verification rules as per
       [RFC5280].
@@ -489,13 +489,13 @@ Table of Contents
    but it MUST NOT accept any certificate without validation.  - Clients
    which also act as servers (i.e. proxies) may be suceptible to
    seucurity issues when a ClientHello is mirrored back to themselves.
-   More issues are discussed in Section 7. * RADIUS/(D)TLS servers
-   validate the certificate of the RADIUS/(D)TLS client against a local
-   database of acceptable clients.  The database may enumerate
-   acceptable clients either by IP address or by a name component in the
-   certificate.  * For clients configured by DNS name, the configured
-   name is matched against the presented identifiers of any
-   subjectAltName entry of type dNSName [RFC5280].  * For clients
+   More details on this issue are discussed in Section 7. *
+   RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS
+   client against a local database of acceptable clients.  The database
+   may enumerate acceptable clients either by IP address or by a name
+   component in the certificate.  * For clients configured by DNS name,
+   the configured name is matched against the presented identifiers of
+   any subjectAltName entry of type dNSName [RFC5280].  * For clients
    configured by their source IP address, the configured IP address is
    matched against the presented identifiers of any subjectAltName entry
    of type iPAddress [RFC5280].  For clients configured by IP range, the
