@@ -74,7 +74,7 @@ An example for a worldwide roaming environment that uses RADIUS over TLS to secu
 
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
   These specifications have been merged into this document.
-* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3..
+* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed usage of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{!RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
 * The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
@@ -207,7 +207,7 @@ This section defines the behaviour for RADIUS/(D)TLS peers for handling of incom
 
 ## (D)TLS requirements
 
-As defined in {{portusage}}, RAIDUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
+As defined in {{portusage}}, RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
 
 RADIUS/(D)TLS has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
@@ -247,7 +247,7 @@ If implemented it MUST use the following rules:
 
 * Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
-* Implementations SHOULD indicate their trust anchors when opening or accpeting TLS sessions.
+* Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
 * When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued validity of the certificate path. Note that TLS 1.3 no longer supports renegotiation to fulfill this requirement. [^may-should-trustbase]{:jf}
 
@@ -255,13 +255,13 @@ If implemented it MUST use the following rules:
 
 RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 * The Common Name RDN MUST NOT be used to identify peers
-* Certifcates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
+* Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
   - If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585}}.
   - If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   - If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   - Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
-  - Clients which also act as servers (i.e. proxies) may be suceptible to seucurity issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
+  - Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
   * For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.
@@ -374,19 +374,19 @@ transport layer ACKs do not flow end-to-end, and self-clocking does
 not occur.
 ~~~~
 
-In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retranmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
+In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
 
 This change is imperfect, but will at least help to avoid congestive collapse.
 
 ### Differing Retransmission Requirements
 
-Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retranmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
+Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
 When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
 
-That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retranmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
+That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retransmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
 
 The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
@@ -398,12 +398,12 @@ While RADIUS/UDP could be implemented mostly stateless (except for the requests 
 
 Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session. 
 
-The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by hartbeat or watchdog traffic, occupying resources.
+The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by heartbeat or watchdog traffic, occupying resources.
 Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and SHOULD allow to disable idle timeout completely. 
 
 On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections. Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection. These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.
 
-The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more dificult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
+The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
 # RADIUS/TLS specific specifications
 
@@ -504,7 +504,7 @@ Where a client can send packets to multiple ports, the server MUST maintain a "D
 
 This flag indicates whether or not the client is required to use DTLS.
 When set, the flag indicates that the only traffic accepted from the client is over the RADIUS/DTLS port.
-When packets are received fom a client with the "DTLS Required" flag set on non-DTLS ports, the server MUST silently discard these packets, as there is no RADIUS/UDP shared secret available.
+When packets are received from a client with the "DTLS Required" flag set on non-DTLS ports, the server MUST silently discard these packets, as there is no RADIUS/UDP shared secret available.
 
 This flag will often be set by an administrator.
 However, if the server receives DTLS traffic from a client, it SHOULD notify the administrator that DTLS is available for that client.
@@ -694,7 +694,7 @@ In contrast, an established session might not send packets for longer periods of
 A different means of prevention is IP filtering.
 If the IP range that the server expects clients to connect from is restricted, then the server can simply reject or drop all connection attempts from outside those ranges.
 If every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
-To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of the cummulated permitted IP ranges, individually for each transport.
+To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of the cumulated permitted IP ranges, individually for each transport.
 
 ## Session Closing
 
@@ -776,7 +776,7 @@ Client A receives it, accepts it, since it sees the server OID and sends the cli
 Server A receives it and also accepts it, since it sees the client OID.
 
 Now Peer A has a loop.
-Client A sends packets, beleiving they are sent to the right home server.
+Client A sends packets, believing they are sent to the right home server.
 Server A receives packets from a valid-looking client and forwards them, since it is not responsible for the realm.
 Now every packet is stuck in an endless-loop and the attacker just has to bounce the traffic back-and-forth, possibly leading to a complete denial-of-service.
 
