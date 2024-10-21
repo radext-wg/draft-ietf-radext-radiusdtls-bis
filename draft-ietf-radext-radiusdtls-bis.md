@@ -783,6 +783,7 @@ Now every packet is stuck in an endless-loop and the attacker just has to bounce
 
 
 Ideas for solutions:
+
 * Don't accept your own certificate.
   * May not be what you want.
 * Remember the client random and compare the server random
