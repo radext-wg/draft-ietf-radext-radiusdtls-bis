@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 21 April 2025                                   18 October 2024
+Expires: 24 April 2025                                   21 October 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2025.
+   This Internet-Draft will expire on 24 April 2025.
 
 Copyright Notice
 
@@ -109,6 +109,7 @@ Table of Contents
      7.4.  Session Closing
      7.5.  Migrating from RADIUS/UDP to RADIUS/(D)TLS
      7.6.  Client Subsystems
+     7.7.  Loopback-Attack on Peers acting as Server and Client
    8.  Design Decisions
      8.1.  Mandatory-to-implement transports
      8.2.  Mandatory-to-implement trust profiles
@@ -183,6 +184,10 @@ Table of Contents
    *  [RFC6613] only included limited text around retransmissions, this
       document now gives more guidance on how to handle retransmissions,
       especially across different transports.
+
+   *  The rules for verifying the peer certificate have been updated to
+      follow guidance provided in [RFC9525].  Using the Common Name RDN
+      for validation is now forbidden.
 
    The rationales behind some of these changes are outlined in
    Section 8.
@@ -433,85 +438,24 @@ Table of Contents
 
    If implemented it MUST use the following rules:
 
-   *  Implementations MUST allow the configuration of a list of trusted
-      Certificate Authorities (CAs) for new TLS sessions.
+   *  Implementations MUST allow the configuration of a trust anchor
+      (i.e. a list of trusted Certificate Authorities (CAs)[RFC5280])
+      for new TLS sessions.  This list SHOULD be application specific
+      and not use a global system trust store.
 
    *  Certificate validation MUST include the verification rules as per
       [RFC5280].
 
-   *  Implementations SHOULD indicate their trusted Certification
-      authorities (CAs).  See [RFC5246], Section 7.4.4 and [RFC6066],
-      Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for TLS 1.3.
-
-   *  RADIUS/(D)TLS clients validate the servers identity to match their
-      local configuration:
-
-      -  If the expected RADIUS/(D)TLS server was configured as a
-         hostname, the configured name is matched against the presented
-         names from the subjectAltName:DNS extension; if no such exist,
-         against the presented CN component of the certificate subject.
-
-      -  If the expected RADIUS/(D)TLS server was configured as an IP
-         address, the configured IP address is matched against the
-         presented addresses in the subjectAltName:iPAddr extension; if
-         no such exist, against the presented CN component of the
-         certificate subject.
-
-      -  If the RADIUS/(D)TLS server was not configured but discovered
-         as per [RFC7585], the client executes the following checks in
-         this order, accepting the certificate on the first match:
-
-         o  The realm which was used as input to the discovery is
-            matched against the presented realm names from the
-            subjectAltName:naiRealm extension.
-
-         o  If the discovery process yielded a hostname, this hostname
-            is matched against the presented names from the
-            subjectAltName:DNS extension; if no such exist, against the
-            presented CN component of the certificate subject.
-            Implementations MAY require the use of DNSSEC [RFC4033] to
-            ensure the authenticity of the DNS result before relying on
-            this for trust checks.
-
-         o  If the previous checks fail, the certificate MAY be accepted
-            without further name checks immediately after the [RFC5280]
-            certificate path validation, if configured by the
-            administrator.
-
-   *  RADIUS/(D)TLS servers validate the certificate of the
-      RADIUS/(D)TLS client against a local database of acceptable
-      clients.  The database may enumerate acceptable clients either by
-      IP address or by a name component in the certificate
-
-      -  For clients configured by DNS name, the configured name is
-         matched against the presented names from the subjectAltName:DNS
-         extension; if no such exist, against the presented CN component
-         in the certificate subject.
-
-      -  For clients configured by their source IP address, the
-         configured IP address is matched against the presented
-         addresses in the subjectAltName:iPAddr extension; if no such
-         exist, against the presented CN component of the certificate
-         subject.  For clients configured by IP range, the certificate
-         MUST be valid for the IP address the client is currently using.
-
-      -  It is possible for a RADIUS/(D)TLS server to not require
-         additional name checks for incoming RADIUS/(D)TLS clients, i.e.
-         if the client used dynamic lookup.  In this case, the
-         certificate is accepted immediately after the [RFC5280]
-         certificate path validation.  This MUST NOT be used outside of
-         trusted network environments or without additional certificate
-         attribute checks in place.
-
-   *  Implementations MAY allow a configuration of a set of additional
-      properties of the certificate to check for a peer's authorization
-      to communicate (e.g. a set of allowed values in subjectAltName:URI
-      or a set of allowed X.509v3 Certificate Policies).
+   *  Implementations SHOULD indicate their trust anchors when opening
+      or accpeting TLS sessions.  See [RFC5246], Section 7.4.4 and
+      [RFC6066], Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for
+      TLS 1.3.
 
    *  When the configured trust base changes (e.g., removal of a CA from
-      the list of trusted CAs; issuance of a new CRL for a given CA),
-      implementations SHOULD renegotiate the TLS session to reassess the
-      connecting peer's continued authorization.
+      the trust anchor; issuance of a new CRL for a given CA),
+      implementations SHOULD reassess all connected peer's continued
+      validity of the certificate path.  Note that TLS 1.3 no longer
+      supports renegotiation to fulfill this requirement.
       // Open discussion: RFC6614 says "may" here.  I think this should
       be
       // a "should".  There are some discussions to change this to
@@ -519,6 +463,55 @@ Table of Contents
       // Input from TLS/UTA experts is appreciated.
       //
       // -- Janfred
+
+   RADIUS/(D)TLS clients and server MUST follow [RFC9525] when
+   validating peer identities.  Specific details are provided below: *
+   The Common Name RDN MUST NOT be used to identify peers * Certifcates
+   MAY use wildcards in the identifiers of DNS names and realm names,
+   but only as the complete, left-most label. * RADIUS/(D)TLS clients
+   validate the servers identity to match their local configuration,
+   accepting the identity on the first match: - If the expected
+   RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by
+   dynamic discovery [RFC7585] or static configuration, that realm is
+   matched against the presented identifiers of any subjectAltName entry
+   of type otherName whose name form is NAIRealm as defined in
+   [RFC7585].  - If the expected RADIUS/(D)TLS server was configured as
+   a hostname, or the hostname was yielded by a dynamic discovery
+   procedure, that name is matched against the presented identifiers of
+   any subjectAltName entry of type dNSName [RFC5280].  Since a dynamic
+   discovery might by itself not be secured, implementations MAY require
+   the use of DNSSEC [RFC4033] to ensure the authenticity of the DNS
+   result before considering this identity as valid.  - If the expected
+   RADIUS/(D)TLS server was configured as an IP address, the configured
+   IP address is matched against the presented identifier in any
+   subjectAltName entry of type iPAddress [RFC5280].  - Clients MAY use
+   other attributes of the certificate to validate the servers identity,
+   but it MUST NOT accept any certificate without validation.  - Clients
+   which also act as servers (i.e. proxies) may be suceptible to
+   seucurity issues when a ClientHello is mirrored back to themselves.
+   More details on this issue are discussed in Section 7. *
+   RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS
+   client against a local database of acceptable clients.  The database
+   may enumerate acceptable clients either by IP address or by a name
+   component in the certificate.  * For clients configured by DNS name,
+   the configured name is matched against the presented identifiers of
+   any subjectAltName entry of type dNSName [RFC5280].  * For clients
+   configured by their source IP address, the configured IP address is
+   matched against the presented identifiers of any subjectAltName entry
+   of type iPAddress [RFC5280].  For clients configured by IP range, the
+   certificate MUST be valid for the IP address the client is currently
+   using.  * Implementation MAY consider additional subjectAltName
+   extensions to identify a client.  * If configured by the
+   administrator, the identity check MAY be omitted after a successful
+   [RFC5280] trust chain check, e.g. if the client used dynamic lookup
+   there is no configured client identity to verify.  The clients
+   authorization MUST then be validated using a certificate policy OID
+   unless both peers are part of a trusted network. * Implementations
+   MAY allow configuration of a set of additional properties of the
+   certificate to check for a peer's authorization to communicate (e.g.
+   a set of allowed values presented in subjectAltName entries of type
+   uniformResourceIdentifier [RFC5280] or a set of allowed X.509v3
+   Certificate Policies).
 
 4.2.2.  Authentication using X.509 certificate fingerprints (TLS-
         X.509-FINGERPRINT)
@@ -1349,6 +1342,61 @@ Table of Contents
    (D)TLS-aware proxy, security analysis becomes simpler, and
    enforcement of correct security becomes easier.
 
+7.7.  Loopback-Attack on Peers acting as Server and Client
+
+   TODO
+
+   Rough problem description to visualize the problem for others.  Will
+   be removed and replaced with text explaining the issue and possible
+   mitigations:
+
+   Preconditions:
+
+   Peer A is configured with a client certificate for sending packets
+   via dynamic discovery.  The certificate has a specific OID indicating
+   it as a "roaming consortium client" certificate.  The configuration
+   expects a server certificate from the server with an OID for a
+   "roaming consortium server" certificate and does not perform more
+   checks apart from the trust chain checks.
+
+   Peer A is also configured with a server certificate for receiving
+   packets via dynamic discovery.  The server certificate has a specific
+   OID indicating it as a "roaming consortium server" certificate.  The
+   configuration expects a client certificate from the client with an
+   OID for a "roaming consortium client" certificate and does not
+   perform more checks apart from the trust chain checks.
+
+   For the sake of this example we can say that both certificates come
+   from the same CA and that this CA is marked as trusted.
+
+   Attack:
+
+   Peer A (as Client A) tries to open RADIUS/TLS connection to Server B.
+   The attacker intercepts the connection and mirrors it back to A (now
+   acting as Server A) Server A sends the server certificate with the
+   server OID.  Client A receives it, accepts it, since it sees the
+   server OID and sends the client certificate.  Server A receives it
+   and also accepts it, since it sees the client OID.
+
+   Now Peer A has a loop.  Client A sends packets, beleiving they are
+   sent to the right home server.  Server A receives packets from a
+   valid-looking client and forwards them, since it is not responsible
+   for the realm.  Now every packet is stuck in an endless-loop and the
+   attacker just has to bounce the traffic back-and-forth, possibly
+   leading to a complete denial-of-service.
+
+   Ideas for solutions: * Don't accept your own certificate.  * May not
+   be what you want. * Remember the client random and compare the server
+   random * May still not be good enough.  Depending on the
+   implementation could lead to different race conditions being
+   triggered.  * Maybe not all TLS implementations allow you to get the
+   client random? * Send a randomized number in the TLS client hello *
+   Number could be generated at startup (or even changed once in a
+   while).  Every outgoing TLS has this in the client hello, the server
+   can check if the "ID" number of the other end is the same to its own.
+   If it is: Drop the connection.  * But needs a TLS extension (or some
+   other smart way of doing this with the tools available)
+
 8.  Design Decisions
 
    Many of the design decisions of RADIUS/TLS and RADIUS/DTLS can be
@@ -1562,13 +1610,18 @@ Table of Contents
               (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
               2022, <https://www.rfc-editor.org/rfc/rfc9325>.
 
+   [RFC9525]  Saint-Andre, P. and R. Salz, "Service Identity in TLS",
+              RFC 9525, DOI 10.17487/RFC9525, November 2023,
+              <https://www.rfc-editor.org/rfc/rfc9525>.
+
 10.2.  Informative References
 
    [I-D.ietf-radext-radiusv11]
-              DeKok, A., "RADIUS ALPN and removing MD5", Work in
-              Progress, Internet-Draft, draft-ietf-radext-radiusv11-10,
-              1 July 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-radext-radiusv11-10>.
+              DeKok, A., "RADIUS/1.1, Leveraging ALPN to remove MD5",
+              Work in Progress, Internet-Draft, draft-ietf-radext-
+              radiusv11-11, 18 October 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-radext-
+              radiusv11-11>.
 
    [I-D.ietf-radext-tls-psk]
               DeKok, A., "Operational Considerations for RADIUS and TLS-
