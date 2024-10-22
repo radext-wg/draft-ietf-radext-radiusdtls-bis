@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T00:56:29.486696+00:00",
+  "timestamp": "2024-10-22T00:47:06.685731+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -309,28 +309,30 @@
       "id": "PR_kwDOLrzygc52L816",
       "title": "apply RFC9525 guidance for validating certificate identities",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/4",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "RFC9525 provides guidance on what/how to specify certificate identity validation. This PR applies those rules and references RFC9525 explicitly. \r\n\r\nIn addition the NAIrealm identity is generalized as it might be applied outside dynamic discovery.",
       "createdAt": "2024-07-23T09:00:17Z",
-      "updatedAt": "2024-10-14T07:36:44Z",
+      "updatedAt": "2024-10-21T19:08:57Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-rfc9525-guidance",
       "headRefOid": "503d39d9a9e9b1ea9b6d604f5c3fcb2cfc9c5252",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-21T19:04:59Z",
+      "mergedAt": "2024-10-21T19:04:59Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "b99af9528e8a20cbc246789eedb9e09ba502350a"
+      },
       "comments": [
         {
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Regarding the 'Selfie attack' discussion on the radext mailing list, this prposal might need an update too, related to omitting the identity check... ",
           "createdAt": "2024-07-25T11:20:15Z",
           "updatedAt": "2024-07-25T11:20:15Z"
@@ -341,6 +343,20 @@
           "body": "In regards to wildcard certificates, [RFC 9525](https://www.rfc-editor.org/rfc/rfc9525.html#name-matching-the-dns-domain-nam) talks about clients matching server wildcard certificate. How clear do we need to be about wildcard certificate use? For example, if software uses a wildcard certificate for accepting (D)TLS connections it must use a different non-wildcard certificate when it initiates a (D)TLS connections.",
           "createdAt": "2024-10-04T17:16:33Z",
           "updatedAt": "2024-10-04T17:16:33Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I will leave this PR open until we have finished the discussion on the selfie/loopback/... attack, to keep it visible.\r\n\r\nThe other text is merged with #19 ",
+          "createdAt": "2024-10-21T19:02:21Z",
+          "updatedAt": "2024-10-21T19:02:21Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "apparently github thinks that once a commit is merged in a different pull request, this one should be closed too. I'm sorry. I don't think that I can re-open it, so it still appears in the open PR list.\r\nI'll keep this PR in mind for further discussions.",
+          "createdAt": "2024-10-21T19:08:56Z",
+          "updatedAt": "2024-10-21T19:08:56Z"
         }
       ],
       "reviews": [
@@ -430,7 +446,7 @@
             "abbreviatedOid": "ba9b92b"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-04T15:51:42Z",
@@ -450,7 +466,7 @@
             "abbreviatedOid": "ba9b92b"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-04T16:03:32Z",
@@ -490,7 +506,7 @@
             "abbreviatedOid": "ba9b92b"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-07T11:39:14Z",
@@ -530,7 +546,7 @@
             "abbreviatedOid": "ba9b92b"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-10T14:24:36Z",
@@ -570,7 +586,7 @@
             "abbreviatedOid": "ba9b92b"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-14T05:48:44Z",
@@ -603,6 +619,106 @@
               "updatedAt": "2024-10-14T07:37:12Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N6xzG",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T06:00:21Z",
+          "updatedAt": "2024-10-21T06:00:22Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "Yes, but still this might be tricky to implement for the exact timing and potential race-conditions. After all the client and server side code very intentionally run at the same time. ",
+              "createdAt": "2024-10-21T06:00:21Z",
+              "updatedAt": "2024-10-21T06:00:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N74e_",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T08:20:55Z",
+          "updatedAt": "2024-10-21T08:20:55Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "During the client hello callback (`SSL_CTX_set_client_hello_cb`) the connection is not established and the server side is yet to fully process the request.\r\n\r\nMaybe I am missing something, I do not see a race. If there was, you would be unable to use this function to select a server certificate (ie. ALPN) which is one of the primary use cases for it.\r\n\r\nIt does become slightly more complicated if the 'server' is actually a pool of nodes, but all that would require is an RPC call out to the other nodes to see what connections are outstanding.\r\n\r\nMeanwhile the connection under inspection is frozen in time until the callback completes.\r\n\r\nCan you think of a situation where this fails?\r\n\r\nI am only lobbying for it, as if this is a good defence (which implementing aside we still do not know) it is trivial to implement. Helping us is the connection pool churn is low and so the length of the list of being established in flight TLS connections is low (ie. less than 1000).",
+              "createdAt": "2024-10-21T08:20:55Z",
+              "updatedAt": "2024-10-21T08:20:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N8xqj",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T09:53:47Z",
+          "updatedAt": "2024-10-21T09:53:47Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "Its two threads (or more, at least for me) and a network connection, which for me always puts on the warning light, be careful. There can always be events from the network (timeouts, a connecting being closed) and the race conditions may arise when two legitimate connections happen a the same time. In the end one thread has to access data from another, which requires careful coordination.\r\n\r\nI do agree that it's a good idea and definitely worth a shot, I just anticipate that its not going to be as trivial to implement as at first glance it might seem.\r\n\r\nBesides that, these are implementaiton details. I guess the question we should ask here is what we should recommend or even mandate in the RFC.",
+              "createdAt": "2024-10-21T09:53:47Z",
+              "updatedAt": "2024-10-21T09:53:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N-gtL",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "jimdigriz",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T12:53:20Z",
+          "updatedAt": "2024-10-21T12:53:21Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "> Its two threads (or more, at least for me) and a network connection, which for me always puts on the warning light, be careful.\r\n\r\nSure, but you have described the effect of language and design decisions and the usual trade off and balances we all make. For others, sharing memory may not even be possible in their language (functional, actor model, etc) so this would simply not be a concern for them.\r\n\r\nAs such, definitely I would agree that mandating this would be unfair to implementers but it would be well placed as recommendations on one of several ways to avoid this problem.\r\n\r\nWe do need something though as related to this all is https://github.com/radext-wg/draft-ietf-radext-tls-psk/issues/4 where stated is a KDF should be used (and crucially 'context' populated) but the two major public implementations do not.\r\n\r\nIf the two-step KDF 'dance' is to be dropped, something would be needed and maybe checking handshake random numbers and provide the backwards compatible sticky tape.",
+              "createdAt": "2024-10-21T12:53:20Z",
+              "updatedAt": "2024-10-21T12:53:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6OCoN8",
+          "commit": {
+            "abbreviatedOid": "ba9b92b"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T18:42:55Z",
+          "updatedAt": "2024-10-21T18:42:55Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "One possible solution would be to compare the TLS keying material after the TLS session is established. If two connections have the same, something is fishy.\r\n\r\nBut that would either mean comparing it to all open connections (bad, if there are a lot) or checking only against the newest ones (also not really ideal, may be hard to implement, still have to check a lot of connections) or keeping track of the pending connections and once there are no pending connections, dropping all established connections from the comparison-pool, since they can't be similar any more (also requires a lot of implementation)\r\n\r\nI am slightly tempted to use a TLS extension to send a randomized number generated at startup of the software and comparing this number for each incoming connection.",
+              "createdAt": "2024-10-21T18:42:55Z",
+              "updatedAt": "2024-10-21T18:42:55Z"
+            }
+          ]
         }
       ]
     },
@@ -611,24 +727,26 @@
       "id": "PR_kwDOLrzygc52M_3H",
       "title": "unify idle-timeout between TLS and DTLS",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/5",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "TLS and DTLS specify idle timeout and session limits with different levels of detail. Those limits should apply to both equally.",
       "createdAt": "2024-07-23T11:31:57Z",
-      "updatedAt": "2024-07-26T18:04:55Z",
+      "updatedAt": "2024-10-21T20:42:51Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-idle-timeout",
       "headRefOid": "7efae6bceb6ed11212a611d2e8da900d12e48870",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-21T20:42:50Z",
+      "mergedAt": "2024-10-21T20:42:50Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "7efae6bceb6ed11212a611d2e8da900d12e48870"
+      },
       "comments": [],
       "reviews": [
         {
@@ -683,7 +801,7 @@
             "abbreviatedOid": "3948044"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-25T11:05:23Z",
@@ -703,7 +821,7 @@
             "abbreviatedOid": "3948044"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-25T11:16:07Z",
@@ -743,7 +861,7 @@
             "abbreviatedOid": "3948044"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-26T18:04:55Z",
@@ -766,7 +884,7 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/6",
       "state": "OPEN",
       "author": "fmauchle",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Invalidation of response cache applies to both TLS and DTLS since both are TLS session based. Move paragraph to the common section.",
@@ -792,7 +910,7 @@
         },
         {
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> Maybe make this MUST? If the home server replies, there's no way for the proxy to send the packet anywhere.\r\n\r\nAgreed; updated.",
           "createdAt": "2024-07-24T16:29:30Z",
           "updatedAt": "2024-07-24T16:29:30Z"
@@ -807,7 +925,7 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/7",
       "state": "OPEN",
       "author": "fmauchle",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "TLS session resumption is currently a SHOULD requirement for DTLS and for TLS-PSK.\r\n\r\nUnify this recommendation for all use of (D)TLS and provide guidance for re-authorization as proposed by TLS-PSK.",
@@ -833,7 +951,7 @@
         },
         {
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> I've be in favor of making it a MUST. I don't see any benefit for an implementation to _not_ implement resumption.\r\n\r\nI vote against a MUST. The benefit for implementos is saving time and effort (if a particular device or application is unlikely to gain much from it, thinking of Wifi APs rather just keep a connection open at all times). And _not_ implementing it doesn't break anything.",
           "createdAt": "2024-07-24T16:22:27Z",
           "updatedAt": "2024-07-24T16:22:27Z"
@@ -902,7 +1020,7 @@
       "comments": [
         {
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "These statements (matching CN) are obsoleted by RFC9525 anyway. PR #4 (should we accept it) removes them completely. ",
           "createdAt": "2024-07-25T09:55:48Z",
           "updatedAt": "2024-07-25T09:55:48Z"
@@ -1183,7 +1301,7 @@
             "abbreviatedOid": "e09d7eb"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-01T13:57:58Z",
@@ -1278,7 +1396,7 @@
             "abbreviatedOid": "7cf6645"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-01T15:32:45Z",
@@ -1318,7 +1436,7 @@
             "abbreviatedOid": "7cf6645"
           },
           "author": "fmauchle",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-03T05:26:33Z",
@@ -1426,7 +1544,7 @@
       "labels": [],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2024-10-19T11:41:07Z",
+      "updatedAt": "2024-10-21T20:17:56Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1571,6 +1689,46 @@
               "body": "I like the second part as is, it is helpful in explaining why someone should not just blindly leap and lean pre-trusting the web forum certs (which I probably would have done myself as an implementer), so my bike shedding suggestion is really only for the first part:\r\n\r\n\"If this model is implemented, RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer that are enabled by default. Instead, the peers SHOULD begin untrusted (ie. an empty CA list) and the process of trusting a given CA SHOULD be a manually step performed by an administrator.\r\n\r\nThis does not preclude vendors or manufactures including trust lists in their products, but the enabling of those lists should be a conscious decision by an administrator.\"",
               "createdAt": "2024-10-19T11:41:07Z",
               "updatedAt": "2024-10-19T11:41:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6N_zQ_",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T14:32:44Z",
+          "updatedAt": "2024-10-21T14:32:44Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "I don't like the \"should begin untrusted\". The peers themselves are not untrusted, they are just untrusting (so to speak).\r\nAnd shouldn't it be \"should be a manual step performed by ...\" or \"manually performed step\"?",
+              "createdAt": "2024-10-21T14:32:44Z",
+              "updatedAt": "2024-10-21T14:33:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6ODSbt",
+          "commit": {
+            "abbreviatedOid": "daba629"
+          },
+          "author": "ethan-thompson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T20:17:56Z",
+          "updatedAt": "2024-10-21T20:17:56Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "I think a hybrid of the two for the \"first chunk\" would be good:\r\n\r\n\"If this model is implemented, RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of known public CAs by the vendor or manufacturer that are enabled by default. Instead, the peers SHOULD start off with an empty CA list. The addition of a CA SHOULD be done only when manually configured by an administrator.\r\n\r\nThis does not preclude vendors or manufactures including trust lists in their products, but the enabling of those lists should be a conscious decision by an administrator.\"\r\n\r\nAs for the \"second chunk\", I would change the wording slightly to something like:\r\n\r\n\"The goal of RADIUS/(D)TLS is to communicate securely with only a small set of well-known peers.\r\n\r\nThese peers will use specific certificates, potentially from a private, purpose-specific CA.\r\n\r\nThis scenario is different from the common use case of PKIX, where the goal is to communicate securely with unknown remote entities (e.g., web browsing) that use public CAs to bootstrap trust.\"\r\n\r\nThough, I'm not in love with saying \"specific certificates\" since I think that could be a little vague or confusing.",
+              "createdAt": "2024-10-21T20:17:56Z",
+              "updatedAt": "2024-10-21T20:17:56Z"
             }
           ]
         }
@@ -1773,6 +1931,34 @@
           "updatedAt": "2024-10-04T13:37:32Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOLrzygc5_XSYB",
+      "title": "Update to RFC9525 Guidance",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/19",
+      "state": "MERGED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I've added this pull request as documentation for further discussions.\r\n\r\nThis is mainly the discussion from #4 with the things removed/added we discussed in the interim.",
+      "createdAt": "2024-10-21T18:58:43Z",
+      "updatedAt": "2024-10-21T19:04:57Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c458813a6d507981a69298ce6c3716b492b0aee0",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-rfc9525-guidance",
+      "headRefOid": "5ef77e7823114e7d57b6bec750c006af3cce812e",
+      "closedAt": "2024-10-21T19:04:57Z",
+      "mergedAt": "2024-10-21T19:04:57Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "4f6bcde1ac3354dd4cc057e88d89a02297b6f962"
+      },
+      "comments": [],
       "reviews": []
     }
   ]
