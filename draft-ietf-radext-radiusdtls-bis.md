@@ -1,7 +1,7 @@
 ---
 entity:
   SELF: "[RFCXXXX]"
-title: "(Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS"
+title: "(Datagram) Transport Layer Security (D)TLS Encryption for RADIUS"
 abbrev: "RADIUS over (D)TLS"
 category: std
 
