@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-03T00:51:31.553977+00:00",
+  "timestamp": "2024-11-05T00:45:32.524933+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1958,6 +1958,32 @@
       "mergeCommit": {
         "oid": "4f6bcde1ac3354dd4cc057e88d89a02297b6f962"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOLrzygc6AuVgx",
+      "title": "Add some text for agility",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/20",
+      "state": "OPEN",
+      "author": "jimdigriz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Moved the text from draft-ietf-radext-deprecate-radius and rejig it to work here.\r\n\r\nAs draft-ietf-radext-deprecate-radius does not deliver the agility it-self on these points whilst draft-ietf-radext-radiusdtls-bis (and RFC6614 and RFC7360) do, the references I feel should belong here.\r\n\r\nAddresses https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/18",
+      "createdAt": "2024-11-03T12:54:41Z",
+      "updatedAt": "2024-11-03T12:54:41Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6f6500732cf450eeee8d2363d4c5a986266f6173",
+      "headRepository": "jimdigriz/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "agility",
+      "headRefOid": "5f2d1afb7c9e2b1beb1800a33ef9f5764d947251",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
