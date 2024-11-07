@@ -661,11 +661,11 @@ Where the confidentiality of the contents of the RADIUS packet across the whole 
 
 ## Usage of null encryption cipher suites for debugging
 
-For debugging purposes, some TLS implementation offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
+For debugging purposes, some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RADIUS/(D)TLS the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
-To prevent this, while keeping a NULL encryption cipher suite active, the only option is to set a different shared secret for RADIUS.
-In this case, the security considerations for confidentiality of RADIUS/UDP packets apply.
 Following the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RADIUS/(D)TLS.
+
+For cases where administrators need access to the decrypted RADIUS/(D)TLS traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.
 
 ## Possibility of Denial-of-Service attacks
 
