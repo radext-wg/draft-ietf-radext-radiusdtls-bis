@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 24 April 2025                                   21 October 2024
+Expires: 11 May 2025                                     7 November 2024
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2025.
+   This Internet-Draft will expire on 11 May 2025.
 
 Copyright Notice
 
@@ -1226,19 +1226,21 @@ Table of Contents
 
 7.2.  Usage of null encryption cipher suites for debugging
 
-   For debugging purposes, some TLS implementation offer cipher suites
+   For debugging purposes, some TLS implementations offer cipher suites
    with NULL encryption, to allow inspection of the plaintext with
    packet sniffing tools.  Since with RADIUS/(D)TLS the RADIUS shared
    secret is set to a static string ("radsec" for RADIUS/TLS, "radius/
    dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will
    also result in complete disclosure of the whole RADIUS packet,
    including the encrypted RADIUS attributes, to any party eavesdropping
-   on the conversation.  To prevent this, while keeping a NULL
-   encryption cipher suite active, the only option is to set a different
-   shared secret for RADIUS.  In this case, the security considerations
-   for confidentiality of RADIUS/UDP packets apply.  Following the
-   recommendations in [RFC9325], Section 4.1, this specification forbids
-   the usage of NULL encryption cipher suites for RADIUS/(D)TLS.
+   on the conversation.  Following the recommendations in [RFC9325],
+   Section 4.1, this specification forbids the usage of NULL encryption
+   cipher suites for RADIUS/(D)TLS.
+
+   For cases where administrators need access to the decrypted
+   RADIUS/(D)TLS traffic, we suggest using different approaches, like
+   exporting the key material from TLS libraries according to
+   [I-D.ietf-tls-keylogfile].
 
 7.3.  Possibility of Denial-of-Service attacks
 
@@ -1673,6 +1675,12 @@ Table of Contents
               tls-psk-11, 17 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-radext-
               tls-psk-11>.
+
+   [I-D.ietf-tls-keylogfile]
+              Thomson, M., "The SSLKEYLOGFILE Format for TLS", Work in
+              Progress, Internet-Draft, draft-ietf-tls-keylogfile-02, 29
+              April 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-tls-keylogfile-02>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
