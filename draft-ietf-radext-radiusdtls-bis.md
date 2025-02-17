@@ -659,6 +659,19 @@ Where the confidentiality of the contents of the RADIUS packet across the whole 
 
 [^refto7585]: TODO: Mabe add a reference to handling dynamic discovery (RFC7585) here too, and (as per Alans comments) that this issue is best resolved by limiting use of proxies.
 
+### Loopback-Attack on Peers acting as Server and Client
+
+Radius setups that are configured to act both as client and server, typically in a proxy configuration, SHOULD implement mitigations to avoid accepting connections from itself. Wehen accepting incoming connections from any address (or a wide address range), the certificate subject or subject alternate names cannot be verified, and the trust is based on the certificate issuer or certificate OID. However in this cases, the certificate used for outgoing connections might also satisfy this trust check. Other scenarios where the identification of an outgoing connection satisfies the thrust check of an incoming one are possible, but are not enumerated here.
+
+Either thru misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop. Such attacks have been described for TLS-PSK [selfie], dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as descibed above, they also applie to certificate based authentication.
+
+Implementations SHOULD therefore detect connections from itself, and reject them. There is currently no detection method that works universally for all use-cases and TLS implementations. Some possible detection methods are listed below:
+- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which normally private to the TLS implementation.
+- Sending a custom random number in an extension in the TLS client hello. Again this is verify effective, but requires extension of the TLS implementation.
+- Comparing the incoming client certificate to the connections server certificate (or any other server certificate configured on the proxy). While in some scenarios this can be a valid detection method, using the same client and server certificate might still be a legitimate connection in other scenarios.
+
+The application layer Radius protocol also offers some loop detection, .e.g using a Proxy-State attribute, however these are not 100% reliable and are outside the scope of this document. 
+
 ## Usage of null encryption cipher suites for debugging
 
 For debugging purposes, some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
@@ -748,51 +761,6 @@ The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
-
-## Loopback-Attack on Peers acting as Server and Client
-
-TODO
-
-Rough problem description to visualize the problem for others.
-Will be removed and replaced with text explaining the issue and possible mitigations:
-
-Preconditions:
-
-Peer A is configured with a client certificate for sending packets via dynamic discovery.
-The certificate has a specific OID indicating it as a "roaming consortium client" certificate.
-The configuration expects a server certificate from the server with an OID for a "roaming consortium server" certificate and does not perform more checks apart from the trust chain checks.
-
-Peer A is also configured with a server certificate for receiving packets via dynamic discovery.
-The server certificate has a specific OID indicating it as a "roaming consortium server" certificate.
-The configuration expects a client certificate from the client with an OID for a "roaming consortium client" certificate and does not perform more checks apart from the trust chain checks.
-
-For the sake of this example we can say that both certificates come from the same CA and that this CA is marked as trusted.
-
-Attack:
-
-Peer A (as Client A) tries to open RADIUS/TLS connection to Server B.
-The attacker intercepts the connection and mirrors it back to A (now acting as Server A)
-Server A sends the server certificate with the server OID.
-Client A receives it, accepts it, since it sees the server OID and sends the client certificate.
-Server A receives it and also accepts it, since it sees the client OID.
-
-Now Peer A has a loop.
-Client A sends packets, believing they are sent to the right home server.
-Server A receives packets from a valid-looking client and forwards them, since it is not responsible for the realm.
-Now every packet is stuck in an endless-loop and the attacker just has to bounce the traffic back-and-forth, possibly leading to a complete denial-of-service.
-
-
-Ideas for solutions:
-
-* Don't accept your own certificate.
-  * May not be what you want.
-* Remember the client random and compare the server random
-  * May still not be good enough. Depending on the implementation could lead to different race conditions being triggered.
-  * Maybe not all TLS implementations allow you to get the client random?
-* Send a randomized number in the TLS client hello
-  * Number could be generated at startup (or even changed once in a while). Every outgoing TLS has this in the client hello, the server can check if the "ID" number of the other end is the same to its own. If it is: Drop the connection.
-  * But needs a TLS extension (or some other smart way of doing this with the tools available)
-
 
 # Design Decisions
 {: #design_decisions}
