@@ -92,10 +92,10 @@ Table of Contents
        4.5.1.  Throughput Differences lead to Network Collapse
        4.5.2.  Differing Retransmission Requirements
      4.6.  Session limits and timeout
+     4.7.  Malformed Packets and Unknown clients
    5.  RADIUS/TLS specific specifications
      5.1.  Duplicates and Retransmissions
-     5.2.  Malformed Packets and Unknown clients
-     5.3.  TCP Applications Are Not UDP Applications
+     5.2.  TCP Applications Are Not UDP Applications
    6.  RADIUS/DTLS specific specifications
      6.1.  RADIUS packet lengths
      6.2.  Server behavior
@@ -807,6 +807,70 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
+4.7.  Malformed Packets and Unknown clients
+
+   The RADIUS specifications say that an implementation should "silently
+   discard" a packet in a number of circumstances.  This action has no
+   further consequences for UDP based transports, as the "next" packet
+   is completely independent of the previous one.
+
+   When TLS is used as transport, decoding the "next" packet on a
+   connection depends on the proper decoding of the previous packet.  As
+   a result the behavior with respect to discarded packets has to
+   change, since a malformed RADIUS packet could impact the decoding of
+   succeeding packets.
+
+   With DTLS, the "next" packet does not depend on proper decoding of
+   the previous packet, since the RADIUS packets are sent in independent
+   DTLS records.  However, since both TLS and DTLS provide integrity
+   protection and ensure that the packet was sent by the peer, a
+   protocol violation at this stage implies that the peer is
+   misbehaving.
+
+   Implementations of this specification SHOULD treat the "silently
+   discard" texts in the RADIUS specification referenced above as
+   "silently discard and close the connection".  That is, the
+   implementation SHOULD send a TLS close notification and, in the case
+   of RADIUS/TLS, the underlying TCP connection MUST be closed if any of
+   the following circumstances are seen:
+
+   *  Connection from an unknown client
+
+   *  Packet where the RADIUS "Length" field is less than the minimum
+      RADIUS packet length
+
+   *  Packet where the RADIUS "Length" field is more than the maximum
+      RADIUS packet length
+
+   *  Packet where an Attribute "Length" field has the value of zero or
+      one (0 or 1)
+
+   *  Packet where the attributes do not exactly fill the packet
+
+   *  Packet where the Request Authenticator fails validation (where
+      validation is required)
+
+   *  Packet where the Response Authenticator fails validation (where
+      validation is required)
+
+   *  Packet where the Message-Authenticator attribute fails validation
+      (when it occurs in a packet)
+
+   After applying the above rules, there are still two situations where
+   the previous specifications allow a packet to be "silently discarded"
+   upon receipt:
+
+   *  Packet with an invalid code field
+
+   *  Response packets that do not match any outstanding request
+
+   In these situations, the (D)TLS connections MAY remain open, or they
+   MAY be closed, as an implementation choice.  However, the invalid
+   packet MUST be silently discarded.
+
+   These requirements reduce the possibility for a misbehaving client or
+   server to wreak havoc on the network.
+
 5.  RADIUS/TLS specific specifications
 
    This section discusses all specifications that are only relevant for
@@ -859,63 +923,7 @@ Table of Contents
    situation, RADIUS requests MAY be retransmitted to another server
    that is known to be part of the same pool.
 
-5.2.  Malformed Packets and Unknown clients
-
-   The RADIUS specifications say that an implementation should "silently
-   discard" a packet in a number of circumstances.  This action has no
-   further consequences for UDP based transports, as the "next" packet
-   is completely independent of the previous one.
-
-   When TLS is used as transport, decoding the "next" packet on a
-   connection depends on the proper decoding of the previous packet.  As
-   a result the behavior with respect to discarded packets has to
-   change.
-
-   Implementations of this specification SHOULD tread the "silently
-   discard" texts in the RADIUS specification referenced above as
-   "silently discard and close the connection".  That is, the
-   implementation SHOULD send a TLS close notification and the
-   underlying TCP connection MUST be closed if any of the following
-   circumstances are seen:
-
-   *  Connection from an unknown client
-
-   *  Packet where the RADIUS "Length" field is less than the minimum
-      RADIUS packet length
-
-   *  Packet where the RADIUS "Length" field is more than the maximum
-      RADIUS packet length
-
-   *  Packet where an Attribute "Length" field has the value of zero or
-      one (0 or 1)
-
-   *  Packet where the attributes do not exactly fill the packet
-
-   *  Packet where the Request Authenticator fails validation (where
-      validation is required)
-
-   *  Packet where the Response Authenticator fails validation (where
-      validation is required)
-
-   *  Packet where the Message-Authenticator attribute fails validation
-      (when it occurs in a packet)
-
-   After applying the above rules, there are still two situations where
-   the previous specifications allow a packet to be "silently discarded"
-   upon receipt:
-
-   *  Packet with an invalid code field
-
-   *  Response packets that do not match any outstanding request
-
-   In these situations, the TCP connections MAY remain open, or they MAY
-   be closed, as an implementation choice.  However, the invalid packet
-   MUST be silently discarded.
-
-   These requirements reduce the possibility for a misbehaving client or
-   server to wreak havoc on the network.
-
-5.3.  TCP Applications Are Not UDP Applications
+5.2.  TCP Applications Are Not UDP Applications
 
    Implementors should be aware that programming a robust TCP-based
    application can be very different from programming a robust UDP-based
@@ -949,10 +957,13 @@ Table of Contents
    size may cause the packet to be larger than the Path MTU (PMTU),
    where a RADIUS/UDP packet may be smaller.
 
-   The Length checks defined in [RFC2865], Section 3 MUST use the length
-   of the decrypted DTLS data instead of the UDP packet length.  They
-   MUST treat any decrypted DTLS data bytes outside the range of the
-   length field as padding and ignore it on reception.
+   The length checks defined in [RFC2865], Section 3 still apply, but
+   MUST use the length of the decrypted DTLS record instead of the UDP
+   packet length.  Exaclty one RADIUS packet is encapsulated in a DTLS
+   record, and any decrypted octets outside the range of the length
+   field within a single DTLS record MUST be treated as padding and be
+   ignored.  Note that multiple DTLS records may be sent in a single UDP
+   datagram.
 
 6.2.  Server behavior
 
