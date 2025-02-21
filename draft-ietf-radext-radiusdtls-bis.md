@@ -661,7 +661,12 @@ Where the confidentiality of the contents of the RADIUS packet across the whole 
 
 ### Loopback-Attack on Peers acting as Server and Client
 
-Radius setups that are configured to act both as client and server, typically in a proxy configuration, SHOULD implement mitigations to avoid accepting connections from itself. Wehen accepting incoming connections from any address (or a wide address range), the certificate subject or subject alternate names cannot be verified, and the trust is based on the certificate issuer or certificate OID. However in this cases, the certificate used for outgoing connections might also satisfy this trust check. Other scenarios where the identification of an outgoing connection satisfies the thrust check of an incoming one are possible, but are not enumerated here.
+RADIUS/(D)TLS nodes that are configured to act both as client and server, typically in a proxy configuration, may be vulnerable to attacks where an attacker mirrors back all traffic to the node.
+Therefore, nodes that are capable of acting as both client and server SHOULD implement mitigations to avoid accepting connections from itself.
+One example of a potentially vulnerable configuration is a setup where the RADIUS/(D)TLS server is accepting incoming connections from any address (or a wide address range).
+Since the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer or certificate OID.
+However, in this case, the client certificate which the RADIUS/(D)TLS node uses for outgoing connections on the client side might also satisfy the trust check of the server side.
+Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.
 
 Either thru misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop. Such attacks have been described for TLS-PSK [selfie], dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as descibed above, they also applie to certificate based authentication.
 
