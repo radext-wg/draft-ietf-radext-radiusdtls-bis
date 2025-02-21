@@ -406,6 +406,36 @@ On the server side, this mostly helps avoid resource exhaustion. For clients, pr
 
 The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
+## Malformed Packets and Unknown clients
+
+The RADIUS specifications say that an implementation should "silently discard" a packet in a number of circumstances.
+This action has no further consequences for UDP based transports, as the "next" packet is completely independent of the previous one.
+
+When TLS is used as transport, decoding the "next" packet on a connection depends on the proper decoding of the previous packet.
+As a result the behavior with respect to discarded packets has to change. With DTLS, while the "next" packet does not depend on proper decoding of the previous packet, but since DTLS provides
+integrity protection, any decoding error should be treated as a broken connection.
+
+Implementations of this specification SHOULD tread the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
+That is, the implementation SHOULD send a TLS close notification and the underlying connection MUST be closed if any of the following circumstances are seen:
+
+* Connection from an unknown client
+* Packet where the RADIUS "Length" field is less than the minimum RADIUS packet length
+* Packet where the RADIUS "Length" field is more than the maximum RADIUS packet length
+* Packet where an Attribute "Length" field has the value of zero or one (0 or 1)
+* Packet where the attributes do not exactly fill the packet
+* Packet where the Request Authenticator fails validation (where validation is required)
+* Packet where the Response Authenticator fails validation (where validation is required)
+* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet)
+
+After applying the above rules, there are still two situations where the previous specifications allow a packet to be "silently discarded" upon receipt:
+
+* Packet with an invalid code field
+* Response packets that do not match any outstanding request
+
+In these situations, the (D)TLS connections MAY remain open, or they MAY be closed, as an implementation choice. However, the invalid packet MUST be silently discarded.
+
+These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
+
 # RADIUS/TLS specific specifications
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
@@ -436,35 +466,6 @@ This requirement does not, however, forbid the practice of putting multiple serv
 In that situation, RADIUS requests MAY be retransmitted to another server that is known to be part of the same pool.
 
 [^what_is_a_server_2]: TODO: Destination IP addr and port may be bad, but what is a server's identity?
-
-## Malformed Packets and Unknown clients
-
-The RADIUS specifications say that an implementation should "silently discard" a packet in a number of circumstances.
-This action has no further consequences for UDP based transports, as the "next" packet is completely independent of the previous one.
-
-When TLS is used as transport, decoding the "next" packet on a connection depends on the proper decoding of the previous packet.
-As a result the behavior with respect to discarded packets has to change.
-
-Implementations of this specification SHOULD tread the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
-That is, the implementation SHOULD send a TLS close notification and the underlying TCP connection MUST be closed if any of the following circumstances are seen:
-
-* Connection from an unknown client
-* Packet where the RADIUS "Length" field is less than the minimum RADIUS packet length
-* Packet where the RADIUS "Length" field is more than the maximum RADIUS packet length
-* Packet where an Attribute "Length" field has the value of zero or one (0 or 1)
-* Packet where the attributes do not exactly fill the packet
-* Packet where the Request Authenticator fails validation (where validation is required)
-* Packet where the Response Authenticator fails validation (where validation is required)
-* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet)
-
-After applying the above rules, there are still two situations where the previous specifications allow a packet to be "silently discarded" upon receipt:
-
-* Packet with an invalid code field
-* Response packets that do not match any outstanding request
-
-In these situations, the TCP connections MAY remain open, or they MAY be closed, as an implementation choice. However, the invalid packet MUST be silently discarded.
-
-These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
 ## TCP Applications Are Not UDP Applications
 
