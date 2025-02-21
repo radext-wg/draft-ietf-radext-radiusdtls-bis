@@ -678,7 +678,8 @@ Some possible detection methods are listed below:
 - Sending a custom random number in an extension in the TLS client hello. Again this is verify effective, but requires extension of the TLS implementation.
 - Comparing the incoming client certificate to the connections server certificate (or any other server certificate configured on the proxy). While in some scenarios this can be a valid detection method, using the same client and server certificate might still be a legitimate connection in other scenarios.
 
-The application layer Radius protocol also offers some loop detection, .e.g using a Proxy-State attribute, however these are not 100% reliable and are outside the scope of this document. 
+The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
+However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document. 
 
 ## Usage of null encryption cipher suites for debugging
 
