@@ -1542,6 +1542,8 @@ Table of Contents
       maintaining backward compatibility, if configured.  For further
       details see RFC 6614, Appendix A or [RFCXXXX] Appendix C.
 
+   *  Reference: [RFCXXXX] (this document)
+
 10.  References
 
 10.1.  Normative References
