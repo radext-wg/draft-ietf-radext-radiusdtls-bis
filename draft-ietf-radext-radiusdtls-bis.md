@@ -417,7 +417,7 @@ As a result the behavior with respect to discarded packets has to change, since 
 With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
-Implementations of this specification SHOULD tread the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
+Implementations of this specification SHOULD treat the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
 That is, the implementation SHOULD send a TLS close notification and the underlying connection MUST be closed if any of the following circumstances are seen:
 
 * Connection from an unknown client
