@@ -399,11 +399,9 @@ Table of Contents
    be preconfigured to use RADIUS/(D)TLS for a given endpoint.  This
    action has to be taken by the administrators of the two systems.
 
-   Implementations MUST follow the recommendations given in [RFC9325].
-   // TODO: Add text which recommendations of RFC9325 must be followed
-   // and why
-   //
-   // -- Janfred Additionally, the following requirements have to be met
+   Implementations MUST follow the recommendations given in [RFC9325],
+   especially in regards to recommended cipher suites and TLS session
+   resumption.  Additionally, the following requirements have to be met
    for the (D)TLS session:
 
    *  Support for TLS 1.2 [RFC5248] / DTLS 1.2 [RFC6347] is REQUIRED,
