@@ -9,7 +9,7 @@ Intended status: Standards Track                                 RESTENA
 Expires: 25 August 2025                                 21 February 2025
 
 
-   (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
+   (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
                 draft-ietf-radext-radiusdtls-bis-latest
 
 Abstract
