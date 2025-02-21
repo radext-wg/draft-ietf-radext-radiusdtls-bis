@@ -845,6 +845,7 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 * Description: Secure RADIUS Service
 * Assignment notes: The TCP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/TLS, prior to issuance of the experimental RFC 6614.
   {{&SELF}} updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS), while maintaining backward compatibility, if configured. For further details see RFC 6614, Appendix A or {{&SELF}} {{backwardcomp}}.
+* Reference: {{&SELF}} (this document)
 
 --- back
 
