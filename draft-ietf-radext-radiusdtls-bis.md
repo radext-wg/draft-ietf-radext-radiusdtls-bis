@@ -669,7 +669,7 @@ However, in this case, the client certificate which the RADIUS/(D)TLS node uses 
 Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.
 
 Either through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.
-Such attacks have been described for TLS-PSK [selfie], dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.
+Such attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.
 
 Implementations SHOULD therefore detect connections from itself, and reject them.
 There is currently no detection method that works universally for all use-cases and TLS implementations.
