@@ -491,8 +491,9 @@ The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
 This larger packet size may cause the packet to be larger than the Path MTU (PMTU), where a RADIUS/UDP packet may be smaller.
 
-The Length checks defined in {{RFC2865, Section 3}} MUST use the length of the decrypted DTLS data instead of the UDP packet length.
-They MUST treat any decrypted DTLS data bytes outside the range of the length field as padding and ignore it on reception.
+The length checks defined in {{RFC2865, Section 3}} still apply, but MUST use the length of the decrypted DTLS record instead of the UDP packet length. 
+Exaclty one RADIUS packet is encapsulated in a DTLS record, and any decrypted octets outside the range of the length field within a single DTLS record MUST be treated as padding and be ignored.
+Note that multiple DTLS records may be sent in a single UDP datagram.
 
 ## Server behavior
 
