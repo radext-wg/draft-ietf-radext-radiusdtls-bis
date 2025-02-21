@@ -1,7 +1,7 @@
 ---
 entity:
   SELF: "[RFCXXXX]"
-title: "(Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS"
+title: "(Datagram) Transport Layer Security (D)TLS Encryption for RADIUS"
 abbrev: "RADIUS over (D)TLS"
 category: std
 
@@ -110,6 +110,7 @@ Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
 Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
 # Changes to RADIUS
+{: #changes}
 
 This section discusses the needed changes to the RADIUS packet format ({{pktformat}}), port usage and shared secrets ({{portusage}}).
 
@@ -715,6 +716,7 @@ Well-formed RADIUS packets with portions that the proxy does not understand do n
 This ensures forward compatibility with future RADIUS extensions.
 
 ## Migrating from RADIUS/UDP to RADIUS/(D)TLS
+{: #migrating}
 
 Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
 We therefore recommend to migrate from RADIUS/UDP to RADIUS/(D)TLS.
@@ -750,6 +752,20 @@ The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
+
+## Crypto-Agility
+
+Crypto-agility requirements were discussed extensively in {{?RFC6421}}. {{RFC6614, Appendix C}} described how those requirements were met for RADIUS/TLS and {{RFC7360, Section 10.1}} describes the same for RADIUS/DTLS. For clarity, the final outcome of the those discussions are repeated, using the text of {{RFC7360}} with some minor modifications to update references, without changing the content.
+
+Section 4.2 of {{RFC6421}} makes a number of recommendations about security properties of new RADIUS proposals.  All of those recommendations are satisfied by using TLS or DTLS as the transport layer.
+
+Section 4.3 of {{RFC6421}} makes a number of recommendations about backwards compatibility with RADIUS. {{changes}} addresses these concerns in detail and {{migrating}} provides guidance for an operator in regards on how to perform the transition.
+
+Section 4.4 of {{RFC6421}} recommends that change control be ceded to the IETF, and that interoperability is possible.  Both requirements are satisfied.
+
+Section 4.5 of {{RFC6421}} requires that the new security methods apply to all packet types.  This requirement is satisfied by allowing TLS and DTLS to be used for all RADIUS traffic.  In addition, {{migrating}}, addresses concerns about documenting the transition from legacy RADIUS to crypto-agile RADIUS.
+
+Section 4.6 of {{RFC6421}} requires automated key management.  This requirement is satisfied by using TLS or DTLS key management.
 
 ## Loopback-Attack on Peers acting as Server and Client
 
