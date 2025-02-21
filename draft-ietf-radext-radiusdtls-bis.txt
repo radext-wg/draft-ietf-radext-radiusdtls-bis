@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 11 May 2025                                     7 November 2024
+Expires: 25 August 2025                                 21 February 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS Encryption for RADIUS
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 May 2025.
+   This Internet-Draft will expire on 25 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1672,15 +1672,16 @@ Table of Contents
    [I-D.ietf-radext-tls-psk]
               DeKok, A., "Operational Considerations for RADIUS and TLS-
               PSK", Work in Progress, Internet-Draft, draft-ietf-radext-
-              tls-psk-11, 17 October 2024,
+              tls-psk-12, 21 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-radext-
-              tls-psk-11>.
+              tls-psk-12>.
 
    [I-D.ietf-tls-keylogfile]
-              Thomson, M., "The SSLKEYLOGFILE Format for TLS", Work in
-              Progress, Internet-Draft, draft-ietf-tls-keylogfile-02, 29
-              April 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-tls-keylogfile-02>.
+              Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
+              SSLKEYLOGFILE Format for TLS", Work in Progress, Internet-
+              Draft, draft-ietf-tls-keylogfile-03, 4 February 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
+              keylogfile-03>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
