@@ -412,8 +412,10 @@ The RADIUS specifications say that an implementation should "silently discard" a
 This action has no further consequences for UDP based transports, as the "next" packet is completely independent of the previous one.
 
 When TLS is used as transport, decoding the "next" packet on a connection depends on the proper decoding of the previous packet.
-As a result the behavior with respect to discarded packets has to change. With DTLS, while the "next" packet does not depend on proper decoding of the previous packet, but since DTLS provides
-integrity protection, any decoding error should be treated as a broken connection.
+As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.
+
+With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.
+However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
 Implementations of this specification SHOULD tread the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
 That is, the implementation SHOULD send a TLS close notification and the underlying connection MUST be closed if any of the following circumstances are seen:
