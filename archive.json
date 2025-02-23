@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:44:43.675121+00:00",
+  "timestamp": "2025-02-23T00:52:10.721737+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1984,6 +1984,206 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOLrzygc6LdgeP",
+      "title": "Propose Loopback-Attack text",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/21",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Propose Loopback-Attack text and move to subsection of Proxy",
+      "createdAt": "2025-02-17T13:27:37Z",
+      "updatedAt": "2025-02-21T17:47:27Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "96e64c166fece6d27cf5dc6912990feedb9ded1d",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-security-loopback-attack",
+      "headRefOid": "a1adfb983ff96306a6e95a2cb05778be27cb3b86",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6c82uJ",
+          "commit": {
+            "abbreviatedOid": "9411b45"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-21T14:27:31Z",
+          "updatedAt": "2025-02-21T14:34:19Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nRADIUS/(D)TLS nodes that are configured to act both as client and server, typically in a proxy configuration, may be vulnerable to attacks where an attacker mirrors back all traffic to the node.\r\nTherefore, nodes that are capable of acting as both client and server SHOULD implement mitigations to avoid accepting connections from itself.\r\nOne example of a potentially vulnerable configuration is a setup where the RADIUS/(D)TLS server is accepting incoming connections from any address (or a wide address range).\r\nSince the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer or certificate OID.\r\nHowever, in this case, the client certificate which the RADIUS/(D)TLS node uses for outgoing connections on the client side might also satisfy the trust check of the server side.\r\nOther scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.\r\n```",
+              "createdAt": "2025-02-21T14:27:31Z",
+              "updatedAt": "2025-02-21T14:34:19Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nEither through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.\r\nSuch attacks have been described for TLS-PSK [selfie], dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.\r\n```\r\n\r\nThe link to `[selfie]` has not been provided. This should be included in the references.",
+              "createdAt": "2025-02-21T14:29:41Z",
+              "updatedAt": "2025-02-21T14:34:19Z"
+            },
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nImplementations SHOULD therefore detect connections from itself, and reject them.\r\nThere is currently no detection method that works universally for all use-cases and TLS implementations.\r\nSome possible detection methods are listed below:\r\n\r\n```\r\n\r\n(always add an empty line between text and item lists. the markdown parser does not recognize the itemized list as such otherwise.",
+              "createdAt": "2025-02-21T14:30:55Z",
+              "updatedAt": "2025-02-21T14:34:19Z"
+            },
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\nThe application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.\r\nHowever, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document. \r\n```",
+              "createdAt": "2025-02-21T14:34:12Z",
+              "updatedAt": "2025-02-21T14:34:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6c_MrL",
+          "commit": {
+            "abbreviatedOid": "a1adfb9"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-21T17:43:53Z",
+          "updatedAt": "2025-02-21T17:43:57Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nSuch attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.\r\n```",
+              "createdAt": "2025-02-21T17:43:54Z",
+              "updatedAt": "2025-02-21T17:43:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6c_OdK",
+          "commit": {
+            "abbreviatedOid": "a1adfb9"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-21T17:47:26Z",
+          "updatedAt": "2025-02-21T17:47:27Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nHowever, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.\r\n```\r\n\r\n(the automatic build complains about trailing whitespaces)",
+              "createdAt": "2025-02-21T17:47:26Z",
+              "updatedAt": "2025-02-21T17:47:27Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOLrzygc6MDSzT",
+      "title": "Malformed packets apply to both TLS and DTLS",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/22",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Statement about malformed packets apply to both TLS and DTLS. Reword slighlty and move to section 4.",
+      "createdAt": "2025-02-21T13:41:22Z",
+      "updatedAt": "2025-02-21T14:53:34Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "96e64c166fece6d27cf5dc6912990feedb9ded1d",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-malformed-packets",
+      "headRefOid": "3edeec56cca17142207fe6cd01846239496a20b8",
+      "closedAt": "2025-02-21T14:53:34Z",
+      "mergedAt": "2025-02-21T14:53:34Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "8801686b7f1a9805600e52c809228f11b1f8b0d0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6c8nuq",
+          "commit": {
+            "abbreviatedOid": "cd7e338"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-21T14:05:36Z",
+          "updatedAt": "2025-02-21T14:14:25Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\nAs a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.\r\n\r\nWith DTLS, the \"next\" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.\r\nHowever, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.\r\n```",
+              "createdAt": "2025-02-21T14:05:36Z",
+              "updatedAt": "2025-02-21T14:14:25Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nImplementations of this specification SHOULD read the \"silently discard\" texts in the RADIUS specification referenced above as \"silently discard and close the connection\".\r\n```\r\n\r\nor\r\n\r\n```suggestion\r\nImplementations of this specification SHOULD treat the \"silently discard\" texts in the RADIUS specification referenced above as \"silently discard and close the connection\".\r\n```",
+              "createdAt": "2025-02-21T14:07:33Z",
+              "updatedAt": "2025-02-21T14:14:25Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "(Error was the same in the previous version, but now I noticed it.)",
+              "createdAt": "2025-02-21T14:08:03Z",
+              "updatedAt": "2025-02-21T14:14:25Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nThat is, the implementation SHOULD send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:\r\n```\r\n\r\nThe original text was specific for RADIUS/TLS, and RADIUS/DTLS does not have a \"connection\", and closing the UDP socket is an implementation detail.\r\nI don't have a strong opinion about it, but that's what just came to my mind.",
+              "createdAt": "2025-02-21T14:13:11Z",
+              "updatedAt": "2025-02-21T14:14:25Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOLrzygc6MDrUs",
+      "title": "update DTLS packet legnths",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/23",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "DTLS handles application data based on DTLS records, so length and padding statements should apply to those records and not the the whole packet.",
+      "createdAt": "2025-02-21T14:26:12Z",
+      "updatedAt": "2025-02-21T14:37:09Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "dc4229e4cfa2237b231a4261b6f127a28ac2d362",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-dtls-packet-length",
+      "headRefOid": "91ad0c7b53bded178b0c81507e9d2bae114c2eea",
+      "closedAt": "2025-02-21T14:37:09Z",
+      "mergedAt": "2025-02-21T14:37:09Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "e165b488000948c597a70e86b986fd3b93ff1b49"
+      },
       "comments": [],
       "reviews": []
     }
