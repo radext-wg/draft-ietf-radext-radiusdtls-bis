@@ -669,7 +669,7 @@ However, in this case, the client certificate which the RADIUS/(D)TLS node uses 
 Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.
 
 Either through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.
-Such attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the Radius/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.
+Such attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.
 
 Implementations SHOULD therefore detect connections from itself, and reject them.
 There is currently no detection method that works universally for all use-cases and TLS implementations.
@@ -680,7 +680,7 @@ Some possible detection methods are listed below:
 - Comparing the incoming client certificate to the connections server certificate (or any other server certificate configured on the proxy). While in some scenarios this can be a valid detection method, using the same client and server certificate might still be a legitimate connection in other scenarios.
 
 The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
-However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document. 
+However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.
 
 ## Usage of null encryption cipher suites for debugging
 
