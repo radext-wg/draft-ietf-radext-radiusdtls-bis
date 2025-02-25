@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-23T00:52:10.721737+00:00",
+  "timestamp": "2025-02-25T00:49:15.956135+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1999,13 +1999,13 @@
       "labels": [],
       "body": "Propose Loopback-Attack text and move to subsection of Proxy",
       "createdAt": "2025-02-17T13:27:37Z",
-      "updatedAt": "2025-02-21T17:47:27Z",
+      "updatedAt": "2025-02-24T12:56:49Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "96e64c166fece6d27cf5dc6912990feedb9ded1d",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-security-loopback-attack",
-      "headRefOid": "a1adfb983ff96306a6e95a2cb05778be27cb3b86",
+      "headRefOid": "a040d7303f8296ab7f8f323110f43fc19eea753d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
