@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 25 August 2025                                 21 February 2025
+Expires: 4 September 2025                                   3 March 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 August 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -124,8 +124,6 @@ Table of Contents
      A.1.  eduroam
      A.2.  Wireless Broadband Alliance's OpenRoaming
      A.3.  Participating in more than one roaming consortium
-   Appendix B.  Interoperable Implementations
-   Appendix C.  Backward compatibility
    Acknowledgments
    Authors' Addresses
 
@@ -357,14 +355,6 @@ Table of Contents
 
    *  The application-layer watchdog algorithm has marked it DOWN.
 
-   If a RADIUS/(D)TLS client has multiple connection to a server, it
-   MUST NOT decide to mark the whole server as DOWN until all
-   connections to it have been marked DOWN.
-   // TODO: Explain what a server is.  (Just the destination IP? include
-   // port?)
-   //
-   // -- Janfred
-
    RADIUS/(D)TLS clients MUST implement the Status-Server extension as
    described in [RFC5997] as the application level watchdog to detect
    the liveliness of the peer in the absence of responses.  Since RADIUS
@@ -453,15 +443,11 @@ Table of Contents
    *  When the configured trust base changes (e.g., removal of a CA from
       the trust anchor; issuance of a new CRL for a given CA),
       implementations SHOULD reassess all connected peer's continued
-      validity of the certificate path.  Note that TLS 1.3 no longer
-      supports renegotiation to fulfill this requirement.
-      // Open discussion: RFC6614 says "may" here.  I think this should
-      be
-      // a "should".  There are some discussions to change this to
-      "must".
-      // Input from TLS/UTA experts is appreciated.
-      //
-      // -- Janfred
+      validity of the certificate path.  This can either be done by
+      caching the peer's certificate for the duration of the connection
+      and re-evaluating the cached certificate or by renegotiating the
+      (D)TLS connection, either directly or by opening a new (D)TLS
+      connection and closing the old one.
 
    RADIUS/(D)TLS clients and server MUST follow [RFC9525] when
    validating peer identities.  Specific details are provided below:
@@ -877,23 +863,14 @@ Table of Contents
 5.1.  Duplicates and Retransmissions
 
    As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit
-   RADIUS packets over a given TCP connection.  Similarly, if there is
-   no response to a RADIUS packet over one RADIUS/TLS connection,
-   implementations MUST NOT retransmit that packet over a different
-   connection to the same destination IP address and port, while the
-   first connection is in the OKAY state ([RFC3539], Appendix A.
-   // TODO: Destination IP addr and port may be bad, but what is a
-   // server's identity?
-   //
-   // -- Janfred
-
-   However, if the TLS session or TCP connection is closed or broken,
-   retransmissions over new connections are permissible.  RADIUS request
-   packets that have not yet received a response MAY be transmitted by a
-   RADIUS/TLS client over a new connection.  As this procedure involves
-   using a new source port, the ID of the packet MAY change.  If the ID
-   changes, any security attributes such as Message-Authenticator MUST
-   be recalculated.
+   RADIUS packets over a given TCP connection.  However, if the TLS
+   session or TCP connection is closed or broken, retransmissions over
+   new connections are permissible.  RADIUS request packets that have
+   not yet received a response MAY be transmitted by a RADIUS/TLS client
+   over a new connection.  As this procedure involves using a new
+   session, the ID of the packet MAY change.  If the ID changes, any
+   security attributes such as Message-Authenticator MUST be
+   recalculated.
 
    If a TLS session or the underlying TCP connection is closed or
    broken, any cached RADIUS response packets ([RFC5080], Section 2.2.2)
@@ -908,7 +885,7 @@ Table of Contents
    closed, those responses from the home server to the proxy server
    SHOULD be silently discarded by the proxy.
 
-   Despite the above discussion, RADIUS servers SHOULD still perform
+   Despite the above discussion, RADIUS/TLS servers SHOULD still perform
    duplicate detection on received packets, as described in [RFC5080],
    Section 2.2.2.  This detection can prevent duplicate processing of
    packets from non-conforming clients.
@@ -952,16 +929,30 @@ Table of Contents
    RADIUS/DTLS implementations MUST support sending and receiving RADIUS
    packets of 4096 bytes in length, with a corresponding increase in the
    maximum size of the encapsulated DTLS packets.  This larger packet
-   size may cause the packet to be larger than the Path MTU (PMTU),
-   where a RADIUS/UDP packet may be smaller.
+   size may cause the UDP packet to be larger than the Path MTU (PMTU),
+   which causes the packet to be fragmented.. Implemententors and
+   operators should be aware of the possibility of fragmented UDP
+   packets.
 
-   The length checks defined in [RFC2865], Section 3 still apply, but
-   MUST use the length of the decrypted DTLS record instead of the UDP
-   packet length.  Exaclty one RADIUS packet is encapsulated in a DTLS
-   record, and any decrypted octets outside the range of the length
-   field within a single DTLS record MUST be treated as padding and be
-   ignored.  Note that multiple DTLS records may be sent in a single UDP
-   datagram.
+   RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS
+   record.  This ensures that the RADIUS packets do not get fragmented
+   at a point where a re-ordering of UDP packets would result in
+   decoding failures.  The DTLS specification mandates that a DTLS
+   record must not span multiple UDP packets.  We note that a single UDP
+   datagram may, however, contain multiple DTLS records.  RADIUS/DTLS
+   nodes MAY use this behavior to send multiple RADIUS packets in one
+   UDP packet.
+
+   For the receiving RADIUS/DTLS node, the length checks defined in
+   [RFC2865], Section 3 still apply, but MUST use the length of the
+   decrypted DTLS record instead of the UDP packet length.  Exaclty one
+   RADIUS packet is encapsulated in a DTLS record, and any decrypted
+   octets outside the range of the RADIUS length field within a single
+   DTLS record MUST be treated as padding and be ignored.  For UDP
+   packets containing multiple DTLS records, each DTLS record MUST be
+   parsed individually and padding at the end of each DTLS record MUST
+   be ignored, instead of treating it as the beginning of a new packet,
+   as it would be treated with RADIUS/TLS.
 
 6.2.  Server behavior
 
@@ -997,26 +988,7 @@ Table of Contents
 
    RADIUS/DTLS clients SHOULD NOT probe servers to see if they support
    DTLS transport.  Instead, clients SHOULD use DTLS as a transport
-   layer only when administratively configured.  If a client is
-   configured to use DTLS and the server appears to be unresponsive, the
-   client MUST NOT fall back to using RADIUS/UDP.  Instead, the client
-   should treat the server as being down.
-
-   RADIUS clients often had multiple independent RADIUS implementations
-   and/or processes that originate packets.  This practice was simple to
-   implement, but the result is that each independent subsystem must
-   independently discover network issues or server failures.  It is
-   therefore RECOMMENDED that clients with multiple internal RADIUS
-   sources use a local proxy.
-
-   Clients may implement "pools" of servers for fail-over or load-
-   balancing.  These pools SHOULD NOT mix RADIUS/UDP and RADIUS/DTLS
-   servers.
-   // This paragraph should probably be moved, as it also applies to
-   // RADIUS/TLS.  Mixing secure transports with insecure ones is bad
-   // practice, regardless of UDP or TCP.
-   //
-   // -- Janfred
+   layer only when administratively configured.
 
 6.4.  Session Management
 
@@ -1149,12 +1121,6 @@ Table of Contents
    reached by simply processing the packet through the existing session,
    as with any other packet received via that 4-tuple.  Non-compliant,
    or unexpected packets will be ignored by the DTLS layer.
-   // In RFC7360 there is a final paragraph about mitigation of the
-   // 4-tuple problem by using a local proxy.  I'm not sure if this is
-   // the right place here, i'd rather move that to a general
-   // "Implementation Guidelines" paragraph.
-   //
-   // -- Janfred
 
 6.4.2.  Client Session Management
 
@@ -1536,9 +1502,7 @@ Table of Contents
    *  Assignment notes: The TCP port 2083 was already previously
       assigned by IANA for "RadSec", an early implementation of RADIUS/
       TLS, prior to issuance of the experimental RFC 6614.  [RFCXXXX]
-      updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS), while
-      maintaining backward compatibility, if configured.  For further
-      details see RFC 6614, Appendix A or [RFCXXXX] Appendix C.
+      updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS).
 
    *  Reference: [RFCXXXX] (this document)
 
@@ -1809,28 +1773,15 @@ A.3.  Participating in more than one roaming consortium
 
    The eduroam consortium has chosen to cooperate with (the settlement-
    free parts of) OpenRoaming to allow eduroam users to log in to
-   (settlement-free) OpenRoaming hotspots.
-
-   eduroam RADIUS/TLS servers thus may be contacted by OpenRoaming
-   clients expecting an OpenRoaming server certificate, and by eduroam
-   clients expecting an eduroam server certificate.
-
-   It is therefore necessary to decide on the certificate to present
-   during TLS session establishment.  To make that decision, the
-   availability of Trusted CA Indication in the client TLS message is
-   important.
-
-   It can be considered an important result of the experiment in
-   [RFC6614] that Trusted CA Indication is an important asset for inter-
-   connectivity of multiple roaming consortia.
-
-Appendix B.  Interoperable Implementations
-
-Appendix C.  Backward compatibility
-
-   TODO describe necessary steps to configure common servers for
-   compatibility with this version.  Hopefully the differences to
-   [RFC6614] are small enough that almost no config change is necessary.
+   (settlement-free) OpenRoaming hotspots. eduroam RADIUS/TLS servers
+   thus may be contacted by OpenRoaming clients expecting an OpenRoaming
+   server certificate, and by eduroam clients expecting an eduroam
+   server certificate.  It is therefore necessary to decide on the
+   certificate to present during TLS session establishment.  To make
+   that decision, the availability of Trusted CA Indication in the
+   client TLS message is important.  It can be considered a result of
+   the experiment in [RFC6614] that Trusted CA Indication can be an
+   asset for inter-connectivity of multiple roaming consortia.
 
 Acknowledgments
 
