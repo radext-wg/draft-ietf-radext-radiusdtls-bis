@@ -2047,12 +2047,13 @@ Instead, clients <span class="bcp14">SHOULD</span> use DTLS as a transport layer
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations may choose to use the method described here, or another, equivalent method.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.4-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
-The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
-<p id="section-6.4-3"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, describes how duplicate RADIUS/UDP requests result in the retransmission of a previously cached RADIUS/UDP response.
+<p id="section-6.4-2">RADIUS/DTLS implementations <span class="bcp14">SHOULD</span> implement DTLS session resumption, preferably stateless session resumption as given in <span>[<a href="#RFC5077" class="cite xref">RFC5077</a>]</span>.
+This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-3">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
+The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.4-4"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, describes how duplicate RADIUS/UDP requests result in the retransmission of a previously cached RADIUS/UDP response.
 Due to DTLS sequence window requirements, a server <span class="bcp14">MUST NOT</span> retransmit a previously sent DTLS packet.
-Instead, it should cache the RADIUS response packet, and re-process it through DTLS to create a new RADIUS/DTLS packet, every time it is necessary to retransmit a RADIUS response.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<p id="section-6.4-4"><span class="cref" id="movespecfromclsrvhere">There are some specs (e.g. watchdog, stateless session resumption, closing session if malformed packet or security checks fail) which are valid for both server and client. It might be worth to just move them here instead of having them in both the client and the server spec.<span class="crefSource">Janfred</span></span><a href="#section-6.4-4" class="pilcrow">¶</a></p>
+Instead, it should cache the RADIUS response packet, and re-process it through DTLS to create a new RADIUS/DTLS packet, every time it is necessary to retransmit a RADIUS response.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 <div id="server-session-management">
 <section id="section-6.4.1">
           <h4 id="name-server-session-management">
@@ -2081,21 +2082,15 @@ Instead, it should cache the RADIUS response packet, and re-process it through D
               <p id="section-6.4.1-5.2.1">Any information required to maintain and manage the DTLS session.<a href="#section-6.4.1-5.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.4.1-5.3">Last Traffic:</dt>
+<dt id="section-6.4.1-5.3">DTLS Data:</dt>
             <dd style="margin-left: 1.5em" id="section-6.4.1-5.4">
-              <p id="section-6.4.1-5.4.1">A variable containing a timestamp that indicates when this session last received valid traffic.
-If "Last Traffic" is not used, this variable may not exist.<a href="#section-6.4.1-5.4.1" class="pilcrow">¶</a></p>
+              <p id="section-6.4.1-5.4.1">An implementation-specific variable that may contain information about the active DTLS session.
+This variable may be empty or nonexistent.<a href="#section-6.4.1-5.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.4.1-5.5">DTLS Data:</dt>
+<dt id="section-6.4.1-5.5"></dt>
             <dd style="margin-left: 1.5em" id="section-6.4.1-5.6">
-              <p id="section-6.4.1-5.6.1">An implementation-specific variable that may contain information about the active DTLS session.
-This variable may be empty or nonexistent.<a href="#section-6.4.1-5.6.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-6.4.1-5.7"></dt>
-            <dd style="margin-left: 1.5em" id="section-6.4.1-5.8">
-              <p id="section-6.4.1-5.8.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.4.1-5.8.1" class="pilcrow">¶</a></p>
+              <p id="section-6.4.1-5.6.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.4.1-5.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2109,28 +2104,14 @@ RADIUS/DTLS servers <span class="bcp14">SHOULD</span> use the stateless cookie t
 DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHello packet has been received with an appropriate Cookie value.
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
 Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.4.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-2">Sessions (both 4-tuple and entry) <span class="bcp14">MUST</span> be deleted when a TLS Closure Alert (<span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.2.1" class="relref">Section 7.2.1</a></span>) or a fatal TLS Error Alert (<span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.2.2" class="relref">Section 7.2.2</a></span>) is received.<span class="cref" id="closed_for_any_reason">TODO: Suggestion from Alan: "if closed for any reason", but not sure if this is what we mean.<span class="crefSource">Janfred</span></span>
+<p id="section-6.4.1.1-2">Sessions (both 4-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
 When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.4.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-3">Sessions <span class="bcp14">MUST</span> also be deleted when a non-RADIUS packet is received over the DTLS connection, a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Request Authenticator.
-There are other cases when the specifications require that a packet received via a DTLS session be "silently discarded".
-In those cases, implementations <span class="bcp14">MAY</span> delete the underlying session as described above.
-A session <span class="bcp14">SHOULD NOT</span> be deleted when a well-formed, but "unexpected", RADIUS packet is received over it.<a href="#section-6.4.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-4">These requirements ensure the security while maintaining flexibility.
-Any security-related issue causes the connection to be closed.
-After security restrictions have been applied, any unexpected traffic may be safely ignored, as it cannot cause a security issue.
-This allows for future extensions to the RADIUS/DTLS specifications.<a href="#section-6.4.1.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-5">As UDP does not guarantee delivery of messages, RADIUS/DTLS servers <span class="bcp14">MUST</span> maintain a "Last Traffic" timestamp per DTLS session.
-The granularity of this timestamp is not critical and could be limited to one-second intervals.
-The timestamp <span class="bcp14">SHOULD</span> be updated on reception of a valid RADIUS/DTLS packet, or a DTLS Heartbeat, but no more than once per interval.
-The timestamp <span class="bcp14">MUST NOT</span> be updated in other situations, such as when packets are "silently discarded".<a href="#section-6.4.1.1-5" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-6">RADIUS/DTLS servers <span class="bcp14">SHOULD</span> implement session resumption, preferably stateless session resumption as given in <span>[<a href="#RFC5077" class="cite xref">RFC5077</a>]</span>.
-This practice lowers the time and effort required to start a DTLS session with a client and increases network responsiveness.<a href="#section-6.4.1.1-6" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-7">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
+<p id="section-6.4.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
 For security reasons, the server <span class="bcp14">MUST</span> keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 4-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.4.1.1-7" class="pilcrow">¶</a></p>
-<p id="section-6.4.1.1-8">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 4-tuple from an active session.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 4-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.4.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.4.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 4-tuple from an active session.
 This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 4-tuple.
-Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.4.1.1-8" class="pilcrow">¶</a></p>
+Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.4.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2141,13 +2122,8 @@ Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="
 <a href="#section-6.4.2" class="section-number selfRef">6.4.2. </a><a href="#name-client-session-management" class="section-name selfRef">Client Session Management</a>
           </h4>
 <p id="section-6.4.2-1">RADIUS/DTLS clients <span class="bcp14">SHOULD</span> use PMTU discovery <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span> to determine the PMTU between the client and server, prior to sending any RADIUS traffic.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.4.2-2">DTLS sessions <span class="bcp14">MUST</span> be deleted when a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Response Authenticator.<span class="cref" id="normalizespec">Maybe modify this text to be more similar to the TLS specific text here.<span class="crefSource">Janfred</span></span><a href="#section-6.4.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.4.2-3">There are other cases, when the specifications require that a packet received via a DTLS session be "silently discarded".
-In those cases, implementations <span class="bcp14">MAY</span> delete the underlying DTLS session.<a href="#section-6.4.2-3" class="pilcrow">¶</a></p>
-<p id="section-6.4.2-4">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
-This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.4.2-4" class="pilcrow">¶</a></p>
-<p id="section-6.4.2-5">RADIUS/DTLS clients <span class="bcp14">SHOULD</span> implement session resumption, preferably stateless session resumption as given in <span>[<a href="#RFC5077" class="cite xref">RFC5077</a>]</span>.
-This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.<a href="#section-6.4.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.4.2-2">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
+This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2176,7 +2152,8 @@ One common method to protect passwords is the use of the Extensible Authenticati
 <p id="section-7.1-2">Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RADIUS/(D)TLS from one peer, to forward this packet to a different peer using the RADIUS/UDP transport profile.
 There is no technical solution to this problem with the current specification.
 Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RADIUS/(D)TLS as transport.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3"><span class="cref" id="refto7585">TODO: Mabe add a reference to handling dynamic discovery (RFC7585) here too, and (as per Alans comments) that this issue is best resolved by limiting use of proxies.<span class="crefSource">Janfred</span></span><a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
+For this, dynamic discovery as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> can be used.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="usage-of-null-encryption-cipher-suites-for-debugging">
@@ -2216,7 +2193,7 @@ In contrast, an established session might not send packets for longer periods of
 <p id="section-7.3-6">A different means of prevention is IP filtering.
 If the IP range that the server expects clients to connect from is restricted, then the server can simply reject or drop all connection attempts from outside those ranges.
 If every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
-To perform this lookup efficiently, RADIUS/(D)TLS servers <span class="bcp14">SHOULD</span> keep a list of the cumulated permitted IP ranges, individually for each transport.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
+To perform this lookup efficiently, RADIUS/(D)TLS servers <span class="bcp14">SHOULD</span> keep a list of the accumulated permitted IP address ranges, individually for each transport.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="session-closing">

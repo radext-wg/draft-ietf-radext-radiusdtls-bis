@@ -1036,6 +1036,11 @@ Table of Contents
    logically how this tracking is done.  Implementations may choose to
    use the method described here, or another, equivalent method.
 
+   RADIUS/DTLS implementations SHOULD implement DTLS session resumption,
+   preferably stateless session resumption as given in [RFC5077].  This
+   practice lowers the time and effort required to start a DTLS session
+   with a server and increases network responsiveness.
+
    We note that [RFC5080], Section 2.2.2, already mandates a duplicate
    detection cache.  The session tracking described below can be seen as
    an extension of that cache, where entries contain DTLS sessions
@@ -1048,15 +1053,6 @@ Table of Contents
    cache the RADIUS response packet, and re-process it through DTLS to
    create a new RADIUS/DTLS packet, every time it is necessary to
    retransmit a RADIUS response.
-
-
-   // There are some specs (e.g. watchdog, stateless session resumption,
-   // closing session if malformed packet or security checks fail) which
-   // are valid for both server and client.  It might be worth to just
-   // move them here instead of having them in both the client and the
-   // server spec.
-   //
-   // -- Janfred
 
 6.4.1.  Server Session Management
 
@@ -1080,10 +1076,6 @@ Table of Contents
    DTLS Session:  Any information required to maintain and manage the
       DTLS session.
 
-   Last Traffic:  A variable containing a timestamp that indicates when
-      this session last received valid traffic.  If "Last Traffic" is
-      not used, this variable may not exist.
-
    DTLS Data:  An implementation-specific variable that may contain
       information about the active DTLS session.  This variable may be
       empty or nonexistent.
@@ -1103,45 +1095,11 @@ Table of Contents
    sessions that are partially set up.  Servers MUST limit both the
    number and impact on resources of partial sessions.
 
-   Sessions (both 4-tuple and entry) MUST be deleted when a TLS Closure
-   Alert ([RFC5246], Section 7.2.1) or a fatal TLS Error Alert
-   ([RFC5246], Section 7.2.2) is received.
-   // TODO: Suggestion from Alan: "if closed for any reason", but not
-   // sure if this is what we mean.
-   //
-   // -- Janfred When a session is deleted due to it failing security
-   requirements, the DTLS session MUST be closed, any TLS session
-   resumption parameters for that session MUST be discarded, and all
-   tracking information MUST be deleted.
-
-   Sessions MUST also be deleted when a non-RADIUS packet is received
-   over the DTLS connection, a RADIUS packet fails validation due to a
-   packet being malformed, or when it has an invalid Message-
-   Authenticator or invalid Request Authenticator.  There are other
-   cases when the specifications require that a packet received via a
-   DTLS session be "silently discarded".  In those cases,
-   implementations MAY delete the underlying session as described above.
-   A session SHOULD NOT be deleted when a well-formed, but "unexpected",
-   RADIUS packet is received over it.
-
-   These requirements ensure the security while maintaining flexibility.
-   Any security-related issue causes the connection to be closed.  After
-   security restrictions have been applied, any unexpected traffic may
-   be safely ignored, as it cannot cause a security issue.  This allows
-   for future extensions to the RADIUS/DTLS specifications.
-
-   As UDP does not guarantee delivery of messages, RADIUS/DTLS servers
-   MUST maintain a "Last Traffic" timestamp per DTLS session.  The
-   granularity of this timestamp is not critical and could be limited to
-   one-second intervals.  The timestamp SHOULD be updated on reception
-   of a valid RADIUS/DTLS packet, or a DTLS Heartbeat, but no more than
-   once per interval.  The timestamp MUST NOT be updated in other
-   situations, such as when packets are "silently discarded".
-
-   RADIUS/DTLS servers SHOULD implement session resumption, preferably
-   stateless session resumption as given in [RFC5077].  This practice
-   lowers the time and effort required to start a DTLS session with a
-   client and increases network responsiveness.
+   Sessions (both 4-tuple and entry) MUST be deleted when the DTLS
+   session is closed for any reason.  When a session is deleted due to
+   it failing security requirements, the DTLS session MUST be closed,
+   any TLS session resumption parameters for that session MUST be
+   discarded, and all tracking information MUST be deleted.
 
    Since UDP is stateless, the potential exists for the client to
    initiate a new DTLS session using a particular 4-tuple, before the
@@ -1165,28 +1123,11 @@ Table of Contents
    the PMTU between the client and server, prior to sending any RADIUS
    traffic.
 
-   DTLS sessions MUST be deleted when a RADIUS packet fails validation
-   due to a packet being malformed, or when it has an invalid Message-
-   Authenticator or invalid Response Authenticator.
-   // Maybe modify this text to be more similar to the TLS specific text
-   // here.
-   //
-   // -- Janfred
-
-   There are other cases, when the specifications require that a packet
-   received via a DTLS session be "silently discarded".  In those cases,
-   implementations MAY delete the underlying DTLS session.
-
    RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS
    packets to different servers from the same source socket.  This
    practice causes increased complexity in the client application and
    increases the potential for security breaches due to implementation
    issues.
-
-   RADIUS/DTLS clients SHOULD implement session resumption, preferably
-   stateless session resumption as given in [RFC5077].  This practice
-   lowers the time and effort required to start a DTLS session with a
-   server and increases network responsiveness.
 
 7.  Security Considerations
 
@@ -1229,12 +1170,9 @@ Table of Contents
    place, that ensure that every intermediate RADIUS proxy is configured
    to forward the RADIUS packets using RADIUS/(D)TLS as transport.
 
-
-   // TODO: Mabe add a reference to handling dynamic discovery (RFC7585)
-   // here too, and (as per Alans comments) that this issue is best
-   // resolved by limiting use of proxies.
-   //
-   // -- Janfred
+   One possible way to reduce the attack surface is to reduce the number
+   of proxies in the overall proxy chain.  For this, dynamic discovery
+   as defined in [RFC7585] can be used.
 
 7.2.  Usage of null encryption cipher suites for debugging
 
@@ -1305,8 +1243,8 @@ Table of Contents
    partial TLS handshake if the connection attempt comes from outside
    every allowed range, but can instead immediately drop the connection.
    To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep
-   a list of the cumulated permitted IP ranges, individually for each
-   transport.
+   a list of the accumulated permitted IP address ranges, individually
+   for each transport.
 
 7.4.  Session Closing
 
