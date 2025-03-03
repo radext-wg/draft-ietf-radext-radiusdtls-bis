@@ -826,7 +826,7 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 * Transport Protocol: tcp/udp
 * Description: Secure RADIUS Service
 * Assignment notes: The TCP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/TLS, prior to issuance of the experimental RFC 6614.
-  {{&SELF}} updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS), while maintaining backward compatibility, if configured. For further details see RFC 6614, Appendix A or {{&SELF}} {{backwardcomp}}.
+  {{&SELF}} updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS).
 * Reference: {{&SELF}} (this document)
 
 --- back
@@ -869,20 +869,9 @@ In this architecture, using PSKs or raw public keys is not an option. The comple
 It is possible for a RADIUS/TLS (home) server to participate in more than one roaming consortium, i.e. to authenticate its users to multiple clients from distinct consortia, which present client certificates from their respective consortium's CA; and which expect the server to present a certificate from the matching CA.
 
 The eduroam consortium has chosen to cooperate with (the settlement-free parts of) OpenRoaming to allow eduroam users to log in to (settlement-free) OpenRoaming hotspots.
-
 eduroam RADIUS/TLS servers thus may be contacted by OpenRoaming clients expecting an OpenRoaming server certificate, and by eduroam clients expecting an eduroam server certificate.
-
 It is therefore necessary to decide on the certificate to present during TLS session establishment. To make that decision, the availability of Trusted CA Indication in the client TLS message is important.
-
-It can be considered an important result of the experiment in {{RFC6614}} that Trusted CA Indication is an important asset for inter-connectivity of multiple roaming consortia.
-
-# Interoperable Implementations
-
-# Backward compatibility
-{: #backwardcomp}
-
-TODO describe necessary steps to configure common servers for compatibility with this version.
-Hopefully the differences to {{RFC6614}} are small enough that almost no config change is necessary.
+It can be considered a result of the experiment in {{RFC6614}} that Trusted CA Indication can be an asset for inter-connectivity of multiple roaming consortia.
 
 # Acknowledgments
 {:numbered="false"}
