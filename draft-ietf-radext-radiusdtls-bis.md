@@ -187,10 +187,6 @@ RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the followin
 * The network stack indicates that the connection is no longer viable.
 * The application-layer watchdog algorithm has marked it DOWN.
 
-If a RADIUS/(D)TLS client has multiple connection to a server, it MUST NOT decide to mark the whole server as DOWN until all connections to it have been marked DOWN.[^what_is_a_server_1]{:jf}
-
-[^what_is_a_server_1]: TODO: Explain what a server is. (Just the destination IP? include port?)
-
 RADIUS/(D)TLS clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveliness of the peer in the absence of responses.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539}}, Section 2.4), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
 This value was picked arbitrary, as there is no reason to choose any other value over another for this use.
@@ -199,7 +195,6 @@ For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293, Se
 For RADIUS/DTLS connections, the peers MAY send periodic keepalives as defined in {{RFC6520}}.
 This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
 These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
-
 
 # Packet / Connection Handling
 
@@ -443,11 +438,9 @@ This section discusses all specifications that are only relevant for RADIUS/TLS.
 ## Duplicates and Retransmissions
 
 As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit RADIUS packets over a given TCP connection.
-Similarly, if there is no response to a RADIUS packet over one RADIUS/TLS connection, implementations MUST NOT retransmit that packet over a different connection to the same destination IP address and port, while the first connection is in the OKAY state ({{RFC3539, Appendix A}}. [^what_is_a_server_2]{:jf}
-
 However, if the TLS session or TCP connection is closed or broken, retransmissions over new connections are permissible.
 RADIUS request packets that have not yet received a response MAY be transmitted by a RADIUS/TLS client over a new connection.
-As this procedure involves using a new source port, the ID of the packet MAY change.
+As this procedure involves using a new session, the ID of the packet MAY change.
 If the ID changes, any security attributes such as Message-Authenticator MUST be recalculated.
 
 If a TLS session or the underlying TCP connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) associated with that connection MUST be discarded.
@@ -457,15 +450,13 @@ This requirement applies not only to RADIUS servers, but also to proxies.
 When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
 Since the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy.
 
-Despite the above discussion, RADIUS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
+Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
 
 RADIUS packets SHOULD NOT be retransmitted to the same destination IP and numerical port, but over a different transport protocol.
 There is no guarantee in RADIUS that the two ports are in any way related.
 This requirement does not, however, forbid the practice of putting multiple servers into a failover or load-balancing pool.
 In that situation, RADIUS requests MAY be retransmitted to another server that is known to be part of the same pool.
-
-[^what_is_a_server_2]: TODO: Destination IP addr and port may be bad, but what is a server's identity?
 
 ## TCP Applications Are Not UDP Applications
 
@@ -522,17 +513,6 @@ RADIUS/UDP packets MUST NOT be sent to this port.
 
 RADIUS/DTLS clients SHOULD NOT probe servers to see if they support DTLS transport.
 Instead, clients SHOULD use DTLS as a transport layer only when administratively configured.
-If a client is configured to use DTLS and the server appears to be unresponsive, the client MUST NOT fall back to using RADIUS/UDP.
-Instead, the client should treat the server as being down.
-
-RADIUS clients often had multiple independent RADIUS implementations and/or processes that originate packets.
-This practice was simple to implement, but the result is that each independent subsystem must independently discover network issues or server failures.
-It is therefore RECOMMENDED that clients with multiple internal RADIUS sources use a local proxy.
-
-Clients may implement "pools" of servers for fail-over or load-balancing.
-These pools SHOULD NOT mix RADIUS/UDP and RADIUS/DTLS servers.[^movetogeneral]{:jf}
-
-[^movetogeneral]: This paragraph should probably be moved, as it also applies to RADIUS/TLS. Mixing secure transports with insecure ones is bad practice, regardless of UDP or TCP.
 
 ## Session Management
 
@@ -613,9 +593,8 @@ Taking any other action would permit unauthenticated clients to perform a DoS at
 
 As a result, servers MUST ignore any attempts to reuse an existing 4-tuple from an active session.
 This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 4-tuple.
-Non-compliant, or unexpected packets will be ignored by the DTLS layer.[^proxymitigation]{:jf}
+Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 
-[^proxymitigation]: In RFC7360 there is a final paragraph about mitigation of the 4-tuple problem by using a local proxy. I'm not sure if this is the right place here, i'd rather move that to a general "Implementation Guidelines" paragraph.
 [^closed_for_any_reason]: TODO: Suggestion from Alan: "if closed for any reason", but not sure if this is what we mean.
 
 ### Client Session Management
