@@ -675,9 +675,9 @@ Implementations SHOULD therefore detect connections from itself, and reject them
 There is currently no detection method that works universally for all use-cases and TLS implementations.
 Some possible detection methods are listed below:
 
-- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which normally private to the TLS implementation.
-- Sending a custom random number in an extension in the TLS client hello. Again this is verify effective, but requires extension of the TLS implementation.
-- Comparing the incoming client certificate to the connections server certificate (or any other server certificate configured on the proxy). While in some scenarios this can be a valid detection method, using the same client and server certificate might still be a legitimate connection in other scenarios.
+- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.
+- Sending a custom random number in an extension in the TLS client hello. Again, this is verify effective, but requires extension of the TLS implementation.
+- Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.
 
 The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
 However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.
