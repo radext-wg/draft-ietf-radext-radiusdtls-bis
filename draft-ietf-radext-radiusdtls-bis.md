@@ -543,16 +543,15 @@ As a result, implementations of RADIUS/DTLS may need to perform session manageme
 This subsection describes logically how this tracking is done.
 Implementations may choose to use the method described here, or another, equivalent method.
 
+RADIUS/DTLS implementations SHOULD implement DTLS session resumption, preferably stateless session resumption as given in {{!RFC5077}}.
+This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.
+
 We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
 
 {{RFC5080, Section 2.2.2}}, describes how duplicate RADIUS/UDP requests result in the retransmission of a previously cached RADIUS/UDP response.
 Due to DTLS sequence window requirements, a server MUST NOT retransmit a previously sent DTLS packet.
 Instead, it should cache the RADIUS response packet, and re-process it through DTLS to create a new RADIUS/DTLS packet, every time it is necessary to retransmit a RADIUS response.
-
-[^movespecfromclsrvhere]{:jf}
-
-[^movespecfromclsrvhere]: There are some specs (e.g. watchdog, stateless session resumption, closing session if malformed packet or security checks fail) which are valid for both server and client. It might be worth to just move them here instead of having them in both the client and the server spec.
 
 ### Server Session Management
 
@@ -570,10 +569,6 @@ Each 4-tuple points to a unique session entry, which usually contains the follow
 DTLS Session:
 : Any information required to maintain and manage the DTLS session.
 
-Last Traffic:
-: A variable containing a timestamp that indicates when this session last received valid traffic.
-If "Last Traffic" is not used, this variable may not exist.
-
 DTLS Data:
 : An implementation-specific variable that may contain information about the active DTLS session.
 This variable may be empty or nonexistent.
@@ -588,26 +583,8 @@ DTLS sessions SHOULD NOT be tracked until a ClientHello packet has been received
 Server implementation SHOULD have a way of tracking DTLS sessions that are partially set up.
 Servers MUST limit both the number and impact on resources of partial sessions.
 
-Sessions (both 4-tuple and entry) MUST be deleted when a TLS Closure Alert ({{RFC5246, Section 7.2.1}}) or a fatal TLS Error Alert ({{RFC5246, Section 7.2.2}}) is received.[^closed_for_any_reason]{:jf}
+Sessions (both 4-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
 When a session is deleted due to it failing security requirements, the DTLS session MUST be closed, any TLS session resumption parameters for that session MUST be discarded, and all tracking information MUST be deleted.
-
-Sessions MUST also be deleted when a non-RADIUS packet is received over the DTLS connection, a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Request Authenticator.
-There are other cases when the specifications require that a packet received via a DTLS session be "silently discarded".
-In those cases, implementations MAY delete the underlying session as described above.
-A session SHOULD NOT be deleted when a well-formed, but "unexpected", RADIUS packet is received over it.
-
-These requirements ensure the security while maintaining flexibility.
-Any security-related issue causes the connection to be closed.
-After security restrictions have been applied, any unexpected traffic may be safely ignored, as it cannot cause a security issue.
-This allows for future extensions to the RADIUS/DTLS specifications.
-
-As UDP does not guarantee delivery of messages, RADIUS/DTLS servers MUST maintain a "Last Traffic" timestamp per DTLS session.
-The granularity of this timestamp is not critical and could be limited to one-second intervals.
-The timestamp SHOULD be updated on reception of a valid RADIUS/DTLS packet, or a DTLS Heartbeat, but no more than once per interval.
-The timestamp MUST NOT be updated in other situations, such as when packets are "silently discarded".
-
-RADIUS/DTLS servers SHOULD implement session resumption, preferably stateless session resumption as given in {{!RFC5077}}.
-This practice lowers the time and effort required to start a DTLS session with a client and increases network responsiveness.
 
 Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
 For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
@@ -617,24 +594,12 @@ As a result, servers MUST ignore any attempts to reuse an existing 4-tuple from 
 This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 4-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 
-[^closed_for_any_reason]: TODO: Suggestion from Alan: "if closed for any reason", but not sure if this is what we mean.
-
 ### Client Session Management
 
 RADIUS/DTLS clients SHOULD use PMTU discovery {{!RFC6520}} to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
 
-DTLS sessions MUST be deleted when a RADIUS packet fails validation due to a packet being malformed, or when it has an invalid Message-Authenticator or invalid Response Authenticator.[^normalizespec]{:jf}
-
-There are other cases, when the specifications require that a packet received via a DTLS session be "silently discarded".
-In those cases, implementations MAY delete the underlying DTLS session.
-
-[^normalizespec]: Maybe modify this text to be more similar to the TLS specific text here.
-
 RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
 This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.
-
-RADIUS/DTLS clients SHOULD implement session resumption, preferably stateless session resumption as given in {{RFC5077}}.
-This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.
 
 # Security Considerations
 {: #security_considerations}
@@ -658,9 +623,8 @@ Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensu
 There is no technical solution to this problem with the current specification.
 Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RADIUS/(D)TLS as transport.
 
-[^refto7585]{:jf}
-
-[^refto7585]: TODO: Mabe add a reference to handling dynamic discovery (RFC7585) here too, and (as per Alans comments) that this issue is best resolved by limiting use of proxies.
+One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
+For this, dynamic discovery as defined in {{RFC7585}} can be used.
 
 ## Usage of null encryption cipher suites for debugging
 
@@ -698,7 +662,7 @@ In contrast, an established session might not send packets for longer periods of
 A different means of prevention is IP filtering.
 If the IP range that the server expects clients to connect from is restricted, then the server can simply reject or drop all connection attempts from outside those ranges.
 If every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
-To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of the cumulated permitted IP ranges, individually for each transport.
+To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of the accumulated permitted IP address ranges, individually for each transport.
 
 ## Session Closing
 
