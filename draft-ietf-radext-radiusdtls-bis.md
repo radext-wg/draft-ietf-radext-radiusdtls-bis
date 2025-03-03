@@ -481,11 +481,18 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
-This larger packet size may cause the packet to be larger than the Path MTU (PMTU), where a RADIUS/UDP packet may be smaller.
+This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented..
+Implemententors and operators should be aware of the possibility of fragmented UDP packets.
 
-The length checks defined in {{RFC2865, Section 3}} still apply, but MUST use the length of the decrypted DTLS record instead of the UDP packet length.
-Exaclty one RADIUS packet is encapsulated in a DTLS record, and any decrypted octets outside the range of the length field within a single DTLS record MUST be treated as padding and be ignored.
-Note that multiple DTLS records may be sent in a single UDP datagram.
+RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS record.
+This ensures that the RADIUS packets do not get fragmented at a point where a re-ordering of UDP packets would result in decoding failures.
+The DTLS specification mandates that a DTLS record must not span multiple UDP packets.
+We note that a single UDP datagram may, however, contain multiple DTLS records.
+RADIUS/DTLS nodes MAY use this behavior to send multiple RADIUS packets in one UDP packet.
+
+For the receiving RADIUS/DTLS node, the length checks defined in {{RFC2865, Section 3}} still apply, but MUST use the length of the decrypted DTLS record instead of the UDP packet length.
+Exaclty one RADIUS packet is encapsulated in a DTLS record, and any decrypted octets outside the range of the RADIUS length field within a single DTLS record MUST be treated as padding and be ignored.
+For UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually and padding at the end of each DTLS record MUST be ignored, instead of treating it as the beginning of a new packet, as it would be treated with RADIUS/TLS.
 
 ## Server behavior
 
