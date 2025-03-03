@@ -1272,6 +1272,11 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-radius-proxies" class="internal xref">RADIUS Proxies</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-loopback-attack-on-peers-ac" class="internal xref">Loopback-Attack on Peers acting as Server and Client</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
                 <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-usage-of-null-encryption-ci" class="internal xref">Usage of null encryption cipher suites for debugging</a></p>
@@ -1287,9 +1292,6 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
                 <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-client-subsystems" class="internal xref">Client Subsystems</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
-                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-loopback-attack-on-peers-ac" class="internal xref">Loopback-Attack on Peers acting as Server and Client</a></p>
 </li>
             </ul>
 </li>
@@ -2154,6 +2156,37 @@ There is no technical solution to this problem with the current specification.
 Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RADIUS/(D)TLS as transport.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.1-3">One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
 For this, dynamic discovery as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> can be used.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<div id="loopback-attack-on-peers-acting-as-server-and-client">
+<section id="section-7.1.1">
+          <h4 id="name-loopback-attack-on-peers-ac">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-loopback-attack-on-peers-ac" class="section-name selfRef">Loopback-Attack on Peers acting as Server and Client</a>
+          </h4>
+<p id="section-7.1.1-1">RADIUS/(D)TLS nodes that are configured to act both as client and server, typically in a proxy configuration, may be vulnerable to attacks where an attacker mirrors back all traffic to the node.
+Therefore, nodes that are capable of acting as both client and server <span class="bcp14">SHOULD</span> implement mitigations to avoid accepting connections from itself.
+One example of a potentially vulnerable configuration is a setup where the RADIUS/(D)TLS server is accepting incoming connections from any address (or a wide address range).
+Since the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer or certificate OID.
+However, in this case, the client certificate which the RADIUS/(D)TLS node uses for outgoing connections on the client side might also satisfy the trust check of the server side.
+Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-2">Either through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.
+Such attacks have been described for TLS-PSK <span>[<a href="#RFC9257" class="cite xref">RFC9257</a>]</span>, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-3">Implementations <span class="bcp14">SHOULD</span> therefore detect connections from itself, and reject them.
+There is currently no detection method that works universally for all use-cases and TLS implementations.
+Some possible detection methods are listed below:<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1.1-4.1">
+              <p id="section-7.1.1-4.1.1">Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.<a href="#section-7.1.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-4.2">
+              <p id="section-7.1.1-4.2.1">Sending a custom random number in an extension in the TLS client hello. Again, this is verify effective, but requires extension of the TLS implementation.<a href="#section-7.1.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.1-4.3">
+              <p id="section-7.1.1-4.3.1">Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.<a href="#section-7.1.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-7.1.1-5">The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
+However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.<a href="#section-7.1.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="usage-of-null-encryption-cipher-suites-for-debugging">
@@ -2250,67 +2283,6 @@ Subsystems that do not implement RADIUS/(D)TLS can remain unaware of (D)TLS.
 The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 <p id="section-7.6-4">Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.<a href="#section-7.6-4" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="loopback-attack-on-peers-acting-as-server-and-client">
-<section id="section-7.7">
-        <h3 id="name-loopback-attack-on-peers-ac">
-<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-loopback-attack-on-peers-ac" class="section-name selfRef">Loopback-Attack on Peers acting as Server and Client</a>
-        </h3>
-<p id="section-7.7-1">TODO<a href="#section-7.7-1" class="pilcrow">¶</a></p>
-<p id="section-7.7-2">Rough problem description to visualize the problem for others.
-Will be removed and replaced with text explaining the issue and possible mitigations:<a href="#section-7.7-2" class="pilcrow">¶</a></p>
-<p id="section-7.7-3">Preconditions:<a href="#section-7.7-3" class="pilcrow">¶</a></p>
-<p id="section-7.7-4">Peer A is configured with a client certificate for sending packets via dynamic discovery.
-The certificate has a specific OID indicating it as a "roaming consortium client" certificate.
-The configuration expects a server certificate from the server with an OID for a "roaming consortium server" certificate and does not perform more checks apart from the trust chain checks.<a href="#section-7.7-4" class="pilcrow">¶</a></p>
-<p id="section-7.7-5">Peer A is also configured with a server certificate for receiving packets via dynamic discovery.
-The server certificate has a specific OID indicating it as a "roaming consortium server" certificate.
-The configuration expects a client certificate from the client with an OID for a "roaming consortium client" certificate and does not perform more checks apart from the trust chain checks.<a href="#section-7.7-5" class="pilcrow">¶</a></p>
-<p id="section-7.7-6">For the sake of this example we can say that both certificates come from the same CA and that this CA is marked as trusted.<a href="#section-7.7-6" class="pilcrow">¶</a></p>
-<p id="section-7.7-7">Attack:<a href="#section-7.7-7" class="pilcrow">¶</a></p>
-<p id="section-7.7-8">Peer A (as Client A) tries to open RADIUS/TLS connection to Server B.
-The attacker intercepts the connection and mirrors it back to A (now acting as Server A)
-Server A sends the server certificate with the server OID.
-Client A receives it, accepts it, since it sees the server OID and sends the client certificate.
-Server A receives it and also accepts it, since it sees the client OID.<a href="#section-7.7-8" class="pilcrow">¶</a></p>
-<p id="section-7.7-9">Now Peer A has a loop.
-Client A sends packets, believing they are sent to the right home server.
-Server A receives packets from a valid-looking client and forwards them, since it is not responsible for the realm.
-Now every packet is stuck in an endless-loop and the attacker just has to bounce the traffic back-and-forth, possibly leading to a complete denial-of-service.<a href="#section-7.7-9" class="pilcrow">¶</a></p>
-<p id="section-7.7-10">Ideas for solutions:<a href="#section-7.7-10" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.7-11.1">
-            <p id="section-7.7-11.1.1">Don't accept your own certificate.<a href="#section-7.7-11.1.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.7-11.1.2.1">
-                <p id="section-7.7-11.1.2.1.1">May not be what you want.<a href="#section-7.7-11.1.2.1.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-7.7-11.2">
-            <p id="section-7.7-11.2.1">Remember the client random and compare the server random<a href="#section-7.7-11.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.7-11.2.2.1">
-                <p id="section-7.7-11.2.2.1.1">May still not be good enough. Depending on the implementation could lead to different race conditions being triggered.<a href="#section-7.7-11.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-7.7-11.2.2.2">
-                <p id="section-7.7-11.2.2.2.1">Maybe not all TLS implementations allow you to get the client random?<a href="#section-7.7-11.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-7.7-11.3">
-            <p id="section-7.7-11.3.1">Send a randomized number in the TLS client hello<a href="#section-7.7-11.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.7-11.3.2.1">
-                <p id="section-7.7-11.3.2.1.1">Number could be generated at startup (or even changed once in a while). Every outgoing TLS has this in the client hello, the server can check if the "ID" number of the other end is the same to its own. If it is: Drop the connection.<a href="#section-7.7-11.3.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-7.7-11.3.2.2">
-                <p id="section-7.7-11.3.2.2.1">But needs a TLS extension (or some other smart way of doing this with the tools available)<a href="#section-7.7-11.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-        </ul>
 </section>
 </div>
 </section>
@@ -2540,8 +2512,12 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) as a Transport Layer for RADIUS"</span>, <span class="seriesInfo">RFC 7360</span>, <span class="seriesInfo">DOI 10.17487/RFC7360</span>, <time datetime="2014-09" class="refDate">September 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7360">https://www.rfc-editor.org/rfc/rfc7360</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7593">[RFC7593]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Wierenga, K.</span>, <span class="refAuthor">Winter, S.</span>, and <span class="refAuthor">T. Wolniewicz</span>, <span class="refTitle">"The eduroam Architecture for Network Roaming"</span>, <span class="seriesInfo">RFC 7593</span>, <span class="seriesInfo">DOI 10.17487/RFC7593</span>, <time datetime="2015-09" class="refDate">September 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7593">https://www.rfc-editor.org/rfc/rfc7593</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9257">[RFC9257]</dt>
+      <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Hoyland, J.</span>, <span class="refAuthor">Sethi, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Guidance for External Pre-Shared Key (PSK) Usage in TLS"</span>, <span class="seriesInfo">RFC 9257</span>, <span class="seriesInfo">DOI 10.17487/RFC9257</span>, <time datetime="2022-07" class="refDate">July 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9257">https://www.rfc-editor.org/rfc/rfc9257</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
