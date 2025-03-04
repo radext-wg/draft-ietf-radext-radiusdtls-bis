@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T00:52:30.845171+00:00",
+  "timestamp": "2025-03-04T00:50:06.101253+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1992,24 +1992,26 @@
       "id": "PR_kwDOLrzygc6LdgeP",
       "title": "Propose Loopback-Attack text",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/21",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Propose Loopback-Attack text and move to subsection of Proxy",
       "createdAt": "2025-02-17T13:27:37Z",
-      "updatedAt": "2025-02-24T12:56:49Z",
+      "updatedAt": "2025-03-03T22:10:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "96e64c166fece6d27cf5dc6912990feedb9ded1d",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-security-loopback-attack",
-      "headRefOid": "a040d7303f8296ab7f8f323110f43fc19eea753d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "36937ce0849a0ea499f393da398936526926bed9",
+      "closedAt": "2025-03-03T22:10:55Z",
+      "mergedAt": "2025-03-03T22:10:55Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "d57d9a112ea3755738996987c40e6f92ec3b30c1"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2087,6 +2089,38 @@
               "body": "```suggestion\r\nHowever, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.\r\n```\r\n\r\n(the automatic build complains about trailing whitespaces)",
               "createdAt": "2025-02-21T17:47:26Z",
               "updatedAt": "2025-02-21T17:47:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6eNjtg",
+          "commit": {
+            "abbreviatedOid": "a040d73"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T14:49:02Z",
+          "updatedAt": "2025-03-03T15:00:40Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\n- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.\r\n```",
+              "createdAt": "2025-03-03T14:49:02Z",
+              "updatedAt": "2025-03-03T15:00:40Z"
+            },
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\n- Sending a custom random number in an extension in the TLS client hello. Again, this is verify effective, but requires extension of the TLS implementation.\r\n```",
+              "createdAt": "2025-03-03T14:49:27Z",
+              "updatedAt": "2025-03-03T15:00:40Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "I don't really understand what this means.\r\nThe scenario I had in mind here was the following (can be either from the client or the server side, I'll make an example for the client side):\r\n* Client connects\r\n* Server sends server certificate\r\n* Client checks if the server certificate is equal to any server certificate that it would send itself\r\n\r\nThere should be no mixing of client and server certificates, because a scenario where the same cert is used as client and server cert is possible, but not what we are trying to solve here.\r\nIt is perfectly fine to have two separate certificates (one client, one server) and with the text above, as I read it, this check would say \"everything's fine\" because the client cert does not match any configured server certs.\r\n\r\n```suggestion\r\n- Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.\r\n```",
+              "createdAt": "2025-03-03T15:00:32Z",
+              "updatedAt": "2025-03-03T22:07:14Z"
             }
           ]
         }
