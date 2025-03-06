@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-04T00:50:06.101253+00:00",
+  "timestamp": "2025-03-06T00:49:54.327410+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -73,6 +73,22 @@
           "updatedAt": "2024-04-26T15:51:03Z"
         }
       ]
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOLrzygc6st84w",
+      "title": "clarity on (D)TLS record padding",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/24",
+      "state": "OPEN",
+      "author": "jimdigriz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "From[1]:\n```\nFor the receiving RADIUS/DTLS node, the length checks defined in [[RFC2865](https://www.rfc-editor.org/rfc/rfc2865)], [Section 3](https://rfc-editor.org/rfc/rfc2865#section-3) still apply, but MUST use the length of the decrypted DTLS record instead of the UDP packet length.\n```\n\nThis is confusing to me as I am aware UDP is (typically) being used in the mix here so I could unintentionally read this as if I need to figure out the size of the UDP packet the record came in which would be obviously unlikely to be even possible :)\n\nMaybe a rewording to be explicit that as the UDP packet length is no longer available nor meaningful the application is to use the TLS record length to determine the end of the RADIUS packet, so maybe wording along the lines of:\n\n\"... still apply, but the TLS record length is used in place of the now no longer available nor meaningful UDP packet length.\"\n\nFrom[2]\n```\nExaclty one RADIUS packet is encapsulated in a DTLS record, ...\n```\n\nTypo of `Exaclty` which should be `Exactly`.\n\nFrom[3]:\n```\nFor UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually and padding at the end of each DTLS record MUST be ignored, instead of treating it as the beginning of a new packet, as it would be treated with RADIUS/TLS.\n```\n\nIt is unclear if you mean here:\n\n * [(D)TLS record padding](https://datatracker.ietf.org/doc/html/rfc8446#section-5.4)\n * [RADIUS (plaintext) data padding](https://datatracker.ietf.org/doc/html/rfc2865#section-3)\n\nMaybe this is because when I think of the return from `SSL_read()` I do not think \"I have a TLS record\" but 'plaintext data'. The OpenSSL manpage does talk in terms of records though so not doubt the problem is more with me.\n\nI would suggest dropping the mentioning of padding altogether here as your first sentence[1] covers what to do and leave it as:\n\n\"For UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually.\"\n\n[1] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L508\n[1] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L509\n[2] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L510\n\n",
+      "createdAt": "2025-03-05T15:54:38Z",
+      "updatedAt": "2025-03-05T15:54:38Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
