@@ -226,10 +226,14 @@ RADIUS is designed to be used by mutually trusted systems.
 Allowing anonymous clients would ensure privacy for RADIUS/(D)TLS traffic, but would negate all other security aspects of the protocol, including security aspects of RADIUS itself, due to the fixed shared secret.
 
 RADIUS/(D)TLS allows for the following different modes of mutual authentication, which will be further specified in this section:
+
 * TLS-X.509-PKIX
 * TLS-X.509-FINGERPRINT
 * TLS-RAW-PUBLIC-KEY
 * TLS-PSK
+
+Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
+Alternate methods, such as post-handshake certificate-based client authentication (see {{RFC8446, Section 4.6.2}}) with TLS 1.3 or renegotiation with TLS 1.2, MUST NOT be used.
 
 ### Authentication using X.509 certificates with PKIX trust model (TLS-X.509-PKIX)
 {: #tlsx509pkix }
