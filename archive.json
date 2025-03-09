@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-06T00:49:54.327410+00:00",
+  "timestamp": "2025-03-09T00:42:47.440452+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -2234,6 +2234,32 @@
       "mergeCommit": {
         "oid": "e165b488000948c597a70e86b986fd3b93ff1b49"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOLrzygc6NzWfs",
+      "title": "Suggestion for text for post-handshake auth",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/25",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Text as per Heikki's comments on the radext ML",
+      "createdAt": "2025-03-07T16:52:02Z",
+      "updatedAt": "2025-03-07T16:52:02Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "d57d9a112ea3755738996987c40e6f92ec3b30c1",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_handshake_authentication",
+      "headRefOid": "a0fc7f7154964a073f04240716e162b3f8bd71b4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
