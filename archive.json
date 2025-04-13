@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T00:58:22.870969+00:00",
+  "timestamp": "2025-04-13T02:22:16.659843+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -97,25 +97,33 @@
       "id": "PR_kwDOLrzygc5sWeGl",
       "title": "Add text around Server Name Indication",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "SNI was not part of RFC6614 or RFC7360.\r\n\r\nThis is possibly breaking backwards compatibility, so I don't want to change this without a discussion within the WG.\r\n\r\nThis Pull Request can be used to comment on aspects of the text.",
       "createdAt": "2024-04-11T11:54:05Z",
-      "updatedAt": "2024-07-08T17:54:15Z",
+      "updatedAt": "2025-04-10T15:11:25Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "97c3d68c2250b7970014b23aa2793f1de3d88ea5",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_server_name_indication",
       "headRefOid": "7d83c0346f5b7c8cbe4f49fa2280f16c872d11fd",
-      "closedAt": null,
+      "closedAt": "2025-04-10T15:11:25Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With the changes in the document and the consensus that all proxy and load balancing related topics are out of scope for this document, I'm closing this pull request.",
+          "createdAt": "2025-04-10T15:11:25Z",
+          "updatedAt": "2025-04-10T15:11:25Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc523DiS",
