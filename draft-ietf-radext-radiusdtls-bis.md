@@ -740,6 +740,12 @@ The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
 
+## Wildcard Clients
+
+Some RADIUS server implementations allow for "wildcard" clients --that is, clients with an IPv4 netmask of other than 32 or an IPv6 netmask of other than 128. That practice is not recommended for RADIUS/UDP, as it means multiple clients will use the same shared secret.
+
+The use of RADIUS/(D)TLS can allow for the safe usage of wildcards. When RADIUS/(D)TLS is used with wildcards, clients MUST be uniquely identified using TLS parameters, and any certificate or PSK used MUST be unique to each client.
+
 # Design Decisions
 {: #design_decisions}
 
