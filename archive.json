@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-13T02:22:16.659843+00:00",
+  "timestamp": "2025-04-15T00:53:34.742251+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOLrzygc6HDCk-",
       "title": "Add / update text on UDP -> TCP and TCP -> UDP proxying issues",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "6613 etc. discuss UDP to TCP, but not TCP to UDP.\r\n\r\nPlus, there's the whole issue of Accounting-Request and Acct-Delay-Time being updated on retransmits.  Which contributes to congestive collapse when doing UDP to TCP proxying.\r\n\r\nFor TCP to UDP, it may be rarer, but it's possible.  Should the proxy then take care of retransmitting packets over UDP?\r\n\r\nI need to suggest some text.",
       "createdAt": "2024-04-26T12:50:13Z",
-      "updatedAt": "2024-04-26T15:51:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-04-14T21:35:14Z",
+      "closedAt": "2025-04-14T21:35:13Z",
       "comments": [
         {
           "author": "alandekok",
@@ -71,6 +71,13 @@
           "body": "RFC 2866 says:\r\n\r\n```\r\n A forwarding server may either perform its forwarding function in a\r\n   pass through manner, where it sends retransmissions on as soon as it\r\n   gets them, or it may take responsibility for retransmissions, for\r\n   example in cases where the network link between forwarding and remote\r\n   server has very different characteristics than the link between NAS\r\n   and forwarding server.\r\n```\r\n\r\nAlex Clouter also mentioned we have the same issue on TCP -> TCP proxying, if the two connections have different throughputs",
           "createdAt": "2024-04-26T15:51:03Z",
           "updatedAt": "2024-04-26T15:51:03Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this can be closed, since proxying issues are out-of-scope for this document.",
+          "createdAt": "2025-04-14T21:35:13Z",
+          "updatedAt": "2025-04-14T21:35:13Z"
         }
       ]
     },
@@ -913,7 +920,7 @@
       "labels": [],
       "body": "Invalidation of response cache applies to both TLS and DTLS since both are TLS session based. Move paragraph to the common section.",
       "createdAt": "2024-07-23T14:20:26Z",
-      "updatedAt": "2024-07-24T16:29:31Z",
+      "updatedAt": "2025-04-14T17:27:24Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -938,6 +945,20 @@
           "body": "> Maybe make this MUST? If the home server replies, there's no way for the proxy to send the packet anywhere.\r\n\r\nAgreed; updated.",
           "createdAt": "2024-07-24T16:29:30Z",
           "updatedAt": "2024-07-24T16:29:30Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would change the title of this section.\r\nIt's not limited to cached response packets, it's also outstanding requests and all the other stuff that can happen if a connection gets torn down.\r\nI'll try to suggest a different title for this soon.\r\n\r\nOn another note: This again is something that is not necessarily specific to RADIUS/(D)TLS, it only comes up since we now have the concept of \"sessions\", where in RADIUS/UDP the proxy would just forward the response to the original client, despite it being down (since UDP does not have the concept of sessions, so how would the proxy know that the client is gone?)",
+          "createdAt": "2025-04-14T16:38:55Z",
+          "updatedAt": "2025-04-14T16:38:55Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1.  It's _all_ responses.  I'll also note the text in https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/6/commits/6c10a64b51930fd027cff1bf1405aeb1ac30ed2b doesn't make it clear that this is for _incoming_ connections\r\n\r\ni.e.\r\n* in an incoming connection is closed, then there is no way to send responses to anu requests which were received on that connection.  As a result, all requests MUST be discarded / stopped processing.  etc.\r\n* if an outgoing connection is closed, the proxy or client SHOULD try to send the packet over another outgoing connection.  Further details are outside of the scope of this specification.\r\n\r\nWe have this issue with TCP, too.  But that can be ignored.\r\n\r\nFor UDP, we have no way of knowing if the client is gone, so the server just always replies.",
+          "createdAt": "2025-04-14T17:27:23Z",
+          "updatedAt": "2025-04-14T17:27:23Z"
         }
       ],
       "reviews": []
@@ -1146,21 +1167,21 @@
       "id": "PR_kwDOLrzygc56jx3x",
       "title": "Idle Timeout Configuration",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/11",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": " Added two sentences about exposing the idle timeout configuration to the administrator (from RFC 7360 Section 5.1.1)",
       "createdAt": "2024-09-05T17:54:37Z",
-      "updatedAt": "2024-10-08T18:56:44Z",
+      "updatedAt": "2025-04-14T21:36:09Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "idle-timeout",
       "headRefOid": "307e5491319600fdb21f027445a123ec0a7c8b18",
-      "closedAt": null,
+      "closedAt": "2025-04-14T21:36:09Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1178,6 +1199,13 @@
           "body": "This PR is possibly unnecessary if we choose to accept #5 ",
           "createdAt": "2024-10-06T20:00:49Z",
           "updatedAt": "2024-10-06T20:00:49Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With #5 merged I think this is obsolete now.\r\nI'm closing it.",
+          "createdAt": "2025-04-14T21:36:09Z",
+          "updatedAt": "2025-04-14T21:36:09Z"
         }
       ],
       "reviews": [
@@ -1249,21 +1277,21 @@
       "id": "PR_kwDOLrzygc56jyhL",
       "title": "EAP Section",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added EAP section to include details from RFC 6613",
       "createdAt": "2024-09-05T17:56:26Z",
-      "updatedAt": "2024-10-08T16:49:52Z",
+      "updatedAt": "2025-04-14T16:22:12Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "section-EAP-sessions",
       "headRefOid": "e09d7ebb3ac8f26ff23fcad4616953c94788e506",
-      "closedAt": null,
+      "closedAt": "2025-04-14T16:22:11Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1316,6 +1344,13 @@
           "body": "Hashing with primarily `Calling-Station-Id` and `User-Name`; \ud83d\udc4d for that. We use the both by default and it works. I haven't ever seen them change during the EAP authentication exchange. MAC address randomisation may cause the C-S-I to change, but that would affect the subsequent (re)authentications only.\r\n\r\nA note about hashing: Let's say that there are 5 connections and hashing uses modulo 5 to choose the next hop. When a connection goes down, it would be good if the hashing is still done so that the existing EAP exchanges do not switch the next hop, for example, hashing being done with module 4.",
           "createdAt": "2024-10-08T16:49:50Z",
           "updatedAt": "2024-10-08T16:49:50Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since this is not specific to RADIUS/(D)TLS, but a general RADIUS proxying issue, I think this is out-of-scope for this document.\r\nI'm therefore closing this PR without merging.",
+          "createdAt": "2025-04-14T16:22:11Z",
+          "updatedAt": "2025-04-14T16:22:11Z"
         }
       ],
       "reviews": [
@@ -1568,7 +1603,7 @@
       "labels": [],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2024-10-21T20:17:56Z",
+      "updatedAt": "2025-04-14T17:29:34Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1593,6 +1628,20 @@
           "body": "On Oct 4, 2024, at 9:07 AM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> \u2b07\ufe0f Suggested change\r\n\r\n  Looks good.\r\n\r\n",
           "createdAt": "2024-10-04T14:22:36Z",
           "updatedAt": "2024-10-04T14:22:36Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With the general rewrite of the document, I'm not sure if this PR is still applicable, and I would appreciate feedback from the WG participants on whether or not this text is needed.",
+          "createdAt": "2025-04-14T16:31:45Z",
+          "updatedAt": "2025-04-14T16:31:45Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think it's necessary to have some text which says \"clients MUST NOT come with a pre-configured list of trusted CAs\".",
+          "createdAt": "2025-04-14T17:29:32Z",
+          "updatedAt": "2025-04-14T17:29:32Z"
         }
       ],
       "reviews": [
