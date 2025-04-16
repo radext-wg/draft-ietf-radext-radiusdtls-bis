@@ -381,11 +381,10 @@ The above requirements are a logical extension of the common practice where a cl
 
 In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
 
-## Cached response packets
+## Cached response packets and outstanding requests
 
-If a (D)TLS session or the underlying connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) associated with that connection MUST be discarded.
-A RADIUS server SHOULD stop the processing of any requests associated with that (D)TLS session.
-No response to these requests can be sent over the (D)TLS connection, so any further processing is pointless.
+If an incoming (D)TLS session or the underlying connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) and any outstanding request where no response has been sent yet, associated with that connection MUST be discarded. No response to these requests can be sent over the (D)TLS connection, so any further processing is pointless.
+A RADIUS server SHOULD stop the processing of any RADIUS requests associated with that (D)TLS session. However, associated sessions like EAP MAY continue with a new RADIUS request received on a new or different incoming conneciton.
 This requirement applies not only to RADIUS servers, but also to proxies.
 When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
 Since the client connection is closed, those responses from the home server to the proxy server MUST be silently discarded by the proxy.
