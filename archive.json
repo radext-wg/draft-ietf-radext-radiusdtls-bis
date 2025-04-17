@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-15T00:53:34.742251+00:00",
+  "timestamp": "2025-04-17T00:52:25.193977+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -96,6 +96,78 @@
       "updatedAt": "2025-03-05T15:54:38Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOLrzygc6ywMKh",
+      "title": "Updating \"Connecting Client Identity\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/26",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per Fabians [comments on the mailing list](https://mailarchive.ietf.org/arch/msg/radext/pY_NTCPXAMb6Bgs018THc33rOEs):\n\nWe have the section \"Connecting Client Identity\"\nWhat do we need it for?\nIn practice, the identity of the client is not done with the identifiers listed in the text, but instead different identifies such as subjectAltName or similar certificate attributes",
+      "createdAt": "2025-04-16T09:04:58Z",
+      "updatedAt": "2025-04-16T11:42:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It's likely best to just wave your hands vigorously and state \"the client is uniquely identified by some TLS magic.  Client certs, PSK Identity, or other things\".\n\nWhile RFC 9525 defines Service Identity in TLS, there is no similar document for Client Identity.  Perhaps we'll add another item to the \"todo\" list for UTA.",
+          "createdAt": "2025-04-16T11:42:56Z",
+          "updatedAt": "2025-04-16T11:42:56Z"
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOLrzygc6ywP1B",
+      "title": "Discussion around PMTU discovery",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/27",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per Fabians [comments on the mailing list](https://mailarchive.ietf.org/arch/msg/radext/pY_NTCPXAMb6Bgs018THc33rOEs):\n\nIn the section for client session management for DTLS, we recommend using PMTU discovery.\nWhy do we do this? Do we need it? What can the client do about it?",
+      "createdAt": "2025-04-16T09:10:49Z",
+      "updatedAt": "2025-04-16T11:38:31Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Well, that caused me to go down a rabbit hole.\n\nFreeRADIUS has disabled MTU discovery since 2009.  The commit messages don't explain why, but a little more checking shows a message to the FreeRADIUS mailing list from Stefan Winter:\n\nhttps://lists.freeradius.org/pipermail/freeradius-devel/2009-August/004868.html\n\n> now this is unpleasant: Apparently, many OSes set the DF bit on every\n> datagram they send, if Path MTU discovery is turned on. Even on UDP packets.\n> This breaks your RADIUS communication if datagram > MTU. I have reason\n> to believe that this has led to numerous problems with EAP-TLS in\n> eduroam, for example.\n>\n> It is of course not in principle a FreeRADIUS problem, but an OS one\n> (speaking here of Linux in particular), but other software like BIND\n> takes precautions against that and I think it might be good to do the\n> same in FreeRADIUS as well (i.e. explicitly disable IP_DONTFRAG socket\n> option).\n\nThe Linux documentation pages describes some related behavior:\n\nhttps://man7.org/linux/man-pages/man7/ip.7.html\n\n> While MTU discovery is in progress, initial packets from\n> datagram sockets may be dropped.  Applications using UDP\n> should be aware of this and not take it into account for\n> their packet retransmit strategy.\n\nI would suspect this really means _\"Before MTU discover has occurred. packets which are larger than the path MTU may be silently dropped somewhere in the network.  Once MTU has been discovered, packets larger than path MTU will result in an EMSGSIZE error\"_\n\nSo what do we do about it?\n\nIf we have large EAP packets and a small local MTU, there isn't much we can do for UDP.  Doing PTMU discovery doesn't help the client, because it can't control the size of the RADIUS packets.  The client (or proxy) just sends the packet, and hopes for the best.\n\nIf the local network can handle fragmented UDP packets, everything works.  If the packets go across the wider Internet, then fragmented UDP packets will likely get dropped.\n\n\nFurther discussion of fragmentation issues is available at https://www.freeradius.org/documentation/freeradius-server/4.0.0/trouble-shooting/connect_nas.html#_identifying_broken_path_mtu_discovery\n\nSo the issues are:\n\n* If you're using UDP, you may be affected by packet fragmentation. \n  *  It's more likely when EAP is being used, but it can happen in other situations, such as when the Access-Accept contains a long list of filter rules (RFC7499 can help here)\n* PMTU discovery doesn't help, as the RADIUS client often doesn't control the contents / size of the packet.\n* RADIUS offers no way to fragment Access-Request data across multiple packets.\n  * So even if the client does PMTU discovery, there's little that it can do with that information\n* most local networks will support fragmented UDP packets, so the client can just send the packet and hope for the best\n* PMTU discovery only really helps when you're sending packets across the Internet where fragmented UDP packets are discarded\n  * i.e. PTMU discovery means that when a proxy sends a large UDP packet, it gets an immediate `EMSGSIZE` error.\n  * the proxy can then take action.\n    *  send the packet over another connection\n    * signal the client via Protocol-Error\n  * this explicit signal is much better than waiting for a reply which will never arrive\n\nThis is all a bit much for the TLSbis document.  Perhaps it's best to just say \"UDP fragments might work on local networks, and are likely to not work across the wider Internet.  PMTU discovery doesn't necessarily help.  If you're not sure, just use TCP\".",
+          "createdAt": "2025-04-16T11:38:30Z",
+          "updatedAt": "2025-04-16T11:38:30Z"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOLrzygc6ywrMH",
+      "title": "TLS Record count limitation",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/28",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In (D)TLS, we can only encrypt a limited number of records until the security degrades.\nFor RADIUS/(D)TLS we have long-lived TLS sessions where we might reach this limit.\n\nWe need to decide whether or not we put some normative/informational text in the document.\nInstead we could leave this to the uta or tls WG and say nothing about this.",
+      "createdAt": "2025-04-16T09:52:49Z",
+      "updatedAt": "2025-04-16T11:02:57Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Is there a TLS/DTLS RFC which mentions this issue?  If so, we can just reference that.  We don't need to mention this issue specifically.\n\nIf not, we could put it on the list of things to do for UTA.",
+          "createdAt": "2025-04-16T11:02:56Z",
+          "updatedAt": "2025-04-16T11:02:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -920,13 +992,13 @@
       "labels": [],
       "body": "Invalidation of response cache applies to both TLS and DTLS since both are TLS session based. Move paragraph to the common section.",
       "createdAt": "2024-07-23T14:20:26Z",
-      "updatedAt": "2025-04-14T17:27:24Z",
+      "updatedAt": "2025-04-16T12:27:56Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-response-cache",
-      "headRefOid": "92ce41898e586c140a12050c9c68ffeebe760e3d",
+      "headRefOid": "3de1750bff196d9c05782019bc455da166b26058",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -959,6 +1031,27 @@
           "body": "+1.  It's _all_ responses.  I'll also note the text in https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/6/commits/6c10a64b51930fd027cff1bf1405aeb1ac30ed2b doesn't make it clear that this is for _incoming_ connections\r\n\r\ni.e.\r\n* in an incoming connection is closed, then there is no way to send responses to anu requests which were received on that connection.  As a result, all requests MUST be discarded / stopped processing.  etc.\r\n* if an outgoing connection is closed, the proxy or client SHOULD try to send the packet over another outgoing connection.  Further details are outside of the scope of this specification.\r\n\r\nWe have this issue with TCP, too.  But that can be ignored.\r\n\r\nFor UDP, we have no way of knowing if the client is gone, so the server just always replies.",
           "createdAt": "2025-04-14T17:27:23Z",
           "updatedAt": "2025-04-14T17:27:23Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Very good point. I will try to come up with an updated text.",
+          "createdAt": "2025-04-15T17:19:32Z",
+          "updatedAt": "2025-04-15T17:19:32Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Updated proposed text.\r\n\r\nI've also added a sentence that associated EAP MAY continue with a RAIDUS request on a new connection. @alandekok please correct me if this is not true. The underlying EAP session will (or at least can) also do retransmissions, sent in a completely new RADIUS request?",
+          "createdAt": "2025-04-16T05:11:55Z",
+          "updatedAt": "2025-04-16T05:11:55Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "After thinking some more, there are more corner cases.  Perhaps:\r\n\r\nIf an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send any response to the client.  The server behavior then depends on the types of packets being processed, and on the behavior of the server.\r\n\r\nA proxy which forwards packet MUST discard all requests associated with the closed connection.  As no response can be sent over the (D)TLS connection, and any further processing of requests is pointless.  A discarded request may have a cached RADIUS response packet ({{!RFC5080, Section 2.2.2}}), in which case the cached response is also discarded.  If there is no cached response packet, then the request is still being processed.  The server SHOULD immediately stop processing all such requests for this incoming connection.\r\n\r\nA home server which receives Access-Request packets MUST behave as defined above for a proxy.  Where a RADIUS packet is part of a multi-packet authentication session (e.g. EAP), the underlying authentication session could be continued, or the underlying authentication session data could be discarded.  The server may be able to receive and process another packet for that session via a different incoming connection.  It is difficult to make more recommendations for managing partially processed authentication sessions, as such recommendations depend strongly on the authentication method being used.  As a result, further behavior is implementation defined.\r\n\r\nA home server which receives other kinds of packets (Accounting-Request, CoA-Request, Disconnect-Request) MAY finish processing outstanding requests, and then discard any response.  This behavior ensures that the desired action is still taken, even if the home server cannot inform the client of the results of that action.",
+          "createdAt": "2025-04-16T12:27:54Z",
+          "updatedAt": "2025-04-16T12:27:54Z"
         }
       ],
       "reviews": []
@@ -2306,7 +2399,7 @@
       "labels": [],
       "body": "Text as per Heikki's comments on the radext ML",
       "createdAt": "2025-03-07T16:52:02Z",
-      "updatedAt": "2025-03-07T16:52:02Z",
+      "updatedAt": "2025-04-16T11:48:08Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "d57d9a112ea3755738996987c40e6f92ec3b30c1",
@@ -2317,7 +2410,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think this looks fine.",
+          "createdAt": "2025-04-16T11:48:07Z",
+          "updatedAt": "2025-04-16T11:48:07Z"
+        }
+      ],
       "reviews": []
     }
   ]
