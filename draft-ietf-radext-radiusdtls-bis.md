@@ -688,6 +688,13 @@ If the IP range that the server expects clients to connect from is restricted, t
 If every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
 To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of the accumulated permitted IP address ranges, individually for each transport.
 
+## TLS Session Lifetime and Key Rotation
+
+The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
+Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, as described in {{RFC8446, Section 5.5}}.
+Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
+If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
+
 ## Session Closing
 
 If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS session be closed.
