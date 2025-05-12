@@ -506,9 +506,9 @@ We note that a single UDP datagram may, however, contain multiple DTLS records.
 RADIUS/DTLS nodes MAY use this behavior to send multiple RADIUS packets in one UDP packet.
 
 For the receiving RADIUS/DTLS node, the length checks defined in {{RFC2865, Section 3}} still apply.
-That is, a receiving RADIUS/DTLS node MUST perform all the length checks, but MUST use the length of the decrypted DTLS record instead of the UDP packet length.
-Exactly one RADIUS packet is encapsulated in a DTLS record, and any decrypted octets outside the range of the RADIUS length field within a single DTLS record MUST be treated as padding and be ignored.
-For UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually and additional data outside of the range for the RADIUS packet at the end of each DTLS record MUST be ignored, instead of treating it as the beginning of a new packet, as it would be treated with RADIUS/TLS.
+That is, a receiving RADIUS/DTLS node MUST perform all the length checks, but MUST use the length of the decrypted payload of the DTLS record instead of the UDP packet length.
+Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside the range of the RADIUS length field within the decrypted payload of a single DTLS record MUST be treated as padding, as it would be with a RADIUS/UDP packet, and be ignored.
+For DTLS messages containing multiple DTLS records, each DTLS record MUST be parsed individually.
 
 ## Server behavior
 
