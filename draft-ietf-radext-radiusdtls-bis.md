@@ -691,7 +691,9 @@ To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of 
 ## TLS Session Lifetime and Key Rotation
 
 The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
-Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, as described in {{RFC8446, Section 5.5}}.
+Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amout of data which was tansferred, and on the encryption method.
+See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more information.
+
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
 If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
 
