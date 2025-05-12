@@ -233,7 +233,7 @@ RADIUS/(D)TLS allows for the following different modes of mutual authentication,
 * TLS-PSK
 
 Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
-Alternate methods, such as post-handshake certificate-based client authentication (see {{RFC8446, Section 4.6.2}}) with TLS 1.3 or renegotiation with TLS 1.2, MUST NOT be used.
+Alternative methods, such as post-handshake certificate-based client authentication (see {{RFC8446, Section 4.6.2}}) with TLS 1.3 or renegotiation with TLS 1.2, MUST NOT be used to achieve mutual authentication.
 
 ### Authentication using X.509 certificates with PKIX trust model (TLS-X.509-PKIX)
 {: #tlsx509pkix }
