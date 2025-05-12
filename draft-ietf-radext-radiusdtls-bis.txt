@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 12 October 2025                                   10 April 2025
+Expires: 13 November 2025                                    12 May 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 October 2025.
+   This Internet-Draft will expire on 13 November 2025.
 
 Copyright Notice
 
@@ -967,7 +967,7 @@ Table of Contents
    packets of 4096 bytes in length, with a corresponding increase in the
    maximum size of the encapsulated DTLS packets.  This larger packet
    size may cause the UDP packet to be larger than the Path MTU (PMTU),
-   which causes the packet to be fragmented.. Implemententors and
+   which causes the packet to be fragmented.  Implemententors and
    operators should be aware of the possibility of fragmented UDP
    packets.
 
@@ -1627,9 +1627,9 @@ Table of Contents
    [I-D.ietf-tls-keylogfile]
               Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
               SSLKEYLOGFILE Format for TLS", Work in Progress, Internet-
-              Draft, draft-ietf-tls-keylogfile-03, 4 February 2025,
+              Draft, draft-ietf-tls-keylogfile-04, 11 April 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              keylogfile-03>.
+              keylogfile-04>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
