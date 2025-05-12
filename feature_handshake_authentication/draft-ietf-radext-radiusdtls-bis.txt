@@ -393,7 +393,7 @@ Table of Contents
    be preconfigured to use RADIUS/(D)TLS for a given endpoint.  This
    action has to be taken by the administrators of the two systems.
 
-   Implementations MUST follow the recommendations given in [RFC9325],
+   Implementations MUST follow the recommendations given in [BCP195],
    especially in regards to recommended cipher suites and TLS session
    resumption.  Additionally, the following requirements have to be met
    for the (D)TLS session:
@@ -981,7 +981,7 @@ Table of Contents
    packets of 4096 bytes in length, with a corresponding increase in the
    maximum size of the encapsulated DTLS packets.  This larger packet
    size may cause the UDP packet to be larger than the Path MTU (PMTU),
-   which causes the packet to be fragmented.. Implemententors and
+   which causes the packet to be fragmented.  Implemententors and
    operators should be aware of the possibility of fragmented UDP
    packets.
 
@@ -995,15 +995,17 @@ Table of Contents
    UDP packet.
 
    For the receiving RADIUS/DTLS node, the length checks defined in
-   [RFC2865], Section 3 still apply, but MUST use the length of the
-   decrypted DTLS record instead of the UDP packet length.  Exaclty one
-   RADIUS packet is encapsulated in a DTLS record, and any decrypted
+   [RFC2865], Section 3 still apply.  That is, a receiving RADIUS/DTLS
+   node MUST perform all the length checks, but MUST use the length of
+   the decrypted DTLS record instead of the UDP packet length.  Exactly
+   one RADIUS packet is encapsulated in a DTLS record, and any decrypted
    octets outside the range of the RADIUS length field within a single
    DTLS record MUST be treated as padding and be ignored.  For UDP
    packets containing multiple DTLS records, each DTLS record MUST be
-   parsed individually and padding at the end of each DTLS record MUST
-   be ignored, instead of treating it as the beginning of a new packet,
-   as it would be treated with RADIUS/TLS.
+   parsed individually and additional data outside of the range for the
+   RADIUS packet at the end of each DTLS record MUST be ignored, instead
+   of treating it as the beginning of a new packet, as it would be
+   treated with RADIUS/TLS.
 
 6.2.  Server behavior
 
@@ -1483,6 +1485,20 @@ Table of Contents
 
 10.1.  Normative References
 
+   [BCP195]   Best Current Practice 195,
+              <https://www.rfc-editor.org/info/bcp195>.
+              At the time of writing, this BCP comprises the following:
+
+              Moriarty, K. and S. Farrell, "Deprecating TLS 1.0 and TLS
+              1.1", BCP 195, RFC 8996, DOI 10.17487/RFC8996, March 2021,
+              <https://www.rfc-editor.org/info/rfc8996>.
+
+              Sheffer, Y., Saint-Andre, P., and T. Fossati,
+              "Recommendations for Secure Use of Transport Layer
+              Security (TLS) and Datagram Transport Layer Security
+              (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
+              2022, <https://www.rfc-editor.org/info/rfc9325>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1601,12 +1617,6 @@ Table of Contents
    [RFC9293]  Eddy, W., Ed., "Transmission Control Protocol (TCP)",
               STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9293>.
-
-   [RFC9325]  Sheffer, Y., Saint-Andre, P., and T. Fossati,
-              "Recommendations for Secure Use of Transport Layer
-              Security (TLS) and Datagram Transport Layer Security
-              (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
-              2022, <https://www.rfc-editor.org/rfc/rfc9325>.
 
    [RFC9525]  Saint-Andre, P. and R. Salz, "Service Identity in TLS",
               RFC 9525, DOI 10.17487/RFC9525, November 2023,
