@@ -496,7 +496,7 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
-This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented..
+This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implemententors and operators should be aware of the possibility of fragmented UDP packets.
 
 RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS record.
