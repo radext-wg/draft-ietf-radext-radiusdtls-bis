@@ -389,7 +389,7 @@ This change is imperfect, but will at least help to avoid congestive collapse.
 
 ### Differing Retransmission Requirements
 
-Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
+Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{!RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
@@ -421,7 +421,7 @@ The RADIUS/(D)TLS server behavior then depends on the types of packets being pro
 
 A RADIUS proxy MUST discard all requests associated with the closed connection.
 As no response can be sent over the now-closed (D)TLS connection, any further processing of requests is pointless.
-A discarded request may have a cached RADIUS response packet ({{RF5080, Section 2.2.2}}), in which case the cached response also MUST be discarded.
+A discarded request may have a cached RADIUS response packet ({{RFC5080, Section 2.2.2}}), in which case the cached response also MUST be discarded.
 If there is no cached response packet, then the request is still being processed by the home server.
 The RADIUS proxy MUST discard any response to these requests and SHOULD stop processing the requests.
 
