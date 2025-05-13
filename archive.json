@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-08T00:55:08.423967+00:00",
+  "timestamp": "2025-05-13T00:55:15.170853+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "PR exists",
+      "description": "",
+      "color": "0E8A16"
     }
   ],
   "issues": [
@@ -90,10 +95,12 @@
       "author": "jimdigriz",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "PR exists"
+      ],
       "body": "From[1]:\n```\nFor the receiving RADIUS/DTLS node, the length checks defined in [[RFC2865](https://www.rfc-editor.org/rfc/rfc2865)], [Section 3](https://rfc-editor.org/rfc/rfc2865#section-3) still apply, but MUST use the length of the decrypted DTLS record instead of the UDP packet length.\n```\n\nThis is confusing to me as I am aware UDP is (typically) being used in the mix here so I could unintentionally read this as if I need to figure out the size of the UDP packet the record came in which would be obviously unlikely to be even possible :)\n\nMaybe a rewording to be explicit that as the UDP packet length is no longer available nor meaningful the application is to use the TLS record length to determine the end of the RADIUS packet, so maybe wording along the lines of:\n\n\"... still apply, but the TLS record length is used in place of the now no longer available nor meaningful UDP packet length.\"\n\nFrom[2]\n```\nExaclty one RADIUS packet is encapsulated in a DTLS record, ...\n```\n\nTypo of `Exaclty` which should be `Exactly`.\n\nFrom[3]:\n```\nFor UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually and padding at the end of each DTLS record MUST be ignored, instead of treating it as the beginning of a new packet, as it would be treated with RADIUS/TLS.\n```\n\nIt is unclear if you mean here:\n\n * [(D)TLS record padding](https://datatracker.ietf.org/doc/html/rfc8446#section-5.4)\n * [RADIUS (plaintext) data padding](https://datatracker.ietf.org/doc/html/rfc2865#section-3)\n\nMaybe this is because when I think of the return from `SSL_read()` I do not think \"I have a TLS record\" but 'plaintext data'. The OpenSSL manpage does talk in terms of records though so not doubt the problem is more with me.\n\nI would suggest dropping the mentioning of padding altogether here as your first sentence[1] covers what to do and leave it as:\n\n\"For UDP packets containing multiple DTLS records, each DTLS record MUST be parsed individually.\"\n\n[1] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L508\n[1] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L509\n[2] https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/blob/d57d9a112ea3755738996987c40e6f92ec3b30c1/draft-ietf-radext-radiusdtls-bis.md?plain=1#L510\n\n",
       "createdAt": "2025-03-05T15:54:38Z",
-      "updatedAt": "2025-03-05T15:54:38Z",
+      "updatedAt": "2025-05-12T14:37:58Z",
       "closedAt": null,
       "comments": []
     },
@@ -130,10 +137,12 @@
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "PR exists"
+      ],
       "body": "As per Fabians [comments on the mailing list](https://mailarchive.ietf.org/arch/msg/radext/pY_NTCPXAMb6Bgs018THc33rOEs):\n\nIn the section for client session management for DTLS, we recommend using PMTU discovery.\nWhy do we do this? Do we need it? What can the client do about it?",
       "createdAt": "2025-04-16T09:10:49Z",
-      "updatedAt": "2025-04-16T11:38:31Z",
+      "updatedAt": "2025-05-12T14:23:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -154,10 +163,12 @@
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "PR exists"
+      ],
       "body": "In (D)TLS, we can only encrypt a limited number of records until the security degrades.\nFor RADIUS/(D)TLS we have long-lived TLS sessions where we might reach this limit.\n\nWe need to decide whether or not we put some normative/informational text in the document.\nInstead we could leave this to the uta or tls WG and say nothing about this.",
       "createdAt": "2025-04-16T09:52:49Z",
-      "updatedAt": "2025-05-07T05:59:06Z",
+      "updatedAt": "2025-05-12T14:23:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -188,9 +199,24 @@
       "labels": [],
       "body": "OpenRoaming implementers have seen issues where RADIUS/TLS clients repeatedly try to connect to servers, despite their connections not being accepted\n\nThat is, the TCP port is open, but after exchanging TLS data, the server decides that the client should not be allowed access, and closes the connection.  This usually happens when the client is misconfigured:\n\n* client is using the wrong credentials (invalid PSK or client certificate from unknown or wrong CA)\n  * Section 4.3 discusses client identity, and states that depending on the presented credentials,\n\n```\nthe server may decline to perform RADIUS transactions with this client`\n``` \n* the client is coming from an untrusted network.\n  *  Section 7.3 of this document discusses filtering\n\n```\nIf every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.\n```\n\nThe observed behavior is that some clients are attempting to reconnect multiple times a second, which is unfriendly.\n\nThe current Section 4 has no text on reconnection attempts.  Perhaps we could add a section to discuss this, using timers similar to [RFC 5080 Section 2.2.1](https://www.rfc-editor.org/rfc/rfc5080.html#section-2.2.1)\n\n---\n\n4.8 Client Connection Attempts\n\nWhen a client fails to open a connection, it SHOULD wait for a\nperiod of time, and then try the connection attempt again.\n\nSome existing RADIUS clients implement excessively aggressive\nreconnection behavior, utilizing default reconnection timeouts of\none second or less without support for congestive backoff.  When\ndeployed at a large scale, these implementations are susceptible to\ncongestive collapse. \n\nRADIUS client connection timers are based on the model used RFC 5080\nSection 2.2.1.  Variables used here are also borrowed from this\nspecification.  The connection attempts terminate when the client\nsuccessfully connects to the server, or the connection attempts are\nconsidered to have failed according to the reconnection\nmechanism described below.  Other reconnection mechanisms are\npossible, as long as they satisfy the requirements on jitter and\ncongestive backoff.\n\nThe following algorithms MUST be implemented by any client that originates RADIUS/TLS\nconnections.\n\nThe reconnection behavior is controlled and described by the\nfollowing variables:\n\n      RT     Reconnection timeout\n\n      IRT    Initial reconnection time  (default 2 seconds)\n\n      MRC    Maximum reconnection count (default 15 attempts)\n\n      MRT    Maximum reconnection time (default 300 seconds)\n\n      MRD    Maximum reconnection duration (default 3600 seconds)\n\n      RAND   Randomization factor\n\nWith each connection attempt, the sender sets RT according to the\nrules given below.  If RT expires before the connection is successful,\nthe sender re-computes RT and makes another connection attempt.\n\nEach of the computations of a new RT include a randomization factor\n(RAND), which is a random number chosen with a uniform distribution\nbetween -0.1 and +0.1.  The randomization factor is included to\nminimize the synchronization of messages.\n\nThe algorithm for choosing a random number does not need to be\ncryptographically sound.  The algorithm SHOULD produce a different\nsequence of random numbers from each invocation.\n\nRT for the first connection attempt is based on IRT:\n\n      RT = IRT + RAND*IRT\n\nRT for each subsequent connection attempt is based on the\nprevious value of RT:\n\n      RT = 2*RTprev + RAND*RTprev\n\nMRT specifies an upper bound on the value of RT (disregarding the\nrandomization added by the use of RAND).  If MRT has a value of 0,\nthere is no upper limit on the value of RT.  Otherwise:\n\n      if (RT > MRT)\n         RT = MRT + RAND*MRT\n\nMRD specifies an upper bound on the length of time that a\nclient may try to connect to a server.  The client stops its'\nconnection attempts when MRD seconds have elapsed since it first\nattempted to connect .  MRD MUST be set, MUST NOT have a value higher\nthan 86400 seconds.  MRD SHOULD have a value between 300 and 86400\nseconds.\n\nMRC specifies an upper bound on the number of times a client may try\nto reconnect to a server.  If MRC is zero, The client stops its'\nconnection attempts once MRD seconds have elapsed since the client\nfirst attempted to connect.  If MRC is non-zero, The client stops its'\nconnection attempts when either it as tried MRC connection attempts,\nor when MRD seconds have elapsed since the client first attempted to\nconnect.\n\nThe recommended values for these variables are a balance between\nenabling fast reconnection when there are transient network outages,\nand acknowledging that infinite retries are not desired.  That is, if\na RADIUS server cannot be reached within a day, then the problem is\nlikely due to client misconfiguration, and is not due to a transient network\noutage.  Once a client stops its reconnection attempts due to reaching\nMRC or MRD, it SHOULD log a descriptive error indicating that the\nserver is unreachable.  This error serves as an indication that\nadministrator intervention is needed.\n\nThe client then MUST NOT make any more connection attempts until an\nadministrator has intervened.  This administrator intervention could take any form,\nsuch as setting a \"reconnect now\" flag.  Other forms of this\nintervention are implementation defined, and are outside of the scope\nof this specification.\n",
       "createdAt": "2025-05-06T18:31:05Z",
-      "updatedAt": "2025-05-06T18:31:05Z",
+      "updatedAt": "2025-05-12T14:48:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The question here is: Is this relevant for RADIUS/(D)TLS or is this a general RADIUS (Proxying) issue and therefore out of scope?\n\nI would be reluctant to add so much text at this point.\n\nMy suggestion would be to add a small paragraph about this as a heads-up for implementers, but keep the exact algorithm out of this document and put it in a RADIUS best practices document.",
+          "createdAt": "2025-05-12T14:41:02Z",
+          "updatedAt": "2025-05-12T14:41:02Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This issue is only for RADIUS/(D)TLS and RADIUS/TCP.  Those transports have connections between the client and server.\n\nRADIUS/UDP doesn't have connections.  Even connected UDP sockets are pretty bad, and don't always work the way you would think.  RADIUS/UDP historically has just done per-packet retransmissions, and completely ignored the idea of a \"connection\".\n\nSo since this is an issue for RADIUS/(D)TLS, and not so much for RADIUS/UDP, I think it's OK to add here.\n\nIf we don't add it here, then this text will have to wait for a new standards-track document.  Which is likely to be a long time coming.",
+          "createdAt": "2025-05-12T14:48:24Z",
+          "updatedAt": "2025-05-12T14:48:24Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2422,13 +2448,13 @@
       "labels": [],
       "body": "Text as per Heikki's comments on the radext ML",
       "createdAt": "2025-03-07T16:52:02Z",
-      "updatedAt": "2025-04-16T11:48:08Z",
+      "updatedAt": "2025-05-12T15:37:40Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "d57d9a112ea3755738996987c40e6f92ec3b30c1",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_handshake_authentication",
-      "headRefOid": "a0fc7f7154964a073f04240716e162b3f8bd71b4",
+      "headRefOid": "959bc0e0019125c693ef1707652037b17a1def57",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2442,6 +2468,133 @@
           "updatedAt": "2025-04-16T11:48:07Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOLrzygc6V1mU-",
+      "title": "Update text for Path MTU",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/30",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a suggestion for different wording on Path MTU. (See #27 for some discussion)\r\n\r\nThis change probably should go to the list of changes, since in RFC 7360, PMTU was `SHOULD`, I changed it out to `MAY`\r\n\r\nSuggestions/comments/... welcome.",
+      "createdAt": "2025-05-12T13:18:46Z",
+      "updatedAt": "2025-05-12T15:03:10Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_path_mtu_discovery",
+      "headRefOid": "098deeafd64792b58f84ab4f5376a04bf0c5ed75",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me.",
+          "createdAt": "2025-05-12T13:37:06Z",
+          "updatedAt": "2025-05-12T13:37:06Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOLrzygc6V2Te6",
+      "title": "Text suggestion for TLS Record count limitation",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/31",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "see #28 for discussion\r\n\r\nfeedback/improvements/... welcome",
+      "createdAt": "2025-05-12T14:21:44Z",
+      "updatedAt": "2025-05-12T15:00:37Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_tls_record_count_limit",
+      "headRefOid": "e064fb7de19ebb6205ade741ff97260b44be0243",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6o4wSp",
+          "commit": {
+            "abbreviatedOid": "0f9aebf"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-12T14:27:24Z",
+          "updatedAt": "2025-05-12T14:27:24Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Perhaps explain when they're rotated?\r\n\r\n```\r\n... the encryption keys have to be rotated regularly, depending on both the amount of data which was transferred, and on the encryption method.  See {{RFC8446, Section 5.5}} for more information.\r\n```",
+              "createdAt": "2025-05-12T14:27:24Z",
+              "updatedAt": "2025-05-12T14:27:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6o5NNZ",
+          "commit": {
+            "abbreviatedOid": "0f9aebf"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-12T15:00:37Z",
+          "updatedAt": "2025-05-12T15:00:37Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Sounds good. I've also added the reference to the CFRG draft on AEAD limits",
+              "createdAt": "2025-05-12T15:00:37Z",
+              "updatedAt": "2025-05-12T15:00:37Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOLrzygc6V2eUm",
+      "title": "Reword the DTLS padding handling on the receiving end",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/32",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As suggested by Alexander Clouter @jimdigriz in #24 \r\n\r\nI have changed the wording a bit, not exactly as suggested, hopefully still making it a bit less ambiguous.\r\n\r\nSuggestions/Improvements/Comments/... welcome.",
+      "createdAt": "2025-05-12T14:37:47Z",
+      "updatedAt": "2025-05-12T14:37:47Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_dtls_record_padding",
+      "headRefOid": "bf7368e72618f74094a4405acbbeabfb28cd9f77",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
