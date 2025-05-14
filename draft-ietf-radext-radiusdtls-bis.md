@@ -235,7 +235,7 @@ RADIUS/(D)TLS allows for the following different modes of mutual authentication,
 {: #tlsx509pkix }
 
 All RADIUS/(D)TLS server implementations MUST implement this model.
-RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST implement either this or TLS-PSK
+RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST implement either this or TLS-PSK.
 
 If implemented it MUST use the following rules:
 
@@ -244,6 +244,11 @@ If implemented it MUST use the following rules:
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
 * When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued validity of the certificate path. This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
+
+RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
+Instead, the peers SHOULD start off with an empty CA list as trust anchor.
+The addition of a CA SHOULD be done only when manually confiugred by the administrator.
+This does not preculde vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
 RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 
