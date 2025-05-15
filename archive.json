@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-13T00:55:15.170853+00:00",
+  "timestamp": "2025-05-15T00:53:45.127058+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -52,6 +52,11 @@
       "name": "PR exists",
       "description": "",
       "color": "0E8A16"
+    },
+    {
+      "name": "needs discussion",
+      "description": "",
+      "color": "e99695"
     }
   ],
   "issues": [
@@ -196,10 +201,12 @@
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs discussion"
+      ],
       "body": "OpenRoaming implementers have seen issues where RADIUS/TLS clients repeatedly try to connect to servers, despite their connections not being accepted\n\nThat is, the TCP port is open, but after exchanging TLS data, the server decides that the client should not be allowed access, and closes the connection.  This usually happens when the client is misconfigured:\n\n* client is using the wrong credentials (invalid PSK or client certificate from unknown or wrong CA)\n  * Section 4.3 discusses client identity, and states that depending on the presented credentials,\n\n```\nthe server may decline to perform RADIUS transactions with this client`\n``` \n* the client is coming from an untrusted network.\n  *  Section 7.3 of this document discusses filtering\n\n```\nIf every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.\n```\n\nThe observed behavior is that some clients are attempting to reconnect multiple times a second, which is unfriendly.\n\nThe current Section 4 has no text on reconnection attempts.  Perhaps we could add a section to discuss this, using timers similar to [RFC 5080 Section 2.2.1](https://www.rfc-editor.org/rfc/rfc5080.html#section-2.2.1)\n\n---\n\n4.8 Client Connection Attempts\n\nWhen a client fails to open a connection, it SHOULD wait for a\nperiod of time, and then try the connection attempt again.\n\nSome existing RADIUS clients implement excessively aggressive\nreconnection behavior, utilizing default reconnection timeouts of\none second or less without support for congestive backoff.  When\ndeployed at a large scale, these implementations are susceptible to\ncongestive collapse. \n\nRADIUS client connection timers are based on the model used RFC 5080\nSection 2.2.1.  Variables used here are also borrowed from this\nspecification.  The connection attempts terminate when the client\nsuccessfully connects to the server, or the connection attempts are\nconsidered to have failed according to the reconnection\nmechanism described below.  Other reconnection mechanisms are\npossible, as long as they satisfy the requirements on jitter and\ncongestive backoff.\n\nThe following algorithms MUST be implemented by any client that originates RADIUS/TLS\nconnections.\n\nThe reconnection behavior is controlled and described by the\nfollowing variables:\n\n      RT     Reconnection timeout\n\n      IRT    Initial reconnection time  (default 2 seconds)\n\n      MRC    Maximum reconnection count (default 15 attempts)\n\n      MRT    Maximum reconnection time (default 300 seconds)\n\n      MRD    Maximum reconnection duration (default 3600 seconds)\n\n      RAND   Randomization factor\n\nWith each connection attempt, the sender sets RT according to the\nrules given below.  If RT expires before the connection is successful,\nthe sender re-computes RT and makes another connection attempt.\n\nEach of the computations of a new RT include a randomization factor\n(RAND), which is a random number chosen with a uniform distribution\nbetween -0.1 and +0.1.  The randomization factor is included to\nminimize the synchronization of messages.\n\nThe algorithm for choosing a random number does not need to be\ncryptographically sound.  The algorithm SHOULD produce a different\nsequence of random numbers from each invocation.\n\nRT for the first connection attempt is based on IRT:\n\n      RT = IRT + RAND*IRT\n\nRT for each subsequent connection attempt is based on the\nprevious value of RT:\n\n      RT = 2*RTprev + RAND*RTprev\n\nMRT specifies an upper bound on the value of RT (disregarding the\nrandomization added by the use of RAND).  If MRT has a value of 0,\nthere is no upper limit on the value of RT.  Otherwise:\n\n      if (RT > MRT)\n         RT = MRT + RAND*MRT\n\nMRD specifies an upper bound on the length of time that a\nclient may try to connect to a server.  The client stops its'\nconnection attempts when MRD seconds have elapsed since it first\nattempted to connect .  MRD MUST be set, MUST NOT have a value higher\nthan 86400 seconds.  MRD SHOULD have a value between 300 and 86400\nseconds.\n\nMRC specifies an upper bound on the number of times a client may try\nto reconnect to a server.  If MRC is zero, The client stops its'\nconnection attempts once MRD seconds have elapsed since the client\nfirst attempted to connect.  If MRC is non-zero, The client stops its'\nconnection attempts when either it as tried MRC connection attempts,\nor when MRD seconds have elapsed since the client first attempted to\nconnect.\n\nThe recommended values for these variables are a balance between\nenabling fast reconnection when there are transient network outages,\nand acknowledging that infinite retries are not desired.  That is, if\na RADIUS server cannot be reached within a day, then the problem is\nlikely due to client misconfiguration, and is not due to a transient network\noutage.  Once a client stops its reconnection attempts due to reaching\nMRC or MRD, it SHOULD log a descriptive error indicating that the\nserver is unreachable.  This error serves as an indication that\nadministrator intervention is needed.\n\nThe client then MUST NOT make any more connection attempts until an\nadministrator has intervened.  This administrator intervention could take any form,\nsuch as setting a \"reconnect now\" flag.  Other forms of this\nintervention are implementation defined, and are outside of the scope\nof this specification.\n",
       "createdAt": "2025-05-06T18:31:05Z",
-      "updatedAt": "2025-05-12T14:48:25Z",
+      "updatedAt": "2025-05-14T18:42:25Z",
       "closedAt": null,
       "comments": [
         {
@@ -1038,10 +1045,13 @@
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "duplicate",
+        "wontfix"
+      ],
       "body": "Invalidation of response cache applies to both TLS and DTLS since both are TLS session based. Move paragraph to the common section.",
       "createdAt": "2024-07-23T14:20:26Z",
-      "updatedAt": "2025-04-16T12:27:56Z",
+      "updatedAt": "2025-05-13T12:33:08Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1101,6 +1111,13 @@
           "body": "After thinking some more, there are more corner cases.  Perhaps:\r\n\r\nIf an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send any response to the client.  The server behavior then depends on the types of packets being processed, and on the behavior of the server.\r\n\r\nA proxy which forwards packet MUST discard all requests associated with the closed connection.  As no response can be sent over the (D)TLS connection, and any further processing of requests is pointless.  A discarded request may have a cached RADIUS response packet ({{!RFC5080, Section 2.2.2}}), in which case the cached response is also discarded.  If there is no cached response packet, then the request is still being processed.  The server SHOULD immediately stop processing all such requests for this incoming connection.\r\n\r\nA home server which receives Access-Request packets MUST behave as defined above for a proxy.  Where a RADIUS packet is part of a multi-packet authentication session (e.g. EAP), the underlying authentication session could be continued, or the underlying authentication session data could be discarded.  The server may be able to receive and process another packet for that session via a different incoming connection.  It is difficult to make more recommendations for managing partially processed authentication sessions, as such recommendations depend strongly on the authentication method being used.  As a result, further behavior is implementation defined.\r\n\r\nA home server which receives other kinds of packets (Accounting-Request, CoA-Request, Disconnect-Request) MAY finish processing outstanding requests, and then discard any response.  This behavior ensures that the desired action is still taken, even if the home server cannot inform the client of the results of that action.",
           "createdAt": "2025-04-16T12:27:54Z",
           "updatedAt": "2025-04-16T12:27:54Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I've moved the text to a new pull request ( #33 )\r\n\r\nI'll mark this one as \"wontfix\", further discussion should happen in the new pull request",
+          "createdAt": "2025-05-13T12:32:51Z",
+          "updatedAt": "2025-05-13T12:32:51Z"
         }
       ],
       "reviews": []
@@ -1114,10 +1131,13 @@
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "duplicate",
+        "wontfix"
+      ],
       "body": "TLS session resumption is currently a SHOULD requirement for DTLS and for TLS-PSK.\r\n\r\nUnify this recommendation for all use of (D)TLS and provide guidance for re-authorization as proposed by TLS-PSK.",
       "createdAt": "2024-07-23T15:22:02Z",
-      "updatedAt": "2024-10-01T18:27:49Z",
+      "updatedAt": "2025-05-14T18:07:44Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1378,21 +1398,21 @@
       "id": "PR_kwDOLrzygc56jySj",
       "title": "Parallel Connection Requests",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added text regarding the parallel connection requests detailed in RFC 6614 Section 2.3",
       "createdAt": "2024-09-05T17:55:47Z",
-      "updatedAt": "2024-10-04T13:04:02Z",
+      "updatedAt": "2025-05-14T18:09:00Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "parallel-connection-requests",
       "headRefOid": "d33d9a1c2667393a88415511aec80f0b287a7e83",
-      "closedAt": null,
+      "closedAt": "2025-05-14T18:09:00Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1410,6 +1430,13 @@
           "body": "It may be useful to have a section on managing connections, and distributing packets across connections.",
           "createdAt": "2024-10-04T13:04:00Z",
           "updatedAt": "2024-10-04T13:04:00Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is a general RADIUS proxying issue and not limited to RADIUS/(D)TLS, so it is out-of-scope for this document.",
+          "createdAt": "2025-05-14T18:08:58Z",
+          "updatedAt": "2025-05-14T18:08:58Z"
         }
       ],
       "reviews": []
@@ -1527,13 +1554,15 @@
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs discussion"
+      ],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2024-10-07T11:26:57Z",
+      "updatedAt": "2025-05-14T18:36:17Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "section-implementation-guidelines",
       "headRefOid": "7cf6645ec8727a844d8ab701f318ad13c6225982",
@@ -1548,6 +1577,20 @@
           "body": "On Oct 7, 2024, at 5:46 AM, Jan-Frederik Rieckers ***@***.***> wrote:\n> ..\n> +RADIUS/(D)TLS clients should use a single source (IP + port) when sending packets to a particular RADIUS/(D)TLS server. Doing so minimizes the number of (D)TLS session setups. It also ensures that information about the home server state is discovered only once.\n> \n> This could be a problem if a single RADIUS/(D)TLS peer has so much packet throughput that a single connection would be clogged (due to the limited ID space), and in this case the client would have to open a second connection to the same server to increase the usable space for packets-in-flight.\n> \n> I think we don't have text for that in the document yet, maybe it should be included in #13\n\n  Perhaps instead of a \"single\" connection, they should use the \"minimal\" number of connections.",
           "createdAt": "2024-10-07T11:26:56Z",
           "updatedAt": "2024-10-07T11:26:56Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am closing this PR since most of it is out-of-scope. (Feel free to re-open if it should still be included)",
+          "createdAt": "2025-05-14T18:12:49Z",
+          "updatedAt": "2025-05-14T18:12:49Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'm not sure why it is out of scope?  DTLS implementations issues are not covered in any of the underlying DTLS RFCs.  This text gives implementers specific and actionable guidelines for how to create servers that work.\r\n\r\nOne of my pet peeves over the years is RFCs which describe how to encode / decode packets, and then leave absolutely everything else unspecified.  The result is endless interoperability issues, bugs, etc.\r\n\r\nI'd like a larger discussion on the RADEXT list about scope, so I'll re-open this issue.",
+          "createdAt": "2025-05-14T18:34:14Z",
+          "updatedAt": "2025-05-14T18:34:14Z"
         }
       ],
       "reviews": [
@@ -1742,10 +1785,13 @@
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "duplicate",
+        "wontfix"
+      ],
       "body": "Added blurb on how CA trust for RADIUS/(D)TLS clients should be configured (from RFC 7360 Section 10.4)",
       "createdAt": "2024-09-05T19:57:29Z",
-      "updatedAt": "2025-04-14T17:29:34Z",
+      "updatedAt": "2025-05-14T18:28:53Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
@@ -1954,21 +2000,21 @@
       "id": "PR_kwDOLrzygc56q4EP",
       "title": "Security Consideration: Network Address Translation",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/16",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2024-10-08T18:05:08Z",
+      "updatedAt": "2025-05-14T20:44:09Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "Network-Address-Translation",
       "headRefOid": "3b26c0292bf02130fefe81928dd882b4c82b3c1b",
-      "closedAt": null,
+      "closedAt": "2025-05-14T18:31:13Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1986,6 +2032,27 @@
           "body": "On Oct 4, 2024, at 9:19 AM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> +## Network Address Translation\r\n> +\r\n> +Network Address Translation (NAT) is fundamentally incompatible with RADIUS/UDP. RADIUS/UDP uses the source IP address to determine the shared secret for the client, and NAT hides many clients behind one source IP address. As a result, RADIUS/UDP clients cannot be located behind a NAT gateway.\r\n> +\r\n> +In addition, port reuse on a NAT gateway means that packets from different clients may appear to come from the same source port on the NAT. That is, a RADIUS server may receive a RADIUS/DTLS packet from one source IP/port combination, followed by the reception of a RADIUS/UDP packet from that same source IP/port combination. If this behavior is allowed, then the server would have an inconsistent view of the client\u2019s security profile, allowing an attacker to choose the most insecure method.\r\n> \r\n> I'm not sure exactly what the problem here is and if the proposed solution is correct.\r\n> \r\n> I'll try to put it the way I understand the problem:\r\n> \r\n> A 10.0.0.1 (RADIUS/DTLS) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:2083\r\n> B 10.0.0.2 (RADIUS/UDP) --> NAT (translated to source 192.0.2.1:12345) --> RADIUS server 203.0.113.1:1812\r\n> \r\n> So now the RADIUS server has two UDP connections to 192.0.2.1:12345, but since the port on the RADIUS server side is different, the NAT can translate the UDP packets from source port 2083 to A and the ones from 1812 to B.\r\n\r\n  Yes.  The issue is the network security model.\r\n\r\n> In my view, the problem here is that, if the server mixes those up, the server is at fault for allowing the client list for RADIUS/UDP to merge with the client list for RADIUS/DTLS.\r\n> Those two client lists should be separate (at least in terms of IP-Addr/Port).\r\n\r\n  We don't know what source port will be used by the client.  So we can't rely on that.\r\n\r\n  All we know is that one IP is sending us RADIUS/UDP, and RADIUS/TLS.  The question is not just what to do, but what we _can_ do in that situation.\r\n\r\n> We cannot force every client behind a NAT to behave this way, because the NAT may be responsible for a huge variety of customer nets, and we can't mandate them to speak to each other.\r\n> \r\n> Example: Carrier-Grade NAT (CGN), Company A has a Dual-Stack internet connection with CGN for v4 and uses legacy-RADIUS, Company B has the same, but uses RADIUS/(D)TLS for their connection. We can't define a standard where Company A would now be forced to migrate to RADIUS/(D)TLS. They have no way of knowing that Company B is using DTLS with the same server. And we shouldn't mandate that the CGN keeps track of all possible connections and makes sure that no source port gets re-used if RADIUS/(D)TLS and RAIDUS/UDP are used with the same server.\r\n\r\n  Agreed.\r\n\r\n  To a certain extent, there is no technical reason why a server can't accept both RADIUS/UDP and RADIUS/TLS from the same source IP.  The packets are clearly distinguishable.\r\n\r\n  The problem we're trying to solve is to stop down-bidding attacks.  The simplest approach then is to say that both UDP and TLS may be allowed for compatibility, but that this configuration is NOT RECOMMENDED.",
           "createdAt": "2024-10-04T14:21:48Z",
           "updatedAt": "2024-10-04T14:21:48Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't see benefit in adding this text to the document, so I'm closing this PR.\r\nFeel free to re-open if it is still needed.",
+          "createdAt": "2025-05-14T18:31:13Z",
+          "updatedAt": "2025-05-14T18:31:13Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Perhaps the text could be reworded to be less NAT specific?  Many people operate RADIUS clients behind a NAT gateway, so it could be useful to explain how NAT affects RADIUS/(D)TLS.",
+          "createdAt": "2025-05-14T18:36:00Z",
+          "updatedAt": "2025-05-14T18:36:00Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The question is: Is this RADIUS/(D)TLS specific?\r\nI would argue that any effect of NAT also applies to a RADIUS/UDP with multiple different ports.",
+          "createdAt": "2025-05-14T20:44:07Z",
+          "updatedAt": "2025-05-14T20:44:07Z"
         }
       ],
       "reviews": [
@@ -2036,21 +2103,21 @@
       "id": "PR_kwDOLrzygc56q4c1",
       "title": "Security Consideration: Wildcard Clients",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/17",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added subsection for Wildcard Clients (from RFC 7360 Section 10.6)",
       "createdAt": "2024-09-06T13:50:05Z",
-      "updatedAt": "2024-10-04T17:22:08Z",
+      "updatedAt": "2025-05-14T18:38:21Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "wildcard-clients",
       "headRefOid": "1c0759df6ab4a748b1ae3b37557166d63dbbdf3c",
-      "closedAt": null,
+      "closedAt": "2025-05-14T18:38:21Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -2082,6 +2149,13 @@
           "body": "+1 for not using \"wildcard\" when talking about clients.",
           "createdAt": "2024-10-04T17:22:07Z",
           "updatedAt": "2024-10-04T17:22:07Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since the whole \"Connecting Client Identity\" is not used anywhere in this document, there is no point in mentioning this again for ip-range-config clients.\r\n\r\nHow to identify clients and what to do when you have identified a client is out-of-scope for this document.\r\nWe only make sure that the client has a valid config. Whether or not it's the same client is not important for RADIUS/(D)TLS, but a general RADIUS issue.\r\nI'm going to close the PR.",
+          "createdAt": "2025-05-14T18:38:21Z",
+          "updatedAt": "2025-05-14T18:38:21Z"
         }
       ],
       "reviews": []
@@ -2091,21 +2165,23 @@
       "id": "PR_kwDOLrzygc56rxFz",
       "title": "Security Consideration: Crypto-Agility",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/18",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "duplicate"
+      ],
       "body": "Added some basic text to reference the Deprecating Insecure Practices in RADIUS document (to address RFC 7360 Section 10.1)",
       "createdAt": "2024-09-06T16:02:52Z",
-      "updatedAt": "2024-10-04T13:37:34Z",
+      "updatedAt": "2025-05-14T18:41:47Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "security-considerations-crypto-agility",
       "headRefOid": "75f3d6d19314e14940458386c31434a16f23572d",
-      "closedAt": null,
+      "closedAt": "2025-05-14T18:41:46Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -2144,6 +2220,13 @@
           "body": "Fine by me, in this case it's even easier to reference it as normative.",
           "createdAt": "2024-10-04T13:37:32Z",
           "updatedAt": "2024-10-04T13:37:32Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "see #20, further discussion over there.",
+          "createdAt": "2025-05-14T18:41:46Z",
+          "updatedAt": "2025-05-14T18:41:46Z"
         }
       ],
       "reviews": []
@@ -2188,7 +2271,7 @@
       "labels": [],
       "body": "Moved the text from draft-ietf-radext-deprecate-radius and rejig it to work here.\r\n\r\nAs draft-ietf-radext-deprecate-radius does not deliver the agility it-self on these points whilst draft-ietf-radext-radiusdtls-bis (and RFC6614 and RFC7360) do, the references I feel should belong here.\r\n\r\nAddresses https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/18",
       "createdAt": "2024-11-03T12:54:41Z",
-      "updatedAt": "2024-11-03T12:54:41Z",
+      "updatedAt": "2025-05-14T18:46:27Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "6f6500732cf450eeee8d2363d4c5a986266f6173",
@@ -2200,7 +2283,48 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6pWMMF",
+          "commit": {
+            "abbreviatedOid": "5f2d1af"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T18:41:25Z",
+          "updatedAt": "2025-05-14T18:41:26Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nCrypto-agility requirements for the RADIUS protocol were discussed extensively in {{?RFC6421}}. {{RFC6614, Appendix C}} described how those requirements were met for RADIUS/TLS and {{RFC7360, Section 10.1}} describes the same for RADIUS/DTLS. For clarity, the final outcome of the those discussions are repeated, using the text of {{RFC7360}} with some minor modifications to update references, without changing the content.\r\n```\r\n\r\nIt's not \"crypto-agility in general\" but \"crypto-agility for RADIUS\"\r\nWe should make that clear.",
+              "createdAt": "2025-05-14T18:41:25Z",
+              "updatedAt": "2025-05-14T18:41:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6pWO7r",
+          "commit": {
+            "abbreviatedOid": "5f2d1af"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T18:46:27Z",
+          "updatedAt": "2025-05-14T18:46:27Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Perhaps add a ref to https://datatracker.ietf.org/doc/html/draft-ietf-radext-deprecating-radius-05, which discusses crypto agility",
+              "createdAt": "2025-05-14T18:46:27Z",
+              "updatedAt": "2025-05-14T18:46:27Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 21,
@@ -2590,6 +2714,106 @@
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_dtls_record_padding",
       "headRefOid": "bf7368e72618f74094a4405acbbeabfb28cd9f77",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOLrzygc6V-9FG",
+      "title": "Alternative wording for session closure.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/33",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Originally proposed text from #6, with the changes suggested by Alan. Slight changes in the text.\r\n\r\nOne discussion item: Should for RADIUS proxies\r\nAccounting-Request/CoA-Request/Disconnect-Requests  still be processed on the outgoing layer and retransmitted?\r\n\r\nFor the RADIUS server we say that the server may process these packets, and just discard the answer.\r\nMaybe the same should be done for RADIUS proxies. On the other hand, if we discard the answer anyway, retransmitting may also be pointless.",
+      "createdAt": "2025-05-13T11:28:17Z",
+      "updatedAt": "2025-05-13T15:05:20Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_response_cache",
+      "headRefOid": "97092c77d0f446b780ab5b24b1818a1e5c4bab71",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I would say that on closing a session, all packets which were sent on that session (without a response) should be treated as if they had just been received from the client.  The packets should be re-processed through the forwarding path.",
+          "createdAt": "2025-05-13T14:44:55Z",
+          "updatedAt": "2025-05-13T14:44:55Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For the \"client\" side of the broken connection. yes.\r\nThe question is for the \"server\" side of the broken connection. should they retransmit on their uplink or just delete the packet and trust that the client will try a different path for the outstanding packet?",
+          "createdAt": "2025-05-13T14:59:26Z",
+          "updatedAt": "2025-05-13T14:59:26Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "For a client which sees a broken \"outbound\" connection, it can retransmit the packet on another connection.  This applies to proxies, too.\r\n\r\nFor a server which sees a broken \"inbound\" connection, it should just discard the request.  There is no globally unique packet ID, so the server has no way of detecting the \"same\" packet which is retransmitted from the client over a different inbound link.  So no matter what the server does, it can't send any reply to the client.\r\n\r\nTherefore, the only thing that the server can do is to discard the request.",
+          "createdAt": "2025-05-13T15:05:18Z",
+          "updatedAt": "2025-05-13T15:05:18Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOLrzygc6WNHNF",
+      "title": "Move text for session resumption and clarify",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/34",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Text taken from #7 with some minor changes:\r\n\r\nInstead of generally referencing RFC5077, it is now referenced specifically for servers, since servers issue the tickets. The client must still cache all relevant data.",
+      "createdAt": "2025-05-14T18:07:31Z",
+      "updatedAt": "2025-05-14T18:07:31Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_session_resumption",
+      "headRefOid": "b7cde9b15aaf2223316aa6bccc56ac101dc65ee3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 35,
+      "id": "PR_kwDOLrzygc6WNRJm",
+      "title": "Add text for default trust anchors",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/35",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Rewording from #15, see discussion there.\r\n\r\nI have left out the reasoning for this, since it does not fit in the normative text, if needed, we can add a subsection in the security considerations.",
+      "createdAt": "2025-05-14T18:28:40Z",
+      "updatedAt": "2025-05-14T18:28:40Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_trust_anchor",
+      "headRefOid": "fefc43cbe17c8d170fb9a3fef4fd329a0f5b4ba3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
