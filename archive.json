@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-15T00:53:45.127058+00:00",
+  "timestamp": "2025-05-18T00:59:11.964910+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -2000,21 +2000,21 @@
       "id": "PR_kwDOLrzygc56q4EP",
       "title": "Security Consideration: Network Address Translation",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/16",
-      "state": "CLOSED",
+      "state": "OPEN",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2025-05-14T20:44:09Z",
+      "updatedAt": "2025-05-17T11:45:53Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "14ac56b2132bc2989536d94cea917dad71539bf0",
+      "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "Network-Address-Translation",
       "headRefOid": "3b26c0292bf02130fefe81928dd882b4c82b3c1b",
-      "closedAt": "2025-05-14T18:31:13Z",
+      "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -2053,6 +2053,13 @@
           "body": "The question is: Is this RADIUS/(D)TLS specific?\r\nI would argue that any effect of NAT also applies to a RADIUS/UDP with multiple different ports.",
           "createdAt": "2025-05-14T20:44:07Z",
           "updatedAt": "2025-05-14T20:44:07Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "In RADIUS/UDP, clients are uniquely identified based on source IP address.  In contrast, NAT hides multiple different clients behind one IP address.  The two are therefore fundamentally incompatible.\r\n\r\nSome implementations have addressed this by looking at the contents of the RADIUS packet.  If the packet contains `NAS-IP-Address = IP1`, then it is identified as \"client 1\".  If the packet contains `NAS-IP-Address = IP2` then it is identified as \"client 2\".  This practice \"works\", for various values of \"works\".\r\n\r\nWhile the NAT usually maps one (source IP/port) to one outbound port on the NAT box, this mapping is not guaranteed.  It can change over time, without notice to either RADIUS client or server.  The server therefore can _mostly_ treat packets from one NAT port as being from the \"same\" client, but it cannot _guarantee_ that they are from the same client.  If some time has passed with no traffic, the port can be re-used.\r\n\r\n[RFC 4787 Section 4.3](https://datatracker.ietf.org/doc/html/rfc4787#section-4.3) suggests that the timeouts SHOULD be 5 minutes.  However, sites like Google Cloud default to [30 seconds](https://cloud.google.com/nat/docs/tune-nat-configuration#nat-timeouts).  Linux also appears to default to 30 seconds.\r\n\r\nIn order to keep the port mapping alive, the client must send network traffic within that timeout period.  But many clients don't send keep-alives, as [RFC 2865 Section 2.6](https://datatracker.ietf.org/doc/html/rfc2865#section-2.6) says that keep-alives are harmful.\r\n\r\nThese limitations mean that the server can only determine client identity by examining the contents every packet RADIUS/UDP in isolation.  This behavior is at best a hack, and is not standardized in any RADIUS RFC.\r\n\r\nIn contrast, with DTLS, there is a way to uniquely identify a client: the TLS session.  This identification is independent of source IP or source port.  With TLS, the identification is even stronger: the underlying TCP connection.  The properties of TCP ensure that the TCP connections won't conflict with each other, even if the NAT box reuses a source port.\r\n\r\nAs a result, NAT is fundamentally incompatible with RADIUS/UDP, but makes zero difference to RADIUS/(D)TLS.\r\n\r\nThere is an additional issue, as pointed out in the suggested text.\r\n\r\nWhen multiple clients are placed behind a NAT, the security of the system as a whole is limited by the least secure client.  Since the NAT gateway uses the same source IP for both RADIUS/UDP clients, and RADIUS/(D)TLS clients, the server must allow RADIUS/UDP from that source IP.  Which means that it's possible for a misconfiguration change the RADIUS/(D)TLS clients so that they use RADIUS/UDP.  The server has essentially no way of knowing that this has taken place, because (as noted above) it has few options for distinguishing RADIUS/UDP clients behind a NAT.\r\n\r\nAs a result, I think the text is useful, and should stay in.",
+          "createdAt": "2025-05-17T11:45:52Z",
+          "updatedAt": "2025-05-17T11:45:52Z"
         }
       ],
       "reviews": [
