@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-18T00:59:11.964910+00:00",
+  "timestamp": "2025-05-20T00:56:22.757934+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -2004,10 +2004,12 @@
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs discussion"
+      ],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2025-05-17T11:45:53Z",
+      "updatedAt": "2025-05-18T11:31:41Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
