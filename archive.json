@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T00:56:22.757934+00:00",
+  "timestamp": "2025-05-25T01:00:37.052633+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -206,7 +206,7 @@
       ],
       "body": "OpenRoaming implementers have seen issues where RADIUS/TLS clients repeatedly try to connect to servers, despite their connections not being accepted\n\nThat is, the TCP port is open, but after exchanging TLS data, the server decides that the client should not be allowed access, and closes the connection.  This usually happens when the client is misconfigured:\n\n* client is using the wrong credentials (invalid PSK or client certificate from unknown or wrong CA)\n  * Section 4.3 discusses client identity, and states that depending on the presented credentials,\n\n```\nthe server may decline to perform RADIUS transactions with this client`\n``` \n* the client is coming from an untrusted network.\n  *  Section 7.3 of this document discusses filtering\n\n```\nIf every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.\n```\n\nThe observed behavior is that some clients are attempting to reconnect multiple times a second, which is unfriendly.\n\nThe current Section 4 has no text on reconnection attempts.  Perhaps we could add a section to discuss this, using timers similar to [RFC 5080 Section 2.2.1](https://www.rfc-editor.org/rfc/rfc5080.html#section-2.2.1)\n\n---\n\n4.8 Client Connection Attempts\n\nWhen a client fails to open a connection, it SHOULD wait for a\nperiod of time, and then try the connection attempt again.\n\nSome existing RADIUS clients implement excessively aggressive\nreconnection behavior, utilizing default reconnection timeouts of\none second or less without support for congestive backoff.  When\ndeployed at a large scale, these implementations are susceptible to\ncongestive collapse. \n\nRADIUS client connection timers are based on the model used RFC 5080\nSection 2.2.1.  Variables used here are also borrowed from this\nspecification.  The connection attempts terminate when the client\nsuccessfully connects to the server, or the connection attempts are\nconsidered to have failed according to the reconnection\nmechanism described below.  Other reconnection mechanisms are\npossible, as long as they satisfy the requirements on jitter and\ncongestive backoff.\n\nThe following algorithms MUST be implemented by any client that originates RADIUS/TLS\nconnections.\n\nThe reconnection behavior is controlled and described by the\nfollowing variables:\n\n      RT     Reconnection timeout\n\n      IRT    Initial reconnection time  (default 2 seconds)\n\n      MRC    Maximum reconnection count (default 15 attempts)\n\n      MRT    Maximum reconnection time (default 300 seconds)\n\n      MRD    Maximum reconnection duration (default 3600 seconds)\n\n      RAND   Randomization factor\n\nWith each connection attempt, the sender sets RT according to the\nrules given below.  If RT expires before the connection is successful,\nthe sender re-computes RT and makes another connection attempt.\n\nEach of the computations of a new RT include a randomization factor\n(RAND), which is a random number chosen with a uniform distribution\nbetween -0.1 and +0.1.  The randomization factor is included to\nminimize the synchronization of messages.\n\nThe algorithm for choosing a random number does not need to be\ncryptographically sound.  The algorithm SHOULD produce a different\nsequence of random numbers from each invocation.\n\nRT for the first connection attempt is based on IRT:\n\n      RT = IRT + RAND*IRT\n\nRT for each subsequent connection attempt is based on the\nprevious value of RT:\n\n      RT = 2*RTprev + RAND*RTprev\n\nMRT specifies an upper bound on the value of RT (disregarding the\nrandomization added by the use of RAND).  If MRT has a value of 0,\nthere is no upper limit on the value of RT.  Otherwise:\n\n      if (RT > MRT)\n         RT = MRT + RAND*MRT\n\nMRD specifies an upper bound on the length of time that a\nclient may try to connect to a server.  The client stops its'\nconnection attempts when MRD seconds have elapsed since it first\nattempted to connect .  MRD MUST be set, MUST NOT have a value higher\nthan 86400 seconds.  MRD SHOULD have a value between 300 and 86400\nseconds.\n\nMRC specifies an upper bound on the number of times a client may try\nto reconnect to a server.  If MRC is zero, The client stops its'\nconnection attempts once MRD seconds have elapsed since the client\nfirst attempted to connect.  If MRC is non-zero, The client stops its'\nconnection attempts when either it as tried MRC connection attempts,\nor when MRD seconds have elapsed since the client first attempted to\nconnect.\n\nThe recommended values for these variables are a balance between\nenabling fast reconnection when there are transient network outages,\nand acknowledging that infinite retries are not desired.  That is, if\na RADIUS server cannot be reached within a day, then the problem is\nlikely due to client misconfiguration, and is not due to a transient network\noutage.  Once a client stops its reconnection attempts due to reaching\nMRC or MRD, it SHOULD log a descriptive error indicating that the\nserver is unreachable.  This error serves as an indication that\nadministrator intervention is needed.\n\nThe client then MUST NOT make any more connection attempts until an\nadministrator has intervened.  This administrator intervention could take any form,\nsuch as setting a \"reconnect now\" flag.  Other forms of this\nintervention are implementation defined, and are outside of the scope\nof this specification.\n",
       "createdAt": "2025-05-06T18:31:05Z",
-      "updatedAt": "2025-05-14T18:42:25Z",
+      "updatedAt": "2025-05-23T18:40:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -222,6 +222,13 @@
           "body": "This issue is only for RADIUS/(D)TLS and RADIUS/TCP.  Those transports have connections between the client and server.\n\nRADIUS/UDP doesn't have connections.  Even connected UDP sockets are pretty bad, and don't always work the way you would think.  RADIUS/UDP historically has just done per-packet retransmissions, and completely ignored the idea of a \"connection\".\n\nSo since this is an issue for RADIUS/(D)TLS, and not so much for RADIUS/UDP, I think it's OK to add here.\n\nIf we don't add it here, then this text will have to wait for a new standards-track document.  Which is likely to be a long time coming.",
           "createdAt": "2025-05-12T14:48:24Z",
           "updatedAt": "2025-05-12T14:48:24Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I agree, clients retrying to connect too fast can be an issue. So putting in some limits might be good. As Janfred suggested, I'm in favor of keeping it short and not overspecify it. I don't think we need to compel implemetors do it in exactly this way - as long as a somewhat reasonable back-off is implemented.\n\nI see two important points to mandate:\n- a lower bound: don't retry a connection earlier than, say, 2 seconds\n- an exponential back-off (double the reconnect timer every time it fails - with an upper limit. Currently I limit the back-off to 60s; see below)\n- mabye add jitter (not sure if mandating it is required, but implementations may do it)\n\nNo strong feelings about the exact numbers to recommend or mandate - I've chosen mine arbitrarily.\n\nApplying the RFC5080 algorithm directly, I see one particular issue: giving up the connection attempts completely. Might be wishful for misconfigured clients, but it creates issues in certain situations: e.g. when a radius server (idp or proxy) is down for maintenance or otherwise unreachable for some time. If that time is too long, the clients would have given up and never recover without admin intervention. As an infrastructure/service operator, this is a no-go for me. For this, I also limit the back-off timer, to ensure a reasonable recovery time after a server is back alive.\n",
+          "createdAt": "2025-05-23T18:40:51Z",
+          "updatedAt": "2025-05-23T18:40:51Z"
         }
       ]
     }
@@ -1559,7 +1566,7 @@
       ],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2025-05-14T18:36:17Z",
+      "updatedAt": "2025-05-23T17:00:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -1591,6 +1598,13 @@
           "body": "I'm not sure why it is out of scope?  DTLS implementations issues are not covered in any of the underlying DTLS RFCs.  This text gives implementers specific and actionable guidelines for how to create servers that work.\r\n\r\nOne of my pet peeves over the years is RFCs which describe how to encode / decode packets, and then leave absolutely everything else unspecified.  The result is endless interoperability issues, bugs, etc.\r\n\r\nI'd like a larger discussion on the RADEXT list about scope, so I'll re-open this issue.",
           "createdAt": "2025-05-14T18:34:14Z",
           "updatedAt": "2025-05-14T18:34:14Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "  Hmm. Double checking osx and FreeBSD, they all have the same text about connected udp sockets. I missed that, and had  found other references which said something else. \n\n  Ok, my objections are withdrawn, and I'll go over the text for any needed updates. \n",
+          "createdAt": "2025-05-23T17:00:53Z",
+          "updatedAt": "2025-05-23T17:00:53Z"
         }
       ],
       "reviews": [
@@ -1771,6 +1785,66 @@
               "body": "We already have some of this text in the \"Client Subsystems\" section in the Security considerations. Would you suggest merging the \"Client Subsystems\" section in this section?\r\nOtherwise, this text should at least reference the security considerations.",
               "createdAt": "2024-10-07T09:56:47Z",
               "updatedAt": "2024-10-07T09:56:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qvosQ",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T14:23:06Z",
+          "updatedAt": "2025-05-23T14:23:06Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "I think\r\n> use a single source (IP + port) when sending packets to a particular RADIUS/(D)TLS server\r\n\r\nwould be wrong. We can only associate packets to a TLS session using the 5-tuple. For TCP this is implicit, for UDP, we can tell the kernel to do it by using connected sockets, or do it manually - but there is no more information besides the 5-tuple to do it.\r\nWithout RADIUS/1.1, we need the possibility of multiple TLS sessions to mitigate ID-exhaustion.\r\nIf any, the client shoud minimize the number of TLS sessions.",
+              "createdAt": "2025-05-23T14:23:06Z",
+              "updatedAt": "2025-05-23T14:23:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qwSdI",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T15:12:57Z",
+          "updatedAt": "2025-05-23T15:12:57Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "I agree that clients should minimize the number of TLS sessions.\r\n\r\nIn most cases, the 5-tuple will be enough to track a UDP \"connection\".   However, this is not guaranteed to work when NATs are used.  It will generally be OK, but the NAT RFCs allow NATs to re-use a source port after 30 seconds.\r\n\r\nPlus, UDP connected sockets do not work like TCP connected sockets.  I spent some time looking into this over the past few months.\r\n\r\nUDP connected sockets do what you expect _only_ for sending packets.  They allow an application to call `write()` instead of `sendto()` for UDP data.\r\n\r\nFor receiving packets, the OS will deliver UDP packets to the destination IP / port _no matter what the source IP is_.  As a result, a system receiving packets always has to use `recvfrom()`, and then check the source IP.  This is needed even for connected UDP sockets.\r\n\r\nThis usually isn't an issue in practice, because not many people are spamming UDP packets to RADIUS IP/ports.  But if a DTLS server is publicly available, this will happen.\r\n\r\nIn general, this means that servers can't use connected UDP sockets to track a \"UDP session\".",
+              "createdAt": "2025-05-23T15:12:57Z",
+              "updatedAt": "2025-05-23T15:12:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qxLbk",
+          "commit": {
+            "abbreviatedOid": "7cf6645"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T16:30:20Z",
+          "updatedAt": "2025-05-23T16:30:20Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "We have to use exatley the 5-tuple, there is no other information to associate an incoming packet with a TLS session. If the NAT descides to reuse a port after not seeing a packet for 30 seconds, it will stomp on that connection and break it. The TLS layer will take care of it and not accept any TLS messages not belonging to the old session. Same could happen if the client restarts (wihtout closing the DTLS conection) and reuses the port. \r\n\r\nConnected UDP sockets are perfectly fine for DTLS - I have a working implementation. In terms of steering incoming packets to the correct socket, it works exactly like TCP - you just have to implement the `accept()` logic yourself (i.e. getting the first packet with `recvfrom()` and then creating a new socket and `bind()` plus `connect()` it to the incoming 5-tuple). The linux manpage about `connect()` explicitly states: \r\n>If the socket sockfd is of type SOCK_DGRAM, then addr is the\r\n       address to which datagrams are sent by default, and the only\r\n       address from which datagrams are received.\r\n\r\nBut in the end its irrelevant wether you use connected sockets or not, the provisions of associating a 5-tuple with a tls session remain the same.\r\n",
+              "createdAt": "2025-05-23T16:30:20Z",
+              "updatedAt": "2025-05-23T16:30:20Z"
             }
           ]
         }
@@ -2009,7 +2083,7 @@
       ],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2025-05-18T11:31:41Z",
+      "updatedAt": "2025-05-23T15:19:07Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2102,6 +2176,72 @@
               "body": "Fortunately any kind of NAT is not going to blend this to the same source IP and port (to the same destination IP and port) as it would have no way to figure out what to do with the responses from the server (ie. which client gets them); ignoring the case of the idle timeout ending a flow and starting the new one.\r\n\r\nOtherwise I can only see this attack working if a server ignored the destination IP/port. Maybe I am missing something...",
               "createdAt": "2024-10-08T18:05:08Z",
               "updatedAt": "2024-10-08T19:29:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qvyDq",
+          "commit": {
+            "abbreviatedOid": "3b26c02"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Over all, I don't see NAT as a security consideration. Yes (D)TLS works way better behind a NAT than UDP - but that's just one more point why to use TLS in the first place - for practical reasons.",
+          "createdAt": "2025-05-23T14:35:16Z",
+          "updatedAt": "2025-05-23T14:46:35Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "This statement is fundametally wrong. RADIUS/UDP works perfeclty fine behind a NAT, as many Wifi deployments where each individual AP talks to the radius server directly demonstrates. The only caveat is that all RADIUS clients behind a nat MUST use the same shared secret.",
+              "createdAt": "2025-05-23T14:35:16Z",
+              "updatedAt": "2025-05-23T14:46:35Z"
+            },
+            {
+              "originalPosition": 16,
+              "body": "as @jimdigriz mentioned, a NAT cannot reuse a 5-tuple. In practice any NAT implementation I've come across won't even reuse the source port. So this is a non-issue to me.\r\nEven if a NAT would do that, the provisions in this draf state that any given port on a server MUST only accept one protocol, i.e. a port accepting DTLS packets must discard any packets that is not a TLS message.",
+              "createdAt": "2025-05-23T14:42:26Z",
+              "updatedAt": "2025-05-23T14:46:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qwKhF",
+          "commit": {
+            "abbreviatedOid": "3b26c02"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T15:03:38Z",
+          "updatedAt": "2025-05-23T15:03:38Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "The \"fundamentally incompatible\" phrase is not about whether it works, but whether it breaks the security model of RADIUS.  Having multiple clients behind a NAT might \"work\", but it has not been standardized in the RFCs.\r\n\r\nHaving multiple clients share the same secret is bad security practice, and should not be recommended by a standard,.",
+              "createdAt": "2025-05-23T15:03:38Z",
+              "updatedAt": "2025-05-23T15:03:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc6qwW1k",
+          "commit": {
+            "abbreviatedOid": "3b26c02"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T15:19:07Z",
+          "updatedAt": "2025-05-23T15:19:07Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Aa NAT is allowed to re-use a source port after 30 seconds without traffic.  So the issue should be discussed here, I think.\r\n\r\nHaving different server ports for UDP vs DTLS addresses some of the security issues, but it still allows for down-grade attacks.\r\n\r\nWhen there are both UDP and DTLS clients are behind a NAT, then it is possible for a misconfiguration to turn a DTLS client into a UDP client.  Since the server accepts both kinds of packets, it must accept these packets.  And it may be difficult for the server to tell that this is happening.\r\n\r\nWe should really recommend against allowing both UDP and DTLS clients behind a NAT.  If we don't discuss it here, then I expect the SECDIR reviewer or the IESG will point it out.",
+              "createdAt": "2025-05-23T15:19:07Z",
+              "updatedAt": "2025-05-23T15:19:23Z"
             }
           ]
         }
@@ -2790,7 +2930,7 @@
       "labels": [],
       "body": "Text taken from #7 with some minor changes:\r\n\r\nInstead of generally referencing RFC5077, it is now referenced specifically for servers, since servers issue the tickets. The client must still cache all relevant data.",
       "createdAt": "2025-05-14T18:07:31Z",
-      "updatedAt": "2025-05-14T18:07:31Z",
+      "updatedAt": "2025-05-23T15:22:37Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2801,7 +2941,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'm personally no longer convinced that session resumption SHOULD be implemented - given that connections tend to be long running anyway and the complexity it infers. Of course, it MAY be implemented.\r\n\r\nBut I'm not going to argue about that detail. The important thing is what to do **if** it is implemented, which is fine with me.\r\n\ud83d\udc4d ",
+          "createdAt": "2025-05-23T15:21:48Z",
+          "updatedAt": "2025-05-23T15:22:36Z"
+        }
+      ],
       "reviews": []
     },
     {
