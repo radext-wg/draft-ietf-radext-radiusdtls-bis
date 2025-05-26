@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 13 November 2025                                    12 May 2025
+Expires: 27 November 2025                                    26 May 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 November 2025.
+   This Internet-Draft will expire on 27 November 2025.
 
 Copyright Notice
 
@@ -427,7 +427,7 @@ Table of Contents
 
    All RADIUS/(D)TLS server implementations MUST implement this model.
    RADIUS/(D)TLS client implementations SHOULD implement this model, but
-   MUST implement either this or TLS-PSK
+   MUST implement either this or TLS-PSK.
 
    If implemented it MUST use the following rules:
 
@@ -452,6 +452,15 @@ Table of Contents
       and re-evaluating the cached certificate or by renegotiating the
       (D)TLS connection, either directly or by opening a new (D)TLS
       connection and closing the old one.
+
+   RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of
+   trusted CAs by the vendor or manufacturer that are enabled by
+   default.  Instead, the peers SHOULD start off with an empty CA list
+   as trust anchor.  The addition of a CA SHOULD be done only when
+   manually confiugred by the administrator.  This does not preculde
+   vendors or manufacturers including their trust list in their
+   products, but the enabling of those lists should be a conscious
+   decision by an administrator.
 
    RADIUS/(D)TLS clients and server MUST follow [RFC9525] when
    validating peer identities.  Specific details are provided below:
