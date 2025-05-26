@@ -419,8 +419,22 @@ Table of Contents
    RADIUS itself, due to the fixed shared secret.
 
    RADIUS/(D)TLS allows for the following different modes of mutual
-   authentication, which will be further specified in this section: *
-   TLS-X.509-PKIX * TLS-X.509-FINGERPRINT * TLS-RAW-PUBLIC-KEY * TLS-PSK
+   authentication, which will be further specified in this section:
+
+   *  TLS-X.509-PKIX
+
+   *  TLS-X.509-FINGERPRINT
+
+   *  TLS-RAW-PUBLIC-KEY
+
+   *  TLS-PSK
+
+   Independent of the chosen mode of authentication, the mutual
+   authentication MUST be performed during the initial handshake.
+   Alternative methods, such as post-handshake certificate-based client
+   authentication (see [RFC8446], Section 4.6.2) with TLS 1.3 or
+   renegotiation with TLS 1.2, MUST NOT be used to achieve mutual
+   authentication.
 
 4.2.1.  Authentication using X.509 certificates with PKIX trust model
         (TLS-X.509-PKIX)
