@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-25T01:00:37.052633+00:00",
+  "timestamp": "2025-05-27T00:54:25.132336+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -206,7 +206,7 @@
       ],
       "body": "OpenRoaming implementers have seen issues where RADIUS/TLS clients repeatedly try to connect to servers, despite their connections not being accepted\n\nThat is, the TCP port is open, but after exchanging TLS data, the server decides that the client should not be allowed access, and closes the connection.  This usually happens when the client is misconfigured:\n\n* client is using the wrong credentials (invalid PSK or client certificate from unknown or wrong CA)\n  * Section 4.3 discusses client identity, and states that depending on the presented credentials,\n\n```\nthe server may decline to perform RADIUS transactions with this client`\n``` \n* the client is coming from an untrusted network.\n  *  Section 7.3 of this document discusses filtering\n\n```\nIf every RADIUS/(D)TLS client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.\n```\n\nThe observed behavior is that some clients are attempting to reconnect multiple times a second, which is unfriendly.\n\nThe current Section 4 has no text on reconnection attempts.  Perhaps we could add a section to discuss this, using timers similar to [RFC 5080 Section 2.2.1](https://www.rfc-editor.org/rfc/rfc5080.html#section-2.2.1)\n\n---\n\n4.8 Client Connection Attempts\n\nWhen a client fails to open a connection, it SHOULD wait for a\nperiod of time, and then try the connection attempt again.\n\nSome existing RADIUS clients implement excessively aggressive\nreconnection behavior, utilizing default reconnection timeouts of\none second or less without support for congestive backoff.  When\ndeployed at a large scale, these implementations are susceptible to\ncongestive collapse. \n\nRADIUS client connection timers are based on the model used RFC 5080\nSection 2.2.1.  Variables used here are also borrowed from this\nspecification.  The connection attempts terminate when the client\nsuccessfully connects to the server, or the connection attempts are\nconsidered to have failed according to the reconnection\nmechanism described below.  Other reconnection mechanisms are\npossible, as long as they satisfy the requirements on jitter and\ncongestive backoff.\n\nThe following algorithms MUST be implemented by any client that originates RADIUS/TLS\nconnections.\n\nThe reconnection behavior is controlled and described by the\nfollowing variables:\n\n      RT     Reconnection timeout\n\n      IRT    Initial reconnection time  (default 2 seconds)\n\n      MRC    Maximum reconnection count (default 15 attempts)\n\n      MRT    Maximum reconnection time (default 300 seconds)\n\n      MRD    Maximum reconnection duration (default 3600 seconds)\n\n      RAND   Randomization factor\n\nWith each connection attempt, the sender sets RT according to the\nrules given below.  If RT expires before the connection is successful,\nthe sender re-computes RT and makes another connection attempt.\n\nEach of the computations of a new RT include a randomization factor\n(RAND), which is a random number chosen with a uniform distribution\nbetween -0.1 and +0.1.  The randomization factor is included to\nminimize the synchronization of messages.\n\nThe algorithm for choosing a random number does not need to be\ncryptographically sound.  The algorithm SHOULD produce a different\nsequence of random numbers from each invocation.\n\nRT for the first connection attempt is based on IRT:\n\n      RT = IRT + RAND*IRT\n\nRT for each subsequent connection attempt is based on the\nprevious value of RT:\n\n      RT = 2*RTprev + RAND*RTprev\n\nMRT specifies an upper bound on the value of RT (disregarding the\nrandomization added by the use of RAND).  If MRT has a value of 0,\nthere is no upper limit on the value of RT.  Otherwise:\n\n      if (RT > MRT)\n         RT = MRT + RAND*MRT\n\nMRD specifies an upper bound on the length of time that a\nclient may try to connect to a server.  The client stops its'\nconnection attempts when MRD seconds have elapsed since it first\nattempted to connect .  MRD MUST be set, MUST NOT have a value higher\nthan 86400 seconds.  MRD SHOULD have a value between 300 and 86400\nseconds.\n\nMRC specifies an upper bound on the number of times a client may try\nto reconnect to a server.  If MRC is zero, The client stops its'\nconnection attempts once MRD seconds have elapsed since the client\nfirst attempted to connect.  If MRC is non-zero, The client stops its'\nconnection attempts when either it as tried MRC connection attempts,\nor when MRD seconds have elapsed since the client first attempted to\nconnect.\n\nThe recommended values for these variables are a balance between\nenabling fast reconnection when there are transient network outages,\nand acknowledging that infinite retries are not desired.  That is, if\na RADIUS server cannot be reached within a day, then the problem is\nlikely due to client misconfiguration, and is not due to a transient network\noutage.  Once a client stops its reconnection attempts due to reaching\nMRC or MRD, it SHOULD log a descriptive error indicating that the\nserver is unreachable.  This error serves as an indication that\nadministrator intervention is needed.\n\nThe client then MUST NOT make any more connection attempts until an\nadministrator has intervened.  This administrator intervention could take any form,\nsuch as setting a \"reconnect now\" flag.  Other forms of this\nintervention are implementation defined, and are outside of the scope\nof this specification.\n",
       "createdAt": "2025-05-06T18:31:05Z",
-      "updatedAt": "2025-05-23T18:40:52Z",
+      "updatedAt": "2025-05-26T11:49:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -229,6 +229,41 @@
           "body": "I agree, clients retrying to connect too fast can be an issue. So putting in some limits might be good. As Janfred suggested, I'm in favor of keeping it short and not overspecify it. I don't think we need to compel implemetors do it in exactly this way - as long as a somewhat reasonable back-off is implemented.\n\nI see two important points to mandate:\n- a lower bound: don't retry a connection earlier than, say, 2 seconds\n- an exponential back-off (double the reconnect timer every time it fails - with an upper limit. Currently I limit the back-off to 60s; see below)\n- mabye add jitter (not sure if mandating it is required, but implementations may do it)\n\nNo strong feelings about the exact numbers to recommend or mandate - I've chosen mine arbitrarily.\n\nApplying the RFC5080 algorithm directly, I see one particular issue: giving up the connection attempts completely. Might be wishful for misconfigured clients, but it creates issues in certain situations: e.g. when a radius server (idp or proxy) is down for maintenance or otherwise unreachable for some time. If that time is too long, the clients would have given up and never recover without admin intervention. As an infrastructure/service operator, this is a no-go for me. For this, I also limit the back-off timer, to ensure a reasonable recovery time after a server is back alive.\n",
           "createdAt": "2025-05-23T18:40:51Z",
           "updatedAt": "2025-05-23T18:40:51Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Clients already have to (or should) implement the retransmission requirements of RFC 5080.  Using the same algorithm here should make it easier to implement.  Plus, there is no real reason to have a different algorithm.\n\nThe suggestion to stop connection attempts came from Eduroam US.  There, they see clients who have _never_ been able to connect, but who are still trying days to months later.\n\nI think it's OK either way (stop trying on error, or keep trying on error).  We just need a back-off time which is small enough that it allows systems to recover from temporary failures, but large enough that the connection attempts aren't problematic.\n\nI would also be concerned about systems which are affected by the original proposal.  For me. if the RADIUS server is down for days, then this signifies a fairly catastrophic error.  In that case, the RADIUS clients should arguably stop their connection attempts, because it likely _doesn't_ mean that the RADIUS server is down, it means that the client was misconfigured.",
+          "createdAt": "2025-05-25T13:30:59Z",
+          "updatedAt": "2025-05-25T13:30:59Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I would also be concerned about systems which are affected by the original proposal. For me. if the RADIUS server is down for days, then this signifies a fairly catastrophic error. In that case, the RADIUS clients should arguably stop their connection attempts, because it likely doesn't mean that the RADIUS server is down, it means that the client was misconfigured.\n\nI would be careful with such an assumption. While this might be the case for you, the internet is not monolithic and by restricting the standards beyond reasonable limits, we can have one of two outcomes: Either the standard doesn't get accepted/implemented/used/..., because it causes too much problems or the implementations simply ignore the annoying restrictions.\nNeither outcome is good and what we want.\nI would argue that especially the second case is highly problematic, because implementers may start ignoring requirements that are security relevant and introduce vulnerabilities. (We can't stop them from ignoring requirements, but if we add arbitrary requirements, I suspect the willingness to ignore other requirements would go way up.)\n\nOne use case from the top of my head: An organization has 3 redundant RADIUS servers. For bigger maintenance, one of the servers is taken offline for a longer period of time.\nEverything still works and is redundant, but if the goal is, for example, to perform the maintenance on each of the three servers with, let's say, one week in between, then clients would loose the connection to all three servers, because they would mark the server as dead and not retry.\n\n> Clients already have to (or should) implement the retransmission requirements of RFC 5080. Using the same algorithm here should make it easier to implement. Plus, there is no real reason to have a different algorithm.\n\nNot if the nodes are RADIUS/TLS (or RADIUS/TCP) only, since RADIUS/TLS doesn't have any retransmissions.\nI also gather that the \"retransmission of packets\" code may not translate 1:1 to \"re-opening of sessions\", so it is a non-negligible implementation effort.",
+          "createdAt": "2025-05-26T08:25:43Z",
+          "updatedAt": "2025-05-26T08:25:43Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On May 26, 2025, at 4:26\u202fAM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> I would be careful with such an assumption. While this might be the case for you, the internet is not monolithic and by restricting the standards beyond reasonable limits, we can have one of two outcomes: Either the standard doesn't get accepted/implemented/used/..., because it causes too much problems or the implementations simply ignore the annoying restrictions.\r\n> Neither outcome is good and what we want.\r\n\r\n  Implementations already ignore many of the requirements of the RFCs.  For me, the standard should define best practices.  That way when implementations do ridiculous things, we can point to the standard and say \"you were told not to do that\".\r\n\r\n  I am very much opposed to watering down the standards, based on a worry that a \"too strong\" standard will be ignored by implementations.  For me, that path gives implementations the ability to do whatever they want, and then to claim standards compliance.\r\n\r\n> I would argue that especially the second case is highly problematic, because implementers may start ignoring requirements that are security relevant and introduce vulnerabilities. (We can't stop them from ignoring requirements, but if we add arbitrary requirements, I suspect the willingness to ignore other requirements would go way up.)\r\n\r\n  That hasn't been my experience.\r\n\r\n> One use case from the top of my head: An organization has 3 redundant RADIUS servers. For bigger maintenance, one of the servers is taken offline for a longer period of time.\r\n> Everything still works and is redundant, but if the goal is, for example, to perform the maintenance on each of the three servers with, let's say, one week in between, then clients would loose the connection to all three servers, because they would mark the server as dead and not retry.\r\n\r\n   I'm OK with allowing the retries to continue forever.  What I don't want is for those retries to occur at a high rate, forever.\r\n\r\n> > Clients already have to (or should) implement the retransmission requirements of RFC 5080. Using the same algorithm here should make it easier to implement. Plus, there is no real reason to > have a different algorithm.\r\n> Not if the nodes are RADIUS/TLS (or RADIUS/TCP) only, since RADIUS/TLS doesn't have any retransmissions.\r\n\r\n  I doubt very much that there will be nodes without RADIUS/UDP.  This isn't a convincing argument.\r\n\r\n> I also gather that the \"retransmission of packets\" code may not translate 1:1 to \"re-opening of sessions\", so it is a non-negligible implementation effort.\r\n\r\n  The re-opening of sessions has to be done on some kind of timer.  The other choices are retry immediately, or never retry.\r\n\r\n  The code to implement any retry timer is negligible, compared to the code required to implement RADIUS/TLS.  So I'm not at all convinced that there's any issue in mandating a retry algorithm.\r\n\r\n  If we don't recommend a sane retry algorithm, then as we've seen, some implementations will retry aggressively.  This pattern has high cost for servers, because they're effectively getting a DoS attack from poor implementations.\r\n\r\n  i.e. implementations which do ridiculous things are passing their costs off to other people.  They're \"saving\" time and money by taking short-cuts, or by doing stupid and anti-social things.  They're costing other people time, effort, and money.\r\n\r\n  There is simply no reason to allow anti-social behavior, based on a worry that mandating \"good behaviour\" would have a cost for the anti-social people.  My opinion here is \"too bad\".",
+          "createdAt": "2025-05-26T10:50:01Z",
+          "updatedAt": "2025-05-26T10:50:01Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "But there is a difference between\n\"Don't do immediate retries, you MUST implement a backoff algorithm that will do retries at most each 60 seconds after 5 minutes\"\nand\n\"Here is a very specific mandatory-to-implement algorithm for backoff that might not fit what you need and you may already have a different algorithm that matches the goal, but ours it's MTI, so now you have to rewrite\"\n\nI'm not saying that we should ignore this.\nI'm saying that we should specify the minimum requirements for the backoff, such as \n\"There must be a minimum wait time of one second after a failed connection attempt, the interval of retries MUST increase latest after 5 consecutive failed connection attempts, and MUST increase to a minimum of 60 seconds. The maximum interval of retries SHOULD be configurable by the admin\"\n\nThis ensures that we don't have RFC-compliant RADIUS/(D)TLS clients hammering our server, but how exactly it is implemented is still in the discretion of the implementers.\n\nIt doesn't keep us from adding a reference such as \"We RECOMMEND implementing the retry behavior similar to the RADIUS retransmission algorithm in RFC 5080, Section 2.2.1\"",
+          "createdAt": "2025-05-26T11:17:52Z",
+          "updatedAt": "2025-05-26T11:17:52Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On May 26, 2025, at 7:18\u202fAM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> I'm saying that we should specify the minimum requirements for the backoff, such as\r\n> \"There must be a minimum wait time of one second after a failed connection attempt, the interval of retries MUST increase latest after 5 consecutive failed connection attempts, and MUST increase to a minimum of 60 seconds. The maximum interval of retries SHOULD be configurable by the admin\"\r\n> This ensures that we don't have RFC-compliant RADIUS/(D)TLS clients hammering our server, but how exactly it is implemented is still in the discretion of the implementers.\r\n> It doesn't keep us from adding a reference such as \"We RECOMMEND implementing the retry behavior similar to the RADIUS retransmission algorithm in RFC 5080, Section 2.2.1\"\r\n\r\n  I think that's fine:\r\n\r\n  Implementations MUST do something sane.  They SHOULD implement the following retry behavior.\r\n\r\n",
+          "createdAt": "2025-05-26T11:49:06Z",
+          "updatedAt": "2025-05-26T11:49:06Z"
         }
       ]
     }
@@ -2714,24 +2749,26 @@
       "id": "PR_kwDOLrzygc6NzWfs",
       "title": "Suggestion for text for post-handshake auth",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/25",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Text as per Heikki's comments on the radext ML",
       "createdAt": "2025-03-07T16:52:02Z",
-      "updatedAt": "2025-05-12T15:37:40Z",
+      "updatedAt": "2025-05-26T11:49:46Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_handshake_authentication",
       "headRefOid": "959bc0e0019125c693ef1707652037b17a1def57",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-26T11:49:46Z",
+      "mergedAt": "2025-05-26T11:49:46Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "787bd2fdf7a6ec74d9983a73c7cc4eece0bb770f"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -2748,24 +2785,26 @@
       "id": "PR_kwDOLrzygc6V1mU-",
       "title": "Update text for Path MTU",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/30",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This is a suggestion for different wording on Path MTU. (See #27 for some discussion)\r\n\r\nThis change probably should go to the list of changes, since in RFC 7360, PMTU was `SHOULD`, I changed it out to `MAY`\r\n\r\nSuggestions/comments/... welcome.",
       "createdAt": "2025-05-12T13:18:46Z",
-      "updatedAt": "2025-05-12T15:03:10Z",
+      "updatedAt": "2025-05-26T11:48:18Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_path_mtu_discovery",
       "headRefOid": "098deeafd64792b58f84ab4f5376a04bf0c5ed75",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-26T11:48:18Z",
+      "mergedAt": "2025-05-26T11:48:18Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "e4796194f788be6d7ab7c336f6cbec697f10948d"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -2849,24 +2888,26 @@
       "id": "PR_kwDOLrzygc6V2eUm",
       "title": "Reword the DTLS padding handling on the receiving end",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/32",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As suggested by Alexander Clouter @jimdigriz in #24 \r\n\r\nI have changed the wording a bit, not exactly as suggested, hopefully still making it a bit less ambiguous.\r\n\r\nSuggestions/Improvements/Comments/... welcome.",
       "createdAt": "2025-05-12T14:37:47Z",
-      "updatedAt": "2025-05-12T14:37:47Z",
+      "updatedAt": "2025-05-26T11:49:11Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_dtls_record_padding",
       "headRefOid": "bf7368e72618f74094a4405acbbeabfb28cd9f77",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-26T11:49:11Z",
+      "mergedAt": "2025-05-26T11:49:11Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "4b8a40d4033b624022e6468825a1ebc3b1e37559"
+      },
       "comments": [],
       "reviews": []
     },
@@ -2930,7 +2971,7 @@
       "labels": [],
       "body": "Text taken from #7 with some minor changes:\r\n\r\nInstead of generally referencing RFC5077, it is now referenced specifically for servers, since servers issue the tickets. The client must still cache all relevant data.",
       "createdAt": "2025-05-14T18:07:31Z",
-      "updatedAt": "2025-05-23T15:22:37Z",
+      "updatedAt": "2025-05-26T10:54:21Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2948,6 +2989,20 @@
           "body": "I'm personally no longer convinced that session resumption SHOULD be implemented - given that connections tend to be long running anyway and the complexity it infers. Of course, it MAY be implemented.\r\n\r\nBut I'm not going to argue about that detail. The important thing is what to do **if** it is implemented, which is fine with me.\r\n\ud83d\udc4d ",
           "createdAt": "2025-05-23T15:21:48Z",
           "updatedAt": "2025-05-23T15:22:36Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @fmauchle , that's a good comment.\r\n\r\nMaybe we can do it similar to the \"RADIUS/TLS or RADIUS/DTLS\"\r\n\r\nMy suggestion would then be:\r\nRADIUS/(D)TLS clients MAY implement session resumption.\r\nRADIUS/(D)TLS servers SHOULD implement session resumption.\r\n\r\nThe need for session resumption highly depends on whether or not the sessions are re-opened on a regular basis or if they are long-standing.\r\nI would assume that in most cases, the RADIUS/(D)TLS client will decide on whether or not to close the connection, and in this case clients that leave the connection open for a long time would not have the need to implement session resumption.\r\nFor the server, implementing session resumption is helpful when dealing with clients that re-connect often.\r\n\r\nBut I would not be opposed to make this a MAY altogether.",
+          "createdAt": "2025-05-26T08:29:35Z",
+          "updatedAt": "2025-05-26T08:29:35Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On May 26, 2025, at 4:29\u202fAM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> My suggestion would then be:\r\n> RADIUS/(D)TLS clients MAY implement session resumption.\r\n> RADIUS/(D)TLS servers SHOULD implement session resumption.\r\n\r\n  If we're not doing to use \"MUST\", then I would lean towards \"SHOULD\" for both client and server.\r\n\r\n> The need for session resumption highly depends on whether or not the sessions are re-opened on a regular basis or if they are long-standing.\r\n> I would assume that in most cases, the RADIUS/(D)TLS client will decide on whether or not to close the connection, and in this case clients that leave the connection open for a long time would not have the need to implement session resumption.\r\n\r\n  The overhead of doing a full re-authentication is tiny, compared to a long-lived connection.\r\n\r\n  That being said, I don't see any reason to _not_ implement session resumption.  Most RADIUS servers which do EAP (i.e. all of the major ones) already do session resumption for TLS-based EAP methods.  Doing session resumption for RADIUS/TLS is a tiny cost.\r\n\r\n  I don't have strong reasons for requiring session resumption.  I can't think of cases where it would make a significant difference.  In contrast, doing session resumption for TLS-based EAP methods has a noticeable effect on authentication latency.\r\n\r\n",
+          "createdAt": "2025-05-26T10:54:20Z",
+          "updatedAt": "2025-05-26T10:54:20Z"
         }
       ],
       "reviews": []
@@ -2957,24 +3012,26 @@
       "id": "PR_kwDOLrzygc6WNRJm",
       "title": "Add text for default trust anchors",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/35",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Rewording from #15, see discussion there.\r\n\r\nI have left out the reasoning for this, since it does not fit in the normative text, if needed, we can add a subsection in the security considerations.",
       "createdAt": "2025-05-14T18:28:40Z",
-      "updatedAt": "2025-05-14T18:28:40Z",
+      "updatedAt": "2025-05-26T11:43:29Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_trust_anchor",
       "headRefOid": "fefc43cbe17c8d170fb9a3fef4fd329a0f5b4ba3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-26T11:43:28Z",
+      "mergedAt": "2025-05-26T11:43:28Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "fe5f8a0fef3bb2168576f67085c7f95aeb115822"
+      },
       "comments": [],
       "reviews": []
     }
