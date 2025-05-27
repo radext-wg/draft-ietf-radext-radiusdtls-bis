@@ -72,6 +72,8 @@ An example for a worldwide roaming environment that uses RADIUS over TLS to secu
 
 ## Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
+The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
+
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
   These specifications have been merged into this document.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
