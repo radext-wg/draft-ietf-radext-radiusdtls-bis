@@ -1052,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers &amp; Winter</td>
-<td class="center">Expires 27 November 2025</td>
+<td class="center">Expires 28 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-26" class="published">26 May 2025</time>
+<time datetime="2025-05-27" class="published">27 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-27">27 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-28">28 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1126,7 +1126,7 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1285,13 +1285,16 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
                 <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-possibility-of-denial-of-se" class="internal xref">Possibility of Denial-of-Service attacks</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-session-closing" class="internal xref">Session Closing</a></p>
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-tls-session-lifetime-and-ke" class="internal xref">TLS Session Lifetime and Key Rotation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
-                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-migrating-from-radius-udp-t" class="internal xref">Migrating from RADIUS/UDP to RADIUS/(D)TLS</a></p>
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-session-closing" class="internal xref">Session Closing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
-                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-client-subsystems" class="internal xref">Client Subsystems</a></p>
+                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-migrating-from-radius-udp-t" class="internal xref">Migrating from RADIUS/UDP to RADIUS/(D)TLS</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
+                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-client-subsystems" class="internal xref">Client Subsystems</a></p>
 </li>
             </ul>
 </li>
@@ -2249,60 +2252,72 @@ If every RADIUS/(D)TLS client is configured with an IP range, then the server do
 To perform this lookup efficiently, RADIUS/(D)TLS servers <span class="bcp14">SHOULD</span> keep a list of the accumulated permitted IP address ranges, individually for each transport.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="session-closing">
+<div id="tls-session-lifetime-and-key-rotation">
 <section id="section-7.4">
-        <h3 id="name-session-closing">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-session-closing" class="section-name selfRef">Session Closing</a>
+        <h3 id="name-tls-session-lifetime-and-ke">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-tls-session-lifetime-and-ke" class="section-name selfRef">TLS Session Lifetime and Key Rotation</a>
         </h3>
-<p id="section-7.4-1">If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS session be closed.
-The reason is that the session is expected to be used for transport of RADIUS packets only.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">Any non-RADIUS traffic on that session means the other party is misbehaving and is potentially a security risk.
+<p id="section-7.4-1">The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
+Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amout of data which was tansferred, and on the encryption method.
+See <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-5.5" class="relref">Section 5.5</a></span> and <span>[<a href="#I-D.irtf-cfrg-aead-limits" class="cite xref">I-D.irtf-cfrg-aead-limits</a>]</span> for more information.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Implementers <span class="bcp14">SHOULD</span> be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
+If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations <span class="bcp14">SHOULD</span> perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="session-closing">
+<section id="section-7.5">
+        <h3 id="name-session-closing">
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-session-closing" class="section-name selfRef">Session Closing</a>
+        </h3>
+<p id="section-7.5-1">If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS session be closed.
+The reason is that the session is expected to be used for transport of RADIUS packets only.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-2">Any non-RADIUS traffic on that session means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
-Since the shared secret is static, this again means the other party is misbehaving.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">We wish to avoid the situation where a third party can send well-formed RADIUS packets to a RADIUS proxy that cause a (D)TLS session to close.
+Since the shared secret is static, this again means the other party is misbehaving.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">We wish to avoid the situation where a third party can send well-formed RADIUS packets to a RADIUS proxy that cause a (D)TLS session to close.
 Therefore, in other situations, the session <span class="bcp14">SHOULD</span> remain open in the face of non-conforming packets.
 Any malformed RADIUS packets sent by a third party will go through the security checks of the RADIUS proxy upon reception and will not be forwarded.
 Well-formed RADIUS packets with portions that the proxy does not understand do not pose a security risk to the security properties of the RADIUS/(D)TLS session and can be forwarded.
-This ensures forward compatibility with future RADIUS extensions.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+This ensures forward compatibility with future RADIUS extensions.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="migrating-from-radiusudp-to-radiusdtls">
-<section id="section-7.5">
+<section id="section-7.6">
         <h3 id="name-migrating-from-radius-udp-t">
-<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-migrating-from-radius-udp-t" class="section-name selfRef">Migrating from RADIUS/UDP to RADIUS/(D)TLS</a>
+<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-migrating-from-radius-udp-t" class="section-name selfRef">Migrating from RADIUS/UDP to RADIUS/(D)TLS</a>
         </h3>
-<p id="section-7.5-1">Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
+<p id="section-7.6-1">Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
 We therefore recommend to migrate from RADIUS/UDP to RADIUS/(D)TLS.
-Within this migration process, however, there are a few items that need to be considered by administrators.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
-<p id="section-7.5-2">Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RADIUS/(D)TLS with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
+Within this migration process, however, there are a few items that need to be considered by administrators.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RADIUS/(D)TLS with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
 While this may seem like an easy way to upgrade RADIUS/UDP to RADIUS/(D)TLS, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
 Using a potentially compromised shared secret as TLS-PSK compromises the whole TLS connection.
 Therefore, any shared secret used with RADIUS/UDP before <span class="bcp14">MUST NOT</span> be used with RADIUS/(D)TLS and (D)TLS-PSK.
-Implementers <span class="bcp14">MUST NOT</span> reuse the configuration option for the RADIUS/UDP shared secret for the (D)TLS-PSK to prevent accidental reuse.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
-<p id="section-7.5-3">When upgrading from RADIUS/UDP to RADIUS/(D)TLS, there may be a period of time, where the connection between client and server is configured for both transport profiles.
+Implementers <span class="bcp14">MUST NOT</span> reuse the configuration option for the RADIUS/UDP shared secret for the (D)TLS-PSK to prevent accidental reuse.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">When upgrading from RADIUS/UDP to RADIUS/(D)TLS, there may be a period of time, where the connection between client and server is configured for both transport profiles.
 If the old RADIUS/UDP configuration is left configured, but not used in normal operation, e.g. due to a fail-over configuration that prefers RADIUS/(D)TLS, an attacker could disrupt the RADIUS/(D)TLS communication and force a downgrade to RADIUS/UDP.
 To prevent this it is <span class="bcp14">RECOMMENDED</span> that, when the migration to RADIUS/(D)TLS is completed, the RADIUS/UDP configuration is removed.
-RADIUS/(D)TLS clients <span class="bcp14">MUST NOT</span> fall back to RADIUS/UDP if the RADIUS/(D)TLS communication fails, unless explicitly configured this way.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+RADIUS/(D)TLS clients <span class="bcp14">MUST NOT</span> fall back to RADIUS/UDP if the RADIUS/(D)TLS communication fails, unless explicitly configured this way.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-subsystems">
-<section id="section-7.6">
+<section id="section-7.7">
         <h3 id="name-client-subsystems">
-<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-client-subsystems" class="section-name selfRef">Client Subsystems</a>
+<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-client-subsystems" class="section-name selfRef">Client Subsystems</a>
         </h3>
-<p id="section-7.6-1">Many traditional clients treat RADIUS as subsystem-specific.
+<p id="section-7.7-1">Many traditional clients treat RADIUS as subsystem-specific.
 That is, each subsystem on the client has its own RADIUS implementation and configuration.
 These independent implementations work for simple systems, but break down for RADIUS when multiple servers, fail-over and load-balancing are required.
-With (D)TLS enabled, these problems are expected to get worse.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.6-2">We therefore recommend in these situations to use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
+With (D)TLS enabled, these problems are expected to get worse.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
+<p id="section-7.7-2">We therefore recommend in these situations to use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
 This proxy will encapsulate all knowledge about servers, including security policies, fail-over and load-balancing.
-All client subsystems should communicate with this local proxy, ideally over a loopback address.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
-<p id="section-7.6-3">The benefit of this configuration is that there is one place in the client that arbitrates all RADIUS traffic.
+All client subsystems should communicate with this local proxy, ideally over a loopback address.<a href="#section-7.7-2" class="pilcrow">¶</a></p>
+<p id="section-7.7-3">The benefit of this configuration is that there is one place in the client that arbitrates all RADIUS traffic.
 Subsystems that do not implement RADIUS/(D)TLS can remain unaware of (D)TLS.
 (D)TLS sessions opened by the proxy can remain open for a long period of time, even when client subsystems are restarted.
-The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
-<p id="section-7.6-4">Delegation of responsibilities and separation of tasks are important security principles.
-By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.<a href="#section-7.6-4" class="pilcrow">¶</a></p>
+The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.<a href="#section-7.7-3" class="pilcrow">¶</a></p>
+<p id="section-7.7-4">Delegation of responsibilities and separation of tasks are important security principles.
+By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.<a href="#section-7.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2524,6 +2539,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="I-D.ietf-tls-keylogfile">[I-D.ietf-tls-keylogfile]</dt>
         <dd>
 <span class="refAuthor">Thomson, M.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"The SSLKEYLOGFILE Format for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-keylogfile-04</span>, <time datetime="2025-04-11" class="refDate">11 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-04">https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.irtf-cfrg-aead-limits">[I-D.irtf-cfrg-aead-limits]</dt>
+        <dd>
+<span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-10</span>, <time datetime="2025-04-08" class="refDate">8 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-10">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-10</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6613">[RFC6613]</dt>
         <dd>
