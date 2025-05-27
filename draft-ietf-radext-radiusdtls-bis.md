@@ -253,8 +253,8 @@ If implemented it MUST use the following rules:
 
 RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
 Instead, the peers SHOULD start off with an empty CA list as trust anchor.
-The addition of a CA SHOULD be done only when manually confiugred by the administrator.
-This does not preculde vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
+The addition of a CA SHOULD be done only when manually configured by the administrator.
+This does not preclude vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
 RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 
