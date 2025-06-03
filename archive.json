@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-01T01:07:04.212010+00:00",
+  "timestamp": "2025-06-03T00:56:48.975590+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -295,6 +295,38 @@
           "updatedAt": "2025-05-29T19:52:36Z"
         }
       ]
+    },
+    {
+      "number": 36,
+      "id": "I_kwDOLrzygc65We8T",
+      "title": "Text on Acct-Delay-Time",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/36",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Perhaps move the text on Acct-Delay-Time from Section 4.5.1, which talking about proxies.  Then add a new 4.6:\n\n4.6 Acct-Delay-Time\n\nIn order to avoid congestive collapse, is is RECOMMENDED that RADIUS/\n(D)TLS clients which originate Accounting-Request packets (i.e. not\nproxies) do not include Acct-Delay-Time in those packets. Instead,\nthose clients SHOULD include Event-Timestamp, which is the time at\nwhich the original event occurred. The Event-Timestamp MUST NOT be\nupdated on any retransmissions, as that would both negate the meaning\nof Event-Timestamp, and also create the same problem as with Acct-\nDelay-Time.\n\nNot using Acct-Delay-Time allows for RADIUS/DTLS packets to be retransmitted without change.  In contrast, updating Acct-Delay-Time would require that the client create and send a brand new packet, without signalling the server that the previous packet is no longer active.  This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).  This duplication contributes to congestive collapse of the network.\n\nNot using Acct-Delay-Time also removes an unambiguity around retransmitted packets for RADIUS/TLS.  Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.\n\nWhere systems do include Acct-Delay-Time in RADIUS/TLS packets, they SHOULD use timers to detect packet loss, as suggested in RFC5080 Section 2.2.1.  However, those timers MUST NOT result in transmission of any packet.  Instead, the timers could be used to log messages indicating that the client is still waiting for a reply, and to determine that packet loss has, in fact, occurred.\n\nAs TLS is a reliable transport, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply.  See Section 5.1, below, for more discussion of this topic.\n\n",
+      "createdAt": "2025-06-02T11:01:25Z",
+      "updatedAt": "2025-06-02T11:06:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 37,
+      "id": "I_kwDOLrzygc65Wo3t",
+      "title": "Packet Expiry timers",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/37",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Not much in the existing text discusses the retransmission timers in RFC 5080 Section 2.2.1.  Perhaps we could add a new section, before the Acct-Delay-Time text mentioned in #46\n\n4.x Client Timers\n\nRADIUS/(D)TLS clients MUST implement retransmission timers such as the ones which are defined in RFC 5080 Section 2.2.1.  Other methods are possible, but any timer implementation MUST have similar properties of including jitter and exponential backoff.\n\nAs TLS is a reliable transport, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply. \n Similarly, RADIUS/DTLS can only retransmit packets when it runs over an unreliable transport such as UDP. \n\nWhere RADIUS/(D)TLS runs over a reliable transport, these timers MUST NOT result in transmission of any packet. Instead, the timers could be used to log messages indicating that the client is still waiting for a reply, and to determine that packet loss has, in fact, occurred when RFC 5080 Section 2.2.1 MRD or MRC has been reached.\n\nSee Section 5.1, below, for more discussion of retransmission behavior.\n\n",
+      "createdAt": "2025-06-02T11:14:27Z",
+      "updatedAt": "2025-06-02T11:14:27Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2484,21 +2516,21 @@
       "id": "PR_kwDOLrzygc6AuVgx",
       "title": "Add some text for agility",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/20",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "jimdigriz",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Moved the text from draft-ietf-radext-deprecate-radius and rejig it to work here.\r\n\r\nAs draft-ietf-radext-deprecate-radius does not deliver the agility it-self on these points whilst draft-ietf-radext-radiusdtls-bis (and RFC6614 and RFC7360) do, the references I feel should belong here.\r\n\r\nAddresses https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/18",
       "createdAt": "2024-11-03T12:54:41Z",
-      "updatedAt": "2025-05-14T18:46:27Z",
+      "updatedAt": "2025-06-01T10:24:18Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "6f6500732cf450eeee8d2363d4c5a986266f6173",
-      "headRepository": "jimdigriz/draft-ietf-radext-radiusdtls-bis",
+      "headRepository": null,
       "headRefName": "agility",
       "headRefOid": "5f2d1afb7c9e2b1beb1800a33ef9f5764d947251",
-      "closedAt": null,
+      "closedAt": "2025-06-01T10:24:18Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
