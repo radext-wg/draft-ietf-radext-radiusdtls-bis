@@ -86,18 +86,19 @@ Table of Contents
                (TLS-RAW-PUBLIC-KEYS)
        4.2.4.  Authentication using TLS-PSK (TLS-PSK)
      4.3.  Connecting Client Identity
-     4.4.  RADIUS Datagrams
-     4.5.  Forwarding RADIUS packets between UDP and TCP based
-           transports
-       4.5.1.  Throughput Differences lead to Network Collapse
-       4.5.2.  Differing Retransmission Requirements
-       4.5.3.  Acct-Delay-Time and Event-Timestap
-     4.6.  Client Timers
-       4.6.1.  Reconnection attempts
-       4.6.2.  RADIUS packet retransmission
-     4.7.  Session limits and timeout
-     4.8.  Behavior on session closure of incoming sessions
-     4.9.  Malformed Packets and Unknown clients
+     4.4.  TLS Session Resumption
+     4.5.  RADIUS Datagrams
+     4.6.  Forwarding RADIUS packets between UDP and TCP based
+            transports
+       4.6.1.  Throughput Differences lead to Network Collapse
+       4.6.2.  Differing Retransmission Requirements
+       4.6.3.  Acct-Delay-Time and Event-Timestap
+     4.7.  Client Timers
+       4.7.1.  Reconnection attempts
+       4.7.2.  RADIUS packet retransmission
+     4.8.  Session limits and timeout
+     4.9.  Behavior on session closure of incoming sessions
+     4.10. Malformed Packets and Unknown clients
    5.  RADIUS/TLS specific specifications
      5.1.  Duplicates and Retransmissions
      5.2.  TCP Applications Are Not UDP Applications
@@ -316,7 +317,7 @@ Table of Contents
    RADIUS/(D)TLS does not use separate ports for authentication,
    accounting and dynamic authorization changes.  The source port is
    arbitrary.  For considerations regarding the multi-purpose use of one
-   port for authentication and accounting see Section 4.4.
+   port for authentication and accounting see Section 4.5.
 
    RADIUS/TLS servers MUST immediately start the TLS negotiation when a
    new connection to the RADIUS/TLS port is opened.  They MUST close the
@@ -649,7 +650,35 @@ Table of Contents
 
    *  TLS-PSK Identifier
 
-4.4.  RADIUS Datagrams
+4.4.  TLS Session Resumption
+
+   Session resumption lowers the time and effort required to start a
+   (D)TLS session and increases network responsiveness.  This is
+   especially helpful when using short idle timeouts.
+
+   RADIUS/(D)TLS clients and server SHOULD implement session resumption.
+   Implementations supporting session resumption MUST cache data during
+   the initial full handshake, sufficient to allow authorization
+   descisions to be made during resumption.  For RADIUS/(D)TLS servers,
+   this should preferably be done using stateless session resumption as
+   specified in [RFC5077], to reduce the resource usage for cached
+   sessions.
+
+   When resuming a (D)TLS session, both client and server MUST re-
+   authorize the connection by using the original, cached data.  In
+   particular, this includes the X.509 certificate (when using a PKIX
+   trust model) as well as any policies associated with that identity
+   such as restrictions on source IP address.  The re-authorization MUST
+   give the same result as if a full handshake was performed at the time
+   of resumption.
+
+   If cached data cannot be retrieved securely, resumption MUST NOT be
+   done, either immediately closing the connection or reverting to a
+   full handshake.  If a resumed session is closed immediately after
+   being established, the RADIUS/(D)TLS client MUST NOT re-attempt
+   session resumption but perform a full TLS handshake instead.
+
+4.5.  RADIUS Datagrams
 
    The RADIUS/(D)TLS specification does not change the client/server
    architecture of RADIUS.  RADIUS/(D)TLS clients transmit the same
@@ -710,7 +739,7 @@ Table of Contents
    specific to RADIUS/(D)TLS, the details of handling the Protocol-Error
    reply on the client side are outside of the scope of this document.
 
-4.5.  Forwarding RADIUS packets between UDP and TCP based transports
+4.6.  Forwarding RADIUS packets between UDP and TCP based transports
 
    When proxy forwards packets, it is possible that the incoming and
    outgoing links have substantially different properties.  This issue
@@ -729,7 +758,7 @@ Table of Contents
    These differences are most notable in throughput, and in differing
    retransmission requirements.
 
-4.5.1.  Throughput Differences lead to Network Collapse
+4.6.1.  Throughput Differences lead to Network Collapse
 
    An incoming link to the proxy may have substantially lower throughput
    than the outgoing link.  Perhaps the network characteristics on the
@@ -743,7 +772,7 @@ Table of Contents
    proxy must simply accept the packets, buffer them, and hope that they
    can be be sent outbound before the client gives up on the request.
 
-4.5.2.  Differing Retransmission Requirements
+4.6.2.  Differing Retransmission Requirements
 
    Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports
    are required to perform retransmissions as per [RFC5080],
@@ -781,7 +810,7 @@ Table of Contents
    connections is irrelevant.  When the client cannot do anything with
    responses to a request, it MUST stop retransmitting that request.
 
-4.5.3.  Acct-Delay-Time and Event-Timestap
+4.6.3.  Acct-Delay-Time and Event-Timestap
 
    In order to avoid congestive collapse, it is RECOMMENDED that
    RADIUS/(D)TLS clients which originate Accounting-Request packets
@@ -811,7 +840,7 @@ Table of Contents
 
    Where RADIUS/(D)TLS clients do include Acct-Delay-Time in RADIUS
    packets, the client SHOULD use timers to detect packet loss, as
-   described in Section 4.6.2.  RADIUS/(D)TLS clients SHOULD NOT update
+   described in Section 4.7.2.  RADIUS/(D)TLS clients SHOULD NOT update
    the Acct-Delay-Time, and therefore create a new RADIUS packet with
    the same information, until the timer has determined that the
    original packet has in fact been completely lost.  This ensures that
@@ -822,13 +851,13 @@ Table of Contents
    the retransmission timeout, compared to the different approach of
    updating the Acct-Delay-Time on each retransmission.
 
-4.6.  Client Timers
+4.7.  Client Timers
 
    RADIUS/(D)TLS clients may need to reconnect to a server that rejected
    their connection attempt and retransmit RADIUS packets which did not
    get an answer.
 
-4.6.1.  Reconnection attempts
+4.7.1.  Reconnection attempts
 
    In contrast to RADIUS/UDP, RADIUS/(D)TLS establishes a (D)TLS session
    before transmitting any RADIUS packets.  Therefore, in addition to
@@ -861,7 +890,7 @@ Table of Contents
    upper limit for the time between retries (e.g. 60 seconds) and not
    give up trying to reconnect.
 
-4.6.2.  RADIUS packet retransmission
+4.7.2.  RADIUS packet retransmission
 
    RADIUS/(D)TLS clients MUST implement retransmission timers such as
    the ones defined in [RFC5080], Section 2.2.1.  Other algorithms than
@@ -884,7 +913,7 @@ Table of Contents
 
    See Section 5.1 for more discussion on retransmission behavior.
 
-4.7.  Session limits and timeout
+4.8.  Session limits and timeout
 
    While RADIUS/UDP could be implemented mostly stateless (except for
    the requests in flight), both TCP/TLS as well as DTLS require state
@@ -927,7 +956,7 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
-4.8.  Behavior on session closure of incoming sessions
+4.9.  Behavior on session closure of incoming sessions
 
    If an incoming (D)TLS session or the underlying connection is closed
    or broken, then there is no way to send a RADIUS response message to
@@ -963,7 +992,7 @@ Table of Contents
    behavior ensures that the desired action is still taken, even if the
    home server cannot inform the client of the result of that action.
 
-4.9.  Malformed Packets and Unknown clients
+4.10.  Malformed Packets and Unknown clients
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -1157,11 +1186,6 @@ Table of Contents
    session in the application layer.  This subsection describes
    logically how this tracking is done.  Implementations may choose to
    use the method described here, or another, equivalent method.
-
-   RADIUS/DTLS implementations SHOULD implement DTLS session resumption,
-   preferably stateless session resumption as given in [RFC5077].  This
-   practice lowers the time and effort required to start a DTLS session
-   with a server and increases network responsiveness.
 
    We note that [RFC5080], Section 2.2.2, already mandates a duplicate
    detection cache.  The session tracking described below can be seen as
