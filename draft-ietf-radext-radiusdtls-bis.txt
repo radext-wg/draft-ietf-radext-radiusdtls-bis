@@ -91,9 +91,11 @@ Table of Contents
            transports
        4.5.1.  Throughput Differences lead to Network Collapse
        4.5.2.  Differing Retransmission Requirements
-     4.6.  Session limits and timeout
-     4.7.  Behavior on session closure of incoming sessions
-     4.8.  Malformed Packets and Unknown clients
+       4.5.3.  Acct-Delay-Time and Event-Timestap
+     4.6.  Client Timers
+     4.7.  Session limits and timeout
+     4.8.  Behavior on session closure of incoming sessions
+     4.9.  Malformed Packets and Unknown clients
    5.  RADIUS/TLS specific specifications
      5.1.  Duplicates and Retransmissions
      5.2.  TCP Applications Are Not UDP Applications
@@ -739,37 +741,6 @@ Table of Contents
    proxy must simply accept the packets, buffer them, and hope that they
    can be be sent outbound before the client gives up on the request.
 
-   The situation is made worse by the sub-optimal behavior of
-   Accounting-Request packets.  [RFC2866], Section 5.2 defines the Acct-
-   Delay-Time attribute, which is supposed to be updated on
-   retransmissions.  However, when the value of the attribute is
-   updated, changing the Acct-Delay-Time causes the Identifier to
-   change.  The "retransmitted" packet is therefore not, in fact,
-   retransmitted, but is instead a brand new packet.  This behavior
-   increases the number of packets handled by proxies, which leads to
-   congestive collapse.  This design also violates the "end-to-end"
-   principles discussed in [RFC3539], Section 2.8 which discusses
-   congestion avoidance:
-
-   With Relays, Proxies or Store and Forward proxies, two separate and
-   de-coupled transport connections are used.  One connection operates
-   between the AAA client and agent, and another between the agent and
-   server.  Since the two transport connections are de-coupled,
-   transport layer ACKs do not flow end-to-end, and self-clocking does
-   not occur.
-
-   In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/
-   TLS clients which originate Accounting-Request packets (i.e. not
-   proxies) do not include Acct-Delay-Time in those packets.  Instead,
-   those clients SHOULD include Event-Timestamp, which is the time at
-   which the original event occurred.  The Event-Timestamp MUST NOT be
-   updated on any retransmissions, as that would both negate the meaning
-   of Event-Timestamp, and also create the same problem as with Acct-
-   Delay-Time.
-
-   This change is imperfect, but will at least help to avoid congestive
-   collapse.
-
 4.5.2.  Differing Retransmission Requirements
 
    Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports
@@ -808,13 +779,71 @@ Table of Contents
    connections is irrelevant.  When the client cannot do anything with
    responses to a request, it MUST stop retransmitting that request.
 
-   In an ideal world, a proxy could also apply the suggestion of the
-   previous section, by discarding Acct-Delay-Time from Accounting-
-   Request packets, and replacing it with Event-Timestamp.  However,
-   this process is fragile and is not known to succeed in the general
-   case.
+4.5.3.  Acct-Delay-Time and Event-Timestap
 
-4.6.  Session limits and timeout
+   In order to avoid congestive collapse, it is RECOMMENDED that
+   RADIUS/(D)TLS clients which originate Accounting-Request packets
+   (i.e. not proxies) do not include Acct-Delay-Time ([RFC2866],
+   Section 5.2) in those packets.  Instead, those clients SHOULD include
+   Event-Timestamp ([RFC2869], Section 5.3), which is the time at which
+   the original event occured.  The Event-Timestamp MUST NOT be updated
+   on any retransmissions, as that would both negate the meaning of
+   Event-Timestamp, and create the same problem as with Acct-Delay-Time.
+
+   Not using Acct-Delay-Time allows for RADIUS packets to be
+   retransmitted without change.  In conctrast, updating Acct-Delay-Time
+   would require that the client create and send a new packet without
+   signalling the server that the previous packet is no longer
+   considered active.  This process can occur repeatedly, which leads to
+   multiple different packets containing effectively the same
+   information (except for Acct-Delay-Time).  This duplication
+   contributes to congestive collapse of the network, if a RADIUS proxy
+   performs retransmission to the next hop for each of those packets
+   independently.
+
+   Using Event-Timestamp instead of Acct-Delay-Time also removes an
+   ambiguity around retransmitted packets for RADIUS/TLS.  Since there
+   is no change to the packet contents when a retransmission timer
+   expires, no new packet ID is allocated, and therefore no new packet
+   is created.
+
+   Where RADIUS/(D)TLS clients do include Acct-Delay-Time in RADIUS
+   packets, the client SHOULD use timers to detect packet loss, as
+   described in the next section.  RADIUS/(D)TLS clients SHOULD NOT
+   update the Acct-Delay-Time, and therefore create a new RADIUS packet
+   with the same information, until the timer has determined that the
+   original packet has in fact been completely lost.  This ensures that
+   there is no congestive collapse, since a new packet is only created
+   if folling hops have also given up on retransmission, while keeping
+   the functionality of Acct-Delay-Time to determine how long ago the
+   event occured.  It only reduces the granularity of Acct-Delay-Time to
+   the retransmission timeout, compared to the different approach of
+   updating the Acct-Delay-Time on each retransmission.
+
+4.6.  Client Timers
+
+   RADIUS/(D)TLS clients MUST implement retransmission timers such as
+   the ones defined in [RFC5080], Section 2.2.1.  Other algorithms than
+   the one defined in [RFC5080] are possible, but any timer
+   implementations MUST have similar properties of including jitter,
+   exponential backoff and a maximum retransmission count (MRC) or
+   maximum retransmission duration (MRD).
+
+   As TLS is a reliable transports, RADIUS/TLS clients can only
+   retransmit a packet if a connection closes without that packet
+   receiving a reply.  Similarly, RADIUS/DTLS can only retransmit
+   packets when it runs over an unreliable transport such as UDP.
+
+   Where RADIUS/(D)TLS runs over a reliable transport, these timers MUST
+   NOT result in transmission of any packet.  Instead, the timers, MRC
+   or MRD specifically, can be used to determine that a packet will most
+   likely not receive an answer ever, for example because a packet loss
+   has occured in a later RADIUS hop or the home server ignores the
+   RADIUS packet.
+
+   See Section 5.1 for more discussion on retransmission behavior.
+
+4.7.  Session limits and timeout
 
    While RADIUS/UDP could be implemented mostly stateless (except for
    the requests in flight), both TCP/TLS as well as DTLS require state
@@ -857,7 +886,7 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
-4.7.  Behavior on session closure of incoming sessions
+4.8.  Behavior on session closure of incoming sessions
 
    If an incoming (D)TLS session or the underlying connection is closed
    or broken, then there is no way to send a RADIUS response message to
@@ -893,7 +922,7 @@ Table of Contents
    behavior ensures that the desired action is still taken, even if the
    home server cannot inform the client of the result of that action.
 
-4.8.  Malformed Packets and Unknown clients
+4.9.  Malformed Packets and Unknown clients
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -1711,6 +1740,10 @@ Table of Contents
               irtf-cfrg-aead-limits-10, 8 April 2025,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
               aead-limits-10>.
+
+   [RFC2869]  Rigney, C., Willats, W., and P. Calhoun, "RADIUS
+              Extensions", RFC 2869, DOI 10.17487/RFC2869, June 2000,
+              <https://www.rfc-editor.org/rfc/rfc2869>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
