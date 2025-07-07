@@ -419,14 +419,14 @@ The value of the idle timeout to use depends on the exact deployment and is a tr
 If an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send a RADIUS response message to the client.
 The RADIUS/(D)TLS server behavior then depends on the types of packets being processed, and on the role of the server.
 
-A RADIUS proxy MUST discard all requests associated with the closed connection.
+A RADIUS/(D)TLS server acting as proxy MUST discard all requests associated with the closed connection.
 As no response can be sent over the now-closed (D)TLS connection, any further processing of requests is pointless.
 A discarded request may have a cached RADIUS response packet ({{RFC5080, Section 2.2.2}}), in which case the cached response also MUST be discarded.
-If there is no cached response packet, then the request is still being processed by the home server.
+If there is no cached response packet, then the request might still be processed by the home server.
 The RADIUS proxy MUST discard any response to these requests and SHOULD stop processing the requests.
 
-A home server which receives Access-Request packets MUST behave as defined above for a proxy.
-Where a RADIUS packet is part of a multi-packet authentication session (e.g. EAP), the underlying authentication session could be countinued, or the unserlying authentication session data could be discarded.
+A home server which receives Access-Request packets MUST behave as defined above for a proxy and discard those requests and stop processing them.
+Where a RADIUS packet is part of a multi-packet authentication session (e.g. EAP), the underlying authentication session could be continued, or the underlying authentication session data could be discarded.
 The server may be able to receive and process another packet for that session via a different incoming connection.
 It is difficult to make more recommendations for managing partially processed authentication sessions, as such recommendations depend strongly on the authentication method being used.
 As a result, further behavior is implementation defined and outside the scope of this specification.
