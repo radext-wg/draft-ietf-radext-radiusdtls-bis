@@ -331,6 +331,22 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 * Originating IP address
 * TLS-PSK Identifier
 
+## TLS Session Resumption
+
+Session resumption lowers the time and effort required to start a (D)TLS session and increases network responsiveness.
+This is especially helpful when using short idle timeouts.
+
+RADIUS/(D)TLS clients and server SHOULD implement session resumption.
+Implementations supporting session resumption MUST cache data during the initial full handshake, sufficient to allow authorization descisions to be made during resumption.
+For RADIUS/(D)TLS servers, this should preferably be done using stateless session resumption as specified in {{!RFC5077}}, to reduce the resource usage for cached sessions.
+
+When resuming a (D)TLS session, both client and server MUST re-authorize the connection by using the original, cached data.
+In particular, this includes the X.509 certificate (when using a PKIX trust model) as well as any policies associated with that identity such as restrictions on source IP address.
+The re-authorization MUST give the same result as if a full handshake was performed at the time of resumption.
+
+If cached data cannot be retrieved securely, resumption MUST NOT be done, either immediately closing the connection or reverting to a full handshake.
+If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
+
 ## RADIUS Datagrams
 {:#radius_datagrams}
 
@@ -608,9 +624,6 @@ Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, 
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations may choose to use the method described here, or another, equivalent method.
-
-RADIUS/DTLS implementations SHOULD implement DTLS session resumption, preferably stateless session resumption as given in {{!RFC5077}}.
-This practice lowers the time and effort required to start a DTLS session with a server and increases network responsiveness.
 
 We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
