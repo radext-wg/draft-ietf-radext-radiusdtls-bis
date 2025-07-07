@@ -400,7 +400,7 @@ This change is imperfect, but will at least help to avoid congestive collapse.
 
 ### Differing Retransmission Requirements
 
-Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
+Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{!RFC5080, Section 2.2.1}}.  In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.  These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
@@ -424,6 +424,26 @@ Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after th
 On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections. Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection. These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.
 
 The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections. Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable. In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
+
+## Behavior on session closure of incoming sessions
+
+If an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send a RADIUS response message to the client.
+The RADIUS/(D)TLS server behavior then depends on the types of packets being processed, and on the role of the server.
+
+A RADIUS/(D)TLS server acting as proxy MUST discard all requests associated with the closed connection.
+As no response can be sent over the now-closed (D)TLS connection, any further processing of requests is pointless.
+A discarded request may have a cached RADIUS response packet ({{RFC5080, Section 2.2.2}}), in which case the cached response also MUST be discarded.
+If there is no cached response packet, then the request might still be processed by the home server.
+The RADIUS proxy MUST discard any response to these requests and SHOULD stop processing the requests.
+
+A home server which receives Access-Request packets MUST behave as defined above for a proxy and discard those requests and stop processing them.
+Where a RADIUS packet is part of a multi-packet authentication session (e.g. EAP), the underlying authentication session could be continued, or the underlying authentication session data could be discarded.
+The server may be able to receive and process another packet for that session via a different incoming connection.
+It is difficult to make more recommendations for managing partially processed authentication sessions, as such recommendations depend strongly on the authentication method being used.
+As a result, further behavior is implementation defined and outside the scope of this specification.
+
+A home server which receives other kinds of packets (for example Accounting-Request, CoA-Request, Disconnect-Request) MAY finish processing outstanding requests, and then discard any response.
+This behavior ensures that the desired action is still taken, even if the home server cannot inform the client of the result of that action.
 
 ## Malformed Packets and Unknown clients
 
@@ -468,13 +488,6 @@ However, if the TLS session or TCP connection is closed or broken, retransmissio
 RADIUS request packets that have not yet received a response MAY be transmitted by a RADIUS/TLS client over a new connection.
 As this procedure involves using a new session, the ID of the packet MAY change.
 If the ID changes, any security attributes such as Message-Authenticator MUST be recalculated.
-
-If a TLS session or the underlying TCP connection is closed or broken, any cached RADIUS response packets ({{!RFC5080, Section 2.2.2}}) associated with that connection MUST be discarded.
-A RADIUS server SHOULD stop the processing of any requests associated with that TLS session.
-No response to these requests can be sent over the TLS connection, so any further processing is pointless.
-This requirement applies not only to RADIUS servers, but also to proxies.
-When a client's connection to a proxy is closed, there may be responses from a home server that were supposed to be sent by the proxy back over that connection to the client.
-Since the client connection is closed, those responses from the home server to the proxy server SHOULD be silently discarded by the proxy.
 
 Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
