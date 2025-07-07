@@ -379,24 +379,12 @@ These differences are most notable in throughput, and in differing retransmissio
 
 ### Throughput Differences lead to Network Collapse
 
-An incoming link to the proxy may have substantially lower throughput than the outgoing link.  Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.  In both situations, the proxy is left with a difficult choice about what to do with the incoming packets.
+An incoming link to the proxy may have substantially lower throughput than the outgoing link.
+Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.
+In both situations, the proxy is left with a difficult choice about what to do with the incoming packets.
 
-As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.  As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
-
-The situation is made worse by the sub-optimal behavior of Accounting-Request packets.  {{RFC2866, Section 5.2}} defines the Acct-Delay-Time attribute, which is supposed to be updated on retransmissions.  However, when the value of the attribute is updated, changing the Acct-Delay-Time causes the Identifier to change.  The "retransmitted" packet is therefore not, in fact, retransmitted, but is instead a brand new packet.  This behavior increases the number of packets handled by proxies, which leads to congestive collapse.  This design also violates the "end-to-end" principles discussed in {{RFC3539, Section 2.8}} which discusses congestion avoidance:
-
-~~~~
-With Relays, Proxies or Store and Forward proxies, two separate and
-de-coupled transport connections are used.  One connection operates
-between the AAA client and agent, and another between the agent and
-server.  Since the two transport connections are de-coupled,
-transport layer ACKs do not flow end-to-end, and self-clocking does
-not occur.
-~~~~
-
-In order to avoid congestive collapse, is is RECOMMENDED that RADIUS/TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time in those packets.  Instead, those clients SHOULD include Event-Timestamp, which is the time at which the original event occurred.  The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and also create the same problem as with Acct-Delay-Time.
-
-This change is imperfect, but will at least help to avoid congestive collapse.
+As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.
+As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
 
 ### Differing Retransmission Requirements
 
@@ -410,7 +398,37 @@ That is, if an incoming connection on a reliable transport is closed, there may 
 
 The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
-In an ideal world, a proxy could also apply the suggestion of the previous section, by discarding Acct-Delay-Time from Accounting-Request packets, and replacing it with Event-Timestamp.  However, this process is fragile and is not known to succeed in the general case.
+### Acct-Delay-Time and Event-Timestap
+
+In order to avoid congestive collapse, it is RECOMMENDED that RADIUS/(D)TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
+Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occured.
+The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and create the same problem as with Acct-Delay-Time.
+
+Not using Acct-Delay-Time allows for RADIUS packets to be retransmitted without change.
+In conctrast, updating Acct-Delay-Time would require that the client create and send a new packet without signalling the server that the previous packet is no longer considered active.
+This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
+This duplication contributes to congestive collapse of the network, if a RADIUS proxy performs retransmission to the next hop for each of those packets independently.
+
+Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity around retransmitted packets for RADIUS/TLS.
+Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.
+
+Where RADIUS/(D)TLS clients do include Acct-Delay-Time in RADIUS packets, the client SHOULD use timers to detect packet loss, as described in the next section.
+RADIUS/(D)TLS clients SHOULD NOT update the Acct-Delay-Time, and therefore create a new RADIUS packet with the same information, until the timer has determined that the original packet has in fact been completely lost.
+This ensures that there is no congestive collapse, since a new packet is only created if folling hops have also given up on retransmission, while keeping the functionality of Acct-Delay-Time to determine how long ago the event occured.
+It only reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
+
+## Client Timers
+
+RADIUS/(D)TLS clients MUST implement retransmission timers such as the ones defined in {{RFC5080, Section 2.2.1}}.
+Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
+
+As TLS is a reliable transports, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply.
+Similarly, RADIUS/DTLS can only retransmit packets when it runs over an unreliable transport such as UDP.
+
+Where RADIUS/(D)TLS runs over a reliable transport, these timers MUST NOT result in transmission of any packet.
+Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occured in a later RADIUS hop or the home server ignores the RADIUS packet.
+
+See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
 
 ## Session limits and timeout
 
@@ -482,6 +500,7 @@ These requirements reduce the possibility for a misbehaving client or server to 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
 
 ## Duplicates and Retransmissions
+{:#duplicates_retransmissions}
 
 As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit RADIUS packets over a given TCP connection.
 However, if the TLS session or TCP connection is closed or broken, retransmissions over new connections are permissible.
