@@ -93,6 +93,8 @@ Table of Contents
        4.5.2.  Differing Retransmission Requirements
        4.5.3.  Acct-Delay-Time and Event-Timestap
      4.6.  Client Timers
+       4.6.1.  Reconnection attempts
+       4.6.2.  RADIUS packet retransmission
      4.7.  Session limits and timeout
      4.8.  Behavior on session closure of incoming sessions
      4.9.  Malformed Packets and Unknown clients
@@ -809,9 +811,9 @@ Table of Contents
 
    Where RADIUS/(D)TLS clients do include Acct-Delay-Time in RADIUS
    packets, the client SHOULD use timers to detect packet loss, as
-   described in the next section.  RADIUS/(D)TLS clients SHOULD NOT
-   update the Acct-Delay-Time, and therefore create a new RADIUS packet
-   with the same information, until the timer has determined that the
+   described in Section 4.6.2.  RADIUS/(D)TLS clients SHOULD NOT update
+   the Acct-Delay-Time, and therefore create a new RADIUS packet with
+   the same information, until the timer has determined that the
    original packet has in fact been completely lost.  This ensures that
    there is no congestive collapse, since a new packet is only created
    if folling hops have also given up on retransmission, while keeping
@@ -821,6 +823,45 @@ Table of Contents
    updating the Acct-Delay-Time on each retransmission.
 
 4.6.  Client Timers
+
+   RADIUS/(D)TLS clients may need to reconnect to a server that rejected
+   their connection attempt and retransmit RADIUS packets which did not
+   get an answer.
+
+4.6.1.  Reconnection attempts
+
+   In contrast to RADIUS/UDP, RADIUS/(D)TLS establishes a (D)TLS session
+   before transmitting any RADIUS packets.  Therefore, in addition to
+   retransmission of RADIUS packets, RADIUS/(D)TLS client also have to
+   deal with connection retries.
+
+   RADIUS/(D)TLS clients MUST NOT immediately reconnect to a
+   RADIUS/(D)TLS server after a failed connection attempt and MUST have
+   a lower bound for the time between retries.  The lower bound SHOULD
+   be configurable.
+
+   It is RECOMMENDED that RADIUS/(D)TLS clients implement an algorithm
+   for handling the timing of such reconnection attempts.
+   Implementations MAY choose to use an algorithm similar to the
+   retransmission algorithm defined in [RFC5080], Section 2.2.1.  The
+   algorithm used SHOULD include a configurable lower and upper bound
+   for the time between retries, an (exponential) backoff, a
+   configurable timeout after which the client gives up reconnecting and
+   MAY add a jitter.
+
+   Where the connection to a RADIUS/(D)TLS server is established only
+   when there is a RADIUS packet to be sent, adding a second RADIUS
+   packet to be send SHOULD NOT trigger an immediate reconnection
+   attempt.  Instead, the algorithm SHOULD continue as it would have
+   without the new packet, but the client MAY reset the timeout for
+   giving up reconnecting.
+
+   Where the connection to a RADIUS/(D)TLS server is configured to be
+   static and always kept open, the reconnect algorithm SHOULD have an
+   upper limit for the time between retries (e.g. 60 seconds) and not
+   give up trying to reconnect.
+
+4.6.2.  RADIUS packet retransmission
 
    RADIUS/(D)TLS clients MUST implement retransmission timers such as
    the ones defined in [RFC5080], Section 2.2.1.  Other algorithms than
