@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 28 November 2025                                    27 May 2025
+Expires: 8 January 2026                                      7 July 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 November 2025.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -92,7 +92,8 @@ Table of Contents
        4.5.1.  Throughput Differences lead to Network Collapse
        4.5.2.  Differing Retransmission Requirements
      4.6.  Session limits and timeout
-     4.7.  Malformed Packets and Unknown clients
+     4.7.  Behavior on session closure of incoming sessions
+     4.8.  Malformed Packets and Unknown clients
    5.  RADIUS/TLS specific specifications
      5.1.  Duplicates and Retransmissions
      5.2.  TCP Applications Are Not UDP Applications
@@ -856,7 +857,43 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
-4.7.  Malformed Packets and Unknown clients
+4.7.  Behavior on session closure of incoming sessions
+
+   If an incoming (D)TLS session or the underlying connection is closed
+   or broken, then there is no way to send a RADIUS response message to
+   the client.  The RADIUS/(D)TLS server behavior then depends on the
+   types of packets being processed, and on the role of the server.
+
+   A RADIUS/(D)TLS server acting as proxy MUST discard all requests
+   associated with the closed connection.  As no response can be sent
+   over the now-closed (D)TLS connection, any further processing of
+   requests is pointless.  A discarded request may have a cached RADIUS
+   response packet ([RFC5080], Section 2.2.2), in which case the cached
+   response also MUST be discarded.  If there is no cached response
+   packet, then the request might still be processed by the home server.
+   The RADIUS proxy MUST discard any response to these requests and
+   SHOULD stop processing the requests.
+
+   A home server which receives Access-Request packets MUST behave as
+   defined above for a proxy and discard those requests and stop
+   processing them.  Where a RADIUS packet is part of a multi-packet
+   authentication session (e.g. EAP), the underlying authentication
+   session could be continued, or the underlying authentication session
+   data could be discarded.  The server may be able to receive and
+   process another packet for that session via a different incoming
+   connection.  It is difficult to make more recommendations for
+   managing partially processed authentication sessions, as such
+   recommendations depend strongly on the authentication method being
+   used.  As a result, further behavior is implementation defined and
+   outside the scope of this specification.
+
+   A home server which receives other kinds of packets (for example
+   Accounting-Request, CoA-Request, Disconnect-Request) MAY finish
+   processing outstanding requests, and then discard any response.  This
+   behavior ensures that the desired action is still taken, even if the
+   home server cannot inform the client of the result of that action.
+
+4.8.  Malformed Packets and Unknown clients
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -936,19 +973,6 @@ Table of Contents
    session, the ID of the packet MAY change.  If the ID changes, any
    security attributes such as Message-Authenticator MUST be
    recalculated.
-
-   If a TLS session or the underlying TCP connection is closed or
-   broken, any cached RADIUS response packets ([RFC5080], Section 2.2.2)
-   associated with that connection MUST be discarded.  A RADIUS server
-   SHOULD stop the processing of any requests associated with that TLS
-   session.  No response to these requests can be sent over the TLS
-   connection, so any further processing is pointless.  This requirement
-   applies not only to RADIUS servers, but also to proxies.  When a
-   client's connection to a proxy is closed, there may be responses from
-   a home server that were supposed to be sent by the proxy back over
-   that connection to the client.  Since the client connection is
-   closed, those responses from the home server to the proxy server
-   SHOULD be silently discarded by the proxy.
 
    Despite the above discussion, RADIUS/TLS servers SHOULD still perform
    duplicate detection on received packets, as described in [RFC5080],
@@ -1677,9 +1701,9 @@ Table of Contents
    [I-D.ietf-tls-keylogfile]
               Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
               SSLKEYLOGFILE Format for TLS", Work in Progress, Internet-
-              Draft, draft-ietf-tls-keylogfile-04, 11 April 2025,
+              Draft, draft-ietf-tls-keylogfile-05, 9 June 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              keylogfile-04>.
+              keylogfile-05>.
 
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
