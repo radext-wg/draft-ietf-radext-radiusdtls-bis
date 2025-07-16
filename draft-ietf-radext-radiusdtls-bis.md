@@ -258,12 +258,12 @@ This does not preclude vendors or manufacturers including their trust list in th
 
 RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 
-* The Common Name RDN MUST NOT be used to identify peers
 * Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
   * If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585}}.
   * If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
+  * The Common Name RDN MUST NOT be used to identify peers
   * Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
   * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
