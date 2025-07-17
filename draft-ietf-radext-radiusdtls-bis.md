@@ -307,6 +307,9 @@ With TLS-X.509-FINGERPRINT, a client is uniquely identified by the fingerprint o
 
 With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.
 
+In practice, identification of unique clients is not always necessary and could be based on the subject of the presented certificate or a subjectAltName entry.
+While this identification technique could match multiple distinct certificates and therefore distinct clients, it is often sufficient, e.g. for the purpose of applying policies.
+
 Note well: having identified a connecting entity does not mean the server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers, the server may decline to perform RADIUS transactions with this client.
 
