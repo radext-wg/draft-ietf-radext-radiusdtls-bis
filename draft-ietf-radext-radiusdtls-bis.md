@@ -541,6 +541,23 @@ These requirements reduce the possibility for a misbehaving client or server to 
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
 
+## Sending and receiving RAIDUS traffic
+
+The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the traditional packet-based communication as with RADIUS/UDP.
+As a result, the way RADIUS packets are sent and received has to change.
+
+Instead of relying on packet borders to indicate the start of a new packet, this information is carried implicitly in the stream.
+
+After the TLS session is established, a RADIUS/(D)TLS peer MUST NOT send any data except for RADIUS packets over the connection.
+Since the RADIUS packet header contains a length field, the end of the RADIUS packet can be deduced.
+The next RADIUS packet MUST be sent directly after the RADIUS packet before, that is, the peers MUST NOT add padding before, between, or after RADIUS packets.
+
+When receiving RADIUS packets, a RADIUS/TLS node MUST determine the borders of RADIUS packet based on the length field in the RADIUS header.
+Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first recieved only partially, and the remainder of the packet is contained in following fragments.
+Therefore, RADIUS/TLS peers MUST NOT assume that the packet length is invalid solely based on the currenlty available bytes in the stream.
+
+As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other peer.
+
 ## Duplicates and Retransmissions
 {:#duplicates_retransmissions}
 
