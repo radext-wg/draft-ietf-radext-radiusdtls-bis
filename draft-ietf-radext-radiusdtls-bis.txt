@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 8 January 2026                                      7 July 2025
+Expires: 18 January 2026                                    17 July 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 18 January 2026.
 
 Copyright Notice
 
@@ -604,6 +604,12 @@ Table of Contents
 
    With TLS-X.509-PKIX, a client is uniquely identified by the tuple of
    the serial number of the presented client certificate and the issuer.
+
+   In practice, identification of unique clients is not always necessary
+   and could be based on the subject of the presented certificate or a
+   subjectAltName entry.  While this identification technique could
+   match multiple distinct certificates and therefore distinct clients,
+   it is often sufficient, e.g. for the purpose of applying policies.
 
    Note well: having identified a connecting entity does not mean the
    server necessarily wants to communicate with that client.  For
