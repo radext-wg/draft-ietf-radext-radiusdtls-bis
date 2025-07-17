@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T00:57:41.686162+00:00",
+  "timestamp": "2025-07-17T01:00:27.556879+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -3163,6 +3163,58 @@
           ]
         }
       ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOLrzygc6fK-UI",
+      "title": "clarify practical use of PKIX client identity",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/38",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarify the technicality of PKIX identity versus its practical use of subject or subjectAltName, to address #26.",
+      "createdAt": "2025-07-16T11:59:08Z",
+      "updatedAt": "2025-07-16T11:59:08Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "5911967dd58d4f919aa14719e37f22ead7864946",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "pkix-client-identity",
+      "headRefOid": "611f89d2390e423cdb588597b670ec48e1050f86",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOLrzygc6fLGhw",
+      "title": "Forbid CN only for servers",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/39",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I think this proposal was lost among the lenghy discussion on the mailing list:\r\n\r\nRFC9525 mainly applies to identify servers, but not clients. Specifically the provision that Common Name MUST NOT be used to identify a server doesn't really apply to clients. To the contrary it seems to be perfectly reasonable to identfy a client based on its Common Name.\r\n\r\nProposal: move the Common Name provision to the details of server identity validation perfomred by clients.",
+      "createdAt": "2025-07-16T12:12:43Z",
+      "updatedAt": "2025-07-16T16:00:43Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "5911967dd58d4f919aa14719e37f22ead7864946",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "forbid-cn-server-only",
+      "headRefOid": "27f03fc677090995d38f6a36abf793b141f1873d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
