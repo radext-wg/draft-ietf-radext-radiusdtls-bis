@@ -62,20 +62,20 @@ It is defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.
 The deployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol UDP and the lack of confidentiality for large parts of its packet payload.
 Additionally the confidentiality and integrity mechanisms rely on the MD5 algorithm, which has been proven to be insecure.
 Although RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
-For an updated version of RADIUS/(D)TLS without need for MD5 see {{?I-D.ietf-radext-radiusv11}}
+For an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}
 
 ## Purpose of RADIUS/(D)TLS
 
 The main focus of RADIUS/TLS and RADIUS/DTLS is to provide means to secure communication between RADIUS peers using TLS or DTLS.
 The most important use of this specification lies in roaming environments where RADIUS packets need to be sent across insecure or untrusted networks.
-An example for a worldwide roaming environment that uses RADIUS over TLS to secure communication is eduroam as described in {{?RFC7593}}
+An example for a worldwide roaming environment that uses RADIUS over TLS to secure communication is eduroam as described in {{?RFC7593}}.
 
 ## Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
 The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
-  These specifications have been merged into this document.
+  These specifications have been merged into this document, and therfore removes {{RFC6613}} as normative reference.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed usage of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
@@ -84,7 +84,7 @@ The following list contains the most important changes from the previous specifi
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
 * The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation is now forbidden.
-* The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet that is connection-specific and should not be proxied.
+* The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
 
@@ -141,7 +141,7 @@ The changes to RADIUS implementations required to implement this specification a
 
 The requirement that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
-This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{I-D.ietf-radext-radiusv11}} for more details.
+This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{RFC9765}} for more details.
 
 We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
@@ -178,7 +178,7 @@ Within RADIUS, proxies typically only forward traffic between the NAS and RADIUS
 As a result, when a NAS does not receive a response to a request, this could be the result of packet loss between the NAS and proxy, a problem on the proxy, loss between the RADIUS proxy and server, or a problem with the server.
 
 The absence of a reply can cause a client to deduce (incorrectly) that the proxy is unavailable.
-The client could then fail over to another server or conclude that no "live" servers are available (OKAY state in {{!RFC3539}}, Appendix A).
+The client could then fail over to another server or conclude that no "live" servers are available (OKAY state in {{!RFC3539, Appendix A}}).
 This situation is made even worse when requests are sent through a proxy to multiple destinations.
 Failures in one destination may result in service outages for other destinations, if the client erroneously believes that the proxy is unresponsive.
 
@@ -191,7 +191,8 @@ RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the followin
 * The application-layer watchdog algorithm has marked it DOWN.
 
 RADIUS/(D)TLS clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveliness of the peer in the absence of responses.
-Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539}}, Section 2.4), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
+RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
+Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
 This value was picked arbitrary, as there is no reason to choose any other value over another for this use.
 
 For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293, Section 3.8.4}}.
@@ -243,12 +244,12 @@ Alternative methods, such as post-handshake certificate-based client authenticat
 All RADIUS/(D)TLS server implementations MUST implement this model.
 RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST implement either this or TLS-PSK.
 
-If implemented it MUST use the following rules:
+If implemented, it MUST use the following rules:
 
 * Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
-  See {{!RFC5246}}, Section 7.4.4 and {{!RFC6066}}, Section 6 for TLS 1.2 and {{!RFC8446}}, Section 4.2.4 for TLS 1.3.
+  See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
 * When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued validity of the certificate path. This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
 
 RADIUS/(D)TLS peers SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
@@ -256,12 +257,12 @@ Instead, the peers SHOULD start off with an empty CA list as trust anchor.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
-RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
+RADIUS/(D)TLS clients and servers MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 
 * The Common Name RDN MUST NOT be used to identify peers
 * Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
-  * If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585}}.
+  * If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585, Section 2.2}}.
   * If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
@@ -271,7 +272,7 @@ RADIUS/(D)TLS clients and server MUST follow {{!RFC9525}} when validating peer i
   * For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.
   * For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
     For clients configured by IP range, the certificate MUST be valid for the IP address the client is currently using.
-  * Implementation MAY consider additional subjectAltName extensions to identify a client.
+  * Implementations MAY consider additional subjectAltName extensions to identify a client.
   * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
@@ -290,7 +291,7 @@ RADIUS/(D)TLS implementations SHOULD support using Raw Public Keys {{!RFC7250}} 
 RADIUS/(D)TLS server implementations MUST support the use of TLS-PSK.
 RADIUS/(D)TLS client implementations SHOULD support the use of TLS-PSK, but MUST implement either this or the TLS-X.509-PKIX trust model.
 
-Further guidance on the usage of TLS-PSK in RADIUS/(D)TLS is given in {{?I-D.ietf-radext-tls-psk}}.
+Further guidance on the usage of TLS-PSK in RADIUS/(D)TLS is given in {{?RFC9813}}.
 
 ## Connecting Client Identity
 
@@ -347,7 +348,7 @@ When resuming a (D)TLS session, both client and server MUST re-authorize the con
 In particular, this includes the X.509 certificate (when using a PKIX trust model) as well as any policies associated with that identity such as restrictions on source IP address.
 The re-authorization MUST give the same result as if a full handshake was performed at the time of resumption.
 
-If cached data cannot be retrieved securely, resumption MUST NOT be done, either immediately closing the connection or reverting to a full handshake.
+If cached data cannot be retrieved securely, resumption MUST NOT be done, by either immediately closing the connection or reverting to a full handshake.
 If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
 
 ## RADIUS Datagrams
@@ -383,7 +384,7 @@ Since proxying of RADIUS packets is a general issue in RADIUS and not specific t
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
-When proxy forwards packets, it is possible that the incoming and outgoing links have substantially different properties.  This issue is most notable in UDP to TCP proxying, but there are still possible issues even when the same transport is used on both incoming and outgoing links.  {{RFC2866, Section 1.2}} noted this issue many years ago:
+When a RADIUS proxy forwards packets, it is possible that the incoming and outgoing links have substantially different properties.  This issue is most notable in UDP to TCP proxying, but there are still possible issues even when the same transport is used on both incoming and outgoing links.  {{RFC2866, Section 1.2}} noted this issue many years ago:
 
 ~~~~
 A forwarding server may either perform its forwarding function in a
@@ -398,9 +399,9 @@ These differences are most notable in throughput, and in differing retransmissio
 
 ### Throughput Differences lead to Network Collapse
 
-An incoming link to the proxy may have substantially lower throughput than the outgoing link.
+An incoming link to the proxy may have substantially different throughput than the outgoing link.
 Perhaps the network characteristics on the two links are different, or perhaps the home server is slow.
-In both situations, the proxy is left with a difficult choice about what to do with the incoming packets.
+In both situations, the proxy may be left with a difficult choice about what to do with the incoming packets, if the rate of incoming packets exceeds throughput on the outgoing link.
 
 As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.
 As a result, the proxy must simply accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.
@@ -413,7 +414,7 @@ When a proxy receives packets on an unreliable transport, and forwards them acro
 
 When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
 
-That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retransmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions, and discard the old request.
+That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retransmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions of the old request and discard it.
 
 The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
@@ -443,10 +444,13 @@ RADIUS/(D)TLS clients may need to reconnect to a server that rejected their conn
 ### Reconnection attempts
 
 In contrast to RADIUS/UDP, RADIUS/(D)TLS establishes a (D)TLS session before transmitting any RADIUS packets.
-Therefore, in addition to retransmission of RADIUS packets, RADIUS/(D)TLS client also have to deal with connection retries.
+Therefore, in addition to retransmission of RADIUS packets, RADIUS/(D)TLS clients also have to deal with connection retries.
 
 RADIUS/(D)TLS clients MUST NOT immediately reconnect to a RADIUS/(D)TLS server after a failed connection attempt and MUST have a lower bound for the time between retries.
 The lower bound SHOULD be configurable.
+As only exception, a RADIUS/(D)TLS client MAY reconnect immediately iff the client attempted to resume a TLS session and the server closed the connection.
+In this case the new connection attempt MUST NOT use TLS session resumption.
+
 
 It is RECOMMENDED that RADIUS/(D)TLS clients implement an algorithm for handling the timing of such reconnection attempts.
 Implementations MAY choose to use an algorithm similar to the retransmission algorithm defined in {{RFC5080, Section 2.2.1}}.
@@ -460,20 +464,17 @@ Where the connection to a RADIUS/(D)TLS server is configured to be static and al
 ### RADIUS packet retransmission
 {:#client_retransmission_timers}
 
-RADIUS/(D)TLS clients MUST implement retransmission timers such as the ones defined in {{RFC5080, Section 2.2.1}}.
+RADIUS/(D)TLS clients MUST implement retransmission timers for retransmitting RADIUS packets such as the ones defined in {{RFC5080, Section 2.2.1}}.
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
-As TLS is a reliable transports, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply.
-Similarly, RADIUS/DTLS can only retransmit packets when it runs over an unreliable transport such as UDP.
-
-Where RADIUS/(D)TLS runs over a reliable transport, these timers MUST NOT result in transmission of any packet.
+As TLS is a reliable transport, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
 Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occured in a later RADIUS hop or the home server ignores the RADIUS packet.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
 
 ## Session limits and timeout
 
-While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that radius client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
+While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
 Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
 
@@ -552,14 +553,14 @@ If the ID changes, any security attributes such as Message-Authenticator MUST be
 Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
 
-RADIUS packets SHOULD NOT be retransmitted to the same destination IP and numerical port, but over a different transport protocol.
+RADIUS packets SHOULD NOT be retransmitted to the same destination IP address and numerical port, but over a different transport protocol.
 There is no guarantee in RADIUS that the two ports are in any way related.
 This requirement does not, however, forbid the practice of putting multiple servers into a failover or load-balancing pool.
 In that situation, RADIUS requests MAY be retransmitted to another server that is known to be part of the same pool.
 
 ## TCP Applications Are Not UDP Applications
 
-Implementors should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.
+Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.
 
 Additionally, differences in the transport like Head of Line (HoL) blocking should be considered.
 
@@ -728,7 +729,7 @@ There is currently no detection method that works universally for all use-cases 
 Some possible detection methods are listed below:
 
 - Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.
-- Sending a custom random number in an extension in the TLS client hello. Again, this is verify effective, but requires extension of the TLS implementation.
+- Sending a custom random number in an extension in the TLS client hello. Again, this is very effective, but requires extension of the TLS implementation.
 - Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.
 
 The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
@@ -849,7 +850,7 @@ However, TLS has some serious drawbacks when used for RADIUS transport.
 Especially the sequential nature of the connection and the connected issues like Head-of-Line blocking could create problems.
 
 Therefore, the decision was made that RADIUS servers must implement both transports.
-For RADIUS clients, that may run on more constrained nodes, the implementations can choose to implement only the transport, that is better suited for their needs.
+For RADIUS clients, that may run on more constrained nodes, implementers can choose to implement only the transport that is better suited for their needs.
 
 ## Mandatory-to-implement trust profiles
 {: #design_trust_profiles}
@@ -859,8 +860,8 @@ The experience of the deployment of RADIUS/TLS as specified in {{RFC6614}} has s
 Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification we wanted to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.
 
 As with the supported transports, the assumption is that RADIUS servers are generally believed to be less constrained than RADIUS clients.
-Since some client implementations already support using certificates for mutual authentication and there are several use cases, where pre-shared keys are not usable (e.g. a dynamic federation with changing members), the decision was made that, analog to the supported transports, RADIUS servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
-RADIUS clients again can choose which method is better suited for them, but must, for compatibility reasons, implement at least one of the two.
+Since some client implementations already support using certificates for mutual authentication and there are several use cases, where pre-shared keys are not usable (e.g. a dynamic federation with changing members), the decision was made that, analog to the supported transports, RADIUS/(D)TLS servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
+RADIUS/(D)TLS clients again can choose which method is better suited for them, but must, for compatibility reasons, implement at least one of the two.
 
 ## Changes in application of TLS
 {: #design_changes_in_tls}
