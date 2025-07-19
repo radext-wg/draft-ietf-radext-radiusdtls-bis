@@ -638,16 +638,17 @@ Instead, it should cache the RADIUS response packet, and re-process it through D
 
 ### Server Session Management
 
-A RADIUS/DTLS server MUST track ongoing DTLS sessions for each client, based on the following 4-tuple:
+A RADIUS/DTLS server MUST track ongoing DTLS sessions for each client, based on the following 5-tuple:
 
 * source IP address
 * source port
 * destination IP address
 * destination port
+* protocol (fixed to `UDP`)
 
-Note that this 4-tuple is independent of IP address version (IPv4 or IPv6).
+Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).
 
-Each 4-tuple points to a unique session entry, which usually contains the following information:
+Each 5-tuple points to a unique session entry, which usually contains the following information:
 
 DTLS Session:
 : Any information required to maintain and manage the DTLS session.
@@ -666,15 +667,15 @@ DTLS sessions SHOULD NOT be tracked until a ClientHello packet has been received
 Server implementation SHOULD have a way of tracking DTLS sessions that are partially set up.
 Servers MUST limit both the number and impact on resources of partial sessions.
 
-Sessions (both 4-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
+Sessions (both 5-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
 When a session is deleted due to it failing security requirements, the DTLS session MUST be closed, any TLS session resumption parameters for that session MUST be discarded, and all tracking information MUST be deleted.
 
-Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
+Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 4-tuple and thus causing the server to close an active (and authenticated) DTLS session.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.
 
-As a result, servers MUST ignore any attempts to reuse an existing 4-tuple from an active session.
-This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 4-tuple.
+As a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active session.
+This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 5-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 
 ### Client Session Management
