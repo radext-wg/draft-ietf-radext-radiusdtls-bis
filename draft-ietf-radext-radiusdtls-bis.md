@@ -336,6 +336,7 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 * TLS-PSK Identifier
 
 ## TLS Session Resumption
+{:#tls_session_resumption}
 
 Session resumption lowers the time and effort required to start a (D)TLS session and increases network responsiveness.
 This is especially helpful when using short idle timeouts.
@@ -644,7 +645,8 @@ Instead, clients SHOULD use DTLS as a transport layer only when administratively
 Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations may choose to use the method described here, or another, equivalent method.
+Implementations MAY choose to use the method described here, or another, equivalent method.
+When implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
 
 We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
