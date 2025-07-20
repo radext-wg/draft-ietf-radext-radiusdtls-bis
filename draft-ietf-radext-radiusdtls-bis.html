@@ -1427,7 +1427,7 @@ These specifications have been merged into this document, and therfore removes <
             <p id="section-1.2-2.8.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.<a href="#section-1.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.2-2.9">
-            <p id="section-1.2-2.9.1">The rules for verifying the peer certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>. Using the Common Name RDN for validation is now forbidden.<a href="#section-1.2-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-2.9.1">The rules for verifying the peer certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>. Using the Common Name RDN for validation of server certificates is now forbidden.<a href="#section-1.2-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.2-2.10">
             <p id="section-1.2-2.10.1">The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.<a href="#section-1.2-2.10.1" class="pilcrow">¶</a></p>
@@ -1700,52 +1700,52 @@ This does not preclude vendors or manufacturers including their trust list in th
 <p id="section-4.2.1-5">RADIUS/(D)TLS clients and servers <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating peer identities. Specific details are provided below:<a href="#section-4.2.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2.1-6.1">
-              <p id="section-4.2.1-6.1.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify peers<a href="#section-4.2.1-6.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-6.1.1">Certificates <span class="bcp14">MAY</span> use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-4.2.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.2.1-6.2">
-              <p id="section-4.2.1-6.2.1">Certificates <span class="bcp14">MAY</span> use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-4.2.1-6.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-6.2.1">RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:<a href="#section-4.2.1-6.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2.1-6.2.2.1">
+                  <p id="section-4.2.1-6.2.2.1.1">If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-4.2.1-6.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.2.2.2">
+                  <p id="section-4.2.1-6.2.2.2.1">If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-4.2.1-6.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.2.2.3">
+                  <p id="section-4.2.1-6.2.2.3.1">If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.2.2.4">
+                  <p id="section-4.2.1-6.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-4.2.1-6.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.2.2.5">
+                  <p id="section-4.2.1-6.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the servers identity, but it <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-4.2.1-6.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.2.2.6">
+                  <p id="section-4.2.1-6.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-4.2.1-6.2.2.6.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
 </li>
             <li class="normal" id="section-4.2.1-6.3">
-              <p id="section-4.2.1-6.3.1">RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:<a href="#section-4.2.1-6.3.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-6.3.1">RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
+The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-4.2.1-6.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2.1-6.3.2.1">
-                  <p id="section-4.2.1-6.3.2.1.1">If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-4.2.1-6.3.2.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.2">
-                  <p id="section-4.2.1-6.3.2.2.1">If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-4.2.1-6.3.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.
+For clients configured by IP range, the certificate <span class="bcp14">MUST</span> be valid for the IP address the client is currently using.<a href="#section-4.2.1-6.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.3">
-                  <p id="section-4.2.1-6.3.2.3.1">If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.3.2.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.3.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-4.2.1-6.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.4">
-                  <p id="section-4.2.1-6.3.2.4.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the servers identity, but it <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-4.2.1-6.3.2.4.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-4.2.1-6.3.2.5">
-                  <p id="section-4.2.1-6.3.2.5.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-4.2.1-6.3.2.5.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.4.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
             <li class="normal" id="section-4.2.1-6.4">
-              <p id="section-4.2.1-6.4.1">RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
-The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-4.2.1-6.4.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2.1-6.4.2.1">
-                  <p id="section-4.2.1-6.4.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.4.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-4.2.1-6.4.2.2">
-                  <p id="section-4.2.1-6.4.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.
-For clients configured by IP range, the certificate <span class="bcp14">MUST</span> be valid for the IP address the client is currently using.<a href="#section-4.2.1-6.4.2.2.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-4.2.1-6.4.2.3">
-                  <p id="section-4.2.1-6.4.2.3.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-4.2.1-6.4.2.3.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-4.2.1-6.4.2.4">
-                  <p id="section-4.2.1-6.4.2.4.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.4.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-</li>
-            <li class="normal" id="section-4.2.1-6.5">
-              <p id="section-4.2.1-6.5.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-4.2.1-6.5.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-6.4.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-4.2.1-6.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>

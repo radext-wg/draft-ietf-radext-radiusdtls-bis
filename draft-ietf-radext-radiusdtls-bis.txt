@@ -199,7 +199,7 @@ Table of Contents
 
    *  The rules for verifying the peer certificate have been updated to
       follow guidance provided in [RFC9525].  Using the Common Name RDN
-      for validation is now forbidden.
+      for validation of server certificates is now forbidden.
 
    *  The response to unwanted packets has changed.  Nodes should now
       reply with a Protocol-Error packet, which is connection-specific
@@ -494,8 +494,6 @@ Table of Contents
    RADIUS/(D)TLS clients and servers MUST follow [RFC9525] when
    validating peer identities.  Specific details are provided below:
 
-   *  The Common Name RDN MUST NOT be used to identify peers
-
    *  Certificates MAY use wildcards in the identifiers of DNS names and
       realm names, but only as the complete, left-most label.
 
@@ -522,6 +520,8 @@ Table of Contents
          address, the configured IP address is matched against the
          presented identifier in any subjectAltName entry of type
          iPAddress [RFC5280].
+
+      -  The Common Name RDN MUST NOT be used to identify a server.
 
       -  Clients MAY use other attributes of the certificate to validate
          the servers identity, but it MUST NOT accept any certificate
