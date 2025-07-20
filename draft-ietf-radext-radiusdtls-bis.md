@@ -83,7 +83,7 @@ The following list contains the most important changes from the previous specifi
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
-* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation is now forbidden.
+* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
 * The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
@@ -259,12 +259,12 @@ This does not preclude vendors or manufacturers including their trust list in th
 
 RADIUS/(D)TLS clients and servers MUST follow {{!RFC9525}} when validating peer identities. Specific details are provided below:
 
-* The Common Name RDN MUST NOT be used to identify peers
 * Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RADIUS/(D)TLS clients validate the servers identity to match their local configuration, accepting the identity on the first match:
   * If the expected RADIUS/(D)TLS server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585, Section 2.2}}.
   * If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
+  * The Common Name RDN MUST NOT be used to identify a server.
   * Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
   * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
@@ -520,9 +520,9 @@ Implementations of this specification SHOULD treat the "silently discard" texts 
 That is, the implementation SHOULD send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:
 
 * Connection from an unknown client
-* Packet where the RADIUS "Length" field is less than the minimum RADIUS packet length
-* Packet where the RADIUS "Length" field is more than the maximum RADIUS packet length
-* Packet where an Attribute "Length" field has the value of zero or one (0 or 1)
+* Packet where the RADIUS `Length` field is less than the minimum RADIUS packet length
+* Packet where the RADIUS `Length` field is more than the maximum RADIUS packet length
+* Packet where an Attribute `Length` field has the value of zero or one (0 or 1)
 * Packet where the attributes do not exactly fill the packet
 * Packet where the Request Authenticator fails validation (where validation is required)
 * Packet where the Response Authenticator fails validation (where validation is required)
@@ -540,6 +540,23 @@ These requirements reduce the possibility for a misbehaving client or server to 
 # RADIUS/TLS specific specifications
 
 This section discusses all specifications that are only relevant for RADIUS/TLS.
+
+## Sending and receiving RADIUS traffic
+
+The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the traditional packet-based communication as with RADIUS/UDP.
+As a result, the way RADIUS packets are sent and received has to change.
+
+Instead of relying on packet borders of the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS peers have to keep track of the packet borders by examining the header of the received RADIUS packets.
+
+After the TLS session is established, a RADIUS/(D)TLS peer MUST NOT send any data except for RADIUS packets over the connection.
+Since the RADIUS packet header contains a `Length` field, the end of the RADIUS packet can be deduced.
+The next RADIUS packet MUST be sent directly after the RADIUS packet before, that is, the peers MUST NOT add padding before, between, or after RADIUS packets.
+
+When receiving RADIUS packets, a RADIUS/TLS node MUST determine the borders of RADIUS packet based on the `Length` field in the RADIUS header.
+Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first recieved only partially, and the remainder of the packet is contained in following fragments.
+Therefore, RADIUS/TLS peers MUST NOT assume that the packet length is invalid solely based on the currenlty available bytes in the stream.
+
+As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other peer.
 
 ## Duplicates and Retransmissions
 {:#duplicates_retransmissions}
@@ -638,16 +655,17 @@ Instead, it should cache the RADIUS response packet, and re-process it through D
 
 ### Server Session Management
 
-A RADIUS/DTLS server MUST track ongoing DTLS sessions for each client, based on the following 4-tuple:
+A RADIUS/DTLS server MUST track ongoing DTLS sessions for each client, based on the following 5-tuple:
 
 * source IP address
 * source port
 * destination IP address
 * destination port
+* protocol (fixed to `UDP`)
 
-Note that this 4-tuple is independent of IP address version (IPv4 or IPv6).
+Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).
 
-Each 4-tuple points to a unique session entry, which usually contains the following information:
+Each 5-tuple points to a unique session entry, which usually contains the following information:
 
 DTLS Session:
 : Any information required to maintain and manage the DTLS session.
@@ -666,15 +684,15 @@ DTLS sessions SHOULD NOT be tracked until a ClientHello packet has been received
 Server implementation SHOULD have a way of tracking DTLS sessions that are partially set up.
 Servers MUST limit both the number and impact on resources of partial sessions.
 
-Sessions (both 4-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
+Sessions (both 5-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
 When a session is deleted due to it failing security requirements, the DTLS session MUST be closed, any TLS session resumption parameters for that session MUST be discarded, and all tracking information MUST be deleted.
 
-Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 4-tuple, before the server has closed the old session.
+Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 4-tuple and thus causing the server to close an active (and authenticated) DTLS session.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.
 
-As a result, servers MUST ignore any attempts to reuse an existing 4-tuple from an active session.
-This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 4-tuple.
+As a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active session.
+This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 5-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 
 ### Client Session Management
