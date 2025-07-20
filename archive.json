@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-17T01:00:27.556879+00:00",
+  "timestamp": "2025-07-20T01:06:06.361882+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -327,6 +327,53 @@
       "updatedAt": "2025-07-07T15:41:22Z",
       "closedAt": "2025-07-07T15:41:22Z",
       "comments": []
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOLrzygc7BDH2b",
+      "title": "DTLS session tracking",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/40",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per the comments on the mailing list, maybe the session tracking for DTLS can be reworded to allow different session tracking mechanisms.\n\nCurrently, the draft contains this in section 6.4:\n> Implementations may choose to use the method described here, or another, equivalent method.\n\nMaybe with this, the concerns are already met, maybe we should capitalize the \"may\", so it is a proper BCP14 \"MAY\"",
+      "createdAt": "2025-07-17T09:23:19Z",
+      "updatedAt": "2025-07-17T09:23:19Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 42,
+      "id": "I_kwDOLrzygc7BF4x4",
+      "title": "DTLS retransmissions",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/42",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When reading through the document, I noticed that in Section 6.4 we mandate a behavior for retransmissions on the server side.\nIf the server received a retransmission of a RADIUS request and already has an answer cached, it MUST re-process that cached answer through DTLS instead of just caching the DTLS record and re-sending that one.\n\nThis opens up two questions:\n\n* Why are we mandating this behavior only for servers and not for clients and their retransmissions?\n* Is this even right?\n\nRFC 9147 (DTLS 1.3), section 4.2.1 (DTLS Record Layer -> Seq Nr and Epoch -> Processing Guidelines) states:\n> Implementations MUST send retransmissions of lost messages using the same epoch and keying material as the original transmission.\n\nWe need to find out, whether or not RADIUS packet retransmissions are also included in the DTLS's definition of a retransmission.",
+      "createdAt": "2025-07-17T13:10:15Z",
+      "updatedAt": "2025-07-17T13:36:01Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "IIRC, the text for servers was the result of discussions with people familiar with DTLS.  But we should double-check this, and use a consistent approach.\n\ni.e. either DTLS sends exactly the same packet for retransmissions of application data (both client and server).  Or, DTLS sends new packets for retransmissions of application data (both client and server).\n\nChecking the DTLS RFCs, they discuss retransmissions during the handshake phase.  But they have no discussion about the application layer protocol.  The entire contents of RFC9147 related to the application data protocol is [Section 10](https://datatracker.ietf.org/doc/html/rfc9147#name-application-data-protocol), which I reproduce here in its entirety:\n\n```\nApplication data messages are carried by the record layer and are split into records and encrypted based on the current connection state. The messages are treated as transparent data to the record layer.\n```",
+          "createdAt": "2025-07-17T13:34:10Z",
+          "updatedAt": "2025-07-17T13:34:10Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "And commenting in 4.2.1:\n\n> Implementations MUST send retransmissions of lost messages using the same epoch and keying material as the original transmission.\n\nThe implication would be that the retransmitting a lost application message would mean sending a new DTLS message.  We will have to clarify this with the TLS people",
+          "createdAt": "2025-07-17T13:36:01Z",
+          "updatedAt": "2025-07-17T13:36:01Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -550,7 +597,7 @@
       "labels": [],
       "body": "My initial stab at addressing the proxying issues.",
       "createdAt": "2024-05-20T20:26:01Z",
-      "updatedAt": "2024-07-08T17:49:22Z",
+      "updatedAt": "2025-07-17T12:13:19Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "0e3b595bd851c9e1fcf4e0bd227f269f8609754e",
@@ -2509,7 +2556,7 @@
       "labels": [],
       "body": "I've added this pull request as documentation for further discussions.\r\n\r\nThis is mainly the discussion from #4 with the things removed/added we discussed in the interim.",
       "createdAt": "2024-10-21T18:58:43Z",
-      "updatedAt": "2024-10-21T19:04:57Z",
+      "updatedAt": "2025-07-17T12:13:07Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c458813a6d507981a69298ce6c3716b492b0aee0",
@@ -2838,7 +2885,7 @@
       "labels": [],
       "body": "Text as per Heikki's comments on the radext ML",
       "createdAt": "2025-03-07T16:52:02Z",
-      "updatedAt": "2025-05-26T11:49:46Z",
+      "updatedAt": "2025-07-17T12:12:59Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2874,7 +2921,7 @@
       "labels": [],
       "body": "This is a suggestion for different wording on Path MTU. (See #27 for some discussion)\r\n\r\nThis change probably should go to the list of changes, since in RFC 7360, PMTU was `SHOULD`, I changed it out to `MAY`\r\n\r\nSuggestions/comments/... welcome.",
       "createdAt": "2025-05-12T13:18:46Z",
-      "updatedAt": "2025-05-26T11:48:18Z",
+      "updatedAt": "2025-07-17T12:13:04Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2910,7 +2957,7 @@
       "labels": [],
       "body": "see #28 for discussion\r\n\r\nfeedback/improvements/... welcome",
       "createdAt": "2025-05-12T14:21:44Z",
-      "updatedAt": "2025-05-27T08:57:49Z",
+      "updatedAt": "2025-07-17T12:13:05Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -2979,7 +3026,7 @@
       "labels": [],
       "body": "As suggested by Alexander Clouter @jimdigriz in #24 \r\n\r\nI have changed the wording a bit, not exactly as suggested, hopefully still making it a bit less ambiguous.\r\n\r\nSuggestions/Improvements/Comments/... welcome.",
       "createdAt": "2025-05-12T14:37:47Z",
-      "updatedAt": "2025-05-26T11:49:11Z",
+      "updatedAt": "2025-07-17T12:13:06Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -3057,7 +3104,7 @@
       "labels": [],
       "body": "Text taken from #7 with some minor changes:\r\n\r\nInstead of generally referencing RFC5077, it is now referenced specifically for servers, since servers issue the tickets. The client must still cache all relevant data.",
       "createdAt": "2025-05-14T18:07:31Z",
-      "updatedAt": "2025-07-07T16:30:23Z",
+      "updatedAt": "2025-07-17T12:12:58Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -3107,7 +3154,7 @@
       "labels": [],
       "body": "Rewording from #15, see discussion there.\r\n\r\nI have left out the reasoning for this, since it does not fit in the normative text, if needed, we can add a subsection in the security considerations.",
       "createdAt": "2025-05-14T18:28:40Z",
-      "updatedAt": "2025-05-27T12:46:12Z",
+      "updatedAt": "2025-07-17T12:12:56Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
@@ -3169,26 +3216,49 @@
       "id": "PR_kwDOLrzygc6fK-UI",
       "title": "clarify practical use of PKIX client identity",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/38",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Clarify the technicality of PKIX identity versus its practical use of subject or subjectAltName, to address #26.",
       "createdAt": "2025-07-16T11:59:08Z",
-      "updatedAt": "2025-07-16T11:59:08Z",
+      "updatedAt": "2025-07-17T08:26:19Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "5911967dd58d4f919aa14719e37f22ead7864946",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "pkix-client-identity",
-      "headRefOid": "611f89d2390e423cdb588597b670ec48e1050f86",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2c0bbed81c083199c4d50584c55ce1e8ce62b5cb",
+      "closedAt": "2025-07-17T08:26:19Z",
+      "mergedAt": "2025-07-17T08:26:19Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "83f68e29cbe83e29253721b989e26079fc533f91"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc60gRxG",
+          "commit": {
+            "abbreviatedOid": "611f89d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T07:56:03Z",
+          "updatedAt": "2025-07-17T07:56:03Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The general issue of \"what do I use to apply policies\" is not unique to TLS-X.509-PKIX, so I would suggest putting it in a separate paragraph.\r\nI've reworded it slightly. (and removed the whitespace at the end of the line, so kdrfc doesn't complain)\r\n\r\n```suggestion\r\nWith TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.\r\n\r\nIn practice, identification of unique clients is not always necessary and could be based on the subject of the presented certificate or a subjectAltName entry.\r\nWhile this identification technique could match multiple distinct certificates and therefore distinct clients, it is often sufficient, e.g. for the purpose of applying policies.\r\n```",
+              "createdAt": "2025-07-17T07:56:03Z",
+              "updatedAt": "2025-07-17T07:56:03Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 39,
@@ -3202,13 +3272,209 @@
       "labels": [],
       "body": "I think this proposal was lost among the lenghy discussion on the mailing list:\r\n\r\nRFC9525 mainly applies to identify servers, but not clients. Specifically the provision that Common Name MUST NOT be used to identify a server doesn't really apply to clients. To the contrary it seems to be perfectly reasonable to identfy a client based on its Common Name.\r\n\r\nProposal: move the Common Name provision to the details of server identity validation perfomred by clients.",
       "createdAt": "2025-07-16T12:12:43Z",
-      "updatedAt": "2025-07-16T16:00:43Z",
+      "updatedAt": "2025-07-19T18:39:12Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "5911967dd58d4f919aa14719e37f22ead7864946",
+      "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "forbid-cn-server-only",
-      "headRefOid": "27f03fc677090995d38f6a36abf793b141f1873d",
+      "headRefOid": "f1671665cb1afeca0dcd9fef7701e84af39e1405",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would argue differently.\r\nThe problem with the CN RDN, as far as I understand, is that it is not typed. This can be a problem for both client and server.\r\n\r\nIf we want to identify a client based on a domain name, then we should not use the CN, but SAN:DNS. If it's an IP address, SAN:IP.\r\nOnly if we want to identify a client based on an arbitrary string with custom format (e.g. a customer number stored in CN) and within a private CA it is ok to use the CN.\r\n\r\nThe reasoning for this approach:\r\nIf we use identifiers with well-defined format, (such as IP addresses or DNS names), we should use the well-defined certificate fields, and we can use the same validation routines for client and server certificate validation.\r\nOnly if explicitly configured the validation should use the CN.\r\n\r\nTheoretically we could also allow CN for such identifiers for server certificates, I'm not sure whether this is needed (and this would be in direct violation of RFC9525)\r\n\r\nThe draft currently states:\r\n> Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate\r\n\r\nEven if it contradicts the \"MUST NOT use CN\", it could be possible to configure a CN check via this route.",
+          "createdAt": "2025-07-17T07:48:28Z",
+          "updatedAt": "2025-07-17T07:48:28Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The draft still requires the use of subjectAltNames for client certificates, **IF** its DNS name or IP address is known.\r\n\r\nHowever, for clients this is more often not the case (in contrast to servers), so strictly forbidding the use of CN might be overkill (CN should still not be used to match a DNS name)",
+          "createdAt": "2025-07-17T08:21:30Z",
+          "updatedAt": "2025-07-17T08:21:30Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOLrzygc6fXjpD",
+      "title": "Add explicit text explaining how to send RADIUS pkt via TLS",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/41",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When looking over the document, I noticed that at no point we had an explicit specification that RADIUS packets are to be concatenated, without padding, and so on.\r\nThis fixes this, and it does nothing else than document explicitly what is inferred at many points in the document already.\r\n(Theoretically, it is implied at many points in this document, that this is the case, but it's always better to have it explicitly in there)\r\n\r\nMaybe this is worth adding in the \"list of changes\", maybe not, I'm open for suggestions on this.",
+      "createdAt": "2025-07-17T12:09:38Z",
+      "updatedAt": "2025-07-17T16:21:43Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_explicit_tls_transmission",
+      "headRefOid": "e2b4146b4194c2bea68f548a6fd0a025327ec229",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Minor comments, but I think this is a good addition.",
+          "createdAt": "2025-07-17T13:08:08Z",
+          "updatedAt": "2025-07-17T13:08:08Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc60kd-C",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T13:05:11Z",
+          "updatedAt": "2025-07-17T13:05:11Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "\"RADIUS\"",
+              "createdAt": "2025-07-17T13:05:11Z",
+              "updatedAt": "2025-07-17T13:05:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc60kfmW",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T13:06:56Z",
+          "updatedAt": "2025-07-17T13:06:56Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "I don't think this is true?  Even RADIUS/UDP depended on the Length field.  RFC 2865 says:\r\n\r\n```\r\n      Octets outside the range of the Length field\r\n      MUST be treated as padding and ignored on reception.\r\n```\r\n\r\nSo the length of the packet is explicit, not implicit.\r\n\r\nPerhaps just delete this sentence.  ",
+              "createdAt": "2025-07-17T13:06:56Z",
+              "updatedAt": "2025-07-17T13:06:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc60kfzx",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T13:07:10Z",
+          "updatedAt": "2025-07-17T13:07:10Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Perhaps `Length` field?",
+              "createdAt": "2025-07-17T13:07:10Z",
+              "updatedAt": "2025-07-17T13:07:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc60nVq7",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T16:19:40Z",
+          "updatedAt": "2025-07-17T16:19:41Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "fixed. *sigh*",
+              "createdAt": "2025-07-17T16:19:40Z",
+              "updatedAt": "2025-07-17T16:19:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc60nV34",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T16:19:58Z",
+          "updatedAt": "2025-07-17T16:19:58Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "I've reworded it to be more clear what I mean. I hope it's fixed with that.",
+              "createdAt": "2025-07-17T16:19:58Z",
+              "updatedAt": "2025-07-17T16:19:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc60nXFd",
+          "commit": {
+            "abbreviatedOid": "ddbf152"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-17T16:21:43Z",
+          "updatedAt": "2025-07-17T16:21:43Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "I've changed it to code environment, and changed the other instances of this too.",
+              "createdAt": "2025-07-17T16:21:43Z",
+              "updatedAt": "2025-07-17T16:21:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOLrzygc6frVQ1",
+      "title": "Convert 4-tuple to 5-tuple",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/43",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Generally, any session tracking is described with a 5-tuple, that also includes the protocol.\r\n\r\nTo be consistent with other specs, literature, ... we could just modify this and just statically set protocol to `UDP`\r\n\r\n(Thanks Fabian for the suggestion)",
+      "createdAt": "2025-07-19T10:02:36Z",
+      "updatedAt": "2025-07-19T10:02:55Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_5tuple",
+      "headRefOid": "bd326bf2fe3f281f0952fa0b6b28429d444a0c4a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
