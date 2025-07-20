@@ -1482,24 +1482,23 @@ Table of Contents
    could open an excessive number of DTLS sessions.  This session
    tracking could lead to a resource exhaustion on the server side,
    triggering a Denial-of-Service.  Therefore, RADIUS/(D)TLS servers
-   MUST limit the absolute number of sessions they can track and SHOULD
-   expose this limit as configurable option to the administrator.  When
-   the total number of sessions tracked is going to exceed the
-   configured limit, servers MAY free up resources by closing the
+   SHOULD have a configurable limit of the number of sessions they can
+   track.  When the total number of sessions tracked is going to exceed
+   the configured limit, servers MAY free up resources by closing the
    session that has been idle for the longest time.  Doing so may free
    up idle resources that then allow the server to accept a new session.
 
-   RADIUS/DTLS servers MUST limit the number of partially open DTLS
+   RADIUS/(D)TLS servers MUST limit the number of partially open (D)TLS
    sessions and SHOULD expose this limit as configurable option to the
    administrator.
 
    To prevent resource exhaustion by partially opening a large number of
-   DTLS sessions, RADIUS/DTLS servers SHOULD have a timeout on partially
-   open DTLS sessions.  We recommend a limit of a few seconds,
-   implementations SHOULD expose this timeout as configurable option to
-   the administrator.  If a DTLS session is not established within this
-   timeframe, it is likely that this is a bogus connection.  In
-   contrast, an established session might not send packets for longer
+   (D)TLS sessions, RADIUS/(D)TLS servers SHOULD have a timeout on
+   partially open (D)TLS sessions.  We recommend a limit of a few
+   seconds, implementations SHOULD expose this timeout as configurable
+   option to the administrator.  If a (D)TLS session is not established
+   within this timeframe, it is likely that this is a bogus connection.
+   In contrast, an established session might not send packets for longer
    periods of time, but since the peers are mutually authenticated this
    does not pose a problem other than the problems mentioned before.
 
