@@ -814,6 +814,9 @@ If the old RADIUS/UDP configuration is left configured, but not used in normal o
 To prevent this it is RECOMMENDED that, when the migration to RADIUS/(D)TLS is completed, the RADIUS/UDP configuration is removed.
 RADIUS/(D)TLS clients MUST NOT fall back to RADIUS/UDP if the RADIUS/(D)TLS communication fails, unless explicitly configured this way.
 
+Special considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RADIUS/(D)TLS.
+A RADIUS server might not be able to detect if a RADIUS/(D)TLS client falls back to RADIUS/UDP, they will appear with the same source IP address to the server and use the same shared secret.
+It is therefore RECOMMENDED to not use RADIUS/UDP and RADIUS/(D)TLS clients behind a NAT at the same time.
 
 ## Client Subsystems
 
