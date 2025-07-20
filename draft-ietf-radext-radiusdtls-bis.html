@@ -1835,7 +1835,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
         </ul>
 </section>
 </div>
-<div id="tls-session-resumption">
+<div id="tls_session_resumption">
 <section id="section-4.4">
         <h3 id="name-tls-session-resumption">
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-tls-session-resumption" class="section-name selfRef">TLS Session Resumption</a>
@@ -2192,7 +2192,8 @@ Instead, clients <span class="bcp14">SHOULD</span> use DTLS as a transport layer
 <p id="section-6.4-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations may choose to use the method described here, or another, equivalent method.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+Implementations <span class="bcp14">MAY</span> choose to use the method described here, or another, equivalent method.
+When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 4.4</a>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <p id="section-6.4-3"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, describes how duplicate RADIUS/UDP requests result in the retransmission of a previously cached RADIUS/UDP response.
