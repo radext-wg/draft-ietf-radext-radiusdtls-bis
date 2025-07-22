@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T01:06:06.361882+00:00",
+  "timestamp": "2025-07-22T01:00:19.957782+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -122,15 +122,15 @@
       "id": "I_kwDOLrzygc6ywMKh",
       "title": "Updating \"Connecting Client Identity\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/26",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As per Fabians [comments on the mailing list](https://mailarchive.ietf.org/arch/msg/radext/pY_NTCPXAMb6Bgs018THc33rOEs):\n\nWe have the section \"Connecting Client Identity\"\nWhat do we need it for?\nIn practice, the identity of the client is not done with the identifiers listed in the text, but instead different identifies such as subjectAltName or similar certificate attributes",
       "createdAt": "2025-04-16T09:04:58Z",
-      "updatedAt": "2025-04-16T11:42:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-20T12:58:46Z",
+      "closedAt": "2025-07-20T12:58:46Z",
       "comments": [
         {
           "author": "alandekok",
@@ -138,6 +138,13 @@
           "body": "It's likely best to just wave your hands vigorously and state \"the client is uniquely identified by some TLS magic.  Client certs, PSK Identity, or other things\".\n\nWhile RFC 9525 defines Service Identity in TLS, there is no similar document for Client Identity.  Perhaps we'll add another item to the \"todo\" list for UTA.",
           "createdAt": "2025-04-16T11:42:56Z",
           "updatedAt": "2025-04-16T11:42:56Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We'll just leave it as is, maybe it's good to have a description of an actual identity, even if we don't do anything in our document, but other (later) documents may use it.",
+          "createdAt": "2025-07-20T12:58:46Z",
+          "updatedAt": "2025-07-20T12:58:46Z"
         }
       ]
     },
@@ -340,9 +347,17 @@
       "labels": [],
       "body": "As per the comments on the mailing list, maybe the session tracking for DTLS can be reworded to allow different session tracking mechanisms.\n\nCurrently, the draft contains this in section 6.4:\n> Implementations may choose to use the method described here, or another, equivalent method.\n\nMaybe with this, the concerns are already met, maybe we should capitalize the \"may\", so it is a proper BCP14 \"MAY\"",
       "createdAt": "2025-07-17T09:23:19Z",
-      "updatedAt": "2025-07-17T09:23:19Z",
+      "updatedAt": "2025-07-20T12:57:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should be fixed in 8d566da",
+          "createdAt": "2025-07-20T12:57:21Z",
+          "updatedAt": "2025-07-20T12:57:21Z"
+        }
+      ]
     },
     {
       "number": 42,
@@ -1714,7 +1729,7 @@
       "id": "PR_kwDOLrzygc56jz8n",
       "title": "Implementation Guidelines / Connected Sockets",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/14",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -1723,14 +1738,14 @@
       ],
       "body": "Added section including the details from RFC 7360 Section 6. I didn't feel like this text would fit well in any of the existing sections, so I created a new one",
       "createdAt": "2024-09-05T17:59:30Z",
-      "updatedAt": "2025-05-23T17:00:55Z",
+      "updatedAt": "2025-07-20T12:00:47Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "section-implementation-guidelines",
       "headRefOid": "7cf6645ec8727a844d8ab701f318ad13c6225982",
-      "closedAt": null,
+      "closedAt": "2025-07-20T12:00:47Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1762,6 +1777,13 @@
           "body": "  Hmm. Double checking osx and FreeBSD, they all have the same text about connected udp sockets. I missed that, and had  found other references which said something else. \n\n  Ok, my objections are withdrawn, and I'll go over the text for any needed updates. \n",
           "createdAt": "2025-05-23T17:00:53Z",
           "updatedAt": "2025-05-23T17:00:53Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As discussed at the hackathon, this is mostly already in the document, so we can close this.",
+          "createdAt": "2025-07-20T12:00:47Z",
+          "updatedAt": "2025-07-20T12:00:47Z"
         }
       ],
       "reviews": [
@@ -2238,7 +2260,7 @@
       "id": "PR_kwDOLrzygc56q4EP",
       "title": "Security Consideration: Network Address Translation",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/16",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ethan-thompson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -2247,14 +2269,14 @@
       ],
       "body": "Added subsection on Network Address Translation (from RFC 7360 Section 10.5)",
       "createdAt": "2024-09-06T13:49:12Z",
-      "updatedAt": "2025-05-23T15:19:07Z",
+      "updatedAt": "2025-07-20T12:05:51Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "271e5c78e36c2ff01580259196d83a292617bfcd",
       "headRepository": "ethan-thompson/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "Network-Address-Translation",
       "headRefOid": "3b26c0292bf02130fefe81928dd882b4c82b3c1b",
-      "closedAt": null,
+      "closedAt": "2025-07-20T12:05:51Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -2300,6 +2322,13 @@
           "body": "In RADIUS/UDP, clients are uniquely identified based on source IP address.  In contrast, NAT hides multiple different clients behind one IP address.  The two are therefore fundamentally incompatible.\r\n\r\nSome implementations have addressed this by looking at the contents of the RADIUS packet.  If the packet contains `NAS-IP-Address = IP1`, then it is identified as \"client 1\".  If the packet contains `NAS-IP-Address = IP2` then it is identified as \"client 2\".  This practice \"works\", for various values of \"works\".\r\n\r\nWhile the NAT usually maps one (source IP/port) to one outbound port on the NAT box, this mapping is not guaranteed.  It can change over time, without notice to either RADIUS client or server.  The server therefore can _mostly_ treat packets from one NAT port as being from the \"same\" client, but it cannot _guarantee_ that they are from the same client.  If some time has passed with no traffic, the port can be re-used.\r\n\r\n[RFC 4787 Section 4.3](https://datatracker.ietf.org/doc/html/rfc4787#section-4.3) suggests that the timeouts SHOULD be 5 minutes.  However, sites like Google Cloud default to [30 seconds](https://cloud.google.com/nat/docs/tune-nat-configuration#nat-timeouts).  Linux also appears to default to 30 seconds.\r\n\r\nIn order to keep the port mapping alive, the client must send network traffic within that timeout period.  But many clients don't send keep-alives, as [RFC 2865 Section 2.6](https://datatracker.ietf.org/doc/html/rfc2865#section-2.6) says that keep-alives are harmful.\r\n\r\nThese limitations mean that the server can only determine client identity by examining the contents every packet RADIUS/UDP in isolation.  This behavior is at best a hack, and is not standardized in any RADIUS RFC.\r\n\r\nIn contrast, with DTLS, there is a way to uniquely identify a client: the TLS session.  This identification is independent of source IP or source port.  With TLS, the identification is even stronger: the underlying TCP connection.  The properties of TCP ensure that the TCP connections won't conflict with each other, even if the NAT box reuses a source port.\r\n\r\nAs a result, NAT is fundamentally incompatible with RADIUS/UDP, but makes zero difference to RADIUS/(D)TLS.\r\n\r\nThere is an additional issue, as pointed out in the suggested text.\r\n\r\nWhen multiple clients are placed behind a NAT, the security of the system as a whole is limited by the least secure client.  Since the NAT gateway uses the same source IP for both RADIUS/UDP clients, and RADIUS/(D)TLS clients, the server must allow RADIUS/UDP from that source IP.  Which means that it's possible for a misconfiguration change the RADIUS/(D)TLS clients so that they use RADIUS/UDP.  The server has essentially no way of knowing that this has taken place, because (as noted above) it has few options for distinguishing RADIUS/UDP clients behind a NAT.\r\n\r\nAs a result, I think the text is useful, and should stay in.",
           "createdAt": "2025-05-17T11:45:52Z",
           "updatedAt": "2025-05-17T11:45:52Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "should be fixed with the new paragraph introduced in f16113d",
+          "createdAt": "2025-07-20T12:05:51Z",
+          "updatedAt": "2025-07-20T12:05:51Z"
         }
       ],
       "reviews": [
@@ -3265,24 +3294,26 @@
       "id": "PR_kwDOLrzygc6fLGhw",
       "title": "Forbid CN only for servers",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I think this proposal was lost among the lenghy discussion on the mailing list:\r\n\r\nRFC9525 mainly applies to identify servers, but not clients. Specifically the provision that Common Name MUST NOT be used to identify a server doesn't really apply to clients. To the contrary it seems to be perfectly reasonable to identfy a client based on its Common Name.\r\n\r\nProposal: move the Common Name provision to the details of server identity validation perfomred by clients.",
       "createdAt": "2025-07-16T12:12:43Z",
-      "updatedAt": "2025-07-19T18:39:12Z",
+      "updatedAt": "2025-07-20T11:46:15Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "forbid-cn-server-only",
       "headRefOid": "f1671665cb1afeca0dcd9fef7701e84af39e1405",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-20T11:46:15Z",
+      "mergedAt": "2025-07-20T11:46:15Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "daa3c02c7f3ba9304be937a8966ca156a7302109"
+      },
       "comments": [
         {
           "author": "Janfred",
@@ -3306,24 +3337,26 @@
       "id": "PR_kwDOLrzygc6fXjpD",
       "title": "Add explicit text explaining how to send RADIUS pkt via TLS",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/41",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "When looking over the document, I noticed that at no point we had an explicit specification that RADIUS packets are to be concatenated, without padding, and so on.\r\nThis fixes this, and it does nothing else than document explicitly what is inferred at many points in the document already.\r\n(Theoretically, it is implied at many points in this document, that this is the case, but it's always better to have it explicitly in there)\r\n\r\nMaybe this is worth adding in the \"list of changes\", maybe not, I'm open for suggestions on this.",
       "createdAt": "2025-07-17T12:09:38Z",
-      "updatedAt": "2025-07-17T16:21:43Z",
+      "updatedAt": "2025-07-20T11:43:37Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_explicit_tls_transmission",
       "headRefOid": "e2b4146b4194c2bea68f548a6fd0a025327ec229",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-20T11:43:37Z",
+      "mergedAt": "2025-07-20T11:43:37Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "10ada7cdbb12f2401971c16ddfa8ac38ac1d803f"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -3461,24 +3494,26 @@
       "id": "PR_kwDOLrzygc6frVQ1",
       "title": "Convert 4-tuple to 5-tuple",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/43",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Generally, any session tracking is described with a 5-tuple, that also includes the protocol.\r\n\r\nTo be consistent with other specs, literature, ... we could just modify this and just statically set protocol to `UDP`\r\n\r\n(Thanks Fabian for the suggestion)",
       "createdAt": "2025-07-19T10:02:36Z",
-      "updatedAt": "2025-07-19T10:02:55Z",
+      "updatedAt": "2025-07-20T11:42:12Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_5tuple",
       "headRefOid": "bd326bf2fe3f281f0952fa0b6b28429d444a0c4a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-20T11:42:12Z",
+      "mergedAt": "2025-07-20T11:42:12Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "5250ccc41d17a566cfffda1b0cfe6851c0117f66"
+      },
       "comments": [],
       "reviews": []
     }
