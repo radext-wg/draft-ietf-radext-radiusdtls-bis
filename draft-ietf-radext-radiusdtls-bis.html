@@ -2087,7 +2087,7 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close n
 <p id="section-5.1-1">The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the traditional packet-based communication as with RADIUS/UDP.
 As a result, the way RADIUS packets are sent and received has to change.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">Instead of relying on packet borders of the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS peers have to keep track of the packet borders by examining the header of the received RADIUS packets.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1-3">After the TLS session is established, a RADIUS/(D)TLS peer <span class="bcp14">MUST NOT</span> send any data except for RADIUS packets over the connection.
+<p id="section-5.1-3">After the TLS session is established, a RADIUS/TLS peer <span class="bcp14">MUST NOT</span> send any data except for RADIUS packets over the connection.
 Since the RADIUS packet header contains a <code>Length</code> field, the end of the RADIUS packet can be deduced.
 The next RADIUS packet <span class="bcp14">MUST</span> be sent directly after the RADIUS packet before, that is, the peers <span class="bcp14">MUST NOT</span> add padding before, between, or after RADIUS packets.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">When receiving RADIUS packets, a RADIUS/TLS node <span class="bcp14">MUST</span> determine the borders of RADIUS packet based on the <code>Length</code> field in the RADIUS header.
