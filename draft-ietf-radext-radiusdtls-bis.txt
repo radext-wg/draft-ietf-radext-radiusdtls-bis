@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 21 January 2026                                    20 July 2025
+Expires: 23 January 2026                                    22 July 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 January 2026.
+   This Internet-Draft will expire on 23 January 2026.
 
 Copyright Notice
 
@@ -834,7 +834,7 @@ Table of Contents
    Event-Timestamp, and create the same problem as with Acct-Delay-Time.
 
    Not using Acct-Delay-Time allows for RADIUS packets to be
-   retransmitted without change.  In conctrast, updating Acct-Delay-Time
+   retransmitted without change.  In contrast, updating Acct-Delay-Time
    would require that the client create and send a new packet without
    signalling the server that the previous packet is no longer
    considered active.  This process can occur repeatedly, which leads to
