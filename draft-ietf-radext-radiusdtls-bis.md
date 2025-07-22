@@ -553,7 +553,7 @@ As a result, the way RADIUS packets are sent and received has to change.
 
 Instead of relying on packet borders of the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS peers have to keep track of the packet borders by examining the header of the received RADIUS packets.
 
-After the TLS session is established, a RADIUS/(D)TLS peer MUST NOT send any data except for RADIUS packets over the connection.
+After the TLS session is established, a RADIUS/TLS peer MUST NOT send any data except for RADIUS packets over the connection.
 Since the RADIUS packet header contains a `Length` field, the end of the RADIUS packet can be deduced.
 The next RADIUS packet MUST be sent directly after the RADIUS packet before, that is, the peers MUST NOT add padding before, between, or after RADIUS packets.
 
