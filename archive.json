@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-22T01:00:19.957782+00:00",
+  "timestamp": "2025-07-24T01:00:31.521530+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -57,6 +57,11 @@
       "name": "needs discussion",
       "description": "",
       "color": "e99695"
+    },
+    {
+      "name": "WGLC Comment",
+      "description": "",
+      "color": "79be9f"
     }
   ],
   "issues": [
@@ -340,15 +345,15 @@
       "id": "I_kwDOLrzygc7BDH2b",
       "title": "DTLS session tracking",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/40",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As per the comments on the mailing list, maybe the session tracking for DTLS can be reworded to allow different session tracking mechanisms.\n\nCurrently, the draft contains this in section 6.4:\n> Implementations may choose to use the method described here, or another, equivalent method.\n\nMaybe with this, the concerns are already met, maybe we should capitalize the \"may\", so it is a proper BCP14 \"MAY\"",
       "createdAt": "2025-07-17T09:23:19Z",
-      "updatedAt": "2025-07-20T12:57:21Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-22T10:20:16Z",
+      "closedAt": "2025-07-22T10:20:16Z",
       "comments": [
         {
           "author": "Janfred",
@@ -356,6 +361,13 @@
           "body": "Should be fixed in 8d566da",
           "createdAt": "2025-07-20T12:57:21Z",
           "updatedAt": "2025-07-20T12:57:21Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As per the discussion in the WG session at IETF 123, I'm closing this. Feel free to re-open if the text is not sufficient.",
+          "createdAt": "2025-07-22T10:20:16Z",
+          "updatedAt": "2025-07-22T10:20:16Z"
         }
       ]
     },
@@ -371,7 +383,7 @@
       "labels": [],
       "body": "When reading through the document, I noticed that in Section 6.4 we mandate a behavior for retransmissions on the server side.\nIf the server received a retransmission of a RADIUS request and already has an answer cached, it MUST re-process that cached answer through DTLS instead of just caching the DTLS record and re-sending that one.\n\nThis opens up two questions:\n\n* Why are we mandating this behavior only for servers and not for clients and their retransmissions?\n* Is this even right?\n\nRFC 9147 (DTLS 1.3), section 4.2.1 (DTLS Record Layer -> Seq Nr and Epoch -> Processing Guidelines) states:\n> Implementations MUST send retransmissions of lost messages using the same epoch and keying material as the original transmission.\n\nWe need to find out, whether or not RADIUS packet retransmissions are also included in the DTLS's definition of a retransmission.",
       "createdAt": "2025-07-17T13:10:15Z",
-      "updatedAt": "2025-07-17T13:36:01Z",
+      "updatedAt": "2025-07-22T08:12:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -387,6 +399,13 @@
           "body": "And commenting in 4.2.1:\n\n> Implementations MUST send retransmissions of lost messages using the same epoch and keying material as the original transmission.\n\nThe implication would be that the retransmitting a lost application message would mean sending a new DTLS message.  We will have to clarify this with the TLS people",
           "createdAt": "2025-07-17T13:36:01Z",
           "updatedAt": "2025-07-17T13:36:01Z"
+        },
+        {
+          "author": "TheEnbyperor",
+          "authorAssociation": "NONE",
+          "body": "To copy from the discussion in the 123 WG:\n\nRetransmission in DTLS is retransmission for DTLS' own purposes, i.e. to maintain a lock-step handshake. Retransmission of application layer data is of no concern to DTLS. Thus, the current behaviour should be mandated for both clients and servers, and is the correct behaviour. ",
+          "createdAt": "2025-07-22T08:12:36Z",
+          "updatedAt": "2025-07-22T08:12:36Z"
         }
       ]
     }
@@ -3344,7 +3363,7 @@
       "labels": [],
       "body": "When looking over the document, I noticed that at no point we had an explicit specification that RADIUS packets are to be concatenated, without padding, and so on.\r\nThis fixes this, and it does nothing else than document explicitly what is inferred at many points in the document already.\r\n(Theoretically, it is implied at many points in this document, that this is the case, but it's always better to have it explicitly in there)\r\n\r\nMaybe this is worth adding in the \"list of changes\", maybe not, I'm open for suggestions on this.",
       "createdAt": "2025-07-17T12:09:38Z",
-      "updatedAt": "2025-07-20T11:43:37Z",
+      "updatedAt": "2025-07-22T18:42:10Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
@@ -3501,7 +3520,7 @@
       "labels": [],
       "body": "Generally, any session tracking is described with a 5-tuple, that also includes the protocol.\r\n\r\nTo be consistent with other specs, literature, ... we could just modify this and just statically set protocol to `UDP`\r\n\r\n(Thanks Fabian for the suggestion)",
       "createdAt": "2025-07-19T10:02:36Z",
-      "updatedAt": "2025-07-20T11:42:12Z",
+      "updatedAt": "2025-07-22T18:42:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9d0f45f9b88ed231cf51b18424ca851330aa9f0f",
@@ -3515,6 +3534,82 @@
         "oid": "5250ccc41d17a566cfffda1b0cfe6851c0117f66"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOLrzygc6gH58N",
+      "title": "Fix typo in draft",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/44",
+      "state": "MERGED",
+      "author": "chrohrer",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "WGLC Comment"
+      ],
+      "body": "",
+      "createdAt": "2025-07-22T18:16:55Z",
+      "updatedAt": "2025-07-22T18:55:37Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "17514bba596a8c0997beac5a9e022a2bfdeaf406",
+      "headRepository": "chrohrer/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "conctrast-typo",
+      "headRefOid": "2816812dcca224142f176e8032c0ecd3d4795ece",
+      "closedAt": "2025-07-22T18:55:37Z",
+      "mergedAt": "2025-07-22T18:55:37Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "2fcc1a6a8c460262f7e7975f8f7906cdd01cadb6"
+      },
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks!",
+          "createdAt": "2025-07-22T18:55:32Z",
+          "updatedAt": "2025-07-22T18:55:32Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOLrzygc6gIDn1",
+      "title": "Update draft-ietf-radext-radiusdtls-bis.md",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/45",
+      "state": "MERGED",
+      "author": "chrohrer",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "WGLC Comment"
+      ],
+      "body": "Remove reference to RADIUS/DTLS in RADIUS/TLS specific section",
+      "createdAt": "2025-07-22T18:34:44Z",
+      "updatedAt": "2025-07-22T18:59:13Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "17514bba596a8c0997beac5a9e022a2bfdeaf406",
+      "headRepository": "chrohrer/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "remove-dtls-reference-in-tls-section",
+      "headRefOid": "983f5c445a01a5b471d89bb1f5a1bb7769076730",
+      "closedAt": "2025-07-22T18:59:13Z",
+      "mergedAt": "2025-07-22T18:59:12Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "327a20e780522389338370d2f4905a6f5eec780c"
+      },
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ooops. good catch. Thank you.",
+          "createdAt": "2025-07-22T18:59:00Z",
+          "updatedAt": "2025-07-22T18:59:00Z"
+        }
+      ],
       "reviews": []
     }
   ]
