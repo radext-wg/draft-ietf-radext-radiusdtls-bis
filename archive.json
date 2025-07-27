@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-24T01:00:31.521530+00:00",
+  "timestamp": "2025-07-27T01:06:09.902173+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -408,6 +408,22 @@
           "updatedAt": "2025-07-22T08:12:36Z"
         }
       ]
+    },
+    {
+      "number": 46,
+      "id": "I_kwDOLrzygc7Cg-cf",
+      "title": "Certificate Lifetimes",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/46",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The text should probably say that connections MUST respect certificate expiry times.  If the certificate is no longer valid, then the connection needs to be torn down.",
+      "createdAt": "2025-07-25T14:28:50Z",
+      "updatedAt": "2025-07-25T14:28:50Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3610,6 +3626,32 @@
           "updatedAt": "2025-07-22T18:59:00Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOLrzygc6gqoK5",
+      "title": "be explicit about client source IP",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/47",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When validating client certificates, the fact that the client may only connect from IP addresses to which a given DNS name resolves to (or the actual source addres when multiple IPs or IP prefix is configured) is only implied. Maybe better to state it explicitly.",
+      "createdAt": "2025-07-25T17:12:34Z",
+      "updatedAt": "2025-07-25T17:12:34Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-explicit-client-source-ip",
+      "headRefOid": "15eaff5b7344d078962f69c6a453215da598ad3e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
