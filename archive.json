@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-29T01:06:46.938811+00:00",
+  "timestamp": "2025-08-05T01:02:49.864864+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -3644,7 +3644,7 @@
       ],
       "body": "When validating client certificates, the fact that the client may only connect from IP addresses to which a given DNS name resolves to (or the actual source addres when multiple IPs or IP prefix is configured) is only implied. Maybe better to state it explicitly.",
       "createdAt": "2025-07-25T17:12:34Z",
-      "updatedAt": "2025-07-28T14:34:12Z",
+      "updatedAt": "2025-08-04T12:07:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3669,6 +3669,13 @@
           "body": "It's a balance between allowing people to do anything, and giving them guidance which is too specific. \r\n\r\nIt may be worth mentioning the issue, and giving options as to what can be done.\r\n\r\nMy concern (as always) is that if the spec is silent on a topic, people have no idea what to do, and therefore do something problematic.",
           "createdAt": "2025-07-28T14:34:12Z",
           "updatedAt": "2025-07-28T14:34:12Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> I don't think that this should be mandated. It opens up a whole can of worms.\r\n\r\nWe alerady mandate it for IP prefix, so I think it would only be consostent to the same for DNS names. This describes the default certificate validation, similar to whate we do to server certificates. And we already allow this check to be omitted, if the situation doesn't provide a fixed DNS name or IP address.\r\n\r\n> * At which time is the lookup done?\r\n> * What happens if the DNS changes?\r\n\r\nThis is implementation specific, and the same issue exists for clients resolving servers in the DNS. To be technically correct, repeating the lookup should be done latest when the DNS TTL expires (i.e. the DNS cache lifetime).\r\n\r\n> * How should the implementation behave if there is no DNS entry?\r\n\r\nThis paragraph describes explicitly the situation when a DNS entry exists. If it doesn't (but the client is configured by DNS name, it's simply an unknown client).\r\n\r\n> I know that radsecproxy does this a certain way, other implementations might do it differently.\r\n\r\nThat is exactly the point. While updating client cert validation to the current draft, I noticed it might accept a certificate (with SAN DNS) from a client, whose source address is not what that DNS name resolves to - and I think that is the wrong behavior. ",
+          "createdAt": "2025-08-04T12:07:33Z",
+          "updatedAt": "2025-08-04T12:07:55Z"
         }
       ],
       "reviews": []
