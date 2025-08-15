@@ -599,7 +599,7 @@ This limitation can lower the maximum packet processing rate of RADIUS/TLS.
 
 This section discusses all specifications that are only relevant for RADIUS/DTLS.
 
-## RADIUS packet lengths
+## RADIUS packet handling
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
@@ -616,6 +616,9 @@ For the receiving RADIUS/DTLS node, the length checks defined in {{RFC2865, Sect
 That is, a receiving RADIUS/DTLS node MUST perform all the length checks, but MUST use the length of the decrypted payload of the DTLS record instead of the UDP packet length.
 Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside the range of the RADIUS length field within the decrypted payload of a single DTLS record MUST be treated as padding, as it would be with a RADIUS/UDP packet, and be ignored.
 For DTLS messages containing multiple DTLS records, each DTLS record MUST be parsed individually.
+
+If a RADIUS packet should be re-transmitted, either as retransmission due to a missing response from the client or as retransmission of a cached response from the server, the RADIUS peers MUST re-process the RADIUS packet through DTLS.
+That is, for the purpose of retransmissions, RADIUS peers cache the RADIUS packet, as a RADIUS/UDP peer would, and not the DTLS record that contains the RADIUS packet.
 
 ## Server behavior
 
@@ -654,10 +657,6 @@ When implementations do not use the 5-tuple described below, note that IP addres
 
 We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
-
-{{RFC5080, Section 2.2.2}}, describes how duplicate RADIUS/UDP requests result in the retransmission of a previously cached RADIUS/UDP response.
-Due to DTLS sequence window requirements, a server MUST NOT retransmit a previously sent DTLS packet.
-Instead, it should cache the RADIUS response packet, and re-process it through DTLS to create a new RADIUS/DTLS packet, every time it is necessary to retransmit a RADIUS response.
 
 ### Server Session Management
 
