@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-05T01:02:49.864864+00:00",
+  "timestamp": "2025-08-17T01:02:12.491266+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -423,9 +423,24 @@
       ],
       "body": "The text should probably say that connections MUST respect certificate expiry times.  If the certificate is no longer valid, then the connection needs to be torn down.",
       "createdAt": "2025-07-25T14:28:50Z",
-      "updatedAt": "2025-07-28T14:01:23Z",
+      "updatedAt": "2025-08-15T14:22:30Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The current draft has a SHOULD for reassessing the trust on trust base changes (such as CRL updates), so I would recommend also making this a SHOULD.\n\nThere could be reasons why one would use a short-lived certificate (e.g. 90 days Let'sEncrypt), but may still be fine with long-standing connections beyond the certificate's life span.\nFor renegotiation, the rules would then require a certificate update, since the old certificate would then fail the check.",
+          "createdAt": "2025-08-15T12:48:36Z",
+          "updatedAt": "2025-08-15T12:48:36Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think we're OK with a `SHOULD`.  Some other applications allow connections to remain open, even after the certificate has expired.  ",
+          "createdAt": "2025-08-15T14:22:30Z",
+          "updatedAt": "2025-08-15T14:22:30Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -441,7 +456,7 @@
       "labels": [],
       "body": "SNI was not part of RFC6614 or RFC7360.\r\n\r\nThis is possibly breaking backwards compatibility, so I don't want to change this without a discussion within the WG.\r\n\r\nThis Pull Request can be used to comment on aspects of the text.",
       "createdAt": "2024-04-11T11:54:05Z",
-      "updatedAt": "2025-04-10T15:11:25Z",
+      "updatedAt": "2025-08-15T16:37:01Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "97c3d68c2250b7970014b23aa2793f1de3d88ea5",
@@ -3644,7 +3659,7 @@
       ],
       "body": "When validating client certificates, the fact that the client may only connect from IP addresses to which a given DNS name resolves to (or the actual source addres when multiple IPs or IP prefix is configured) is only implied. Maybe better to state it explicitly.",
       "createdAt": "2025-07-25T17:12:34Z",
-      "updatedAt": "2025-08-04T12:07:55Z",
+      "updatedAt": "2025-08-15T14:30:53Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3676,8 +3691,74 @@
           "body": "> I don't think that this should be mandated. It opens up a whole can of worms.\r\n\r\nWe alerady mandate it for IP prefix, so I think it would only be consostent to the same for DNS names. This describes the default certificate validation, similar to whate we do to server certificates. And we already allow this check to be omitted, if the situation doesn't provide a fixed DNS name or IP address.\r\n\r\n> * At which time is the lookup done?\r\n> * What happens if the DNS changes?\r\n\r\nThis is implementation specific, and the same issue exists for clients resolving servers in the DNS. To be technically correct, repeating the lookup should be done latest when the DNS TTL expires (i.e. the DNS cache lifetime).\r\n\r\n> * How should the implementation behave if there is no DNS entry?\r\n\r\nThis paragraph describes explicitly the situation when a DNS entry exists. If it doesn't (but the client is configured by DNS name, it's simply an unknown client).\r\n\r\n> I know that radsecproxy does this a certain way, other implementations might do it differently.\r\n\r\nThat is exactly the point. While updating client cert validation to the current draft, I noticed it might accept a certificate (with SAN DNS) from a client, whose source address is not what that DNS name resolves to - and I think that is the wrong behavior. ",
           "createdAt": "2025-08-04T12:07:33Z",
           "updatedAt": "2025-08-04T12:07:55Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I get the point, I am convinced. Now the question is: should there be more explicit text for how and when to resolve DNS names to IP addresses on the server side?\r\n\r\nRight now the suggested change does not have any text explaining when and why to do this, and I think there should be at least some explanation and guidance.",
+          "createdAt": "2025-08-15T12:26:46Z",
+          "updatedAt": "2025-08-15T12:26:46Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "the main issue with DNS queries is that the POSIX API doesn't return TTL.  So applications are pretty much stuck.\r\n\r\nFor new connections:\r\n\r\n* do lookups when the server needs to connect to a new server (first time it does lookup, or when it transitions from no connections to 1+ connection to the server)\r\n\r\nThen for ongoing connections:\r\n\r\n* do DNS lookups when DNS TTL expires (this is hard, as the POSIX APIs don't return TTL)\r\n* do DNS lookups any time any new connection is opened\r\n* do DNS lookups periodically, say every hour or two\r\n\r\nThere's also the issue of when to close connections.  If a server wishes to change all of the IPs associated with itself, it should first spin up servers at the new IPs, then update DNS, then shut down connections to the old IPs.\r\n\r\ni.e. if a connection remains open and active, there's no reason for the client to close the connection just because DNS changes.",
+          "createdAt": "2025-08-15T14:30:53Z",
+          "updatedAt": "2025-08-15T14:30:53Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOLrzygc6j2R1R",
+      "title": "Recommend closing connection upon certificate expiry",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/48",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Text suggestion for #46 ",
+      "createdAt": "2025-08-15T14:33:56Z",
+      "updatedAt": "2025-08-15T14:33:56Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_cert_lifetime",
+      "headRefOid": "d98f7caccad67d31b20a98bdc6c26c593338268c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 49,
+      "id": "PR_kwDOLrzygc6j5ytL",
+      "title": "Add text for RADIUS/DTLS retransmission behavior",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/49",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a first text suggestion for #42 ",
+      "createdAt": "2025-08-15T22:28:00Z",
+      "updatedAt": "2025-08-15T22:28:00Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature_dtls_retransmissions",
+      "headRefOid": "1655bdb1c77ec865b8502b9ecf70eb3516823e22",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
