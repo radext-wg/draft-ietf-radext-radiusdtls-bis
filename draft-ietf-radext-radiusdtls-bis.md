@@ -617,8 +617,8 @@ That is, a receiving RADIUS/DTLS node MUST perform all the length checks, but MU
 Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside the range of the RADIUS length field within the decrypted payload of a single DTLS record MUST be treated as padding, as it would be with a RADIUS/UDP packet, and be ignored.
 For DTLS messages containing multiple DTLS records, each DTLS record MUST be parsed individually.
 
-If a RADIUS packet should be re-transmitted, either as retransmission due to a missing response from the client or as retransmission of a cached response from the server, the RADIUS peers MUST re-process the RADIUS packet through DTLS.
-That is, for the purpose of retransmissions, RADIUS peers cache the RADIUS packet, as a RADIUS/UDP peer would, and not the DTLS record that contains the RADIUS packet.
+If a RADIUS packet should be re-transmitted, either as retransmission due to a missing response by the client or as retransmission of a cached response by the server, the RADIUS/DTLS peers MUST re-process the RADIUS packet through DTLS.
+That is, for the purpose of retransmissions, RADIUS/DTLS peers cache the RADIUS packet, as a RADIUS/UDP peer would, and not the DTLS record that contains the RADIUS packet.
 
 ## Server behavior
 
