@@ -537,7 +537,7 @@ After applying the above rules, there are still situations where the previous sp
 
 * Packet with an invalid code field {{radius_datagrams}}
 * Response packets that do not match any outstanding request
-* A server lacking the resources to process a request 
+* A server lacking the resources to process a request
 
 For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion. In any case further processing the original request MUST stop.
 
