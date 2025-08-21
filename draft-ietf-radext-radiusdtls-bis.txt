@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 23 January 2026                                    22 July 2025
+Expires: 22 February 2026                                 21 August 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 January 2026.
+   This Internet-Draft will expire on 22 February 2026.
 
 Copyright Notice
 
@@ -104,7 +104,7 @@ Table of Contents
      5.2.  Duplicates and Retransmissions
      5.3.  TCP Applications Are Not UDP Applications
    6.  RADIUS/DTLS specific specifications
-     6.1.  RADIUS packet lengths
+     6.1.  RADIUS packet handling
      6.2.  Server behavior
      6.3.  Client behavior
      6.4.  Session Management
@@ -1168,7 +1168,7 @@ Table of Contents
    This section discusses all specifications that are only relevant for
    RADIUS/DTLS.
 
-6.1.  RADIUS packet lengths
+6.1.  RADIUS packet handling
 
    The DTLS encryption adds an additional overhead to each packet sent.
    RADIUS/DTLS implementations MUST support sending and receiving RADIUS
@@ -1198,6 +1198,14 @@ Table of Contents
    as it would be with a RADIUS/UDP packet, and be ignored.  For DTLS
    messages containing multiple DTLS records, each DTLS record MUST be
    parsed individually.
+
+   If a RADIUS packet should be re-transmitted, either as retransmission
+   due to a missing response by the client or as retransmission of a
+   cached response by the server, the RADIUS/DTLS peers MUST re-process
+   the RADIUS packet through DTLS.  That is, for the purpose of
+   retransmissions, RADIUS/DTLS peers cache the RADIUS packet, as a
+   RADIUS/UDP peer would, and not the DTLS record that contains the
+   RADIUS packet.
 
 6.2.  Server behavior
 
@@ -1252,14 +1260,6 @@ Table of Contents
    detection cache.  The session tracking described below can be seen as
    an extension of that cache, where entries contain DTLS sessions
    instead of RADIUS/UDP packets.
-
-   [RFC5080], Section 2.2.2, describes how duplicate RADIUS/UDP requests
-   result in the retransmission of a previously cached RADIUS/UDP
-   response.  Due to DTLS sequence window requirements, a server MUST
-   NOT retransmit a previously sent DTLS packet.  Instead, it should
-   cache the RADIUS response packet, and re-process it through DTLS to
-   create a new RADIUS/DTLS packet, every time it is necessary to
-   retransmit a RADIUS response.
 
 6.4.1.  Server Session Management
 
