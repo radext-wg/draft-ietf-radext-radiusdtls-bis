@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-17T01:02:12.491266+00:00",
+  "timestamp": "2025-08-21T00:52:54.699614+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -3747,13 +3747,13 @@
       "labels": [],
       "body": "This is a first text suggestion for #42 ",
       "createdAt": "2025-08-15T22:28:00Z",
-      "updatedAt": "2025-08-15T22:28:00Z",
+      "updatedAt": "2025-08-19T14:04:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_dtls_retransmissions",
-      "headRefOid": "1655bdb1c77ec865b8502b9ecf70eb3516823e22",
+      "headRefOid": "94c02342fe7a080777ec475ef210c46fa621e23e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
