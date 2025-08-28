@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-24T00:59:52.575603+00:00",
+  "timestamp": "2025-08-28T00:52:26.456896+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -448,6 +448,38 @@
           "updatedAt": "2025-08-15T14:22:30Z"
         }
       ]
+    },
+    {
+      "number": 51,
+      "id": "I_kwDOLrzygc7IOoho",
+      "title": "Text is missing",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/51",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The document is missing text on which packets are allowed to be processed on what port.  Likely we can just copy everything from 6614:\n\nhttps://datatracker.ietf.org/doc/html/rfc6614#section-2.5\n\nThe reverse CoA document needs this section, to replace an existing reference to RFC6614, Section 2.5.  The IESG review is that the reverse CoA document should reference this one, and not 6614 / 7360.",
+      "createdAt": "2025-08-27T13:00:37Z",
+      "updatedAt": "2025-08-27T13:00:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 52,
+      "id": "I_kwDOLrzygc7IOthM",
+      "title": "Event-Timestamp",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/52",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Minor typo in https://datatracker.ietf.org/doc/html/draft-ietf-radext-radiusdtls-bis-08#name-acct-delay-time-and-event-t  `Timestap`\n\nThe text in that section doesn't say what a server / proxy should do if it receives a packet which is missing both Event-Timestamp, and Acct-Delay-Time.  Perhaps:\n\nA server receiving an Accounting-Request packet which is missing both Event-Timestamp and Acct-Delay-Time MUST assume that the time of the referenced event is the time when the packet was received.  A proxy SHOULD add an Event-Timestamp to the packet with that value before proxying it.  Adding this value ensures that delays due to transport problems or retransmissions do not affect subsequent servers which receive this packet.  A proxy MAY also add Event-Timestamp, even if the packet contains Acct-Delay-Time.",
+      "createdAt": "2025-08-27T13:07:27Z",
+      "updatedAt": "2025-08-27T13:07:27Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
