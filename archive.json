@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T00:52:26.456896+00:00",
+  "timestamp": "2025-09-11T00:51:42.933354+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -3847,10 +3847,12 @@
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Comment"
+      ],
       "body": "Changes to section 4.5 require sending Protocol-Error instead of silently discrading packets. Apply the same provision to section 4.10.",
       "createdAt": "2025-08-21T06:26:26Z",
-      "updatedAt": "2025-08-21T14:27:54Z",
+      "updatedAt": "2025-09-10T15:37:10Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3868,6 +3870,20 @@
           "body": "+1 from me.",
           "createdAt": "2025-08-21T14:27:54Z",
           "updatedAt": "2025-08-21T14:27:54Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks good to me, but maybe we should add a recommendation on the Error-Cause attribute?",
+          "createdAt": "2025-09-10T14:01:20Z",
+          "updatedAt": "2025-09-10T14:01:20Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@janfred yes, adding Error-Cause would be good, too",
+          "createdAt": "2025-09-10T15:37:09Z",
+          "updatedAt": "2025-09-10T15:37:09Z"
         }
       ],
       "reviews": []
