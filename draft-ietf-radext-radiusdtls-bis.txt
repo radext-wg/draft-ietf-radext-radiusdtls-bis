@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 22 February 2026                                 21 August 2025
+Expires: 15 March 2026                                 11 September 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 February 2026.
+   This Internet-Draft will expire on 15 March 2026.
 
 Copyright Notice
 
@@ -92,7 +92,7 @@ Table of Contents
             transports
        4.6.1.  Throughput Differences lead to Network Collapse
        4.6.2.  Differing Retransmission Requirements
-       4.6.3.  Acct-Delay-Time and Event-Timestap
+       4.6.3.  Acct-Delay-Time and Event-Timestamp
      4.7.  Client Timers
        4.7.1.  Reconnection attempts
        4.7.2.  RADIUS packet retransmission
@@ -822,7 +822,7 @@ Table of Contents
    connections is irrelevant.  When the client cannot do anything with
    responses to a request, it MUST stop retransmitting that request.
 
-4.6.3.  Acct-Delay-Time and Event-Timestap
+4.6.3.  Acct-Delay-Time and Event-Timestamp
 
    In order to avoid congestive collapse, it is RECOMMENDED that
    RADIUS/(D)TLS clients which originate Accounting-Request packets
