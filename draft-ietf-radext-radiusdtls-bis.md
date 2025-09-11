@@ -419,7 +419,7 @@ That is, if an incoming connection on a reliable transport is closed, there may 
 
 The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.  Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.  When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
-### Acct-Delay-Time and Event-Timestap
+### Acct-Delay-Time and Event-Timestamp
 
 In order to avoid congestive collapse, it is RECOMMENDED that RADIUS/(D)TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
 Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occured.
