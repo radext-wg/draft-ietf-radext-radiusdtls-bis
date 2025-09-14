@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-11T00:51:42.933354+00:00",
+  "timestamp": "2025-09-14T00:55:00.938589+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -421,17 +421,18 @@
       "id": "I_kwDOLrzygc7Cg-cf",
       "title": "Certificate Lifetimes",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/46",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
+        "PR exists",
         "WGLC Comment"
       ],
       "body": "The text should probably say that connections MUST respect certificate expiry times.  If the certificate is no longer valid, then the connection needs to be torn down.",
       "createdAt": "2025-07-25T14:28:50Z",
-      "updatedAt": "2025-08-15T14:22:30Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-11T09:42:58Z",
+      "closedAt": "2025-09-11T09:42:58Z",
       "comments": [
         {
           "author": "Janfred",
@@ -446,6 +447,13 @@
           "body": "I think we're OK with a `SHOULD`.  Some other applications allow connections to remain open, even after the certificate has expired.  ",
           "createdAt": "2025-08-15T14:22:30Z",
           "updatedAt": "2025-08-15T14:22:30Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR #48 is merged, so I'm closing this issue.",
+          "createdAt": "2025-09-11T09:42:58Z",
+          "updatedAt": "2025-09-11T09:42:58Z"
         }
       ]
     },
@@ -458,28 +466,64 @@
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "question",
+        "WGLC Comment"
+      ],
       "body": "The document is missing text on which packets are allowed to be processed on what port.  Likely we can just copy everything from 6614:\n\nhttps://datatracker.ietf.org/doc/html/rfc6614#section-2.5\n\nThe reverse CoA document needs this section, to replace an existing reference to RFC6614, Section 2.5.  The IESG review is that the reverse CoA document should reference this one, and not 6614 / 7360.",
       "createdAt": "2025-08-27T13:00:37Z",
-      "updatedAt": "2025-08-27T13:00:37Z",
+      "updatedAt": "2025-09-11T10:12:33Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I deliberately left out the list of packet types, because it didn't add any value (esp. since the list was not exhaustive).\nBut we can add the CoA part.",
+          "createdAt": "2025-09-11T09:37:02Z",
+          "updatedAt": "2025-09-11T09:37:02Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After looking at it again: We have text in https://radext-wg.github.io/draft-ietf-radext-radiusdtls-bis/draft-ietf-radext-radiusdtls-bis.html#name-radius-datagrams\n\nWhat exactly is needed from 6614 Section 2.5 for the Reverse CoA Document?",
+          "createdAt": "2025-09-11T09:50:54Z",
+          "updatedAt": "2025-09-11T09:50:54Z"
+        }
+      ]
     },
     {
       "number": 52,
       "id": "I_kwDOLrzygc7IOthM",
       "title": "Event-Timestamp",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/52",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs discussion",
+        "WGLC Comment"
+      ],
       "body": "Minor typo in https://datatracker.ietf.org/doc/html/draft-ietf-radext-radiusdtls-bis-08#name-acct-delay-time-and-event-t  `Timestap`\n\nThe text in that section doesn't say what a server / proxy should do if it receives a packet which is missing both Event-Timestamp, and Acct-Delay-Time.  Perhaps:\n\nA server receiving an Accounting-Request packet which is missing both Event-Timestamp and Acct-Delay-Time MUST assume that the time of the referenced event is the time when the packet was received.  A proxy SHOULD add an Event-Timestamp to the packet with that value before proxying it.  Adding this value ensures that delays due to transport problems or retransmissions do not affect subsequent servers which receive this packet.  A proxy MAY also add Event-Timestamp, even if the packet contains Acct-Delay-Time.",
       "createdAt": "2025-08-27T13:07:27Z",
-      "updatedAt": "2025-08-27T13:07:27Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-09-11T10:27:35Z",
+      "closedAt": "2025-09-11T10:27:35Z",
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Typo is fixed, thanks.\n\nFor the other part: I would argue that this definitely isn't something that's DTLS/TLS specific, so it shouldn't be part of this document but instead of the proxy BCP document.",
+          "createdAt": "2025-09-11T09:40:02Z",
+          "updatedAt": "2025-09-11T09:40:02Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think that's fine.  In the interest of moving this document forward, I'll close this issue.\n\nAlso another typo `In conctrast ...`",
+          "createdAt": "2025-09-11T10:27:35Z",
+          "updatedAt": "2025-09-11T10:27:35Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -3694,11 +3738,12 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
+        "needs discussion",
         "WGLC Comment"
       ],
       "body": "When validating client certificates, the fact that the client may only connect from IP addresses to which a given DNS name resolves to (or the actual source addres when multiple IPs or IP prefix is configured) is only implied. Maybe better to state it explicitly.",
       "createdAt": "2025-07-25T17:12:34Z",
-      "updatedAt": "2025-08-22T10:05:00Z",
+      "updatedAt": "2025-09-11T10:12:13Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3781,24 +3826,26 @@
       "id": "PR_kwDOLrzygc6j2R1R",
       "title": "Recommend closing connection upon certificate expiry",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/48",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Text suggestion for #46 ",
       "createdAt": "2025-08-15T14:33:56Z",
-      "updatedAt": "2025-08-15T14:33:56Z",
+      "updatedAt": "2025-09-11T09:42:31Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature_cert_lifetime",
       "headRefOid": "d98f7caccad67d31b20a98bdc6c26c593338268c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-11T09:42:31Z",
+      "mergedAt": "2025-09-11T09:42:31Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "83c6ec7177f4c1d3268b92fe5245172566b620da"
+      },
       "comments": [],
       "reviews": []
     },
@@ -3852,7 +3899,7 @@
       ],
       "body": "Changes to section 4.5 require sending Protocol-Error instead of silently discrading packets. Apply the same provision to section 4.10.",
       "createdAt": "2025-08-21T06:26:26Z",
-      "updatedAt": "2025-09-10T15:37:10Z",
+      "updatedAt": "2025-09-11T10:28:57Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3884,9 +3931,43 @@
           "body": "@janfred yes, adding Error-Cause would be good, too",
           "createdAt": "2025-09-10T15:37:09Z",
           "updatedAt": "2025-09-10T15:37:09Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me",
+          "createdAt": "2025-09-11T10:28:57Z",
+          "updatedAt": "2025-09-11T10:28:57Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc6_WX3L",
+          "commit": {
+            "abbreviatedOid": "0c4b2b8"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-11T09:46:53Z",
+          "updatedAt": "2025-09-11T09:47:51Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nFor request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure. In any case, further processing of the original request MUST stop.\r\n```",
+              "createdAt": "2025-09-11T09:46:54Z",
+              "updatedAt": "2025-09-11T09:47:51Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\n* Packet with an invalid code field (see {{radius_datagrams}} for details)\r\n```",
+              "createdAt": "2025-09-11T09:47:19Z",
+              "updatedAt": "2025-09-11T09:47:51Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
