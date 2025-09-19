@@ -535,11 +535,11 @@ That is, the implementation SHOULD send a TLS close notification and, in the cas
 
 After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which a connection MAY remain open:
 
-* Packet with an invalid code field {{radius_datagrams}}
+* Packet with an invalid code field (see {{radius_datagrams}} for details)
 * Response packets that do not match any outstanding request
 * A server lacking the resources to process a request
 
-For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion. In any case further processing the original request MUST stop.
+For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure. In any case, further processing of the original request MUST stop.
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
