@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 15 March 2026                                 11 September 2025
+Expires: 23 March 2026                                 19 September 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 March 2026.
+   This Internet-Draft will expire on 23 March 2026.
 
 Copyright Notice
 
@@ -1069,17 +1069,22 @@ Table of Contents
    *  Packet where the Message-Authenticator attribute fails validation
       (when it occurs in a packet)
 
-   After applying the above rules, there are still two situations where
-   the previous specifications allow a packet to be "silently discarded"
-   upon receipt:
+   After applying the above rules, there are still situations where the
+   previous specifications allow a packet to be "silently discarded"
+   upon receipt, but in which a connection MAY remain open:
 
-   *  Packet with an invalid code field
+   *  Packet with an invalid code field (see Section 4.5 for details)
 
    *  Response packets that do not match any outstanding request
 
-   In these situations, the (D)TLS connections MAY remain open, or they
-   MAY be closed, as an implementation choice.  However, the invalid
-   packet MUST be silently discarded.
+   *  A server lacking the resources to process a request
+
+   For request packets that would have been silently discarded in the
+   previous specifications, servers SHOULD reply with a Protocol-Error
+   [RFC7930], Section 4 message to avoid request ID exhaustion, and
+   servers SHOULD include an Error-Cause attribute indicating the type
+   of failure.  In any case, further processing of the original request
+   MUST stop.
 
    These requirements reduce the possibility for a misbehaving client or
    server to wreak havoc on the network.
