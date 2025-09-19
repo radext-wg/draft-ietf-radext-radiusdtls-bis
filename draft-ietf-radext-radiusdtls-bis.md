@@ -315,8 +315,10 @@ While this identification technique could match multiple distinct certificates a
 Note well: having identified a connecting entity does not mean the server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers, the server may decline to perform RADIUS transactions with this client.
 
-Additionally, a server MAY restrict individual or groups of clients to certain IP ranges.
-A client connecting from outside this range would be rejected, even if the mutual authentication otherwise would have been successful.
+Additionally, a server MAY restrict individual or groups of clients to certain IP addresses or ranges.
+One example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.
+
+A client connecting from outside the allowed range would be rejected, even if the mutual authentication otherwise would have been successful.
 To reduce server load and to prevent probing the validity of stolen credentials, the server SHOULD abort the (D)TLS negotiation immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e. the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP range.
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
