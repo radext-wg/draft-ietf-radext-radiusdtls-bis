@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-14T00:55:00.938589+00:00",
+  "timestamp": "2025-09-21T00:56:08.558174+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -460,7 +460,7 @@
     {
       "number": 51,
       "id": "I_kwDOLrzygc7IOoho",
-      "title": "Text is missing",
+      "title": "Missing text on allowed packets (needed for Reverse CoA)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/51",
       "state": "OPEN",
       "author": "alandekok",
@@ -472,7 +472,7 @@
       ],
       "body": "The document is missing text on which packets are allowed to be processed on what port.  Likely we can just copy everything from 6614:\n\nhttps://datatracker.ietf.org/doc/html/rfc6614#section-2.5\n\nThe reverse CoA document needs this section, to replace an existing reference to RFC6614, Section 2.5.  The IESG review is that the reverse CoA document should reference this one, and not 6614 / 7360.",
       "createdAt": "2025-08-27T13:00:37Z",
-      "updatedAt": "2025-09-11T10:12:33Z",
+      "updatedAt": "2025-09-19T10:00:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -3733,7 +3733,7 @@
       "id": "PR_kwDOLrzygc6gqoK5",
       "title": "be explicit about client source IP",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/47",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -3743,14 +3743,14 @@
       ],
       "body": "When validating client certificates, the fact that the client may only connect from IP addresses to which a given DNS name resolves to (or the actual source addres when multiple IPs or IP prefix is configured) is only implied. Maybe better to state it explicitly.",
       "createdAt": "2025-07-25T17:12:34Z",
-      "updatedAt": "2025-09-11T10:12:13Z",
+      "updatedAt": "2025-09-19T12:40:18Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
+      "baseRefOid": "0bdcd9908d3ab5f231d631449fd42e481defd87d",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-explicit-client-source-ip",
       "headRefOid": "15eaff5b7344d078962f69c6a453215da598ad3e",
-      "closedAt": null,
+      "closedAt": "2025-09-19T12:40:18Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -3817,6 +3817,13 @@
           "body": "> The problem is the server, if clients are only configured by DNS name and not by IP address.\r\n> Should the server look up every DNS-configured client the moment it gets a new connection to find out which one it is?\r\n\r\nIn theory yes. In practice its unrealistic, so implementors have to do some caching, or rely on the underlying library/OS to do the caching. A quick test on Debian (libc) it does no caching at all, every call to getaddrino() triggers multiple DNS queries (for A and AAAA records)\r\n\r\n> What happens if there are multiple clients defined with a DNS name that resolves to the same IP address?\r\n\r\nYou select the one for which its certificates SAN DNS matches the configured DNS name. \r\n",
           "createdAt": "2025-08-22T10:05:00Z",
           "updatedAt": "2025-08-22T10:05:00Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "With rough consensus on the mailing list, this is not the right approach. Closing this PR.",
+          "createdAt": "2025-09-19T12:40:18Z",
+          "updatedAt": "2025-09-19T12:40:18Z"
         }
       ],
       "reviews": []
@@ -3833,7 +3840,7 @@
       "labels": [],
       "body": "Text suggestion for #46 ",
       "createdAt": "2025-08-15T14:33:56Z",
-      "updatedAt": "2025-09-11T09:42:31Z",
+      "updatedAt": "2025-09-19T09:58:47Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3861,7 +3868,7 @@
       "labels": [],
       "body": "This is a first text suggestion for #42 ",
       "createdAt": "2025-08-15T22:28:00Z",
-      "updatedAt": "2025-08-21T23:24:13Z",
+      "updatedAt": "2025-09-19T09:58:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
@@ -3890,7 +3897,7 @@
       "id": "PR_kwDOLrzygc6knqRn",
       "title": "Silent discard vs Protocol-Error",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/50",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -3899,17 +3906,19 @@
       ],
       "body": "Changes to section 4.5 require sending Protocol-Error instead of silently discrading packets. Apply the same provision to section 4.10.",
       "createdAt": "2025-08-21T06:26:26Z",
-      "updatedAt": "2025-09-11T10:28:57Z",
+      "updatedAt": "2025-09-19T09:50:16Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "327a20e780522389338370d2f4905a6f5eec780c",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-silentd-discard-vs-protocol-error",
-      "headRefOid": "0c4b2b88606372442c1af81a7136e0cd574a5e93",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "42bf09bb17eabe85a4f232e75b7362ec00b8da06",
+      "closedAt": "2025-09-19T09:50:16Z",
+      "mergedAt": "2025-09-19T09:50:16Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "1c9ef6bee61473d936bb28bf23f3c6b28fcb2c74"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -3968,6 +3977,35 @@
           ]
         }
       ]
+    },
+    {
+      "number": 53,
+      "id": "PR_kwDOLrzygc6pepg-",
+      "title": "Add client source IP for clients configured by DNS",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/53",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "needs discussion",
+        "WGLC Comment"
+      ],
+      "body": "This is an alternate text for #47 which does not mandate any behavior and instead just mentions this as option.\r\n\r\nIt does not contain any hints on what implementations / operators should do because I don't think we can say anything definitive about this.",
+      "createdAt": "2025-09-19T10:35:09Z",
+      "updatedAt": "2025-09-19T10:35:40Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0bdcd9908d3ab5f231d631449fd42e481defd87d",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/hint_dns_client_ip",
+      "headRefOid": "b122b7b2ca15a07f0346528c5f17a3af3ec90dc9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
