@@ -360,6 +360,8 @@ If a resumed session is closed immediately after being established, the RADIUS/(
 
 The RADIUS/(D)TLS specification does not change the client/server architecture of RADIUS.
 RADIUS/(D)TLS clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RADIUS/(D)TLS servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
+As noted in {{portusage}}, RADIUS/(D)TLS uses the same port for Authentication and Accounting packets.
+As non-exhaustive example, a RADIUS/(D)TLS client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RADIUS/(D)TLS server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.
 
 However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RADIUS/(D)TLS uses the same connection for all RADIUS packets.
