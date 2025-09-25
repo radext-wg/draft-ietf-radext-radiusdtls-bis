@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 23 March 2026                                 19 September 2025
+Expires: 29 March 2026                                 25 September 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 March 2026.
+   This Internet-Draft will expire on 29 March 2026.
 
 Copyright Notice
 
@@ -627,12 +627,16 @@ Table of Contents
    may decline to perform RADIUS transactions with this client.
 
    Additionally, a server MAY restrict individual or groups of clients
-   to certain IP ranges.  A client connecting from outside this range
-   would be rejected, even if the mutual authentication otherwise would
-   have been successful.  To reduce server load and to prevent probing
-   the validity of stolen credentials, the server SHOULD abort the
-   (D)TLS negotiation immediately with a TLS alert access_denied(49)
-   after the client transmitted identifying information, i.e. the client
+   to certain IP addresses or ranges.  One example of this can be to
+   restrict clients configured by DNS name to only the IP address(es)
+   that this DNS name resolves to.
+
+   A client connecting from outside the allowed range would be rejected,
+   even if the mutual authentication otherwise would have been
+   successful.  To reduce server load and to prevent probing the
+   validity of stolen credentials, the server SHOULD abort the (D)TLS
+   negotiation immediately with a TLS alert access_denied(49) after the
+   client transmitted identifying information, i.e. the client
    certificate or the PSK identifier, and the server recognizes that the
    client connects from outside the allowed IP range.
 
