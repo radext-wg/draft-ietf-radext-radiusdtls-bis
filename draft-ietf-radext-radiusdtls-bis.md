@@ -588,7 +588,7 @@ In that situation, RADIUS requests MAY be retransmitted to another server that i
 
 Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.
 
-Additionally, differences in the transport like Head of Line (HoL) blocking should be considered.
+Additionally, differences in the transport like Head of Line (HoL) blocking and the possibility of increased transmission times should be considered.
 
 When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
 If a packet sent by a peer is lost, that loss has no effect on subsequent packets sent by that peer.
@@ -597,6 +597,7 @@ Unlike UDP, TCP is subject to issues related to Head of Line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS peers can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
+Additonally, this can lead to a significantly increased transmission time, especially compared to RADIUS/UDP, where a RADIUS packet either arrives only with the negligible transport delay or it is lost and needs to be retransmitted.
 
 # RADIUS/DTLS specific specifications
 {: #dtls_spec }
