@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T00:56:08.558174+00:00",
+  "timestamp": "2025-09-28T00:57:09.752516+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -468,11 +468,12 @@
       "assignees": [],
       "labels": [
         "question",
+        "PR exists",
         "WGLC Comment"
       ],
       "body": "The document is missing text on which packets are allowed to be processed on what port.  Likely we can just copy everything from 6614:\n\nhttps://datatracker.ietf.org/doc/html/rfc6614#section-2.5\n\nThe reverse CoA document needs this section, to replace an existing reference to RFC6614, Section 2.5.  The IESG review is that the reverse CoA document should reference this one, and not 6614 / 7360.",
       "createdAt": "2025-08-27T13:00:37Z",
-      "updatedAt": "2025-09-19T10:00:24Z",
+      "updatedAt": "2025-09-25T12:05:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -3983,7 +3984,7 @@
       "id": "PR_kwDOLrzygc6pepg-",
       "title": "Add client source IP for clients configured by DNS",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/53",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3993,18 +3994,88 @@
       ],
       "body": "This is an alternate text for #47 which does not mandate any behavior and instead just mentions this as option.\r\n\r\nIt does not contain any hints on what implementations / operators should do because I don't think we can say anything definitive about this.",
       "createdAt": "2025-09-19T10:35:09Z",
-      "updatedAt": "2025-09-19T10:35:40Z",
+      "updatedAt": "2025-09-25T11:33:33Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "0bdcd9908d3ab5f231d631449fd42e481defd87d",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature/hint_dns_client_ip",
       "headRefOid": "b122b7b2ca15a07f0346528c5f17a3af3ec90dc9",
+      "closedAt": "2025-09-25T11:33:33Z",
+      "mergedAt": "2025-09-25T11:33:33Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "95d8e84137041e676db88f0896fc73f52d7ab458"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOLrzygc6qfTw7",
+      "title": "Additional text as hint that TCP also changes transmission times",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/54",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per comments on the mailing list, maybe this is something that people implementing RADIUS/TLS should keep in mind. The most prominent case is Event-Timestamp vs. Acct-Delay-Time, but maybe it's also relevant for other cases.",
+      "createdAt": "2025-09-25T11:44:15Z",
+      "updatedAt": "2025-09-25T15:19:04Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "95d8e84137041e676db88f0896fc73f52d7ab458",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/hint_transmission_time",
+      "headRefOid": "36ff71005b63346fb25e612a37802f38d54914af",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Additonally, this can lead to a significantly increased transmission time, especially compared to RADIUS/UDP, where a RADIUS packet either arrives only with the negligible transport delay or it is lost and needs to be retransmitted.\r\n\r\nThis isn't clear to me that TCP delays can be seconds.  Perhaps\r\n\r\nAdditonally, TCP retransmissions can occur seconds after the original data was sent, leading to a significantly increased transmission time, especially compared to RADIUS/UDP.  In contrast, RADIUS/UDP packets are usually received either quickly, or not at all.",
+          "createdAt": "2025-09-25T15:19:04Z",
+          "updatedAt": "2025-09-25T15:19:04Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 55,
+      "id": "PR_kwDOLrzygc6qfge6",
+      "title": "Add examples of allowed packet types",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/55",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Maybe this is a good example of what we want to say with the sentence before. It's always good to give examples.\r\n\r\nMaybe sufficient to fix #51 ?",
+      "createdAt": "2025-09-25T12:02:08Z",
+      "updatedAt": "2025-09-25T15:19:23Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "95d8e84137041e676db88f0896fc73f52d7ab458",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/example_packet_types",
+      "headRefOid": "d2d0b4cdc9295a49d6adfba33f84b9177911153c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me.",
+          "createdAt": "2025-09-25T15:19:23Z",
+          "updatedAt": "2025-09-25T15:19:23Z"
+        }
+      ],
       "reviews": []
     }
   ]
