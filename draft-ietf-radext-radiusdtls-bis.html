@@ -2129,13 +2129,15 @@ In that situation, RADIUS requests <span class="bcp14">MAY</span> be retransmitt
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-tcp-applications-are-not-ud" class="section-name selfRef">TCP Applications Are Not UDP Applications</a>
         </h3>
 <p id="section-5.3-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Additionally, differences in the transport like Head of Line (HoL) blocking should be considered.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">Additionally, differences in the transport like Head of Line (HoL) blocking and the possibility of increased transmission times should be considered.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
 If a packet sent by a peer is lost, that loss has no effect on subsequent packets sent by that peer.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">Unlike UDP, TCP is subject to issues related to Head of Line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS peers can process RADIUS packets out of order, the semantics of TCP makes this impossible.
-This limitation can lower the maximum packet processing rate of RADIUS/TLS.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+This limitation can lower the maximum packet processing rate of RADIUS/TLS.
+Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
+In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
