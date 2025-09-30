@@ -597,7 +597,8 @@ Unlike UDP, TCP is subject to issues related to Head of Line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS peers can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
-Additonally, this can lead to a significantly increased transmission time, especially compared to RADIUS/UDP, where a RADIUS packet either arrives only with the negligible transport delay or it is lost and needs to be retransmitted.
+Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
+In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.
 
 # RADIUS/DTLS specific specifications
 {: #dtls_spec }
