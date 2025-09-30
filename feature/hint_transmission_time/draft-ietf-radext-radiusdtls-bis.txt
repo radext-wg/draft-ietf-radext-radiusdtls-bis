@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 29 March 2026                                 25 September 2025
+Expires: 3 April 2026                                  30 September 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 March 2026.
+   This Internet-Draft will expire on 3 April 2026.
 
 Copyright Notice
 
@@ -1176,10 +1176,13 @@ Table of Contents
    TCP segment arrives out of order.  While the RADIUS peers can process
    RADIUS packets out of order, the semantics of TCP makes this
    impossible.  This limitation can lower the maximum packet processing
-   rate of RADIUS/TLS.  Additonally, this can lead to a significantly
-   increased transmission time, especially compared to RADIUS/UDP, where
-   a RADIUS packet either arrives only with the negligible transport
-   delay or it is lost and needs to be retransmitted.
+   rate of RADIUS/TLS.  Additionally, due to the architecture of TCP as
+   reliable stream transport, TCP retransmissions can occur
+   significantly later, even multiple seconds, after the original data
+   was passed to the network stack by the application.  In contrast,
+   RADIUS/UDP packets are usually received either quickly, or not at
+   all, in which case the RADIUS/UDP stack triggers a retransmission of
+   the packet on the application layer.
 
 6.  RADIUS/DTLS specific specifications
 
