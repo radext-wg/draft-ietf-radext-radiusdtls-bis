@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-28T00:57:09.752516+00:00",
+  "timestamp": "2025-10-02T00:50:34.866668+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -462,7 +462,7 @@
       "id": "I_kwDOLrzygc7IOoho",
       "title": "Missing text on allowed packets (needed for Reverse CoA)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/51",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -473,8 +473,8 @@
       ],
       "body": "The document is missing text on which packets are allowed to be processed on what port.  Likely we can just copy everything from 6614:\n\nhttps://datatracker.ietf.org/doc/html/rfc6614#section-2.5\n\nThe reverse CoA document needs this section, to replace an existing reference to RFC6614, Section 2.5.  The IESG review is that the reverse CoA document should reference this one, and not 6614 / 7360.",
       "createdAt": "2025-08-27T13:00:37Z",
-      "updatedAt": "2025-09-25T12:05:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-30T14:06:22Z",
+      "closedAt": "2025-09-30T14:06:22Z",
       "comments": [
         {
           "author": "Janfred",
@@ -489,6 +489,13 @@
           "body": "After looking at it again: We have text in https://radext-wg.github.io/draft-ietf-radext-radiusdtls-bis/draft-ietf-radext-radiusdtls-bis.html#name-radius-datagrams\n\nWhat exactly is needed from 6614 Section 2.5 for the Reverse CoA Document?",
           "createdAt": "2025-09-11T09:50:54Z",
           "updatedAt": "2025-09-11T09:50:54Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hopefully fixed with merging of #55 \n\nIf not, please re-open.",
+          "createdAt": "2025-09-30T14:06:22Z",
+          "updatedAt": "2025-09-30T14:06:22Z"
         }
       ]
     },
@@ -3994,7 +4001,7 @@
       ],
       "body": "This is an alternate text for #47 which does not mandate any behavior and instead just mentions this as option.\r\n\r\nIt does not contain any hints on what implementations / operators should do because I don't think we can say anything definitive about this.",
       "createdAt": "2025-09-19T10:35:09Z",
-      "updatedAt": "2025-09-25T11:33:33Z",
+      "updatedAt": "2025-09-30T17:57:12Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "0bdcd9908d3ab5f231d631449fd42e481defd87d",
@@ -4015,24 +4022,26 @@
       "id": "PR_kwDOLrzygc6qfTw7",
       "title": "Additional text as hint that TCP also changes transmission times",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/54",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As per comments on the mailing list, maybe this is something that people implementing RADIUS/TLS should keep in mind. The most prominent case is Event-Timestamp vs. Acct-Delay-Time, but maybe it's also relevant for other cases.",
       "createdAt": "2025-09-25T11:44:15Z",
-      "updatedAt": "2025-09-25T15:19:04Z",
+      "updatedAt": "2025-09-30T17:57:08Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "95d8e84137041e676db88f0896fc73f52d7ab458",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature/hint_transmission_time",
-      "headRefOid": "36ff71005b63346fb25e612a37802f38d54914af",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b5b75e37c4c01ee870c48abed4970b61a1b66857",
+      "closedAt": "2025-09-30T17:55:19Z",
+      "mergedAt": "2025-09-30T17:55:19Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "a0450adbf505a092f2a8511a5272b224255f3530"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -4042,31 +4051,94 @@
           "updatedAt": "2025-09-25T15:19:04Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7DzwqK",
+          "commit": {
+            "abbreviatedOid": "36ff710"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-30T14:12:29Z",
+          "updatedAt": "2025-09-30T14:12:30Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nAdditionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.\r\nIn contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.\r\n```",
+              "createdAt": "2025-09-30T14:12:29Z",
+              "updatedAt": "2025-09-30T14:12:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7DzyHq",
+          "commit": {
+            "abbreviatedOid": "36ff710"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-30T14:13:18Z",
+          "updatedAt": "2025-09-30T14:13:18Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "@alandekok I've reworded your suggestion a bit, I hope it captures what we want to say.",
+              "createdAt": "2025-09-30T14:13:18Z",
+              "updatedAt": "2025-09-30T14:13:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7D2Wv-",
+          "commit": {
+            "abbreviatedOid": "36ff710"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-30T16:22:36Z",
+          "updatedAt": "2025-09-30T16:22:36Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "+1 from me",
+              "createdAt": "2025-09-30T16:22:36Z",
+              "updatedAt": "2025-09-30T16:22:36Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 55,
       "id": "PR_kwDOLrzygc6qfge6",
       "title": "Add examples of allowed packet types",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/55",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Maybe this is a good example of what we want to say with the sentence before. It's always good to give examples.\r\n\r\nMaybe sufficient to fix #51 ?",
       "createdAt": "2025-09-25T12:02:08Z",
-      "updatedAt": "2025-09-25T15:19:23Z",
+      "updatedAt": "2025-09-30T17:57:11Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "95d8e84137041e676db88f0896fc73f52d7ab458",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "feature/example_packet_types",
       "headRefOid": "d2d0b4cdc9295a49d6adfba33f84b9177911153c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-30T14:05:55Z",
+      "mergedAt": "2025-09-30T14:05:55Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "4db3d23c05a9fc1e3a1efc4e5fcf8bb186b4734f"
+      },
       "comments": [
         {
           "author": "alandekok",
