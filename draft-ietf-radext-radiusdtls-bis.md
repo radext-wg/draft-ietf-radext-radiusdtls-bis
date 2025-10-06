@@ -84,7 +84,7 @@ The following list contains the most important changes from the previous specifi
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
 * The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
-* The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
+* The response to unsupported RADIUS packet types has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
 
@@ -371,7 +371,7 @@ Since the number of outstanding RADIUS packets is limited, it is important to re
 Otherwise, these outstanding packets would impact the performance of the connection.
 The reply, however, must clearly indicate that the server did not process this packet to prevent the client from falsely assuming the server processed the packet.
 
-For every unwanted packet, a RADIUS/(D)TLS server SHOULD respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}.
+For every unsupported RADIUS packet type, a RADIUS/(D)TLS server SHOULD respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}.
 The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.
 
@@ -383,7 +383,7 @@ For unwanted CoA-Requests or Disconnect-Requests, the servers should respond wit
 For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
 It was also recommended that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
-Other than the other responses (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
+Other than the other responses (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unspported packet type to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
 
 Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
