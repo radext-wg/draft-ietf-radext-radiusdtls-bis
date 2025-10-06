@@ -623,14 +623,14 @@ Implementers and operators should be aware of the possibility of fragmented UDP 
 
 RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS record.
 This ensures that the RADIUS packets do not get fragmented at a point where a re-ordering of UDP packets would result in decoding failures.
-The DTLS specification mandates that a DTLS record must not span multiple UDP packets.
+The DTLS specification mandates that a DTLS record must not span multiple UDP datagrams.
 We note that a single UDP datagram may, however, contain multiple DTLS records.
 RADIUS/DTLS nodes MAY use this behavior to send multiple RADIUS packets in one UDP packet.
 
 For the receiving RADIUS/DTLS node, the length checks defined in {{RFC2865, Section 3}} still apply.
 That is, a receiving RADIUS/DTLS node MUST perform all the length checks, but MUST use the length of the decrypted payload of the DTLS record instead of the UDP packet length.
 Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside the range of the RADIUS length field within the decrypted payload of a single DTLS record MUST be treated as padding, as it would be with a RADIUS/UDP packet, and be ignored.
-For DTLS messages containing multiple DTLS records, each DTLS record MUST be parsed individually.
+For UDP datagrams containing multiple DTLS records, each DTLS record MUST be parsed individually.
 
 If a RADIUS packet should be re-transmitted, either as retransmission due to a missing response by the client or as retransmission of a cached response by the server, the RADIUS/DTLS peers MUST re-process the RADIUS packet through DTLS.
 That is, for the purpose of retransmissions, RADIUS/DTLS peers cache the RADIUS packet, as a RADIUS/UDP peer would, and not the DTLS record that contains the RADIUS packet.
