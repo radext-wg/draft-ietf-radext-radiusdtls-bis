@@ -182,7 +182,10 @@ The client could then fail over to another server or conclude that no "live" ser
 This situation is made even worse when requests are sent through a proxy to multiple destinations.
 Failures in one destination may result in service outages for other destinations, if the client erroneously believes that the proxy is unresponsive.
 
-RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of the server.
+When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS material or the connection was load balanced on the server side to a backend server that is now unresponsive.
+Therefore, the liveness check must be done on a per-connection basis.
+
+RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of each connection.
 
 RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the following conditions are met:
 
