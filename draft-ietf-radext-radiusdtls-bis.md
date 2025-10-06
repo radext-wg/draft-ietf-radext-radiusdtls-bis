@@ -143,7 +143,7 @@ The requirement that RADIUS remain largely unchanged ensures the simplest possib
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{RFC9765}} for more details.
 
-We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
+We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
 
 ## Default ports and shared secrets
