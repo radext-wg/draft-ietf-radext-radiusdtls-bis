@@ -420,7 +420,7 @@ Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are requir
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
-When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
+When a proxy receives RADIUS packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}. That is, the proxy takes responsibility for the retransmissions. Implementations MUST take care to not completely decouple the two transports in this situation. See {{radius_packet_handling}}. for details of retransmitting over DTLS transport.
 
 That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retransmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions of the old request and discard it.
 
@@ -610,6 +610,7 @@ In contrast, RADIUS/UDP packets are usually received either quickly, or not at a
 This section discusses all specifications that are only relevant for RADIUS/DTLS.
 
 ## RADIUS packet handling
+{: #radius_packet_handling }
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
