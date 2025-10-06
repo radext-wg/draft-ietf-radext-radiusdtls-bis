@@ -116,6 +116,12 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 
 This section discusses the needed changes to the RADIUS packet format ({{pktformat}}), port usage and shared secrets ({{portusage}}).
 
+The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
+
+The requirement that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
+This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
+This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{RFC9765}} for more details.
+
 ## Packet format
 {: #pktformat}
 
@@ -136,12 +142,6 @@ Specifically, all of the following portions of RADIUS MUST be unchanged when usi
 
 The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS {{RFC2865}} or RADIUS Dynamic Authorization {{RFC5176}}.
 Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
-
-The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
-
-The requirement that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
-This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
-This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{RFC9765}} for more details.
 
 We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
