@@ -514,7 +514,7 @@ The server may be able to receive and process another packet for that session vi
 It is difficult to make more recommendations for managing partially processed authentication sessions, as such recommendations depend strongly on the authentication method being used.
 As a result, further behavior is implementation defined and outside the scope of this specification.
 
-A home server which receives other kinds of packets (for example Accounting-Request, CoA-Request, Disconnect-Request) MAY finish processing outstanding requests, and then discard any response.
+A home server which receives other kinds of packets (for example Accounting-Request, CoA-NAK, Disconnect-NAK) MAY finish processing outstanding requests, and then discard any response.
 This behavior ensures that the desired action is still taken, even if the home server cannot inform the client of the result of that action.
 
 ## Malformed Packets and Unknown clients
