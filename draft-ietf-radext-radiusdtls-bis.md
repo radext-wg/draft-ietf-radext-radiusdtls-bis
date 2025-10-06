@@ -177,7 +177,7 @@ While the client may be able to deduce the operational state of the local server
 Within RADIUS, proxies typically only forward traffic between the NAS and RADIUS servers, and they do not generate their own response.
 As a result, when a NAS does not receive a response to a request, this could be the result of packet loss between the NAS and proxy, a problem on the proxy, loss between the RADIUS proxy and server, or a problem with the server.
 
-The absence of a reply can cause a client to deduce (incorrectly) that the proxy is unavailable.
+The absence of a reply can cause a client to deduce incorrectly that the proxy is unavailable.
 The client could then fail over to another server or conclude that no "live" servers are available (OKAY state in {{!RFC3539, Appendix A}}).
 This situation is made even worse when requests are sent through a proxy to multiple destinations.
 Failures in one destination may result in service outages for other destinations, if the client erroneously believes that the proxy is unresponsive.
