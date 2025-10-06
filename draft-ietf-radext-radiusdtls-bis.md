@@ -384,6 +384,7 @@ For unwanted Accounting-Requests, the servers should respond with an Accounting-
 It was also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
 Therefore these {{RFC6614}} recommended reply messages types are now replaced with Protocol-Error packet.
+When the Error-Cause is set to the value 406 ("Unsupported Extension"), the Procol-Error receiver SHOULD stop sending the unsupported request type to the server.
 Other than the other responses (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unspported packet type to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
 
