@@ -160,7 +160,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 
 RADIUS/(D)TLS does not use separate ports for authentication, accounting and dynamic authorization changes.
 The source port is arbitrary.
-For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_datagrams}}.
+For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
 RADIUS/TLS servers MUST immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
 They MUST close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.
@@ -355,8 +355,8 @@ The re-authorization MUST give the same result as if a full handshake was perfor
 If cached data cannot be retrieved securely, resumption MUST NOT be done, by either immediately closing the connection or reverting to a full handshake.
 If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
 
-## RADIUS Datagrams
-{:#radius_datagrams}
+## RADIUS packets
+{:#radius_packets}
 
 The RADIUS/(D)TLS specification does not change the client/server architecture of RADIUS.
 RADIUS/(D)TLS clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RADIUS/(D)TLS servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
@@ -547,7 +547,7 @@ That is, the implementation SHOULD send a TLS close notification and, in the cas
 
 After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which a connection MAY remain open:
 
-* Packet with an invalid code field (see {{radius_datagrams}} for details)
+* Packet with an invalid code field (see {{radius_packets}} for details)
 * Response packets that do not match any outstanding request
 * A server lacking the resources to process a request
 
