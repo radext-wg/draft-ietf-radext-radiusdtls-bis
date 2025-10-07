@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-02T00:50:34.866668+00:00",
+  "timestamp": "2025-10-07T00:51:37.201881+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4148,6 +4148,174 @@
           "updatedAt": "2025-09-25T15:19:23Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 56,
+      "id": "PR_kwDOLrzygc6sTZhs",
+      "title": "Suggestions from 2025-10-03 radext emails",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/56",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "These commits contain suggestions from my emails to radext on 2025-10-03. Most of them are clarifications. Main proposed changes are:\r\n* remove all TLS renegotiations 3e474a3c3b4aedd70e838d07d2815455380e7604\r\n* stop sending when Error-Cause is 406 'Unsupported Extension' 5916c67d5752b6cf3f32cb4195ed6776f6903e50\r\n\r\nCommit 738ab370157f6ec29ec04250ccc7b5bae4b08dc9 also attempts to clarify RFC 6614 response types replaced with Protocol-Error response. My understanding is that the RFC 6614 behaviour is replaced, but please check 738ab370157f6ec29ec04250ccc7b5bae4b08dc9",
+      "createdAt": "2025-10-06T15:32:51Z",
+      "updatedAt": "2025-10-06T16:30:48Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "hvn-oct-1",
+      "headRefOid": "24bb5e1f68eb787b40c74187133b00df4e0180d6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In general:\r\nIt's a bit unfortunate, that this is one big pull request.\r\nNow we have to sort through everything at once and cannot discuss each issue separately.",
+          "createdAt": "2025-10-06T16:04:20Z",
+          "updatedAt": "2025-10-06T16:04:20Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "> In general: It's a bit unfortunate, that this is one big pull request. Now we have to sort through everything at once and cannot discuss each issue separately.\r\n\r\nI can easily split them into individual PRs(sans e.g. the 'unwanted' commit). Let me do that and we can then continue.",
+          "createdAt": "2025-10-06T16:30:48Z",
+          "updatedAt": "2025-10-06T16:30:48Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7FB2pC",
+          "commit": {
+            "abbreviatedOid": "24bb5e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T15:47:17Z",
+          "updatedAt": "2025-10-06T15:47:17Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "I think the change to \"handshake or record\" is dangerous.\r\nWhat we mean is: either it's DTLS or it gets thrown away. with this change we would restrict what type of DTLS messages can be sent and that's not what we want.",
+              "createdAt": "2025-10-06T15:47:17Z",
+              "updatedAt": "2025-10-06T15:47:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7FCBAy",
+          "commit": {
+            "abbreviatedOid": "24bb5e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T15:54:30Z",
+          "updatedAt": "2025-10-06T15:54:30Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This is wrong.\r\nIt's not just unsupported types, it's really unwanted packets.\r\n\r\nThis includes an Accounting packet that the proxy might accept in general, but may not be able to send it to the requested destination. This doesn't mean that the client should stop sending Accounting packets.",
+              "createdAt": "2025-10-06T15:54:30Z",
+              "updatedAt": "2025-10-06T15:54:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7FCHSb",
+          "commit": {
+            "abbreviatedOid": "24bb5e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T15:58:47Z",
+          "updatedAt": "2025-10-06T15:58:47Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "I would prefer leaving the parentheses in.\r\nThe deduction can be correct, if the server is actually down, but it may also be incorrect. The parentheses emphasize that the deduction is not always wrong.",
+              "createdAt": "2025-10-06T15:58:47Z",
+              "updatedAt": "2025-10-06T15:58:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7FCLv4",
+          "commit": {
+            "abbreviatedOid": "24bb5e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T16:01:54Z",
+          "updatedAt": "2025-10-06T16:01:54Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "I don't see any reason why we should forbid renegotiation.",
+              "createdAt": "2025-10-06T16:01:54Z",
+              "updatedAt": "2025-10-06T16:01:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7FC1Cc",
+          "commit": {
+            "abbreviatedOid": "24bb5e1"
+          },
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T16:28:36Z",
+          "updatedAt": "2025-10-06T16:28:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Correct, I'll drop this. For some reason I managed to skip the discussion that used unroutable realm as an example of an unwanted packet.",
+              "createdAt": "2025-10-06T16:28:37Z",
+              "updatedAt": "2025-10-06T16:28:37Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOLrzygc6sU1JS",
+      "title": "Update to Detecting live servers - per connection",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/57",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This change makes it clear that the watchdog needs to be on a per-connection basis.",
+      "createdAt": "2025-10-06T17:15:24Z",
+      "updatedAt": "2025-10-06T17:15:24Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "after-wglc/detecting-live-servers",
+      "headRefOid": "5e1ccd40b75a79245084bb800be5e96c464bc400",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
