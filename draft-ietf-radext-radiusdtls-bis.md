@@ -497,7 +497,7 @@ The value of the idle timeout to use depends on the exact deployment and is a tr
 
 ## Behavior on session closure of incoming sessions
 
-If an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send a RADIUS response message to the client.
+If an incoming (D)TLS session or the underlying connection is closed or broken, then there is no way to send a RADIUS response packet to the client.
 The RADIUS/(D)TLS server behavior then depends on the types of packets being processed, and on the role of the server.
 
 A RADIUS/(D)TLS server acting as proxy MUST discard all requests associated with the closed connection.
