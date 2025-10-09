@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-07T00:51:37.201881+00:00",
+  "timestamp": "2025-10-09T00:51:49.163164+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4162,7 +4162,7 @@
       "labels": [],
       "body": "These commits contain suggestions from my emails to radext on 2025-10-03. Most of them are clarifications. Main proposed changes are:\r\n* remove all TLS renegotiations 3e474a3c3b4aedd70e838d07d2815455380e7604\r\n* stop sending when Error-Cause is 406 'Unsupported Extension' 5916c67d5752b6cf3f32cb4195ed6776f6903e50\r\n\r\nCommit 738ab370157f6ec29ec04250ccc7b5bae4b08dc9 also attempts to clarify RFC 6614 response types replaced with Protocol-Error response. My understanding is that the RFC 6614 behaviour is replaced, but please check 738ab370157f6ec29ec04250ccc7b5bae4b08dc9",
       "createdAt": "2025-10-06T15:32:51Z",
-      "updatedAt": "2025-10-06T16:30:48Z",
+      "updatedAt": "2025-10-07T09:41:11Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
@@ -4187,6 +4187,13 @@
           "body": "> In general: It's a bit unfortunate, that this is one big pull request. Now we have to sort through everything at once and cannot discuss each issue separately.\r\n\r\nI can easily split them into individual PRs(sans e.g. the 'unwanted' commit). Let me do that and we can then continue.",
           "createdAt": "2025-10-06T16:30:48Z",
           "updatedAt": "2025-10-06T16:30:48Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I can easily split them into individual PRs(sans e.g. the 'unwanted' commit). Let me do that and we can then continue.\r\n\r\nThanks :)\r\nAlso thanks for reading through the document and commenting.\r\n\r\nSome of the issues should definitely be fixed before publication.",
+          "createdAt": "2025-10-07T09:41:11Z",
+          "updatedAt": "2025-10-07T09:41:11Z"
         }
       ],
       "reviews": [
@@ -4311,6 +4318,107 @@
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "after-wglc/detecting-live-servers",
       "headRefOid": "5e1ccd40b75a79245084bb800be5e96c464bc400",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 58,
+      "id": "PR_kwDOLrzygc6svfOh",
+      "title": "radiusdtls-bis-09 - terminology",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/58",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Reference to radext-gw mailing list message:\r\nhttps://mailarchive.ietf.org/arch/msg/radext/X5lyKic2hrxGj9YZbZ66U8N0PDs/\r\n\r\nI'd like to make sure the use of terms 'packet', 'message', 'datagram', etc. is uniform. My suggestion:\r\n- RADIUS packet, RADIUS packet type  - from RFC 2865\r\n- (D)TLS record - from the DTLS RFC 9147: a DTLS record always fits into one UDP datagram\r\n- UDP datagram\r\n- TCP segment\r\n- IP packet (not currently used by the draft)\r\n\r\nThe two commits in this pull request are examples of what kind of terminology check-up I'm thinking of.",
+      "createdAt": "2025-10-08T16:52:12Z",
+      "updatedAt": "2025-10-08T21:37:15Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "radius-packet-datagram",
+      "headRefOid": "5a887b3c108b023ba098a434e33507f2bc81c3b0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It's always good to be clear and consistent :+1:\r\nI'll look through the document too and see if I see other instances where this should be changed.",
+          "createdAt": "2025-10-08T18:43:42Z",
+          "updatedAt": "2025-10-08T18:43:42Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Fp1zA",
+          "commit": {
+            "abbreviatedOid": "5a887b3"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-08T18:42:19Z",
+          "updatedAt": "2025-10-08T18:42:19Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "I would leave `DTLS messages` in this specific instance as-is, because we're really talking about the payload of the UDP datagram, not about the UDP datagram itself.\r\nIt makes it clear, that this is something that must probably be handled at crypto-API level and not on the network stack.\r\n\r\nIn most (if not all) cases, the software is not splitting the DTLS records on the network layer and passing them individually to the TLS library, it's passing the UDP datagram to the TLS library, and then the software needs to make sure to use calls to the library that ensure only one DTLS record is handled at a time.",
+              "createdAt": "2025-10-08T18:42:19Z",
+              "updatedAt": "2025-10-08T18:42:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Fr1s5",
+          "commit": {
+            "abbreviatedOid": "5a887b3"
+          },
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-08T21:37:15Z",
+          "updatedAt": "2025-10-08T21:37:15Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "> I would leave `DTLS messages` in this specific instance as-is, because we're really talking about the payload of the UDP datagram, not about the UDP datagram itself. It makes it clear, that this is something that must probably be handled at crypto-API level and not on the network stack.\r\n\r\nFirst, I'd like to note that the [previous paragraph](https://www.ietf.org/archive/id/draft-ietf-radext-radiusdtls-bis-09.html#section-6.1-2) already says the following about sending RADIUS packets:\r\n\r\n`We note that a single UDP datagram may, however, contain multiple DTLS records.`\r\n\r\nTherefore it would be symmetric to use 'UDP datagram' also in this paragraph that talks about receiving RADIUS packets.\r\n\r\nSecond, the DTLS 1.3 RFC also says [`DTLS messages`](https://www.rfc-editor.org/rfc/rfc9147.html#section-4.3-1) when it talks about data that is transferred with DTLS records. TLS 1.3 also says that [records carry messages](https://www.ietf.org/archive/id/draft-ietf-tls-rfc8446bis-14.html#name-record-protocol). For these reason I'd avoid saying that DTLS messages contain DTLS records.\r\n\r\nThird, I'd say that UDP datagram is the synonym for the UDP datagram payload in this document. Or then this document could say 'UDP datagram payload' when there's a need to emphasise the payload.\r\n\r\n> In most (if not all) cases, the software is not splitting the DTLS records on the network layer and passing them individually to the TLS library, it's passing the UDP datagram to the TLS library, and then the software needs to make sure to use calls to the library that ensure only one DTLS record is handled at a time.\r\n\r\nI fully agree on this. Maybe this draft could simply says that received UDP datagrams are opaque data for a RADIUS server and must be directly passed to the TLS library. It seems, this is what the next section ['6.2 Server behavior' ](https://www.ietf.org/archive/id/draft-ietf-radext-radiusdtls-bis-09.html#section-6.2-1) already says?\r\n\r\n```\r\nWhen a RADIUS/DTLS server receives packets on the configured\r\nRADIUS/DTLS port, all packets MUST be treated as being DTLS.\r\nRADIUS/UDP packets MUST NOT be accepted on this port.\r\n```\r\nSomething I just noted: there is no text in the next section ['6.3 Client behavior'](https://www.ietf.org/archive/id/draft-ietf-radext-radiusdtls-bis-09.html#name-client-behavior) that says the similar thing about received UDP datagrams: all MUST be treated as being DTLS when the port is configured for sending RADIUS/DTLS requests.",
+              "createdAt": "2025-10-08T21:37:15Z",
+              "updatedAt": "2025-10-08T21:37:16Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "PR_kwDOLrzygc6svzJK",
+      "title": "radiusdtls-bis-09 - Detecting Live Servers - absence of reply",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/59",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarify that the updated paragraph covers both the correct and incorrect cases. That is, when the client draws a conclusion that the server is unavailable, the conclusion may be correct or incorrect and the pargraph covers the both cases, not just the problems with the incorrect conclusion.\r\n\r\nI've so far understood the paragraph to only address the problems that arise when the conclusion is incorrect. Janfred's comment clarified this is not the case and I hope the updated text is also clearer about this.",
+      "createdAt": "2025-10-08T17:26:47Z",
+      "updatedAt": "2025-10-08T17:26:47Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "live-servers-parens",
+      "headRefOid": "b33514050ff6cbfee8c0ab7ebd37cdff7684db9c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
