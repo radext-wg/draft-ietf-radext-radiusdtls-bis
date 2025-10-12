@@ -378,6 +378,8 @@ Future specifications may recommend other Error-Cause attribute values for speci
 The RADIUS/(D)TLS client SHOULD NOT assume that the configured server is not able to handle all packets of the packet type based on the Protocol-Error response.
 In proxy scenarios, a RADIUS proxy may be unable to forward accounting packets for one realm, but able to forward them for another.
 
+Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
+
 The previous specification of RADIUS/TLS in {{RFC6614}} recommended to send a different reply.
 For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.
 For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
@@ -385,8 +387,6 @@ It was also recommended that a RADIUS/TLS client observing this Accounting-Respo
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
 Other than the other responses (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
-
-Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
