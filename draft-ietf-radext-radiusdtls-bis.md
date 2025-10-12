@@ -393,6 +393,7 @@ This behavior, however, could lead to problems, especially in proxy fabrics, sin
 
 Compared to the {{RFC6614}} recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
+Therefore these {{RFC6614}} recommended reply message types are now replaced with the Protocol-Error packet type.
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
