@@ -162,11 +162,6 @@ RADIUS/(D)TLS does not use separate ports for authentication, accounting and dyn
 The source port is arbitrary.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_datagrams}}.
 
-RADIUS/TLS servers MUST immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
-They MUST close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.
-
-RADIUS/DTLS servers MUST silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS negotiation or a packet sent over a DTLS session established earlier.
-
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
 ## Detecting Live Servers
@@ -206,7 +201,7 @@ This section defines the behaviour for RADIUS/(D)TLS peers for handling of incom
 
 ## (D)TLS requirements
 
-As defined in {{portusage}}, RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
+RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server. All data received over a TCP or TLS port is opaque for the RADIUS client or server application and must be passed to the TLS or DTLS implementation for processing. Closing TLS connections and discarding UDP datagrams are done as indicated by the (D)TLS implmentation.
 
 RADIUS/(D)TLS has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
