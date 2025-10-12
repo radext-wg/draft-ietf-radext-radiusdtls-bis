@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-09T00:51:49.163164+00:00",
+  "timestamp": "2025-10-12T00:54:13.368834+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4162,7 +4162,7 @@
       "labels": [],
       "body": "These commits contain suggestions from my emails to radext on 2025-10-03. Most of them are clarifications. Main proposed changes are:\r\n* remove all TLS renegotiations 3e474a3c3b4aedd70e838d07d2815455380e7604\r\n* stop sending when Error-Cause is 406 'Unsupported Extension' 5916c67d5752b6cf3f32cb4195ed6776f6903e50\r\n\r\nCommit 738ab370157f6ec29ec04250ccc7b5bae4b08dc9 also attempts to clarify RFC 6614 response types replaced with Protocol-Error response. My understanding is that the RFC 6614 behaviour is replaced, but please check 738ab370157f6ec29ec04250ccc7b5bae4b08dc9",
       "createdAt": "2025-10-06T15:32:51Z",
-      "updatedAt": "2025-10-07T09:41:11Z",
+      "updatedAt": "2025-10-11T08:33:51Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
@@ -4194,6 +4194,13 @@
           "body": "> I can easily split them into individual PRs(sans e.g. the 'unwanted' commit). Let me do that and we can then continue.\r\n\r\nThanks :)\r\nAlso thanks for reading through the document and commenting.\r\n\r\nSome of the issues should definitely be fixed before publication.",
           "createdAt": "2025-10-07T09:41:11Z",
           "updatedAt": "2025-10-07T09:41:11Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "I switched this PR to a draft PR. There are things I'll suggest differently while making a note of the comments so far.",
+          "createdAt": "2025-10-11T08:33:51Z",
+          "updatedAt": "2025-10-11T08:33:51Z"
         }
       ],
       "reviews": [
