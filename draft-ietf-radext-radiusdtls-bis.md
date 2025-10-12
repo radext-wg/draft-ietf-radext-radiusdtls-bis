@@ -382,13 +382,13 @@ Since proxying of RADIUS packets is a general issue in RADIUS and not specific t
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 
-The previous specification of RADIUS/TLS in {{RFC6614}} recommended to send a reply that depends on the request type:
+The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a reply that depends on the request type:
 
 * For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.
 
 * For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
 
-It was also recommended that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
+{{RFC6614}} also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
 
 Compared to the {{RFC6614}} recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
