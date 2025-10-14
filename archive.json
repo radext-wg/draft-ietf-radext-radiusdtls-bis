@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-12T00:54:13.368834+00:00",
+  "timestamp": "2025-10-14T00:51:50.005454+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4431,6 +4431,108 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 60,
+      "id": "PR_kwDOLrzygc6tT4nQ",
+      "title": "radiusdtls-bis-09 - Clarify text related to unwanted packet handling and comparisons to respective RFC 6614 behaviour",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/60",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "These changes aim to clarify the current text in section '4.5 RADIUS Datagrams'. In short:\r\n- two last two paragraphs are now in different order\r\n- the long paragraph that discusses RFC 6614 unwanted packets is now split to multiple paragraphs with bulletted list\r\n- a new sentence is added to clearly say RFC 6614 responses to unwanted packets is replaced by this document\r\n- imperfect and passive tense is replaced with present tense that states what RFC 6614 says\r\n\r\nSee the individual commits for more detailed descriptions per commit.\r\n\r\nFunctional changes are not intentional, these should be only clarifications.",
+      "createdAt": "2025-10-12T13:02:36Z",
+      "updatedAt": "2025-10-13T10:08:47Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "unwanted-packets",
+      "headRefOid": "d51f60571b0f5ea65da4ef5649aefb8ff9f04905",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me.",
+          "createdAt": "2025-10-13T10:08:47Z",
+          "updatedAt": "2025-10-13T10:08:47Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 61,
+      "id": "PR_kwDOLrzygc6tVQ9q",
+      "title": "radiusdtls-bis-09 - Mostly DTLS specific updates",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/61",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The overhead and retransmissions commits aim to clarify the existing text.\r\n\r\nThe third commit, '(D)TLS data is opaque', attempts to clarify that any data received over a TLS/TCP or DTLS/UDP port should be pushed to the (D)TLS implementation for processing. (D)TLS then tells what happens next.\r\n\r\nThe text the third commit adds is intended to say what Janfred commented earlier, [What we mean is: either it's DTLS or it gets thrown away](https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/56/commits/dcc543c0066b12fa3592a2d813a5fa8d9952fbb4#r2407121622), with the help of (D)TLS implementation. The removed text, from a point of RADIUS server implementator, reads as if the RADIUS server needs to understand what's the state of TLS connection or DTLS association.\r\n\r\nIn any case, I'd say the two removed paragraph should be in the 'Packet / Connection Handling' in case they are kept.",
+      "createdAt": "2025-10-12T17:12:15Z",
+      "updatedAt": "2025-10-13T09:36:39Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "dtls-specific-updates",
+      "headRefOid": "bfb8515761d74b52b5769487c1925102c295310c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1, modulu some minor comments",
+          "createdAt": "2025-10-13T09:36:38Z",
+          "updatedAt": "2025-10-13T09:36:38Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 62,
+      "id": "PR_kwDOLrzygc6tWY3B",
+      "title": "radiusdtls-bis-09 - Assorted fixes and other commits",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/62",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
+      "createdAt": "2025-10-12T21:26:40Z",
+      "updatedAt": "2025-10-13T09:35:04Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "assorted-commits",
+      "headRefOid": "d189eba341a9aba81991df3f3bae0ae6d034f99f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1, other than I think the \"home server\" commit should be dropped.",
+          "createdAt": "2025-10-13T09:35:04Z",
+          "updatedAt": "2025-10-13T09:35:04Z"
+        }
+      ],
       "reviews": []
     }
   ]
