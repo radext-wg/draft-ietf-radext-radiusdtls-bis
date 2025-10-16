@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-14T00:51:50.005454+00:00",
+  "timestamp": "2025-10-16T00:52:50.390749+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4513,7 +4513,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2025-10-13T09:35:04Z",
+      "updatedAt": "2025-10-15T12:56:36Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
@@ -4531,6 +4531,13 @@
           "body": "+1, other than I think the \"home server\" commit should be dropped.",
           "createdAt": "2025-10-13T09:35:04Z",
           "updatedAt": "2025-10-13T09:35:04Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "NONE",
+          "body": "> +1, other than I think the \"home server\" commit should be dropped.\r\n\r\nThat's fine with me, I just thought it looks odd that home server receives the said dynauth message types. It's correct to say that it can, even if the messages were unexpected, finish processing them and do whatever is needed.\r\n",
+          "createdAt": "2025-10-15T12:56:36Z",
+          "updatedAt": "2025-10-15T12:56:36Z"
         }
       ],
       "reviews": []
