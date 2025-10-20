@@ -75,7 +75,7 @@ An example for a worldwide roaming environment that uses RADIUS over TLS to secu
 The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
-  These specifications have been merged into this document, and therfore removes {{RFC6613}} as normative reference.
+  These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed usage of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
@@ -193,7 +193,7 @@ RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the followin
 RADIUS/(D)TLS clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveliness of the peer in the absence of responses.
 RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
-This value was picked arbitrary, as there is no reason to choose any other value over another for this use.
+This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.
 
 For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293, Section 3.8.4}}.
 For RADIUS/DTLS connections, the peers MAY send periodic keepalives as defined in {{RFC6520}}.
@@ -202,7 +202,7 @@ These liveliness checks are essentially redundant in the presence of an applicat
 
 # Packet / Connection Handling
 
-This section defines the behaviour for RADIUS/(D)TLS peers for handling of incoming packets and establishment of a (D)TLS session.
+This section defines the behavior for RADIUS/(D)TLS peers for handling of incoming packets and establishment of a (D)TLS session.
 
 ## (D)TLS requirements
 
@@ -345,7 +345,7 @@ Session resumption lowers the time and effort required to start a (D)TLS session
 This is especially helpful when using short idle timeouts.
 
 RADIUS/(D)TLS clients and server SHOULD implement session resumption.
-Implementations supporting session resumption MUST cache data during the initial full handshake, sufficient to allow authorization descisions to be made during resumption.
+Implementations supporting session resumption MUST cache data during the initial full handshake, sufficient to allow authorization decisions to be made during resumption.
 For RADIUS/(D)TLS servers, this should preferably be done using stateless session resumption as specified in {{!RFC5077}}, to reduce the resource usage for cached sessions.
 
 When resuming a (D)TLS session, both client and server MUST re-authorize the connection by using the original, cached data.
@@ -434,11 +434,11 @@ The above requirements are a logical extension of the common practice where a cl
 ### Acct-Delay-Time and Event-Timestamp
 
 In order to avoid congestive collapse, it is RECOMMENDED that RADIUS/(D)TLS clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
-Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occured.
+Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occurred.
 The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and create the same problem as with Acct-Delay-Time.
 
 Not using Acct-Delay-Time allows for RADIUS packets to be retransmitted without change.
-In contrast, updating Acct-Delay-Time would require that the client create and send a new packet without signalling the server that the previous packet is no longer considered active.
+In contrast, updating Acct-Delay-Time would require that the client create and send a new packet without signaling the server that the previous packet is no longer considered active.
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
 This duplication contributes to congestive collapse of the network, if a RADIUS proxy performs retransmission to the next hop for each of those packets independently.
 
@@ -451,7 +451,7 @@ Since there is no change to the packet contents when a retransmission timer expi
 
 Where RADIUS/(D)TLS clients do include Acct-Delay-Time in RADIUS packets, the client SHOULD use timers to detect packet loss, as described in {{client_retransmission_timers}}.
 RADIUS/(D)TLS clients SHOULD NOT update the Acct-Delay-Time, and therefore create a new RADIUS packet with the same information, until the timer has determined that the original packet has in fact been completely lost.
-This ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission, while keeping the functionality of Acct-Delay-Time to determine how long ago the event occured.
+This ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission, while keeping the functionality of Acct-Delay-Time to determine how long ago the event occurred.
 It only reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
 
 ## Client Timers
@@ -485,7 +485,7 @@ RADIUS/(D)TLS clients MUST implement retransmission timers for retransmitting RA
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
 As TLS is a reliable transport, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
-Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occured in a later RADIUS hop or the home server ignores the RADIUS packet.
+Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occurred in a later RADIUS hop or the home server ignores the RADIUS packet.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
 
@@ -571,8 +571,8 @@ Since the RADIUS packet header contains a `Length` field, the end of the RADIUS 
 The next RADIUS packet MUST be sent directly after the RADIUS packet before, that is, the peers MUST NOT add padding before, between, or after RADIUS packets.
 
 When receiving RADIUS packets, a RADIUS/TLS node MUST determine the borders of RADIUS packet based on the `Length` field in the RADIUS header.
-Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first recieved only partially, and the remainder of the packet is contained in following fragments.
-Therefore, RADIUS/TLS peers MUST NOT assume that the packet length is invalid solely based on the currenlty available bytes in the stream.
+Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first received only partially, and the remainder of the packet is contained in following fragments.
+Therefore, RADIUS/TLS peers MUST NOT assume that the packet length is invalid solely based on the currently available bytes in the stream.
 
 As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other peer.
 
@@ -619,7 +619,7 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
-Implemententors and operators should be aware of the possibility of fragmented UDP packets.
+Implementers and operators should be aware of the possibility of fragmented UDP packets.
 
 RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS record.
 This ensures that the RADIUS packets do not get fragmented at a point where a re-ordering of UDP packets would result in decoding failures.
@@ -814,7 +814,7 @@ To perform this lookup efficiently, RADIUS/(D)TLS servers SHOULD keep a list of 
 ## TLS Session Lifetime and Key Rotation
 
 The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
-Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amout of data which was tansferred, and on the encryption method.
+Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amount of data which was transferred, and on the encryption method.
 See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more information.
 
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
@@ -930,7 +930,7 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 {: #lessons_learned}
 
 There are at least two major (world-scale) deployments of {{RFC6614}}.
-This section will discuss lessens learned from these deployments, that influenced this document.
+This section will discuss lessons learned from these deployments, that influenced this document.
 
 ## eduroam
 
@@ -942,7 +942,7 @@ Operational experience reveals that the main reason is related to the choice of 
 
 * Lifetime: PKIX certificates have an expiry date, and need administrator attention and expertise for their renewal
 * Validation: The validation of a certificate (both client and server) requires contacting a third party to verify the revocation status. This either takes time during session setup (OCSP checks) or requires the presence of a fresh CRL on the server - this in turn requires regular update of that CRL.
-* Issuance: PKIX certificates carry properties in the Subject and extensions that need to be vetted. Depending on the CA policy, a certificate request may need significant human intervention to be verified. In particular, the authorisation of a requester to operate a server for a particular NAI realm needs to be verified. This rules out public "browser-trusted" CAs; eduroam is operating a special-purpose CA for eduroam RADIUS/TLS purposes.
+* Issuance: PKIX certificates carry properties in the Subject and extensions that need to be vetted. Depending on the CA policy, a certificate request may need significant human intervention to be verified. In particular, the authorization of a requester to operate a server for a particular NAI realm needs to be verified. This rules out public "browser-trusted" CAs; eduroam is operating a special-purpose CA for eduroam RADIUS/TLS purposes.
 * Automatic failure over time: CRL refresh and certificate renewal must be attended to regularly. Failure to do so leads to failure of the authentication service. Among other reasons, employee churn with incorrectly transferred or forgotten responsibilities is a risk factor.
 
 It appears that these complexities often outweigh the argument of improved security; and a fallback to RADIUS/UDP is seen as the more appealing option.
@@ -957,7 +957,7 @@ OpenRoaming is a globally operating Wi-Fi roaming consortium for the general pub
 
 The consortium operational procedures were defined in the late 2010s when {{RFC6614}} and {{RFC7585}} were long available. The consortium decided to fully base itself on these two RFCs.
 
-In this architecture, using PSKs or raw public keys is not an option. The complexities around PKIX certificates as discussed in the previous section are believed to be controllable: the consortium operates its own special-purpose CA and can rely on a reliable source of truth for operator authorisation (becoming an operator requires a paid membership in WBA); expiry and revocation topics can be expected to be dealt with as high-priority because of the monetary implications in case of infrastructure failure during settled operation.
+In this architecture, using PSKs or raw public keys is not an option. The complexities around PKIX certificates as discussed in the previous section are believed to be controllable: the consortium operates its own special-purpose CA and can rely on a reliable source of truth for operator authorization (becoming an operator requires a paid membership in WBA); expiry and revocation topics can be expected to be dealt with as high-priority because of the monetary implications in case of infrastructure failure during settled operation.
 
 ## Participating in more than one roaming consortium
 
