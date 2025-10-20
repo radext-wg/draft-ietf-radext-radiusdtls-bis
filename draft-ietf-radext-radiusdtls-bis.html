@@ -12,24 +12,23 @@
 This enables encrypting the RADIUS traffic as well as dynamic trust relationships between RADIUS servers.
 The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS) and combines them in this specification. 
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="RADIUS" name="keyword">
 <meta content="TLS" name="keyword">
 <meta content="draft-ietf-radext-radiusdtls-bis-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.4.0
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.5
-    setuptools 80.9.0
-    wcwidth 0.2.13
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-radext-radiusdtls-bis.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1048,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RADIUS over (D)TLS</td>
-<td class="right">September 2025</td>
+<td class="right">October 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers &amp; Winter</td>
-<td class="center">Expires 3 April 2026</td>
+<td class="center">Expires 23 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-30" class="published">30 September 2025</time>
+<time datetime="2025-10-20" class="published">20 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-03">3 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-23">23 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1126,7 +1125,7 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1214,6 +1213,11 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
                 <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-radius-datagrams" class="internal xref">RADIUS Datagrams</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.1">
+                    <p id="section-toc.1-1.4.2.5.2.1.1"><a href="#section-4.5.1" class="auto internal xref">4.5.1</a>.  <a href="#name-differences-from-rfc-6614-u" class="internal xref">Differences from RFC 6614 unwanted RADIUS packet handling</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
                 <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-forwarding-radius-packets-b" class="internal xref">Forwarding RADIUS packets between UDP and TCP based transports</a></p>
@@ -1876,14 +1880,28 @@ The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be se
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
 <p id="section-4.5-5">The RADIUS/(D)TLS client <span class="bcp14">SHOULD NOT</span> assume that the configured server is not able to handle all packets of the packet type based on the Protocol-Error response.
 In proxy scenarios, a RADIUS proxy may be unable to forward accounting packets for one realm, but able to forward them for another.<a href="#section-4.5-5" class="pilcrow">¶</a></p>
-<p id="section-4.5-6">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended to send a different reply.
-For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.
-For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
-It was also recommended that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
-This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
-Other than the other responses (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
-This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.<a href="#section-4.5-6" class="pilcrow">¶</a></p>
-<p id="section-4.5-7">Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.<a href="#section-4.5-7" class="pilcrow">¶</a></p>
+<p id="section-4.5-6">Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.<a href="#section-4.5-6" class="pilcrow">¶</a></p>
+<div id="differences-from-rfc-6614-unwanted-radius-packet-handling">
+<section id="section-4.5.1">
+          <h4 id="name-differences-from-rfc-6614-u">
+<a href="#section-4.5.1" class="section-number selfRef">4.5.1. </a><a href="#name-differences-from-rfc-6614-u" class="section-name selfRef">Differences from RFC 6614 unwanted RADIUS packet handling</a>
+          </h4>
+<p id="section-4.5.1-1">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommends to send a reply that depends on the request type:<a href="#section-4.5.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.5.1-2.1">
+              <p id="section-4.5.1-2.1.1">For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.<a href="#section-4.5.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.5.1-2.2">
+              <p id="section-4.5.1-2.2.1">For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").<a href="#section-4.5.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-4.5.1-3"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
+This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.<a href="#section-4.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.5.1-4">Compared to the <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
+This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
+Therefore these <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended reply message types are now replaced with the Protocol-Error packet type.<a href="#section-4.5.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="forwarding-radius-packets-between-udp-and-tcp-based-transports">

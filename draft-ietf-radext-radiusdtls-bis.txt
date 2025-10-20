@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 3 April 2026                                  30 September 2025
+Expires: 23 April 2026                                   20 October 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 April 2026.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -88,6 +88,8 @@ Table of Contents
      4.3.  Connecting Client Identity
      4.4.  TLS Session Resumption
      4.5.  RADIUS Datagrams
+       4.5.1.  Differences from RFC 6614 unwanted RADIUS packet
+               handling
      4.6.  Forwarding RADIUS packets between UDP and TCP based
             transports
        4.6.1.  Throughput Differences lead to Network Collapse
@@ -743,28 +745,38 @@ Table of Contents
    unable to forward accounting packets for one realm, but able to
    forward them for another.
 
-   The previous specification of RADIUS/TLS in [RFC6614] recommended to
-   send a different reply.  For unwanted CoA-Requests or Disconnect-
-   Requests, the servers should respond with a CoA-NAK or Disconnect-
-   NAK, respectively.  For unwanted Accounting-Requests, the servers
-   should respond with an Accounting-Response containing an Error-Cause
-   attribute with the value 406 ("Unsupported Extension").  It was also
-   recommended that a RADIUS/TLS client observing this Accounting-
-   Response should stop sending Accounting-Request packets to this
-   server.  This behavior, however, could lead to problems, especially
-   in proxy fabrics, since the RADIUS client cannot determine whether
-   the reply came from the correct server or a RADIUS proxy along the
-   way.  Other than the other responses (CoA-NAK, Disconnect-NAK and
-   Accounting-Response), the Protocol-Error packet is explicitly only
-   applicable to one RADIUS hop and must not be forwarded, which gives
-   the RADIUS client the opportunity to re-route the unwanted packet to
-   a different RADIUS server.  This also is backwards compatible with
-   existing implementations, since RADIUS clients must ignore any
-   incoming RADIUS packets with an unknown packet type.
-
    Since proxying of RADIUS packets is a general issue in RADIUS and not
    specific to RADIUS/(D)TLS, the details of handling the Protocol-Error
    reply on the client side are outside of the scope of this document.
+
+4.5.1.  Differences from RFC 6614 unwanted RADIUS packet handling
+
+   The previous specification of RADIUS/TLS in [RFC6614] recommends to
+   send a reply that depends on the request type:
+
+   *  For unwanted CoA-Requests or Disconnect-Requests, the servers
+      should respond with a CoA-NAK or Disconnect-NAK, respectively.
+
+   *  For unwanted Accounting-Requests, the servers should respond with
+      an Accounting-Response containing an Error-Cause attribute with
+      the value 406 ("Unsupported Extension").
+
+   [RFC6614] also recommends that a RADIUS/TLS client observing this
+   Accounting-Response should stop sending Accounting-Request packets to
+   this server.  This behavior, however, could lead to problems,
+   especially in proxy fabrics, since the RADIUS client cannot determine
+   whether the reply came from the correct server or a RADIUS proxy
+   along the way.
+
+   Compared to the [RFC6614] recommended replies (CoA-NAK, Disconnect-
+   NAK and Accounting-Response), the Protocol-Error packet is explicitly
+   only applicable to one RADIUS hop and must not be forwarded, which
+   gives the RADIUS client the opportunity to re-route the unwanted
+   packet to a different RADIUS server.  This also is backwards
+   compatible with existing implementations, since RADIUS clients must
+   ignore any incoming RADIUS packets with an unknown packet type.
+   Therefore these [RFC6614] recommended reply message types are now
+   replaced with the Protocol-Error packet type.
 
 4.6.  Forwarding RADIUS packets between UDP and TCP based transports
 
