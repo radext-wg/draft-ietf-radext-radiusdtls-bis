@@ -87,7 +87,7 @@ Table of Contents
        4.2.4.  Authentication using TLS-PSK (TLS-PSK)
      4.3.  Connecting Client Identity
      4.4.  TLS Session Resumption
-     4.5.  RADIUS Datagrams
+     4.5.  RADIUS packets
        4.5.1.  Differences from RFC 6614 unwanted RADIUS packet
                handling
      4.6.  Forwarding RADIUS packets between UDP and TCP based
@@ -700,7 +700,7 @@ Table of Contents
    being established, the RADIUS/(D)TLS client MUST NOT re-attempt
    session resumption but perform a full TLS handshake instead.
 
-4.5.  RADIUS Datagrams
+4.5.  RADIUS packets
 
    The RADIUS/(D)TLS specification does not change the client/server
    architecture of RADIUS.  RADIUS/(D)TLS clients transmit the same
@@ -1010,7 +1010,7 @@ Table of Contents
 4.9.  Behavior on session closure of incoming sessions
 
    If an incoming (D)TLS session or the underlying connection is closed
-   or broken, then there is no way to send a RADIUS response message to
+   or broken, then there is no way to send a RADIUS response packet to
    the client.  The RADIUS/(D)TLS server behavior then depends on the
    types of packets being processed, and on the role of the server.
 
@@ -1223,10 +1223,10 @@ Table of Contents
    record.  This ensures that the RADIUS packets do not get fragmented
    at a point where a re-ordering of UDP packets would result in
    decoding failures.  The DTLS specification mandates that a DTLS
-   record must not span multiple UDP packets.  We note that a single UDP
-   datagram may, however, contain multiple DTLS records.  RADIUS/DTLS
-   nodes MAY use this behavior to send multiple RADIUS packets in one
-   UDP packet.
+   record must not span multiple UDP datagrams.  We note that a single
+   UDP datagram may, however, contain multiple DTLS records.  RADIUS/
+   DTLS nodes MAY use this behavior to send multiple RADIUS packets in
+   one UDP packet.
 
    For the receiving RADIUS/DTLS node, the length checks defined in
    [RFC2865], Section 3 still apply.  That is, a receiving RADIUS/DTLS
@@ -1235,8 +1235,8 @@ Table of Contents
    length.  Exactly one RADIUS packet is encapsulated in a DTLS record,
    and any data outside the range of the RADIUS length field within the
    decrypted payload of a single DTLS record MUST be treated as padding,
-   as it would be with a RADIUS/UDP packet, and be ignored.  For DTLS
-   messages containing multiple DTLS records, each DTLS record MUST be
+   as it would be with a RADIUS/UDP packet, and be ignored.  For UDP
+   datagrams containing multiple DTLS records, each DTLS record MUST be
    parsed individually.
 
    If a RADIUS packet should be re-transmitted, either as retransmission
