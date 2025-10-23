@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 23 April 2026                                   20 October 2025
+Expires: 26 April 2026                                   23 October 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -14,11 +14,11 @@ Expires: 23 April 2026                                   20 October 2025
 
 Abstract
 
-   This document specifies a transport profile for RADIUS using
-   Transport Layer Security (TLS) over TCP or Datagram Transport Layer
-   Security (DTLS) over UDP as the transport protocol.  This enables
-   encrypting the RADIUS traffic as well as dynamic trust relationships
-   between RADIUS servers.  The specification obsoletes the experimental
+   This document specifies transport profiles for RADIUS using Transport
+   Layer Security (TLS) over TCP or Datagram Transport Layer Security
+   (DTLS) over UDP as the transport protocol.  This enables encrypting
+   the RADIUS traffic as well as dynamic trust relationships between
+   RADIUS servers.  The specification obsoletes the experimental
    specifications in RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS)
    and combines them in this specification.
 
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2026.
+   This Internet-Draft will expire on 26 April 2026.
 
 Copyright Notice
 
@@ -175,8 +175,7 @@ Table of Contents
    *  RFC6614 marked TLSv1.1 or later as mandatory, this specification
       requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 
-   *  RFC6614 allowed usage of TLS compression, this document forbids
-      it.
+   *  RFC6614 allowed use of TLS compression, this document forbids it.
 
    *  RFC6614 only requires support for the trust model "certificates
       with PKIX" ([RFC6614], Section 2.3).  This document changes this.
@@ -367,7 +366,7 @@ Table of Contents
    RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of
    the following conditions are met:
 
-   *  The administrator has marked the connection administrative DOWN.
+   *  The administrator has marked the connection as down.
 
    *  The network stack indicates that the connection is no longer
       viable.
@@ -531,7 +530,7 @@ Table of Contents
       -  The Common Name RDN MUST NOT be used to identify a server.
 
       -  Clients MAY use other attributes of the certificate to validate
-         the servers identity, but it MUST NOT accept any certificate
+         the server's identity, but it MUST NOT accept any certificate
          without validation.
 
       -  Clients which also act as servers (i.e. proxies) may be
@@ -678,13 +677,13 @@ Table of Contents
    (D)TLS session and increases network responsiveness.  This is
    especially helpful when using short idle timeouts.
 
-   RADIUS/(D)TLS clients and server SHOULD implement session resumption.
-   Implementations supporting session resumption MUST cache data during
-   the initial full handshake, sufficient to allow authorization
-   decisions to be made during resumption.  For RADIUS/(D)TLS servers,
-   this should preferably be done using stateless session resumption as
-   specified in [RFC5077], to reduce the resource usage for cached
-   sessions.
+   RADIUS/(D)TLS clients and servers SHOULD implement session
+   resumption.  Implementations supporting session resumption MUST cache
+   data during the initial full handshake, sufficient to allow
+   authorization decisions to be made during resumption.  For
+   RADIUS/(D)TLS servers, this should preferably be done using stateless
+   session resumption as specified in [RFC5077], to reduce the resource
+   usage for cached sessions.
 
    When resuming a (D)TLS session, both client and server MUST re-
    authorize the connection by using the original, cached data.  In
@@ -978,12 +977,12 @@ Table of Contents
    the new one or not create a new session.
 
    The close notification of (D)TLS or underlying connections are not
-   fully reliable, or they might be unnecessarily kept alive by
+   fully reliable, or connections might be unnecessarily kept alive by
    heartbeat or watchdog traffic, occupying resources.  Therefore, both
    RADIUS/(D)TLS clients and servers MAY close connections after they
    have been idle for some time (no traffic except application layer
    watchdog).  This idle timeout SHOULD be configurable within
-   reasonable limits and SHOULD allow to disable idle timeout
+   reasonable limits and it SHOULD be possible to disable idle timeouts
    completely.
 
    On the server side, this mostly helps avoid resource exhaustion.  For
