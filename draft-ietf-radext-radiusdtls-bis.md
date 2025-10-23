@@ -47,7 +47,7 @@ informative:
 
 --- abstract
 
-This document specifies a transport profile for RADIUS using Transport Layer Security (TLS) over TCP or Datagram Transport Layer Security (DTLS) over UDP as the transport protocol.
+This document specifies transport profiles for RADIUS using Transport Layer Security (TLS) over TCP or Datagram Transport Layer Security (DTLS) over UDP as the transport protocol.
 This enables encrypting the RADIUS traffic as well as dynamic trust relationships between RADIUS servers.
 The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS) and combines them in this specification.
 
@@ -77,7 +77,7 @@ The following list contains the most important changes from the previous specifi
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
   These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
-* RFC6614 allowed usage of TLS compression, this document forbids it.
+* RFC6614 allowed use of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
 * The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
 * The specification regarding steps for certificate verification has been updated.
@@ -186,7 +186,7 @@ RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connectio
 
 RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the following conditions are met:
 
-* The administrator has marked the connection administrative DOWN.
+* The administrator has marked the connection as down.
 * The network stack indicates that the connection is no longer viable.
 * The application-layer watchdog algorithm has marked it DOWN.
 
@@ -266,7 +266,7 @@ RADIUS/(D)TLS clients and servers MUST follow {{!RFC9525}} when validating peer 
   * If the expected RADIUS/(D)TLS server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}. Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RADIUS/(D)TLS server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * The Common Name RDN MUST NOT be used to identify a server.
-  * Clients MAY use other attributes of the certificate to validate the servers identity, but it MUST NOT accept any certificate without validation.
+  * Clients MAY use other attributes of the certificate to validate the server's identity, but it MUST NOT accept any certificate without validation.
   * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves. More details on this issue are discussed in {{security_considerations}}.
 * RADIUS/(D)TLS servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
@@ -344,7 +344,7 @@ In TLS-PSK operation at least the following parameters of the TLS connection sho
 Session resumption lowers the time and effort required to start a (D)TLS session and increases network responsiveness.
 This is especially helpful when using short idle timeouts.
 
-RADIUS/(D)TLS clients and server SHOULD implement session resumption.
+RADIUS/(D)TLS clients and servers SHOULD implement session resumption.
 Implementations supporting session resumption MUST cache data during the initial full handshake, sufficient to allow authorization decisions to be made during resumption.
 For RADIUS/(D)TLS servers, this should preferably be done using stateless session resumption as specified in {{!RFC5077}}, to reduce the resource usage for cached sessions.
 
@@ -495,8 +495,8 @@ While RADIUS/UDP could be implemented mostly stateless (except for the requests 
 
 Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
 
-The close notification of (D)TLS or underlying connections are not fully reliable, or they might be unnecessarily kept alive by heartbeat or watchdog traffic, occupying resources.
-Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and SHOULD allow to disable idle timeout completely.
+The close notification of (D)TLS or underlying connections are not fully reliable, or connections might be unnecessarily kept alive by heartbeat or watchdog traffic, occupying resources.
+Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and it SHOULD be possible to disable idle timeouts completely.
 
 On the server side, this mostly helps avoid resource exhaustion. For clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections. Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection. These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.
 
