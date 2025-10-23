@@ -143,7 +143,7 @@ The requirement that RADIUS remain largely unchanged ensures the simplest possib
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer. See {{security_considerations}} of this document or {{RFC9765}} for more details.
 
-We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
+We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
 
 ## Default ports and shared secrets
@@ -161,11 +161,6 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 RADIUS/(D)TLS does not use separate ports for authentication, accounting and dynamic authorization changes.
 The source port is arbitrary.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
-
-RADIUS/TLS servers MUST immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
-They MUST close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.
-
-RADIUS/DTLS servers MUST silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS negotiation or a packet sent over a DTLS session established earlier.
 
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
@@ -206,7 +201,7 @@ This section defines the behavior for RADIUS/(D)TLS peers for handling of incomi
 
 ## (D)TLS requirements
 
-As defined in {{portusage}}, RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
+RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server. All data received over a TCP or TLS port is opaque for the RADIUS client or server application and must be passed to the TLS or DTLS implementation for processing. Closing TLS connections and discarding UDP datagrams are done as indicated by the (D)TLS implmentation.
 
 RADIUS/(D)TLS has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
@@ -425,7 +420,7 @@ Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are requir
 
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.  The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
-When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation.
+When a proxy receives RADIUS packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.  That is, the proxy takes responsibility for the retransmissions.  Implementations MUST take care to not completely decouple the two transports in this situation. See {{radius_packet_handling}} for details of retransmitting over DTLS transport.
 
 That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.  Those retransmissions MUST be stopped, as there is nowhere to send the reply.  Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions of the old request and discard it.
 
@@ -615,6 +610,7 @@ In contrast, RADIUS/UDP packets are usually received either quickly, or not at a
 This section discusses all specifications that are only relevant for RADIUS/DTLS.
 
 ## RADIUS packet handling
+{: #radius_packet_handling }
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
