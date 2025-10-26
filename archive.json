@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-21T00:53:56.864161+00:00",
+  "timestamp": "2025-10-26T00:57:03.758124+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4155,21 +4155,21 @@
       "id": "PR_kwDOLrzygc6sTZhs",
       "title": "Suggestions from 2025-10-03 radext emails",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/56",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "h-vn",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "These commits contain suggestions from my emails to radext on 2025-10-03. Most of them are clarifications. Main proposed changes are:\r\n* remove all TLS renegotiations 3e474a3c3b4aedd70e838d07d2815455380e7604\r\n* stop sending when Error-Cause is 406 'Unsupported Extension' 5916c67d5752b6cf3f32cb4195ed6776f6903e50\r\n\r\nCommit 738ab370157f6ec29ec04250ccc7b5bae4b08dc9 also attempts to clarify RFC 6614 response types replaced with Protocol-Error response. My understanding is that the RFC 6614 behaviour is replaced, but please check 738ab370157f6ec29ec04250ccc7b5bae4b08dc9",
       "createdAt": "2025-10-06T15:32:51Z",
-      "updatedAt": "2025-10-11T08:33:51Z",
+      "updatedAt": "2025-10-23T08:09:33Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "hvn-oct-1",
       "headRefOid": "24bb5e1f68eb787b40c74187133b00df4e0180d6",
-      "closedAt": null,
+      "closedAt": "2025-10-23T08:09:33Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -4183,7 +4183,7 @@
         },
         {
           "author": "h-vn",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> In general: It's a bit unfortunate, that this is one big pull request. Now we have to sort through everything at once and cannot discuss each issue separately.\r\n\r\nI can easily split them into individual PRs(sans e.g. the 'unwanted' commit). Let me do that and we can then continue.",
           "createdAt": "2025-10-06T16:30:48Z",
           "updatedAt": "2025-10-06T16:30:48Z"
@@ -4197,7 +4197,7 @@
         },
         {
           "author": "h-vn",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I switched this PR to a draft PR. There are things I'll suggest differently while making a note of the comments so far.",
           "createdAt": "2025-10-11T08:33:51Z",
           "updatedAt": "2025-10-11T08:33:51Z"
@@ -4290,7 +4290,7 @@
             "abbreviatedOid": "24bb5e1"
           },
           "author": "h-vn",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-10-06T16:28:36Z",
@@ -4512,18 +4512,18 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/62",
       "state": "OPEN",
       "author": "h-vn",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2025-10-15T12:56:36Z",
+      "updatedAt": "2025-10-24T15:35:28Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "assorted-commits",
-      "headRefOid": "d189eba341a9aba81991df3f3bae0ae6d034f99f",
+      "headRefOid": "defa7edf5fda5c1f33584ed54008d5bb44b4c96d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4538,10 +4538,31 @@
         },
         {
           "author": "h-vn",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> +1, other than I think the \"home server\" commit should be dropped.\r\n\r\nThat's fine with me, I just thought it looks odd that home server receives the said dynauth message types. It's correct to say that it can, even if the messages were unexpected, finish processing them and do whatever is needed.\r\n",
           "createdAt": "2025-10-15T12:56:36Z",
           "updatedAt": "2025-10-15T12:56:36Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@h-vn I've added most of the changes already, could you rebase the branch, so the PR only shows the changes that are still pending?",
+          "createdAt": "2025-10-23T08:08:53Z",
+          "updatedAt": "2025-10-23T08:08:53Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'll do it soon but not right now",
+          "createdAt": "2025-10-23T21:43:27Z",
+          "updatedAt": "2025-10-23T21:43:27Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The changes that now remain look correct. It may be useful to hold this since Margaret wrote on the list that she's working on the shepherding process. ",
+          "createdAt": "2025-10-24T15:35:28Z",
+          "updatedAt": "2025-10-24T15:35:28Z"
         }
       ],
       "reviews": []
