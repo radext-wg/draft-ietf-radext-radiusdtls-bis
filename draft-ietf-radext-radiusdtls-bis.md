@@ -171,20 +171,13 @@ RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADI
 
 ## Detecting Live Servers
 
-As RADIUS is a "hop-by-hop" protocol, a RADIUS proxy shields the client from any information about downstream servers.
-While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
-
-Within RADIUS, proxies typically only forward traffic between the NAS and RADIUS servers, and they do not generate their own response.
-As a result, when a NAS does not receive a response to a request, this could be the result of packet loss between the NAS and proxy, a problem on the proxy, loss between the RADIUS proxy and server, or a problem with the server.
-
-The absence of a reply can cause a client to deduce (incorrectly) that the proxy is unavailable.
-The client could then fail over to another server or conclude that no "live" servers are available (OKAY state in {{!RFC3539, Appendix A}}).
-This situation is made even worse when requests are sent through a proxy to multiple destinations.
-Failures in one destination may result in service outages for other destinations, if the client erroneously believes that the proxy is unresponsive.
-
 RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of the server.
 
-RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the following conditions are met:
+As RADIUS is a "hop-by-hop" protocol, RADIUS proxies shields the client from any information about downstream servers.
+While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
+The absence of a reply can cause a client to incorrectly deduce that the next-hop RADIUS server (i.e. proxy) is unavailable, while the missing response might be the cause of only one of many downstream servers being unresponsive.
+
+To avoid these issues, RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the following conditions are met:
 
 * The administrator has marked the connection as down.
 * The network stack indicates that the connection is no longer viable.
