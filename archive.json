@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-26T00:57:03.758124+00:00",
+  "timestamp": "2025-11-02T00:58:06.989892+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -62,6 +62,11 @@
       "name": "WGLC Comment",
       "description": "",
       "color": "79be9f"
+    },
+    {
+      "name": "Shepherd Comment",
+      "description": "",
+      "color": "5ee476"
     }
   ],
   "issues": [
@@ -532,6 +537,205 @@
           "updatedAt": "2025-09-11T10:27:35Z"
         }
       ]
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOLrzygc7VRJPU",
+      "title": "Remove Appendices",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/63",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "The appendices may not be suitable for a standards-track document.\nMaybe we could remove them, shorten them, ...\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/KkYANOs3hdGn0TIDCmEyTkPwZwY/)\n\nesp. eduroam is already documented in RFC 7593",
+      "createdAt": "2025-11-01T14:04:21Z",
+      "updatedAt": "2025-11-01T14:04:21Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 64,
+      "id": "I_kwDOLrzygc7VRLhb",
+      "title": "Move Section \"Detecting Live Servers\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/64",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "The section \"Detecting Live Servers\" should be moved somewhere else.\n\nAdditionally, the section should be more clear on whether it only applies to proxies or also to simple one-hop client-server setups.\n\nSuggestion was to add a \"Proxy Considerations\" section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/uOv_eU_Zo1m0D96UP4TkfRAIaak/)",
+      "createdAt": "2025-11-01T14:12:32Z",
+      "updatedAt": "2025-11-01T14:12:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 65,
+      "id": "I_kwDOLrzygc7VROKq",
+      "title": "RFC 2119 language in Security Considerations sections",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/65",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Section 7.6 \"Migrating from RADIUS/UDP to RADIUS/(D)TLS\" contains some RFC 2119 language. We need to check if some of this should be moved to other sections, to not have normative specifications in the Security Considerations section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/g5fCq-_3yXRW2gHfnsdgkJWk3ME/)",
+      "createdAt": "2025-11-01T14:21:27Z",
+      "updatedAt": "2025-11-01T14:21:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOLrzygc7VRPeO",
+      "title": "Move or remove section \"Changes from RFC6614/7360\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/66",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Section 1.2 \"Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)\" should mabye be moved from the introduction section to somewhere else, since this doc is supposed to be a standalone spec without any ties to the previous one.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/VVMzZXdELn1k0qbkwexLrRvhRfM/)\n\nMy opinion: The section should still be included in the document, but maybe as Appendix or later in the document to help people already implementing 6614/7360 to update their implementations to the new doc.",
+      "createdAt": "2025-11-01T14:27:53Z",
+      "updatedAt": "2025-11-01T14:27:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOLrzygc7VRP8j",
+      "title": "Change section title \"Changes to RADIUS\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/67",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Section 3 has the title \"Changes to RADIUS\"\nThis title might be misleading, since we don't change RADIUS/UDP.\n\nSuggestion from Margaret: \"RADIUS differences between RADIUS/TLS and RADIUS/UDP\"\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/VVMzZXdELn1k0qbkwexLrRvhRfM/)",
+      "createdAt": "2025-11-01T14:30:20Z",
+      "updatedAt": "2025-11-01T14:30:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 68,
+      "id": "I_kwDOLrzygc7VRR78",
+      "title": "Clarify section \"Duplicates and Retransmissions\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/68",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "The last paragraph of section 5.2 \"Duplicates and Retransmissions\" is not clear enough.\nWe need to revise it to make it more clear what we mean.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/yERxr_ZmkCeTMxBBpt-R4p5Q-TY/)",
+      "createdAt": "2025-11-01T14:40:53Z",
+      "updatedAt": "2025-11-01T14:40:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOLrzygc7VRS_M",
+      "title": "Clarify Head of Line Blocking and TCP delays",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/69",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "In Section 5.3 \"TCP Applications Are Not UDP Applications\", we talk about Head-of-Line blocking and possible transmission delays in TCP.\nThis text should maybe be reworded to make it more clear what we mean.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/t6wnjMLE2uKGjSR3dlglstzx9ts/)",
+      "createdAt": "2025-11-01T14:46:31Z",
+      "updatedAt": "2025-11-01T14:46:31Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 70,
+      "id": "I_kwDOLrzygc7VRTVE",
+      "title": "New section \"Implementation Considerations\" ?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/70",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "The document has some text that talks about implementation details.\nMaybe it is worth consolidating all these texts in a new \"Implementation Considerations\" section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/2FBd89X0-eI0BFm8OJi4_FgL2Vs/)",
+      "createdAt": "2025-11-01T14:48:25Z",
+      "updatedAt": "2025-11-01T14:48:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 71,
+      "id": "I_kwDOLrzygc7VRTo2",
+      "title": "Revisit Path-MTU Discovery",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/71",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Section 6.4.2 \"Client Session Management\" in the DTLS-specific section talks about PMTU discovery.\nThere may be some issues with this, we should revisit it.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/DeaIod0aX4FSlP1lIDGoPIgiUeA/)",
+      "createdAt": "2025-11-01T14:50:11Z",
+      "updatedAt": "2025-11-01T14:50:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 72,
+      "id": "I_kwDOLrzygc7VRT6q",
+      "title": "Mention of RFC 8900",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/72",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Since we deal with UDP and UDP fragmentation, we might want to mention [RFC 8900](https://www.rfc-editor.org/rfc/rfc8900.html) (\"IP Fragmentation Considered Fragile\").\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/wgGA7vwQOhanfak2WBWJoX8EUYA)",
+      "createdAt": "2025-11-01T14:51:50Z",
+      "updatedAt": "2025-11-01T14:52:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 73,
+      "id": "I_kwDOLrzygc7VRUJ-",
+      "title": "Mandatory exponential back-off",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/73",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "PR exists",
+        "Shepherd Comment"
+      ],
+      "body": "Should we require an exponential back-off for reconnection attempts?\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/O_KfVjexiWZpdkXYcGDpNg3eRS4/)",
+      "createdAt": "2025-11-01T14:53:11Z",
+      "updatedAt": "2025-11-01T19:45:34Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4517,7 +4721,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2025-10-24T15:35:28Z",
+      "updatedAt": "2025-11-01T20:53:27Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
@@ -4565,6 +4769,83 @@
           "updatedAt": "2025-10-24T15:35:28Z"
         }
       ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7LHbGA",
+          "commit": {
+            "abbreviatedOid": "defa7ed"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-01T20:53:26Z",
+          "updatedAt": "2025-11-01T20:53:27Z",
+          "comments": [
+            {
+              "originalPosition": 2,
+              "body": "If no changes to the packet format are needed, don't mentions this here.\r\n\"This section discusses the needed changes to the port usage and shared secrets ({{portusage}}).",
+              "createdAt": "2025-11-01T20:53:26Z",
+              "updatedAt": "2025-11-01T20:53:27Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 74,
+      "id": "PR_kwDOLrzygc6xAVtm",
+      "title": "better wording for 5-tuple session tracking",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/74",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "",
+      "createdAt": "2025-11-01T19:41:20Z",
+      "updatedAt": "2025-11-01T19:41:20Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "after-wglc/5tuple",
+      "headRefOid": "5b660736963763646b46c3f1f6b4dd049dc24127",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 75,
+      "id": "PR_kwDOLrzygc6xAWO8",
+      "title": "Updated wording on the exponential back-off",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/75",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "Text was suggested by Alan on the List.\r\n\r\nSee also #73",
+      "createdAt": "2025-11-01T19:45:16Z",
+      "updatedAt": "2025-11-01T22:13:17Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "after-wglc/exponential-backoff",
+      "headRefOid": "58ee20c5af37800f0906b00c60e08e3906f9a83f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
