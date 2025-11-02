@@ -676,7 +676,7 @@ The session tracking described below can be seen as an extension of that cache, 
 
 ### Server Session Management
 
-A RADIUS/DTLS server MUST track ongoing DTLS sessions for each client, based on the following 5-tuple:
+A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS sessions for each client, based on the following 5-tuple:
 
 * source IP address
 * source port
