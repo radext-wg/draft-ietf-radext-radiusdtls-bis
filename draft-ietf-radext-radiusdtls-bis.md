@@ -470,8 +470,8 @@ In this case the new connection attempt MUST NOT use TLS session resumption.
 
 
 RADIUS/(D)TLS clients MUST implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
-Implementations SHOULD choose to use an algorithm similar to the retransmission algorithm defined in {{RFC5080, Section 2.2.1}}.
-The algorithm used SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and SHOULD add a jitter.
+Using an algorithm similar to the retransmission algorithm defined in {{RFC5080, Section 2.2.1}} is RECOMMENDED.
+If an own algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and SHOULD add a jitter.
 
 Where the connection to a RADIUS/(D)TLS server is established only when there is a RADIUS packet to be sent, adding a second RADIUS packet to be send SHOULD NOT trigger an immediate reconnection attempt.
 Instead, the algorithm SHOULD continue as it would have without the new packet, but the client MAY reset the timeout for giving up reconnecting.
