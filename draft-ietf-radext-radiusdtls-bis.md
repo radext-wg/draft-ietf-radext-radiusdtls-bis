@@ -171,7 +171,7 @@ RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADI
 
 ## Detecting Live Servers
 
-RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of the server.
+RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of each connection.
 
 As RADIUS is a "hop-by-hop" protocol, RADIUS proxies shields the client from any information about downstream servers.
 While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
@@ -182,6 +182,9 @@ To avoid these issues, RADIUS/(D)TLS clients MUST mark a connection DOWN if one 
 * The administrator has marked the connection as down.
 * The network stack indicates that the connection is no longer viable.
 * The application-layer watchdog algorithm has marked it DOWN.
+
+When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS session or the connection was load balanced on the server side to a backend server that is now unresponsive.
+Therefore, the liveness check MUST be done on a per-connection basis, and a failure on one connection MUST NOT lead to all connections to this server being marked down.
 
 RADIUS/(D)TLS clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveliness of the peer in the absence of responses.
 RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
