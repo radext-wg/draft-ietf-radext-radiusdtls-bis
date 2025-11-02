@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 26 April 2026                                   23 October 2025
+Expires: 6 May 2026                                      2 November 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2026.
+   This Internet-Draft will expire on 6 May 2026.
 
 Copyright Notice
 
@@ -1214,7 +1214,8 @@ Table of Contents
    maximum size of the encapsulated DTLS packets.  This larger packet
    size may cause the UDP packet to be larger than the Path MTU (PMTU),
    which causes the packet to be fragmented.  Implementers and operators
-   should be aware of the possibility of fragmented UDP packets.
+   should be aware of the possibility of fragmented UDP packets.  For
+   details about issues with fragmentation see [RFC8900].
 
    RADIUS/DTLS nodes MUST send exactly one RADIUS packet per DTLS
    record.  This ensures that the RADIUS packets do not get fragmented
@@ -1921,6 +1922,11 @@ Table of Contents
               Architecture for Network Roaming", RFC 7593,
               DOI 10.17487/RFC7593, September 2015,
               <https://www.rfc-editor.org/rfc/rfc7593>.
+
+   [RFC8900]  Bonica, R., Baker, F., Huston, G., Hinden, R., Troan, O.,
+              and F. Gont, "IP Fragmentation Considered Fragile",
+              BCP 230, RFC 8900, DOI 10.17487/RFC8900, September 2020,
+              <https://www.rfc-editor.org/rfc/rfc8900>.
 
    [RFC9257]  Housley, R., Hoyland, J., Sethi, M., and C. A. Wood,
               "Guidance for External Pre-Shared Key (PSK) Usage in TLS",
