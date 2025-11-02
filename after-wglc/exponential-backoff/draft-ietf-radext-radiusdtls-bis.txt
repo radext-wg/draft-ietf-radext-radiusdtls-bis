@@ -924,10 +924,10 @@ Table of Contents
    RADIUS/(D)TLS clients MUST implement an algorithm for handling the
    timing of such reconnection attempts that includes an exponential
    back-off.  Using an algorithm similar to the retransmission algorithm
-   defined in [RFC5080], Section 2.2.1 is RECOMMENDED.  If an own
+   defined in [RFC5080], Section 2.2.1 is RECOMMENDED.  If a different
    algorithm is used, it SHOULD include a configurable lower and upper
    bound for the time between retries, a configurable timeout after
-   which the client gives up reconnecting and SHOULD add a jitter.
+   which the client gives up reconnecting and a jitter.
 
    Where the connection to a RADIUS/(D)TLS server is established only
    when there is a RADIUS packet to be sent, adding a second RADIUS
