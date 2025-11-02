@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 5 May 2026                                      1 November 2025
+Expires: 6 May 2026                                      2 November 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 May 2026.
+   This Internet-Draft will expire on 6 May 2026.
 
 Copyright Notice
 
@@ -926,9 +926,8 @@ Table of Contents
    back-off.  Implementations SHOULD choose to use an algorithm similar
    to the retransmission algorithm defined in [RFC5080], Section 2.2.1.
    The algorithm used SHOULD include a configurable lower and upper
-   bound for the time between retries, an (exponential) backoff, a
-   configurable timeout after which the client gives up reconnecting and
-   SHOULD add a jitter.
+   bound for the time between retries, a configurable timeout after
+   which the client gives up reconnecting and SHOULD add a jitter.
 
    Where the connection to a RADIUS/(D)TLS server is established only
    when there is a RADIUS packet to be sent, adding a second RADIUS
