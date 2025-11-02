@@ -1582,20 +1582,20 @@ They <span class="bcp14">MUST</span> close the connection and discard any data s
         <h3 id="name-detecting-live-servers">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-detecting-live-servers" class="section-name selfRef">Detecting Live Servers</a>
         </h3>
-<p id="section-3.3-1">RADIUS/(D)TLS implementations <span class="bcp14">MUST</span> utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> to determine the liveliness of each connection.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">As RADIUS is a "hop-by-hop" protocol, RADIUS proxies shields the client from any information about downstream servers.
-While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
-The absence of a reply can cause a client to incorrectly deduce that the next-hop RADIUS server (i.e. proxy) is unavailable, while the missing response might be the cause of only one of many downstream servers being unresponsive.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">To avoid these issues, RADIUS/(D)TLS clients <span class="bcp14">MUST</span> mark a connection DOWN if one or more of the following conditions are met:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">RADIUS/(D)TLS implementations <span class="bcp14">MUST</span> utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> when determining liveliness of each connection.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
+While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
+This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm. This effect may also be seen on a home servers that uses differing credential backends for each realm they service.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">To avoid these issues, RADIUS/(D)TLS clients <span class="bcp14">MUST</span> mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-4.1">
-            <p id="section-3.3-4.1.1">The administrator has marked the connection as down.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer unroutable.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-4.2">
-            <p id="section-3.3-4.2.1">The network stack indicates that the connection is no longer viable.<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-4.2.1">The transport layer, D(TLS), provides no usable connection<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-4.3">
-            <p id="section-3.3-4.3.1">The application-layer watchdog algorithm has marked it DOWN.<a href="#section-3.3-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-4.3.1">The application-layer watchdog algorithm has marked it 'DOWN'.<a href="#section-3.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.3-5">When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS session or the connection was load balanced on the server side to a backend server that is now unresponsive.
