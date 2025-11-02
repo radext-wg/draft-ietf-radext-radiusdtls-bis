@@ -171,7 +171,7 @@ RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADI
 
 ## Detecting Live Servers
 
-RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{RFC3539, Section 3.4}} to determine the liveliness of each connection.
+RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{!RFC3539, Section 3.4}} to determine the liveliness of each connection.
 
 As RADIUS is a "hop-by-hop" protocol, RADIUS proxies shields the client from any information about downstream servers.
 While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
