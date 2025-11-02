@@ -171,17 +171,17 @@ RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADI
 
 ## Detecting Live Servers
 
-RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in {{!RFC3539, Section 3.4}} to determine the liveliness of each connection.
+RADIUS/(D)TLS implementations MUST utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in {{!RFC3539, Section 3.4}} when determining liveliness of each connection.
 
-As RADIUS is a "hop-by-hop" protocol, RADIUS proxies shields the client from any information about downstream servers.
-While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.
-The absence of a reply can cause a client to incorrectly deduce that the next-hop RADIUS server (i.e. proxy) is unavailable, while the missing response might be the cause of only one of many downstream servers being unresponsive.
+As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
+While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
+This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm. This effect may also be seen on a home servers that uses differing credential backends for each realm they service.
 
-To avoid these issues, RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of the following conditions are met:
+To avoid these issues, RADIUS/(D)TLS clients MUST mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
-* The administrator has marked the connection as down.
-* The network stack indicates that the connection is no longer viable.
-* The application-layer watchdog algorithm has marked it DOWN.
+* The network stack indicates that the connection is no longer viable; such as the destination being no longer unroutable.
+* The transport layer, D(TLS), provides no usable connection
+* The application-layer watchdog algorithm has marked it 'DOWN'.
 
 When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS session or the connection was load balanced on the server side to a backend server that is now unresponsive.
 Therefore, the liveness check MUST be done on a per-connection basis, and a failure on one connection MUST NOT lead to all connections to this server being marked down.
