@@ -250,6 +250,9 @@ If implemented, it MUST use the following rules:
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
+
+If implemented, it SHOULD use the following rules:
+
 * When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess all connected peer's continued validity of the certificate path. This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
 * Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer certificate. At the time the peer certificate expires, the connection SHOULD be closed and re-opened.
 
