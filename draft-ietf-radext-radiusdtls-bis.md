@@ -50,7 +50,7 @@ informative:
 This document defines transport profiles for running the Remote
 Authentication Dial In User Service (RADIUS) over Transport Layer
 Security (TLS) and Datagram Transport Layer Security (DTLS), allowing
-the secure and reliable transport of RADIUS messages.  RADIS/TLS and
+the secure and reliable transport of RADIUS messages.  RADIUS/TLS and
 RADIUS/DTLS are collectively referred to as RadSec.
 
 --- middle
@@ -62,7 +62,7 @@ RADIUS/DTLS are collectively referred to as RadSec.
 This document defines transport profiles for running Remote
 Authentication Dial In User Service (RADIUS) over Transport Layer
 Security (TLS) {{!RFC8446}},{{!RFC5246}} over TCP {{!STD7}} and Datagram
-Transport Layer Security (DTLS) {{!6347}},{{!9147}} over UDP {{!STD6}}.,
+Transport Layer Security (DTLS) {{!RFC6347}},{{!RFC9147}} over UDP {{!STD6}}.,
 allowing secure and reliable transport of RADIUS messages.  RADIUS/TLS
 and RADIUS/DTLS are collectively referred to as RadSec.
 
@@ -103,9 +103,9 @@ RADIUS/UDP:
 : RADIUS transported over UDP as defined in {{RFC2865}}.
 
 (D)TLS handshake message:
-: As defined in DTLS {{RFC9147}}.
+: As defined in TLS {{5246}} and DTLS {{RFC9147}}.
 
-(D)TLS record:
+DTLS record:
 : As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
 
 (D)TLS connection:
