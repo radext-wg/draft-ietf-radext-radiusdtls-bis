@@ -972,7 +972,7 @@ Table of Contents
 
    Implementations SHOULD have configurable limits on the number of open
    connections.  When this maximum is reached and a new session is
-   started, the server MUST either drop an old session in order to open
+   needed, the server MUST either drop an old session in order to open
    the new one or not create a new session.
 
    The close notification of (D)TLS or underlying connections are not
