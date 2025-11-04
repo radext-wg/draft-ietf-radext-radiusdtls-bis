@@ -953,7 +953,7 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 
 --- back
 
-## Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
+# Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
 The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
