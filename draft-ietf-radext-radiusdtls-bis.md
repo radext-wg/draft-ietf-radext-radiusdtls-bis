@@ -59,17 +59,11 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 This document defines transport profiles for running Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) {{!RFC8446}}, {{!RFC5246}} over TCP {{!STD7}} and Datagram Transport Layer Security (DTLS) {{!RFC6347}}, {{!RFC9147}} over UDP {{!STD6}}., allowing secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 
-The RADIUS protocol is a widely deployed authentication, authorization
-and accounting solution defined in {{!RFC2865}}, {{!RFC2866}},
-{{!RFC5176}} and others.  Deployment experience has shown several
-shortcomings, such as its dependency on the unreliable transport
-protocol, UDP, and its lack of confidentiality for large parts of
-RADIUS messages.  Additionally, the confidentiality and integrity
-mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has
-been proven to be insecure.  Although RADIUS/(D)TLS does not remove
-the MD5-based mechanisms, it adds confidentiality and integrity
-protection through the TLS layer.  For an updated version of
-RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.
+The RADIUS protocol is a widely deployed authentication, authorization and accounting solution defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.
+Deployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol, UDP, and its lack of confidentiality for large parts of RADIUS messages.
+Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has been proven to be insecure.
+Although RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
+For an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.
 
 # Conventions and Terminology
 
