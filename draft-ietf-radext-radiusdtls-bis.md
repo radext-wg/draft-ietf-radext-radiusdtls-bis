@@ -244,7 +244,7 @@ Alternative methods, such as post-handshake certificate-based client authenticat
 All RADIUS/(D)TLS server implementations MUST implement this model.
 RADIUS/(D)TLS client implementations SHOULD implement this model, but MUST implement either this or TLS-PSK.
 
-If implemented, it MUST use the following rules:
+If implemented, the following rules apply:
 
 * Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions. This list SHOULD be application specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
