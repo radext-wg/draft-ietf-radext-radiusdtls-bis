@@ -337,41 +337,41 @@ Table of Contents
 
 3.3.  Detecting Live Servers
 
-   As RADIUS is a "hop-by-hop" protocol, a RADIUS proxy shields the
-   client from any information about downstream servers.  While the
-   client may be able to deduce the operational state of the local
-   server (i.e., proxy), it cannot make any determination about the
-   operational state of the downstream servers.
+   RADIUS/(D)TLS implementations MUST utilize the existence of a TCP,
+   TLS or DTLS connection where applicable in addition to the
+   application-layer watchdog defined in [RFC3539], Section 3.4 when
+   determining liveliness of each connection.
 
-   Within RADIUS, proxies typically only forward traffic between the NAS
-   and RADIUS servers, and they do not generate their own response.  As
-   a result, when a NAS does not receive a response to a request, this
-   could be the result of packet loss between the NAS and proxy, a
-   problem on the proxy, loss between the RADIUS proxy and server, or a
-   problem with the server.
+   As RADIUS is a "hop-by-hop" protocol, proxies hide information about
+   the topology downstream to the client.  While the client may be able
+   to deduce the operational state of the next-hop (i.e. proxy), it is
+   unable to determine the operational state of any hops beyond it.
+   This is particularly problematic for topologies that aggregate
+   multiple routes for differing realms behind a proxy where the absence
+   of a reply could lead to a client to incorrectly deduce that the
+   proxy is unavailable when the cause was an unresponsive downstream
+   hop for a single realm.  This effect may also be seen on a home
+   servers that uses differing credential backends for each realm they
+   service.
 
-   The absence of a reply can cause a client to deduce (incorrectly)
-   that the proxy is unavailable.  The client could then fail over to
-   another server or conclude that no "live" servers are available (OKAY
-   state in [RFC3539], Appendix A).  This situation is made even worse
-   when requests are sent through a proxy to multiple destinations.
-   Failures in one destination may result in service outages for other
-   destinations, if the client erroneously believes that the proxy is
-   unresponsive.
-
-   RADIUS/(D)TLS implementations MUST utilize the existence of a TCP/
-   DTLS connection along with the application-layer watchdog defined in
-   [RFC3539], Section 3.4 to determine the liveliness of the server.
-
-   RADIUS/(D)TLS clients MUST mark a connection DOWN if one or more of
-   the following conditions are met:
-
-   *  The administrator has marked the connection as down.
+   To avoid these issues, RADIUS/(D)TLS clients MUST mark a connection
+   'DOWN' (as labelled by [RFC3539], Section 3.4) if one or more of the
+   following conditions are met:
 
    *  The network stack indicates that the connection is no longer
-      viable.
+      viable; such as the destination being no longer unroutable.
 
-   *  The application-layer watchdog algorithm has marked it DOWN.
+   *  The transport layer, D(TLS), provides no usable connection
+
+   *  The application-layer watchdog algorithm has marked it 'DOWN'.
+
+   When a client opens multiple connections to a server, it is also
+   possible that only one of the connections is unresponsive, e.g.
+   because the server deleted the DTLS session or the connection was
+   load balanced on the server side to a backend server that is now
+   unresponsive.  Therefore, the liveness check MUST be done on a per-
+   connection basis, and a failure on one connection MUST NOT lead to
+   all connections to this server being marked down.
 
    RADIUS/(D)TLS clients MUST implement the Status-Server extension as
    described in [RFC5997] as the application level watchdog to detect

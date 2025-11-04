@@ -1582,35 +1582,32 @@ They <span class="bcp14">MUST</span> close the connection and discard any data s
         <h3 id="name-detecting-live-servers">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-detecting-live-servers" class="section-name selfRef">Detecting Live Servers</a>
         </h3>
-<p id="section-3.3-1">As RADIUS is a "hop-by-hop" protocol, a RADIUS proxy shields the client from any information about downstream servers.
-While the client may be able to deduce the operational state of the local server (i.e., proxy), it cannot make any determination about the operational state of the downstream servers.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">Within RADIUS, proxies typically only forward traffic between the NAS and RADIUS servers, and they do not generate their own response.
-As a result, when a NAS does not receive a response to a request, this could be the result of packet loss between the NAS and proxy, a problem on the proxy, loss between the RADIUS proxy and server, or a problem with the server.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">The absence of a reply can cause a client to deduce (incorrectly) that the proxy is unavailable.
-The client could then fail over to another server or conclude that no "live" servers are available (OKAY state in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#appendix-A" class="relref">Appendix A</a></span>).
-This situation is made even worse when requests are sent through a proxy to multiple destinations.
-Failures in one destination may result in service outages for other destinations, if the client erroneously believes that the proxy is unresponsive.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.3-4">RADIUS/(D)TLS implementations <span class="bcp14">MUST</span> utilize the existence of a TCP/DTLS connection along with the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> to determine the liveliness of the server.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
-<p id="section-3.3-5">RADIUS/(D)TLS clients <span class="bcp14">MUST</span> mark a connection DOWN if one or more of the following conditions are met:<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">RADIUS/(D)TLS implementations <span class="bcp14">MUST</span> utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> when determining liveliness of each connection.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
+While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
+This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm. This effect may also be seen on a home servers that uses differing credential backends for each realm they service.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">To avoid these issues, RADIUS/(D)TLS clients <span class="bcp14">MUST</span> mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3-6.1">
-            <p id="section-3.3-6.1.1">The administrator has marked the connection as down.<a href="#section-3.3-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3-4.1">
+            <p id="section-3.3-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer unroutable.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.3-6.2">
-            <p id="section-3.3-6.2.1">The network stack indicates that the connection is no longer viable.<a href="#section-3.3-6.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.3-4.2">
+            <p id="section-3.3-4.2.1">The transport layer, D(TLS), provides no usable connection<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.3-6.3">
-            <p id="section-3.3-6.3.1">The application-layer watchdog algorithm has marked it DOWN.<a href="#section-3.3-6.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.3-4.3">
+            <p id="section-3.3-4.3.1">The application-layer watchdog algorithm has marked it 'DOWN'.<a href="#section-3.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.3-7">RADIUS/(D)TLS clients <span class="bcp14">MUST</span> implement the Status-Server extension as described in <span>[<a href="#RFC5997" class="cite xref">RFC5997</a>]</span> as the application level watchdog to detect the liveliness of the peer in the absence of responses.
+<p id="section-3.3-5">When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS session or the connection was load balanced on the server side to a backend server that is now unresponsive.
+Therefore, the liveness check <span class="bcp14">MUST</span> be done on a per-connection basis, and a failure on one connection <span class="bcp14">MUST NOT</span> lead to all connections to this server being marked down.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-6">RADIUS/(D)TLS clients <span class="bcp14">MUST</span> implement the Status-Server extension as described in <span>[<a href="#RFC5997" class="cite xref">RFC5997</a>]</span> as the application level watchdog to detect the liveliness of the peer in the absence of responses.
 RADIUS/(D)TLS servers <span class="bcp14">MUST</span> be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field (<span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-2.4" class="relref">Section 2.4</a></span>), it is <span class="bcp14">RECOMMENDED</span> that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
-This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.<a href="#section-3.3-7" class="pilcrow">¶</a></p>
-<p id="section-3.3-8">For RADIUS/TLS, the peers <span class="bcp14">MAY</span> send TCP keepalives as described in <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>], <a href="https://rfc-editor.org/rfc/rfc9293#section-3.8.4" class="relref">Section 3.8.4</a></span>.
+This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.<a href="#section-3.3-6" class="pilcrow">¶</a></p>
+<p id="section-3.3-7">For RADIUS/TLS, the peers <span class="bcp14">MAY</span> send TCP keepalives as described in <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>], <a href="https://rfc-editor.org/rfc/rfc9293#section-3.8.4" class="relref">Section 3.8.4</a></span>.
 For RADIUS/DTLS connections, the peers <span class="bcp14">MAY</span> send periodic keepalives as defined in <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span>.
 This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
-These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.<a href="#section-3.3-8" class="pilcrow">¶</a></p>
+These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.<a href="#section-3.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
