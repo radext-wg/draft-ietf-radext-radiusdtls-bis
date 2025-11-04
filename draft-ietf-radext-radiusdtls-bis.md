@@ -221,7 +221,7 @@ RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.
 
-For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293, Section 3.8.4}}.
+For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293}}, Section 3.8.4.
 For RADIUS/DTLS connections, the peers MAY send periodic keepalives as defined in {{RFC6520}}.
 This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
 These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
