@@ -1737,14 +1737,16 @@ The database may enumerate acceptable clients either by IP address or by a name 
                   <p id="section-4.2.1-6.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.2">
-                  <p id="section-4.2.1-6.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.
-For clients configured by IP range, the certificate <span class="bcp14">MUST</span> be valid for the IP address the client is currently using.<a href="#section-4.2.1-6.3.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.3">
-                  <p id="section-4.2.1-6.3.2.3.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-4.2.1-6.3.2.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.3.1">Some servers <span class="bcp14">MAY</span> be configured to accept a client coming from a range or set of IP addresses.  In this case, the server <span class="bcp14">MUST</span> verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server <span class="bcp14">MUST</span> match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-4.2.1-6.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.4">
-                  <p id="section-4.2.1-6.3.2.4.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.3.2.4.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-4.2.1-6.3.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-4.2.1-6.3.2.5">
+                  <p id="section-4.2.1-6.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
