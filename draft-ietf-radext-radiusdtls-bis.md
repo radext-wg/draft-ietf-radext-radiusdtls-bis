@@ -117,12 +117,6 @@ UDP datagram:
 UDP (datagram) data:
 : The data payload of a UDP datagram.
 
-IP (packet) data:
-: The data payload of an IP packet.
-
-IP packet:
-: An IP packet, including the header and data.
-
 RadSec client:
 : A RadSec instance that initiates a new connection.
 
