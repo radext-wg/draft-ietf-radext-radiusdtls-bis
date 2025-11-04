@@ -103,7 +103,7 @@ RADIUS/UDP:
 : RADIUS transported over UDP as defined in {{RFC2865}}.
 
 (D)TLS handshake message:
-: As defined in TLS {{5246}} and DTLS {{RFC9147}}.
+: As defined in TLS {{RFC5246}} and DTLS {{RFC9147}}.
 
 DTLS record:
 : As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
