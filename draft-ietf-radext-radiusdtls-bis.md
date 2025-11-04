@@ -231,8 +231,7 @@ RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies
 to RADIUS/DTLS.
 
 Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
-Client implementations SHOULD implement both, but MUST implement at
-least one of RADIUS/TLS or RADIUS/DTLS.
+Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
 ## (D)TLS requirements
 
