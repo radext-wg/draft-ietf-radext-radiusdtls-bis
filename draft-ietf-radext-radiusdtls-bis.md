@@ -224,11 +224,8 @@ These liveliness checks are essentially redundant in the presence of an applicat
 
 This section defines the behavior for RADIUS/(D)TLS peers for handling of incoming packets and establishment of a (D)TLS session.
 
-Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification
-applies for both RADIUS/TLS and RADIUS/DTLS.  Where "TLS" or
-"RADIUS/TLS" is mentioned, the specification only applies to
-RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies
-to RADIUS/DTLS.
+Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
+Where "TLS" or "RADIUS/TLS" is mentioned, the specification only applies to RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies to RADIUS/DTLS.
 
 Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
 Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
