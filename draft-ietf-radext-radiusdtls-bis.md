@@ -459,11 +459,11 @@ RADIUS/(D)TLS clients may need to reconnect to a server that rejected their conn
 In contrast to RADIUS/UDP, RADIUS/(D)TLS establishes a (D)TLS session before transmitting any RADIUS packets.
 Therefore, in addition to retransmission of RADIUS packets, RADIUS/(D)TLS clients also have to deal with connection retries.
 
-RADIUS/(D)TLS clients MUST NOT immediately reconnect to a RADIUS/(D)TLS server after a failed connection attempt and MUST have a lower bound for the time between retries.
-The lower bound SHOULD be configurable.
-As only exception, a RADIUS/(D)TLS client MAY reconnect immediately iff the client attempted to resume a TLS session and the server closed the connection.
-In this case the new connection attempt MUST NOT use TLS session resumption.
-
+Except in cases where an attempted resumption of a TLS session was closed by the RADIUS/(D)TLS server, RADIUS/(D)TLS clients MUST NOT immediately reconnect to a server after a failed connection attempt.
+A connection attempt is treated as failed if it fails at any point until a the (D)TLS session is established successfully.
+Typical reconnections MUST have a lower bound for the time in between retries.
+The lower bound SHOULD be configurable, but MUST NOT be less than 0.5 seconds.
+In cases where the server closes the connection on an attempted TLS session resumption, the client MUST NOT use TLS session resumption for the following connection attempt.
 
 RADIUS/(D)TLS clients MUST implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
 Using an algorithm similar to the retransmission algorithm defined in {{RFC5080, Section 2.2.1}} is RECOMMENDED.
