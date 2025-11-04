@@ -370,7 +370,8 @@ Due to the use of one single port for all packet types, clients might send packe
 A server MAY thereofre respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}, to aleviate this situation and signal that it was unable to process a packet. The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.
 
-RADIUS/(D)TLS clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet. Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
+RADIUS/(D)TLS clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description on Protocol-Error.
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 
