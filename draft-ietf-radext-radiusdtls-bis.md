@@ -127,7 +127,7 @@ IP packet:
 : An IP packet, including the header and data.
 
 RadSec client:
-: a RadSec instance that initiates a new connection.
+: A RadSec instance that initiates a new connection.
 
 RadSec server:
 : A RadSec instance that listens on a RADIUS-over-(D)TLS port and accepts new connections.
