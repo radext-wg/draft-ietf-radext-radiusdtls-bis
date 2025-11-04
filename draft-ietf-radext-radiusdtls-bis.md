@@ -47,11 +47,8 @@ informative:
 
 --- abstract
 
-This document defines transport profiles for running the Remote
-Authentication Dial In User Service (RADIUS) over Transport Layer
-Security (TLS) and Datagram Transport Layer Security (DTLS), allowing
-the secure and reliable transport of RADIUS messages.  RADIUS/TLS and
-RADIUS/DTLS are collectively referred to as RadSec.
+This document defines transport profiles for running the Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.
+RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 
 --- middle
 
