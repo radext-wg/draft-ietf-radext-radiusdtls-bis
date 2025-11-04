@@ -109,7 +109,7 @@ RADIUS/UDP:
 : As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
 
 (D)TLS connection:
-: A single DTLS communication channel (with DTLS this is a synonym for Association).
+: A single (D)TLS communication channel (with DTLS this is a synonym for Association).
 
 UDP datagram:
 : A UDP packet, including the header and data.
