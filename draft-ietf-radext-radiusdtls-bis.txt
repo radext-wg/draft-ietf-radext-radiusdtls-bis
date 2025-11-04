@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 6 May 2026                                      2 November 2025
+Expires: 8 May 2026                                      4 November 2025
 
 
    (Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 May 2026.
+   This Internet-Draft will expire on 8 May 2026.
 
 Copyright Notice
 
@@ -459,7 +459,7 @@ Table of Contents
    RADIUS/(D)TLS client implementations SHOULD implement this model, but
    MUST implement either this or TLS-PSK.
 
-   If implemented, it MUST use the following rules:
+   If implemented, the following rules apply:
 
    *  Implementations MUST allow the configuration of a trust anchor
       (i.e. a list of trusted Certificate Authorities (CAs)[RFC5280])
