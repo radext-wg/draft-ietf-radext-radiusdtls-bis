@@ -1,8 +1,8 @@
 ---
 entity:
   SELF: "[RFCXXXX]"
-title: "(Datagram) Transport Layer Security ((D)TLS) Encryption for RADIUS"
-abbrev: "RADIUS over (D)TLS"
+title: "RadSec: Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"
+abbrev: "RadSec: RADIUS over TLS and DTLS"
 category: std
 
 obsoletes: 6614, 7360
@@ -47,9 +47,8 @@ informative:
 
 --- abstract
 
-This document specifies transport profiles for RADIUS using Transport Layer Security (TLS) over TCP or Datagram Transport Layer Security (DTLS) over UDP as the transport protocol.
-This enables encrypting the RADIUS traffic as well as dynamic trust relationships between RADIUS servers.
-The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS) and combines them in this specification.
+This document defines transport profiles for running the Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.
+RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 
 --- middle
 
@@ -57,60 +56,65 @@ The specification obsoletes the experimental specifications in RFC 6614 (RADIUS/
 
 # Introduction
 
-The RADIUS protocol is a widely deployed authentication, authorization and accounting solution.
-It is defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.
-The deployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol UDP and the lack of confidentiality for large parts of its packet payload.
-Additionally the confidentiality and integrity mechanisms rely on the MD5 algorithm, which has been proven to be insecure.
+This document defines transport profiles for running Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) {{!RFC8446}}, {{!RFC5246}} over TCP {{!STD7}} and Datagram Transport Layer Security (DTLS) {{!RFC6347}}, {{!RFC9147}} over UDP {{!STD6}}., allowing secure and reliable transport of RADIUS messages.
+RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
+
+The RADIUS protocol is a widely deployed authentication, authorization and accounting solution defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.
+Deployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol, UDP, and its lack of confidentiality for large parts of RADIUS messages.
+Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has been proven to be insecure.
 Although RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
-For an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}
+For an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.
 
-## Purpose of RADIUS/(D)TLS
-
-The main focus of RADIUS/TLS and RADIUS/DTLS is to provide means to secure communication between RADIUS peers using TLS or DTLS.
-The most important use of this specification lies in roaming environments where RADIUS packets need to be sent across insecure or untrusted networks.
-An example for a worldwide roaming environment that uses RADIUS over TLS to secure communication is eduroam as described in {{?RFC7593}}.
-
-## Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
-
-The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
-
-* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
-  These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
-* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
-* RFC6614 allowed use of TLS compression, this document forbids it.
-* RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
-* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
-* The specification regarding steps for certificate verification has been updated.
-* {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
-* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
-* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
-* The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
-
-The rationales behind some of these changes are outlined in {{design_decisions}}.
-
-# Conventions and Definitions
+# Conventions and Terminology
 
 {::boilerplate bcp14-tagged}
 
-Within this document we will use the following terms:
+The following terminology is used in this document:
 
-RADIUS/(D)TLS node:
-: a RADIUS-over-(D)TLS client or server
+RADIUS packet:
+: As defined in {{RFC2865}}.
 
-RADIUS/(D)TLS client:
-: a RADIUS-over-(D)TLS instance that initiates a new connection
+RADIUS packet type:
+: As defined in {{RFC2865}}.
 
-RADIUS/(D)TLS server:
-: a RADIUS-over-(D)TLS instance that listens on a RADIUS-over-(D)TLS port and accepts new connections
+RADIUS/TLS:
+: A RADIUS exchange transmitted using TLS over TCP.
+
+RADIUS/DTLS:
+: A RADIUS exchange transmitted using DTLS over UDP.
+
+RadSec:
+: A collective term for RADIUS/TLS and RADIUS/DTLS.
 
 RADIUS/UDP:
-: a classic RADIUS transport over UDP as defined in {{RFC2865}}
+: RADIUS transported over UDP as defined in {{RFC2865}}.
 
-Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
-Where "TLS" or "RADIUS/TLS" is mentioned, the specification only applies to RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies to RADIUS/DTLS.
+(D)TLS handshake message:
+: As defined in TLS {{RFC5246}} and DTLS {{RFC9147}}.
 
-Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
-Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
+TLS record:
+: As defined in TLS {{RFC5246}}.
+
+DTLS record:
+: As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
+
+(D)TLS connection:
+: A single (D)TLS communication channel (with DTLS this is a synonym for Association).
+
+UDP datagram:
+: A UDP packet, including the header and data.
+
+UDP (datagram) data:
+: The data payload of a UDP datagram.
+
+RadSec client:
+: A RadSec instance that initiates a new connection.
+
+RadSec server:
+: A RadSec instance that listens on a RADIUS-over-(D)TLS port and accepts new connections.
+
+RadSec endpoint:
+: A RADIUS-over-(D)TLS client or server
 
 # Changes to RADIUS
 
@@ -191,7 +195,7 @@ RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.
 
-For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{!RFC9293, Section 3.8.4}}.
+For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{RFC9293, Section 3.8.4}}.
 For RADIUS/DTLS connections, the peers MAY send periodic keepalives as defined in {{RFC6520}}.
 This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
 These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
@@ -199,6 +203,12 @@ These liveliness checks are essentially redundant in the presence of an applicat
 # Packet / Connection Handling
 
 This section defines the behavior for RADIUS/(D)TLS peers for handling of incoming packets and establishment of a (D)TLS session.
+
+Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
+Where "TLS" or "RADIUS/TLS" is mentioned, the specification only applies to RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies to RADIUS/DTLS.
+
+Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
+Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
 ## (D)TLS requirements
 
@@ -883,7 +893,7 @@ This section will discuss the rationale behind significant changes from the expe
 
 With the merging of RADIUS/TLS and RADIUS/DTLS the question of mandatory-to-implement transports arose.
 In order to avoid incompatibilities, there were two possibilities: Either mandate one of the transports for all implementations or mandate the implementation of both transports for either the server or the client.
-As of the time writing, RADIUS/TLS is widely adapted for some use cases (see {{lessons_learned}}).
+As of the time writing, RADIUS/TLS is widely adapted for some use cases.
 However, TLS has some serious drawbacks when used for RADIUS transport.
 Especially the sequential nature of the connection and the connected issues like Head-of-Line blocking could create problems.
 
@@ -923,47 +933,23 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 
 --- back
 
-# Lessons learned from deployments of the Experimental {{RFC6614}}
-{: #lessons_learned}
+# Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
-There are at least two major (world-scale) deployments of {{RFC6614}}.
-This section will discuss lessons learned from these deployments, that influenced this document.
+The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
-## eduroam
+* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
+  These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
+* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
+* RFC6614 allowed use of TLS compression, this document forbids it.
+* RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
+* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
+* The specification regarding steps for certificate verification has been updated.
+* {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
+* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
+* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
+* The response to unwanted packets has changed. Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
-eduroam is a globally operating Wi-Fi roaming consortium exclusively for persons in Research and Education. For an extensive background on eduroam and its authentication fabric architecture, refer to {{?RFC7593}}.
-
-Over time, more than a dozen out of 100+ national branches of eduroam used RADIUS/TLS in production to secure their country-to-country RADIUS proxy connections. This number is big enough to attest that the protocol does work, and scales. The number is also low enough to wonder why RADIUS/UDP continued to be used by a majority of country deployments despite its significant security issues.
-
-Operational experience reveals that the main reason is related to the choice of PKIX certificates for securing the proxy interconnections. Compared to shared secrets, certificates are more complex to handle in multiple dimensions:
-
-* Lifetime: PKIX certificates have an expiry date, and need administrator attention and expertise for their renewal
-* Validation: The validation of a certificate (both client and server) requires contacting a third party to verify the revocation status. This either takes time during session setup (OCSP checks) or requires the presence of a fresh CRL on the server - this in turn requires regular update of that CRL.
-* Issuance: PKIX certificates carry properties in the Subject and extensions that need to be vetted. Depending on the CA policy, a certificate request may need significant human intervention to be verified. In particular, the authorization of a requester to operate a server for a particular NAI realm needs to be verified. This rules out public "browser-trusted" CAs; eduroam is operating a special-purpose CA for eduroam RADIUS/TLS purposes.
-* Automatic failure over time: CRL refresh and certificate renewal must be attended to regularly. Failure to do so leads to failure of the authentication service. Among other reasons, employee churn with incorrectly transferred or forgotten responsibilities is a risk factor.
-
-It appears that these complexities often outweigh the argument of improved security; and a fallback to RADIUS/UDP is seen as the more appealing option.
-
-It can be considered an important result of the experiment in {{RFC6614}} that providing less complex ways of operating RADIUS/TLS are required. The more thoroughly specified provisions in the current document towards TLS-PSK and raw public keys are a response to this insight.
-
-On the other hand, using RADIUS/TLS in combination with Dynamic Discovery as per {{RFC7585}} necessitates the use of PKIX certificates. So, the continued ability to operate with PKIX certificates is also important and cannot be discontinued without sacrificing vital functionality of large roaming consortia.
-
-## Wireless Broadband Alliance's OpenRoaming
-
-OpenRoaming is a globally operating Wi-Fi roaming consortium for the general public, operated by the Wireless Broadband Alliance (WBA). With its (optional) settled usage of hotspots, the consortium requires both RADIUS authentication as well as RADIUS accounting.
-
-The consortium operational procedures were defined in the late 2010s when {{RFC6614}} and {{RFC7585}} were long available. The consortium decided to fully base itself on these two RFCs.
-
-In this architecture, using PSKs or raw public keys is not an option. The complexities around PKIX certificates as discussed in the previous section are believed to be controllable: the consortium operates its own special-purpose CA and can rely on a reliable source of truth for operator authorization (becoming an operator requires a paid membership in WBA); expiry and revocation topics can be expected to be dealt with as high-priority because of the monetary implications in case of infrastructure failure during settled operation.
-
-## Participating in more than one roaming consortium
-
-It is possible for a RADIUS/TLS (home) server to participate in more than one roaming consortium, i.e. to authenticate its users to multiple clients from distinct consortia, which present client certificates from their respective consortium's CA; and which expect the server to present a certificate from the matching CA.
-
-The eduroam consortium has chosen to cooperate with (the settlement-free parts of) OpenRoaming to allow eduroam users to log in to (settlement-free) OpenRoaming hotspots.
-eduroam RADIUS/TLS servers thus may be contacted by OpenRoaming clients expecting an OpenRoaming server certificate, and by eduroam clients expecting an eduroam server certificate.
-It is therefore necessary to decide on the certificate to present during TLS session establishment. To make that decision, the availability of Trusted CA Indication in the client TLS message is important.
-It can be considered a result of the experiment in {{RFC6614}} that Trusted CA Indication can be an asset for inter-connectivity of multiple roaming consortia.
+The rationales behind some of these changes are outlined in {{design_decisions}}.
 
 # Acknowledgments
 {:numbered="false"}
