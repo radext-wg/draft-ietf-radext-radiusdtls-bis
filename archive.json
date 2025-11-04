@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-02T00:58:06.989892+00:00",
+  "timestamp": "2025-11-04T00:54:56.159235+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -705,17 +705,18 @@
       "id": "I_kwDOLrzygc7VRT6q",
       "title": "Mention of RFC 8900",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/72",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
+        "PR exists",
         "Shepherd Comment"
       ],
       "body": "Since we deal with UDP and UDP fragmentation, we might want to mention [RFC 8900](https://www.rfc-editor.org/rfc/rfc8900.html) (\"IP Fragmentation Considered Fragile\").\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/wgGA7vwQOhanfak2WBWJoX8EUYA)",
       "createdAt": "2025-11-01T14:51:50Z",
-      "updatedAt": "2025-11-01T14:52:07Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-02T16:53:33Z",
+      "closedAt": "2025-11-02T16:53:33Z",
       "comments": []
     },
     {
@@ -723,7 +724,7 @@
       "id": "I_kwDOLrzygc7VRUJ-",
       "title": "Mandatory exponential back-off",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/73",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -733,7 +734,47 @@
       ],
       "body": "Should we require an exponential back-off for reconnection attempts?\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/O_KfVjexiWZpdkXYcGDpNg3eRS4/)",
       "createdAt": "2025-11-01T14:53:11Z",
-      "updatedAt": "2025-11-01T19:45:34Z",
+      "updatedAt": "2025-11-02T17:07:52Z",
+      "closedAt": "2025-11-02T17:07:52Z",
+      "comments": []
+    },
+    {
+      "number": 76,
+      "id": "I_kwDOLrzygc7VXPq5",
+      "title": "Clarify that the TCP and UDP are the only transport protocols this draft discusses",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/76",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This draft could be a more specific to say that:\n\n- RADIUS/TLS is RADIUS/TLS/TCP; and\n- RADIUS/DTLS is RADIUS/DTLS/UDP\n\nThis is to clarify that SCTP, QUIC and other transports are not implicitly included just because TLS or DTLS can run on top, or within, them.\n\nAn example: Quoting DTLS 1.3 RFC, section [4.4](https://www.rfc-editor.org/rfc/rfc9147.html#section-4.4-4)\n\n> For DTLS over UDP, the upper layer protocol SHOULD be allowed to obtain the PMTU estimate maintained in the IP layer.\nFor DTLS over **DCCP**, the upper layer protocol SHOULD be allowed to obtain the current estimate of the PMTU.\nFor DTLS over **TCP** or **SCTP**, which automatically fragment and reassemble datagrams, there is no PMTU limitation. However, the upper layer protocol MUST NOT write any record that exceeds the maximum record size of 2^14 bytes.\n\n",
+      "createdAt": "2025-11-02T15:15:44Z",
+      "updatedAt": "2025-11-03T17:36:36Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It's already included in the abstract, but maybe worth keeping in mind when reading through the document again, to see if we can add this at another point in the document as well to be absolutely clear.",
+          "createdAt": "2025-11-02T16:44:41Z",
+          "updatedAt": "2025-11-02T16:44:41Z"
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "id": "I_kwDOLrzygc7VnCaq",
+      "title": "Immediately closing a resumed session",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/85",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft says:\n\n> If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.\n\nWhat does it mean to be \"closed immediately\"?  Is that counted by a certain amount of time?  Is that counted by the number of messages exchanged after the session establishment?",
+      "createdAt": "2025-11-03T21:14:23Z",
+      "updatedAt": "2025-11-03T21:14:23Z",
       "closedAt": null,
       "comments": []
     }
@@ -4797,7 +4838,7 @@
       "id": "PR_kwDOLrzygc6xAVtm",
       "title": "better wording for 5-tuple session tracking",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/74",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4806,17 +4847,19 @@
       ],
       "body": "",
       "createdAt": "2025-11-01T19:41:20Z",
-      "updatedAt": "2025-11-01T19:41:20Z",
+      "updatedAt": "2025-11-02T18:54:38Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "after-wglc/5tuple",
       "headRefOid": "5b660736963763646b46c3f1f6b4dd049dc24127",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-02T17:32:27Z",
+      "mergedAt": "2025-11-02T17:32:27Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "fb795448c8b007521941dd81ffff871517bb4f82"
+      },
       "comments": [],
       "reviews": []
     },
@@ -4825,7 +4868,7 @@
       "id": "PR_kwDOLrzygc6xAWO8",
       "title": "Updated wording on the exponential back-off",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4834,13 +4877,368 @@
       ],
       "body": "Text was suggested by Alan on the List.\r\n\r\nSee also #73",
       "createdAt": "2025-11-01T19:45:16Z",
-      "updatedAt": "2025-11-01T22:13:17Z",
+      "updatedAt": "2025-11-02T18:54:35Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "after-wglc/exponential-backoff",
-      "headRefOid": "58ee20c5af37800f0906b00c60e08e3906f9a83f",
+      "headRefOid": "8fd0551bcfb32ae89d7a7a1bdadaf74766226c17",
+      "closedAt": "2025-11-02T17:07:39Z",
+      "mergedAt": "2025-11-02T17:07:39Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "25d33c8d4b75d3dc8c0e2810e983890aca7534b8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7LL0Ql",
+          "commit": {
+            "abbreviatedOid": "8fd0551"
+          },
+          "author": "meadmaker",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-02T17:03:44Z",
+          "updatedAt": "2025-11-02T17:03:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "id": "PR_kwDOLrzygc6xESOt",
+      "title": "Include a reference to RFC8900 (IP Fragmentation considered fragile)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/77",
+      "state": "MERGED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Shepherd Comment"
+      ],
+      "body": "See also #72",
+      "createdAt": "2025-11-02T16:07:17Z",
+      "updatedAt": "2025-11-02T18:54:37Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "after-wglc/mention-rfc8900",
+      "headRefOid": "34220e3a25cc84ddfc7de2c7acc0aee2435e1679",
+      "closedAt": "2025-11-02T16:52:44Z",
+      "mergedAt": "2025-11-02T16:52:44Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "f54d541935482420e955d8e285889dc81f1f79fe"
+      },
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me",
+          "createdAt": "2025-11-02T16:08:15Z",
+          "updatedAt": "2025-11-02T16:08:15Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 78,
+      "id": "PR_kwDOLrzygc6xEil7",
+      "title": "remove not yet defined details about protocol error",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/78",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Limit the details about protocol-error, since a propoer protocol-error draft only just started.",
+      "createdAt": "2025-11-02T17:48:01Z",
+      "updatedAt": "2025-11-02T17:57:00Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-update-protocol-error",
+      "headRefOid": "4dd7212eeb6f8f4bdc04209480cc7514dd3b3603",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 79,
+      "id": "PR_kwDOLrzygc6xEq4h",
+      "title": "Reword detecting live servers section",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/79",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses also the comments in #57 #59 \r\n\r\nrelated to #64 ",
+      "createdAt": "2025-11-02T18:32:55Z",
+      "updatedAt": "2025-11-02T20:40:46Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "after-wglc/reword-detecting-live-servers",
+      "headRefOid": "2aee47b8dabc7ed7c39bbcc0a6b4cf3e02848fe0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7LMBpY",
+          "commit": {
+            "abbreviatedOid": "e74a7e7"
+          },
+          "author": "meadmaker",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-11-02T19:02:40Z",
+          "updatedAt": "2025-11-02T19:04:25Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "> the missing response might be the cause of only one of many downstream servers being unresponsive\r\n\r\nThe missing response is not the cause of a downstream server being unresponsive.  I suggest:\r\n\r\n> The absence of a reply can cause a client to incorrectly deduce that the next-hop RADIUS server (i.e. proxy) is unavailable, while the missing response might be the result of only one of many downstream servers being unresponsive.\r\n\r\nChanged \"cause\" to \"result\".",
+              "createdAt": "2025-11-02T19:02:40Z",
+              "updatedAt": "2025-11-02T19:04:25Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 80,
+      "id": "PR_kwDOLrzygc6xExfL",
+      "title": "Clarify allowed retransmissions/retries",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/80",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "closes #86",
+      "createdAt": "2025-11-02T19:10:26Z",
+      "updatedAt": "2025-11-02T19:10:26Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-clarify-retransmission",
+      "headRefOid": "8a928b6ec971f1c97f55a0b7534dd9a361383d84",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 81,
+      "id": "PR_kwDOLrzygc6xE_37",
+      "title": "reword of the reword of the liveliness wording",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/81",
+      "state": "MERGED",
+      "author": "jimdigriz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "be more explicit that 'DOWN' is part of the watchdog state machine and the aggregated realm topology issue",
+      "createdAt": "2025-11-02T20:38:00Z",
+      "updatedAt": "2025-11-02T20:40:45Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "after-wglc/reword-detecting-live-servers",
+      "baseRefOid": "e74a7e73e12095374f1604714a866a2750c07f13",
+      "headRepository": "jimdigriz/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "reword-detecting-live-servers",
+      "headRefOid": "f76a72de05b77488997192ec0dd86499d202db17",
+      "closedAt": "2025-11-02T20:40:45Z",
+      "mergedAt": "2025-11-02T20:40:44Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "2aee47b8dabc7ed7c39bbcc0a6b4cf3e02848fe0"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 82,
+      "id": "PR_kwDOLrzygc6xO09t",
+      "title": "Separate the SHOULDS for PKIX",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/82",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The document gives a list of rules that MUST be used when implementing PKIX authentication, but then includes two SHOULD items.  This change moves that to a separate list.",
+      "createdAt": "2025-11-03T16:51:32Z",
+      "updatedAt": "2025-11-03T17:36:19Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "separate_shoulds_for_PKIX",
+      "headRefOid": "a6f801cae4bdf36c07c5a95dc11667328e3db688",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Instead of separating the MUST and SHOULD, i would rather change the \"MUST\" in the previous to something like:\r\n\r\n\"If implemented, the following rules apply:\"",
+          "createdAt": "2025-11-03T17:32:24Z",
+          "updatedAt": "2025-11-03T17:32:24Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "NONE",
+          "body": "Changed as requested",
+          "createdAt": "2025-11-03T17:36:19Z",
+          "updatedAt": "2025-11-03T17:36:19Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 83,
+      "id": "PR_kwDOLrzygc6xPV-L",
+      "title": "Modified initial sections, added terminology, moved changes section t\u2026",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/83",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026o end, removed eduroam and Open Roaming sections.",
+      "createdAt": "2025-11-03T17:33:44Z",
+      "updatedAt": "2025-11-03T17:50:03Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "mrw42/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "term-section",
+      "headRefOid": "bc45887f2c01b053e6a94c4b603d0138e4e75a43",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7LYcu2",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-03T17:36:18Z",
+          "updatedAt": "2025-11-03T17:36:19Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "With this change, we are removing the reference to TCP and UDP, see #76 ",
+              "createdAt": "2025-11-03T17:36:18Z",
+              "updatedAt": "2025-11-03T17:36:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LYd6n",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-03T17:37:56Z",
+          "updatedAt": "2025-11-03T17:37:56Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\r\nfor MD5 see {{?RFC9765}}.\r\n```\r\n\r\n(missing trailing dot)",
+              "createdAt": "2025-11-03T17:37:56Z",
+              "updatedAt": "2025-11-03T17:37:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LYiFK",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-03T17:42:52Z",
+          "updatedAt": "2025-11-03T17:42:52Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "To add to this: The definition is included in the new terminology section, but I think it's still worth having this in the introduction section mentioned explicitly.",
+              "createdAt": "2025-11-03T17:42:52Z",
+              "updatedAt": "2025-11-03T17:42:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LYoNh",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-03T17:50:03Z",
+          "updatedAt": "2025-11-03T17:50:03Z",
+          "comments": [
+            {
+              "originalPosition": 126,
+              "body": "We never talk (normatively) about TCP segments in this document, because we don't need to. TCP just provides a stream. We only need to care about payloads/packet sizes/... in UDP.",
+              "createdAt": "2025-11-03T17:50:03Z",
+              "updatedAt": "2025-11-03T17:50:03Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 84,
+      "id": "PR_kwDOLrzygc6xRbcK",
+      "title": "Check PKIX addr against range",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/84",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I found the wording around using PKIX authentication for clients identified by IP address belonging to an IP range confusing.  My first impression of the text was that it expected the certificate to include the IP range, and I was confused about how that would be represented.  It took me a few times reading it before I understood what it was trying to say.\r\n\r\n- Turn this line into its own bullet point, which seems like it was intended anyway\r\n- Make it clear that this is an optional server configuration\r\n- Make it clear that the server has separate validations for the client IP address being part of its configured range and for the client IP address being identified in the certificate",
+      "createdAt": "2025-11-03T20:43:58Z",
+      "updatedAt": "2025-11-03T20:43:58Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "check_pkix_addr_against_range",
+      "headRefOid": "292762c20d2787cceca8b514d434cd1d1c7cca43",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
