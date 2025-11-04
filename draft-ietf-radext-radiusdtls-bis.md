@@ -105,6 +105,9 @@ RADIUS/UDP:
 (D)TLS handshake message:
 : As defined in TLS {{RFC5246}} and DTLS {{RFC9147}}.
 
+TLS record:
+: As dfined in TLS {{RFC5246}}.
+
 DTLS record:
 : As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
 
@@ -117,26 +120,20 @@ UDP datagram:
 UDP (datagram) data:
 : The data payload of a UDP datagram.
 
-IP packet:
-: An IP packet, including the header and data.
-
 IP (packet) data:
 : The data payload of an IP packet.
 
-RadSec node:
-: A RADIUS-over-(D)TLS client or server
+IP packet:
+: An IP packet, including the header and data.
 
 RadSec client:
-: A RadSec instance that initiates a new connection.
+: a RadSec instance that initiates a new connection.
 
 RadSec server:
 : A RadSec instance that listens on a RADIUS-over-(D)TLS port and accepts new connections.
 
-Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
-Where "TLS" or "RADIUS/TLS" is mentioned, the specification only applies to RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies to RADIUS/DTLS.
-
-Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
-Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
+RadSec endpoint:
+: A RADIUS-over-(D)TLS client or server
 
 # Changes to RADIUS
 
@@ -221,7 +218,7 @@ RADIUS/(D)TLS servers MUST be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RADIUS/(D)TLS clients reserve ID zero (0) on each session for Status-Server packets.
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.
 
-For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{RFC9293}}, Section 3.8.4.
+For RADIUS/TLS, the peers MAY send TCP keepalives as described in {{RFC9293, Section 3.8.4}}.
 For RADIUS/DTLS connections, the peers MAY send periodic keepalives as defined in {{RFC6520}}.
 This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
 These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
@@ -229,6 +226,16 @@ These liveliness checks are essentially redundant in the presence of an applicat
 # Packet / Connection Handling
 
 This section defines the behavior for RADIUS/(D)TLS peers for handling of incoming packets and establishment of a (D)TLS session.
+
+Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification
+applies for both RADIUS/TLS and RADIUS/DTLS.  Where "TLS" or
+"RADIUS/TLS" is mentioned, the specification only applies to
+RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies
+to RADIUS/DTLS.
+
+Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
+Client implementations SHOULD implement both, but MUST implement at
+least one of RADIUS/TLS or RADIUS/DTLS.
 
 ## (D)TLS requirements
 
