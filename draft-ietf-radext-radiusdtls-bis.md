@@ -380,7 +380,7 @@ RadSec server has a means to signal which types of RADIUS packets are
 supported on the server to a connecting endpoint.
 
 It is RECOMMENDED that RadSec Servers Protocol-Error packets, as
-defined in {{RC7930}} to respond to RADIUS packets of types that are
+defined in {{RFC7930}} to respond to RADIUS packets of types that are
 not supported on the server.  It is also REQUIRED that RadSec clients
 accept Protocol-Error responses, whether or not they recognize the
 error code.
