@@ -493,7 +493,7 @@ See {{duplicates_retransmissions}} for more discussion on retransmission behavio
 
 While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion. This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
-Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is started, the server MUST either drop an old session in order to open the new one or not create a new session.
+Implementations SHOULD have configurable limits on the number of open connections. When this maximum is reached and a new session is needed, the server MUST either drop an old session in order to open the new one or not create a new session.
 
 The close notification of (D)TLS or underlying connections are not fully reliable, or connections might be unnecessarily kept alive by heartbeat or watchdog traffic, occupying resources.
 Therefore, both RADIUS/(D)TLS clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog). This idle timeout SHOULD be configurable within reasonable limits and it SHOULD be possible to disable idle timeouts completely.
