@@ -60,8 +60,9 @@ RADIUS/DTLS are collectively referred to as RadSec.
 # Introduction
 
 This document defines transport profiles for running Remote
-Authentication Dial In User Service (RADIUS) over Transport
-Layer Security (TLS) and Datagram Transport Layer Security (DTLS),
+Authentication Dial In User Service (RADIUS) over Transport Layer
+Security (TLS) {{!RFC8446}},{{!RFC5246}} over TCP {{!STD7}} and Datagram
+Transport Layer Security (DTLS) {{!6347}},{{!9147}} over UDP {{!STD6}}.,
 allowing secure and reliable transport of RADIUS messages.  RADIUS/TLS
 and RADIUS/DTLS are collectively referred to as RadSec.
 
@@ -71,11 +72,11 @@ and accounting solution defined in {{!RFC2865}}, {{!RFC2866}},
 shortcomings, such as its dependency on the unreliable transport
 protocol, UDP, and its lack of confidentiality for large parts of
 RADIUS messages.  Additionally, the confidentiality and integrity
-mechanisms in RADIUS rely on the MD5 algorithm, which has been proven to be
-insecure.  Although RADIUS/(D)TLS does not remove the MD5-based
-mechanisms, it adds confidentiality and integrity protection through
-the TLS layer.  For an updated version of RADIUS/(D)TLS without need
-for MD5 see {{?RFC9765}}
+mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has
+been proven to be insecure.  Although RADIUS/(D)TLS does not remove
+the MD5-based mechanisms, it adds confidentiality and integrity
+protection through the TLS layer.  For an updated version of
+RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.
 
 # Conventions and Terminology
 
@@ -115,12 +116,6 @@ UDP datagram:
 
 UDP (datagram) data:
 : The data payload of a UDP datagram.
-
-TCP segment:
-: A TCP packet, including the header and data.
-
-TCP (segment) data:
-: The data payload of TCP packet.
 
 IP packet:
 : An IP packet, including the header and data.
