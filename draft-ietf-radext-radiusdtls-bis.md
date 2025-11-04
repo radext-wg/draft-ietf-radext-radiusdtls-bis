@@ -139,7 +139,7 @@ Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
 Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
 # Changes to RADIUS
-  
+
 This section discusses the needed changes to the RADIUS packet format ({{pktformat}}), port usage and shared secrets ({{portusage}}).
 
 ## Packet format
