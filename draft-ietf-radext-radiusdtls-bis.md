@@ -106,7 +106,7 @@ RADIUS/UDP:
 : As defined in TLS {{RFC5246}} and DTLS {{RFC9147}}.
 
 TLS record:
-: As dfined in TLS {{RFC5246}}.
+: As defined in TLS {{RFC5246}}.
 
 DTLS record:
 : As defined in DTLS {{RFC9147}}. A DTLS record is always contained in one UDP datagram.
