@@ -256,7 +256,7 @@ RadSec client implementations SHOULD implement this model, but MUST implement ei
 
 If implemented, the following rules apply:
 
-* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.
+* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS connections.  This list SHOULD be application-specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS connections.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
@@ -612,7 +612,7 @@ As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do 
 {:#duplicates_retransmissions}
 
 As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit RADIUS packets over a given TCP connection.
-However, if the TLS session or TCP connection is closed or broken, retries over new connections are permissible.
+However, if the TLS connection or TCP connection is closed or broken, retries over new connections are permissible.
 RADIUS request packets that have not yet received a response MAY be transmitted by a RADIUS/TLS client over a new connection.
 As this procedure involves using a new connection, the ID of the packet MAY change.
 If the ID changes, any security attributes such as Message-Authenticator MUST be recalculated.
@@ -694,7 +694,7 @@ RADIUS/UDP packets MUST NOT be sent to this port.
 RADIUS/DTLS clients SHOULD NOT probe servers to see if they support DTLS transport.
 Instead, clients SHOULD use DTLS as a transport layer only when administratively configured.
 
-## Session Management
+## Connection Management
 
 Where RADIUS/TLS can rely on the TCP state machine to perform connection tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform connection management of the DTLS connection in the application layer.
