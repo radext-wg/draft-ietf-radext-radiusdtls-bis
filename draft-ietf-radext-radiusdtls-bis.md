@@ -61,7 +61,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 
 The RADIUS protocol is a widely deployed authentication, authorization and accounting solution defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.
 Deployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol, UDP, and its lack of confidentiality for large parts of RADIUS messages.
-Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has been proven to be insecure.
+Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which does not meet modern security expectations.
 Although RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
 For an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.
 
