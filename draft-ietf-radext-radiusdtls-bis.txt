@@ -148,10 +148,11 @@ Table of Contents
    transport protocol, UDP, and its lack of confidentiality for large
    parts of RADIUS messages.  Additionally, the confidentiality and
    integrity mechanisms in RADIUS rely on the MD5 algorithm [RFC1321],
-   which has been proven to be insecure.  Although RADIUS/(D)TLS does
-   not remove the MD5-based mechanisms, it adds confidentiality and
-   integrity protection through the TLS layer.  For an updated version
-   of RADIUS/(D)TLS without need for MD5 see [RFC9765].
+   which does not meet modern security expectations.  Although
+   RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds
+   confidentiality and integrity protection through the TLS layer.  For
+   an updated version of RADIUS/(D)TLS without need for MD5 see
+   [RFC9765].
 
 2.  Conventions and Terminology
 
