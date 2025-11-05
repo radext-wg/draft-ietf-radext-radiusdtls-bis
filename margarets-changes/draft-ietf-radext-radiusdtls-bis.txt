@@ -1283,30 +1283,19 @@ A forwarding server may either perform its forwarding function in a pass through
    detection methods are listed below:
 
    *  Comparing client or server random used in the TLS handshake.
-      While
+      While this is a very effective method, it requires access to
+      values which are normally private to the TLS implementation.
 
-   *  this is a very effective method, it requires access to values
-      which
-
-   *  are normally private to the TLS implementation.  Sending a custom
-
-   *  random number in an extension in the TLS client hello.  Again,
-      this
-
-   *  is very effective, but requires extension of the TLS
-      implementation.
+   *  Sending a custom random number in an extension in the TLS client
+      hello.  Again, this is very effective, but requires extension of
+      the TLS implementation.
 
    *  Comparing the incoming server certificate to all server
-      certificates
-
-   *  configured on the proxy.  While in some scenarios this can be a
-      valid
-
-   *  detection method, using the same server certificate on multiple
-
-   *  servers would keep these servers from connecting with each other,
-
-   *  even when this connection is legitimate.
+      certificates configured on the proxy.  While in some scenarios
+      this can be a valid detection method, using the same server
+      certificate on multiple servers would keep these servers from
+      connecting with each other, even when this connection is
+      legitimate.
 
    The application layer RADIUS protocol also offers some loop
    detection, e.g. using a Proxy-State attribute.  However, these
@@ -1957,12 +1946,15 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
       directly, this is replaced by a pointer to the TLS BCP.
 
    *  The specification regarding steps for certificate verification has
-      been updated. * [RFC6613] mandated the use of Status-Server as
-      watchdog algorithm, [RFC7360] only recommended it.  This
-      specification mandates the use of Status-Server for both RADIUS/
-      TLS and RADIUS/DTLS. * [RFC6613] only included limited text around
-      retransmissions, this document now gives more guidance on how to
-      handle retransmissions, especially across different transports.
+      been updated.
+
+   *  [RFC6613] mandated the use of Status-Server as watchdog algorithm,
+      [RFC7360] only recommended it.  This specification mandates the
+      use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
+
+   *  [RFC6613] only included limited text around retransmissions, this
+      document now gives more guidance on how to handle retransmissions,
+      especially across different transports.
 
    *  The rules for verifying the endpoint certificate have been updated
       to follow guidance provided in [RFC9525].  Using the Common Name

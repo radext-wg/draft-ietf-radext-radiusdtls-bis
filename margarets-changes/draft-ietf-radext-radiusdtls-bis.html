@@ -2231,35 +2231,13 @@ There is currently no detection method that works universally for all use-cases 
 Some possible detection methods are listed below:<a href="#section-6.1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1.1-4.1">
-              <p id="section-6.1.1-4.1.1">Comparing client or server random used in the TLS handshake. While<a href="#section-6.1.1-4.1.1" class="pilcrow">¶</a></p>
+              <p id="section-6.1.1-4.1.1">Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.<a href="#section-6.1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.1.1-4.2">
-              <p id="section-6.1.1-4.2.1">this is a very effective method, it requires access to values which<a href="#section-6.1.1-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-6.1.1-4.2.1">Sending a custom random number in an extension in the TLS client hello. Again, this is very effective, but requires extension of the TLS implementation.<a href="#section-6.1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.1.1-4.3">
-              <p id="section-6.1.1-4.3.1">are normally private to the TLS implementation.
-Sending a custom<a href="#section-6.1.1-4.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.4">
-              <p id="section-6.1.1-4.4.1">random number in an extension in the TLS client hello. Again, this<a href="#section-6.1.1-4.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.5">
-              <p id="section-6.1.1-4.5.1">is very effective, but requires extension of the TLS implementation.<a href="#section-6.1.1-4.5.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.6">
-              <p id="section-6.1.1-4.6.1">Comparing the incoming server certificate to all server certificates<a href="#section-6.1.1-4.6.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.7">
-              <p id="section-6.1.1-4.7.1">configured on the proxy. While in some scenarios this can be a valid<a href="#section-6.1.1-4.7.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.8">
-              <p id="section-6.1.1-4.8.1">detection method, using the same server certificate on multiple<a href="#section-6.1.1-4.8.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.9">
-              <p id="section-6.1.1-4.9.1">servers would keep these servers from connecting with each other,<a href="#section-6.1.1-4.9.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-4.10">
-              <p id="section-6.1.1-4.10.1">even when this connection is legitimate.<a href="#section-6.1.1-4.10.1" class="pilcrow">¶</a></p>
+              <p id="section-6.1.1-4.3.1">Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.<a href="#section-6.1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-6.1.1-5">The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
@@ -2276,8 +2254,7 @@ However, these methods are not capable of reliably detecting and suppressing the
 <p id="section-6.2-1">For debugging purposes, some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>], <a href="https://rfc-editor.org/rfc/rfc9325#section-4.1" class="relref">Section 4.1</a></span>, this specification forbids the usage of NULL encryption cipher suites for RadSec.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to
-<span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="possibility-of-denial-of-service-attacks">
@@ -2289,21 +2266,17 @@ Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC
 Therefore, an attacker could try to exhaust server resources.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <p id="section-6.3-2">With RADIUS/UDP, any bogus RADIUS packet would fail the cryptographic checks and the server would silently discard the bogus packet.
 For RadSec, the server needs to perform at least a partial TLS handshake to determine whether or not the client is authorized.
-Performing a
-(D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
-An attacker could try to trigger a high number of
-(D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
+Performing a (D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
+An attacker could try to trigger a high number of (D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
 To prevent this attack, a RadSec server SHOULD have configurable limits on new connection attempts.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
-<p id="section-6.3-3">Both TLS and DTLS need to store session information for each open
-(D)TLS session.
+<p id="section-6.3-3">Both TLS and DTLS need to store session information for each open (D)TLS session.
 Especially with DTLS, a bogus or misbehaving client could open an excessive number of DTLS sessions.
 This session tracking could lead to a resource exhaustion on the server side, triggering a Denial-of-Service.
 Therefore, RadSec servers SHOULD have a configurable limit of the number of sessions they can track.
 When the total number of sessions tracked is going to exceed the configured limit, servers MAY free up resources by closing the session that has been idle for the longest time.
 Doing so may free up idle resources that then allow the server to accept a new session.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">RadSec servers MUST limit the number of partially open (D)TLS sessions and SHOULD expose this limit as configurable option to the administrator.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
-<p id="section-6.3-5">To prevent resource exhaustion by partially opening a large number of
-(D)TLS sessions, RadSec servers SHOULD have a timeout on partially open (D)TLS sessions.
+<p id="section-6.3-5">To prevent resource exhaustion by partially opening a large number of (D)TLS sessions, RadSec servers SHOULD have a timeout on partially open (D)TLS sessions.
 Implementations SHOULD expose this timeout as configurable option to the administrator.
 The recommended default for this timeout is a few seconds. If a (D)TLS session is not established within this timeframe, it is likely that this is a bogus connection.
 In contrast, an established session might not send packets for longer periods of time, but since the endpoints are mutually authenticated this does not pose a problem other than the problems mentioned before.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
@@ -2320,8 +2293,7 @@ To perform this lookup efficiently, RadSec servers SHOULD keep a list of the acc
         </h3>
 <p id="section-6.4-1">The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
 Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amount of data which was transferred, and on the encryption method.
-See <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-5.5" class="relref">Section 5.5</a></span> and
-<span>[<a href="#I-D.irtf-cfrg-aead-limits" class="cite xref">I-D.irtf-cfrg-aead-limits</a>]</span> for more information.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+See <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-5.5" class="relref">Section 5.5</a></span> and <span>[<a href="#I-D.irtf-cfrg-aead-limits" class="cite xref">I-D.irtf-cfrg-aead-limits</a>]</span> for more information.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
 If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 </section>
@@ -2558,10 +2530,8 @@ For RADIUS clients, that may run on more constrained endpoints, implementers can
         <h3 id="name-mandatory-to-implement-trus">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-mandatory-to-implement-trus" class="section-name selfRef">Mandatory-to-implement trust profiles</a>
         </h3>
-<p id="section-9.2-1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> mandates the implementation of the trust profile
-"certificate with PKIX trust model" for both clients and servers.
-The experience of the deployment of RADIUS/TLS as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>
-has shown that most actors still rely on RADIUS/UDP.
+<p id="section-9.2-1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> mandates the implementation of the trust profile "certificate with PKIX trust model" for both clients and servers.
+The experience of the deployment of RADIUS/TLS as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> has shown that most actors still rely on RADIUS/UDP.
 Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification we wanted to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">As with the supported transports, the assumption is that RADIUS servers are generally believed to be less constrained than RADIUS clients.
 Since some client implementations already support using certificates for mutual authentication and there are several use cases, where pre-shared keys are not usable (e.g. a dynamic federation with changing members), the decision was made that, analog to the supported transports, RadSec servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
@@ -2798,64 +2768,40 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
       <h2 id="name-changes-from-rfc6614-radius">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-changes-from-rfc6614-radius" class="section-name selfRef">Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)</a>
       </h2>
-<p id="appendix-A-1">The following list contains the most important changes from the previous specifications in <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> (RADIUS/TCP), <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>
-(RADIUS/TLS) and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> (RADIUS/DTLS).<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">The following list contains the most important changes from the previous specifications in <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> (RADIUS/TCP), <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> (RADIUS/TLS) and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> (RADIUS/DTLS).<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification,
-RFC6613 on the other hand had some specification for RADIUS/TLS.
-These specifications have been merged into this document, and
-therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS. These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">RFC6614
-marked TLSv1.1 or later as mandatory, this specification requires
-TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">RFC6614
-allowed use of TLS compression, this document forbids it.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">RFC6614 allowed use of TLS compression, this document forbids it.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">RFC6614
-only requires support for the trust model "certificates with PKIX"
-(<span>[<a href="#RFC6614" class="cite xref">RFC6614</a>], <a href="https://rfc-editor.org/rfc/rfc6614#section-2.3" class="relref">Section 2.3</a></span>). This document changes this. For
-servers, TLS-X.509-PKIX (<a href="#tlsx509pkix" class="auto internal xref">Section 3.2.1</a>, equivalent to
-"certificates with PKIX" in RFC6614) and TLS-PSK (<a href="#tlspsk" class="auto internal xref">Section 3.2.4</a>) is now
-mandated and clients must implement at least one of the two.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">RFC6614 only requires support for the trust model "certificates with PKIX" (<span>[<a href="#RFC6614" class="cite xref">RFC6614</a>], <a href="https://rfc-editor.org/rfc/rfc6614#section-2.3" class="relref">Section 2.3</a></span>). This document changes this. For   servers, TLS-X.509-PKIX (<a href="#tlsx509pkix" class="auto internal xref">Section 3.2.1</a>, equivalent to   "certificates with PKIX" in RFC6614) and TLS-PSK (<a href="#tlspsk" class="auto internal xref">Section 3.2.4</a>) is now mandated and clients must implement at least one of the two.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">The
-mandatory-to-implement cipher suites are not referenced directly,
-this is replaced by a pointer to the TLS BCP.<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">The specification
-regarding steps for certificate verification has been updated.
-*
-<span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandated the use of Status-Server as watchdog algorithm,
-<span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> only recommended it. This specification mandates the
-use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
-*
-<span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this
-document now gives more guidance on how to handle retransmissions,
-especially across different transports.<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">The specification regarding steps for certificate verification has been updated.<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">The rules for verifying
-the endpoint certificate have been updated to follow guidance
-provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>. Using the Common Name RDN for validation
-of server certificates is now forbidden.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandated the use of Status-Server as watchdog algorithm, <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1">The response to unwanted
-packets has changed. Endpoints should now reply with a
-Protocol-Error packet, which is connection-specific and should not
-be proxied.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.8.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.9">
+          <p id="appendix-A-2.9.1">The rules for verifying the endpoint certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>. Using the Common Name RDN for validation of server certificates is now forbidden.<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.10">
+          <p id="appendix-A-2.10.1">The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-3">The rationales behind some of these changes are outlined in
-<a href="#design_decisions" class="auto internal xref">Section 9</a>.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">The rationales behind some of these changes are outlined in <a href="#design_decisions" class="auto internal xref">Section 9</a>.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="acknowledgments">
@@ -2863,8 +2809,7 @@ be proxied.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360:
-Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
 </section>
