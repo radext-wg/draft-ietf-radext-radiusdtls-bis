@@ -433,10 +433,10 @@ Table of Contents
 
    If implemented, the following rules apply:
 
-   *  Implementations MUST allow the configuration of a trust anchor
-      (i.e. a list of trusted Certificate Authorities (CAs)[RFC5280])
-      for new TLS sessions.  This list SHOULD be application-specific
-      and not use a global system trust store.
+   *  Implementations MUST allow the configuration of a trust base (i.e.
+      a set of trusted Certificate Authorities (CAs)[RFC5280]) for new
+      TLS sessions.  This list SHOULD be application-specific and not
+      use a global system trust store.
 
    *  Certificate validation MUST include the verification rules as per
       [RFC5280].
@@ -461,13 +461,13 @@ Table of Contents
       certificate expires, the connection SHOULD be closed and re-
       opened.
 
-   RadSec endpoints SHOULD NOT be pre-configured with a list of trusted
+   RadSec endpoints SHOULD NOT be pre-configured with a set of trusted
    CAs by the vendor or manufacturer that are enabled by default.
-   Instead, the endpoints SHOULD start off with an empty CA list as
-   trust anchor.  The addition of a CA SHOULD be done only when manually
+   Instead, the endpoints SHOULD start off with an empty CA set as the
+   trust base.  The addition of a CA SHOULD be done only when manually
    configured by the administrator.  This does not preclude vendors or
-   manufacturers including their trust list in their products, but the
-   enabling of those lists should be a conscious decision by an
+   manufacturers including their set of trusted CAs in their products,
+   but the enabling of those lists should be a conscious decision by an
    administrator.
 
    RadSec endpoints MUST follow [RFC9525] when validating peer
