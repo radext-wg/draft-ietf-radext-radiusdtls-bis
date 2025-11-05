@@ -9,9 +9,8 @@ Intended status: Standards Track                                 RESTENA
 Expires: 9 May 2026                                      5 November 2025
 
 
-    RadSec: Remote Authentication Dial In User Service (RADIUS) over
-  Transport Layer Security (TLS) and Datagram Transport Layer Security
-                                 (DTLS)
+    RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
+                    Transport Layer Security (DTLS)
                 draft-ietf-radext-radiusdtls-bis-latest
 
 Abstract
