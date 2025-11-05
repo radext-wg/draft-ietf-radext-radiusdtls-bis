@@ -1934,6 +1934,9 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
    previous specifications in [RFC6613] (RADIUS/TCP), [RFC6614] (RADIUS/
    TLS) and [RFC7360] (RADIUS/DTLS).
 
+   *  The protocols RADIUS/TLS and RADIUS/DTLS are now collectively
+      referred to as RadSec.
+
    *  [RFC6614] referenced [RFC6613] for TCP-related specification,
       RFC6613 on the other hand had some specification for RADIUS/TLS.
       These specifications have been merged into this document, and

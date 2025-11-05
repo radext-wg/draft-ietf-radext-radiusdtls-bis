@@ -2769,35 +2769,38 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <p id="appendix-A-1">The following list contains the most important changes from the previous specifications in <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> (RADIUS/TCP), <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> (RADIUS/TLS) and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> (RADIUS/DTLS).<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
-These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">The protocols RADIUS/TLS and RADIUS/DTLS are now collectively referred to as RadSec.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
+These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">RFC6614 allowed use of TLS compression, this document forbids it.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">RFC6614 only requires support for the trust model "certificates with PKIX" (<span>[<a href="#RFC6614" class="cite xref">RFC6614</a>], <a href="https://rfc-editor.org/rfc/rfc6614#section-2.3" class="relref">Section 2.3</a></span>).  This document changes this.  For servers, TLS-X.509-PKIX (<a href="#tlsx509pkix" class="auto internal xref">Section 4.2.1</a>, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK (<a href="#tlspsk" class="auto internal xref">Section 4.2.4</a>) is now mandated and clients must implement at least one of the two.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">RFC6614 allowed use of TLS compression, this document forbids it.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">RFC6614 only requires support for the trust model "certificates with PKIX" (<span>[<a href="#RFC6614" class="cite xref">RFC6614</a>], <a href="https://rfc-editor.org/rfc/rfc6614#section-2.3" class="relref">Section 2.3</a></span>).  This document changes this.  For servers, TLS-X.509-PKIX (<a href="#tlsx509pkix" class="auto internal xref">Section 4.2.1</a>, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK (<a href="#tlspsk" class="auto internal xref">Section 4.2.4</a>) is now mandated and clients must implement at least one of the two.<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">The specification regarding steps for certificate verification has been updated.<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandated the use of Status-Server as watchdog algorithm, <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1">The specification regarding steps for certificate verification has been updated.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.8.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandated the use of Status-Server as watchdog algorithm, <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.9">
-          <p id="appendix-A-2.9.1">The rules for verifying the peer certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>.  Using the Common Name RDN for validation of server certificates is now forbidden.<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.9.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.10">
-          <p id="appendix-A-2.10.1">The response to unwanted packets has changed.  Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.10.1">The rules for verifying the peer certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>.  Using the Common Name RDN for validation of server certificates is now forbidden.<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.11">
+          <p id="appendix-A-2.11.1">The response to unwanted packets has changed.  Nodes should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.<a href="#appendix-A-2.11.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">The rationales behind some of these changes are outlined in <a href="#design_decisions" class="auto internal xref">Section 8</a>.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
