@@ -1,7 +1,7 @@
 ---
 entity:
   SELF: "[RFCXXXX]"
-title: "RadSec: Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"
+title: "RadSec: RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"
 abbrev: "RadSec: RADIUS over TLS and DTLS"
 category: std
 
