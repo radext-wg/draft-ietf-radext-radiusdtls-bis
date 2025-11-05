@@ -84,7 +84,8 @@ RADIUS packet processing, which are discussed in {{radiuschanges}}.
 
 # Conventions and Terminology
 
-{::boilerplate bcp14-tagged}
+RadSec:
+: A collective term for RADIUS/TLS and RADIUS/DTLS.
 
 The following terminology is used in this document:
 
@@ -140,6 +141,12 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 
 This section defines the behavior of RadSec endpoints for the handling
 incoming TCP or UDP packets and the establishment of a (D)TLS connection.
+
+Whenever "(D)TLS" or "RADIUS/(D)TLS" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
+Where "TLS" or "RADIUS/TLS" is mentioned, the specification only applies to RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned it only applies to RADIUS/DTLS.
+
+Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
+Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
 ## (D)TLS requirements
 
