@@ -334,7 +334,7 @@ To reduce server load and to prevent probing the validity of stolen credentials,
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
-As a suggestion, at least the following parameters of the X.509 client certificate should be exposed:
+As a suggestion, at least the following information from the TLS connection and the X.509 client certificate should be exposed:
 
 * Originating IP address
 * Certificate Fingerprint
@@ -344,7 +344,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
 * all X.509v3 Subject Alternative Name
 * all X.509v3 Certificate Policy
 
-In TLS-PSK operation at least the following parameters of the TLS connection should be exposed:
+In TLS-PSK operation at least the following information from the TLS connection should be exposed:
 
 * Originating IP address
 * TLS-PSK Identifier
