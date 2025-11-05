@@ -260,7 +260,7 @@ If implemented, the following rules apply:
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
-* When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
+* When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
 * Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and re-opened.
 
 RadSec endpoints SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
@@ -272,12 +272,12 @@ RadSec endpoints MUST follow {{!RFC9525}} when validating peer identities.
 Specific details are provided below:
 
 * Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
-* RadSec clients validate the servers identity to match their local configuration, accepting the identity on the first match:
+* RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:
   * If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585, Section 2.2}}.
   * If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.  Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * The Common Name RDN MUST NOT be used to identify a server.
-  * Clients MAY use other attributes of the certificate to validate the server's identity, but it MUST NOT accept any certificate without validation.
+  * Clients MAY use other attributes of the certificate to validate the server's identity, but they MUST NOT accept any certificate without validation.
   * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in {{security_considerations}}.
 * RadSec servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
@@ -285,7 +285,7 @@ Specific details are provided below:
   * For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Some servers MAY be configured to accept a client coming from a range or set of IP addresses.  In this case, the server MUST verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server MUST match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Implementations MAY consider additional subjectAltName extensions to identify a client.
-  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The clients authorization MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
+  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy OID unless both peers are part of a trusted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using X.509 certificate fingerprints (TLS-X.509-FINGERPRINT)
@@ -334,7 +334,7 @@ To reduce server load and to prevent probing the validity of stolen credentials,
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
-As a suggestion, at least the following parameters of the X.509 client certificate should be exposed:
+As a suggestion, at least the following information from the TLS connection and the X.509 client certificate should be exposed:
 
 * Originating IP address
 * Certificate Fingerprint
@@ -344,7 +344,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
 * all X.509v3 Subject Alternative Name
 * all X.509v3 Certificate Policy
 
-In TLS-PSK operation at least the following parameters of the TLS connection should be exposed:
+In TLS-PSK operation at least the following information from the TLS connection should be exposed:
 
 * Originating IP address
 * TLS-PSK Identifier
