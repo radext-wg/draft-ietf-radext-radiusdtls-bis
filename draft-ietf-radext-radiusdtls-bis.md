@@ -307,10 +307,7 @@ Further guidance on the usage of TLS-PSK in RadSec is given in {{?RFC9813}}.
 
 ## Connecting Client Identity
 
-In RADIUS/UDP, clients are uniquely identified by their IP addresses.
-Since the shared secret is associated with the origin IP address, if more than one RADIUS client is associated with the same IP address, then those clients also must utilize the same shared secret, a practice that is inherently insecure, as noted in {{!RFC5247}}.
-
-Depending on the trust model used, the RadSec client identity can be determined differently.
+Depending on the trust model used, the RadSec client identity is determined as follows.
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier.
 
