@@ -256,17 +256,17 @@ RadSec client implementations SHOULD implement this model, but MUST implement ei
 
 If implemented, the following rules apply:
 
-* Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.
+* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust base.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
 * When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
 * Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and re-opened.
 
-RadSec endpoints SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
-Instead, the endpoints SHOULD start off with an empty CA list as trust anchor.
+RadSec endpoints SHOULD NOT be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
+Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
-This does not preclude vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
+This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
 RadSec endpoints MUST follow {{!RFC9525}} when validating peer identities.
 Specific details are provided below:
