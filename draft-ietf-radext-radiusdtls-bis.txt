@@ -1131,9 +1131,9 @@ Table of Contents
 
    As TCP is a reliable transport, RADIUS/TLS peers MUST NOT retransmit
    RADIUS packets over a given TCP connection.  However, if the TLS
-   session or TCP connection is closed or broken, retransmissions over
-   new connections are permissible.  RADIUS request packets that have
-   not yet received a response MAY be transmitted by a RADIUS/TLS client
+   session or TCP connection is closed or broken, retries over new
+   connections are permissible.  RADIUS request packets that have not
+   yet received a response MAY be transmitted by a RADIUS/TLS client
    over a new connection.  As this procedure involves using a new
    session, the ID of the packet MAY change.  If the ID changes, any
    security attributes such as Message-Authenticator MUST be
@@ -1144,13 +1144,13 @@ Table of Contents
    Section 2.2.2.  This detection can prevent duplicate processing of
    packets from non-conforming clients.
 
-   RADIUS packets SHOULD NOT be retransmitted to the same destination IP
-   address and numerical port, but over a different transport protocol.
-   There is no guarantee in RADIUS that the two ports are in any way
-   related.  This requirement does not, however, forbid the practice of
-   putting multiple servers into a failover or load-balancing pool.  In
-   that situation, RADIUS requests MAY be retransmitted to another
-   server that is known to be part of the same pool.
+   RADIUS clients MUST NOT retry sending a packet by altering the
+   protocol (i.e. switching from TLS to DTLS or vice versa) of the
+   configured server on its own.  This requirement does not, however,
+   forbid the practice of putting servers with the same IP address and
+   port but different protocols into a failover or load-balancing pool.
+   In that situation, RADIUS requests MAY be retried with another server
+   that is known to be part of the same pool.
 
 5.3.  TCP Applications Are Not UDP Applications
 
