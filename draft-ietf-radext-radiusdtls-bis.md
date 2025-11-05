@@ -256,7 +256,7 @@ RadSec client implementations SHOULD implement this model, but MUST implement ei
 
 If implemented, the following rules apply:
 
-* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust base.
+* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
