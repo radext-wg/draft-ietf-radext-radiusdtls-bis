@@ -1680,7 +1680,7 @@ RadSec client implementations <span class="bcp14">SHOULD</span> implement this m
 See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.4.4" class="relref">Section 7.4.4</a></span> and <span>[<a href="#RFC6066" class="cite xref">RFC6066</a>], <a href="https://rfc-editor.org/rfc/rfc6066#section-6" class="relref">Section 6</a></span> for TLS 1.2 and <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.2.4" class="relref">Section 4.2.4</a></span> for TLS 1.3.<a href="#section-4.2.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.2.1-3.4">
-              <p id="section-4.2.1-3.4.1">When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations <span class="bcp14">SHOULD</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.<a href="#section-4.2.1-3.4.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-3.4.1">When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations <span class="bcp14">SHOULD</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.<a href="#section-4.2.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.2.1-3.5">
               <p id="section-4.2.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open for longer than the validity span of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and re-opened.<a href="#section-4.2.1-3.5.1" class="pilcrow">¶</a></p>
@@ -1697,7 +1697,7 @@ Specific details are provided below:<a href="#section-4.2.1-5" class="pilcrow">�
               <p id="section-4.2.1-6.1.1">Certificates <span class="bcp14">MAY</span> use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-4.2.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.2.1-6.2">
-              <p id="section-4.2.1-6.2.1">RadSec clients validate the servers identity to match their local configuration, accepting the identity on the first match:<a href="#section-4.2.1-6.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.2.1-6.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-4.2.1-6.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2.1-6.2.2.1">
                   <p id="section-4.2.1-6.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-4.2.1-6.2.2.1.1" class="pilcrow">¶</a></p>
@@ -1712,7 +1712,7 @@ Specific details are provided below:<a href="#section-4.2.1-5" class="pilcrow">�
                   <p id="section-4.2.1-6.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-4.2.1-6.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.2.2.5">
-                  <p id="section-4.2.1-6.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but it <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-4.2.1-6.2.2.5.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but they <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-4.2.1-6.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.2.2.6">
                   <p id="section-4.2.1-6.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-4.2.1-6.2.2.6.1" class="pilcrow">¶</a></p>
@@ -1736,7 +1736,7 @@ The database may enumerate acceptable clients either by IP address or by a name 
                   <p id="section-4.2.1-6.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-4.2.1-6.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4.2.1-6.3.2.5">
-                  <p id="section-4.2.1-6.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The clients authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.3.2.5.1" class="pilcrow">¶</a></p>
+                  <p id="section-4.2.1-6.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both peers are part of a trusted network.<a href="#section-4.2.1-6.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -1797,7 +1797,7 @@ One example of this can be to restrict clients configured by DNS name to only th
 To reduce server load and to prevent probing the validity of stolen credentials, the server <span class="bcp14">SHOULD</span> abort the (D)TLS negotiation immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e. the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP range.<a href="#section-4.3-10" class="pilcrow">¶</a></p>
 <p id="section-4.3-11">There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
-As a suggestion, at least the following parameters of the X.509 client certificate should be exposed:<a href="#section-4.3-11" class="pilcrow">¶</a></p>
+As a suggestion, at least the following information from the TLS connection and the X.509 client certificate should be exposed:<a href="#section-4.3-11" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-12.1">
             <p id="section-4.3-12.1.1">Originating IP address<a href="#section-4.3-12.1.1" class="pilcrow">¶</a></p>
@@ -1821,7 +1821,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
             <p id="section-4.3-12.7.1">all X.509v3 Certificate Policy<a href="#section-4.3-12.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.3-13">In TLS-PSK operation at least the following parameters of the TLS connection should be exposed:<a href="#section-4.3-13" class="pilcrow">¶</a></p>
+<p id="section-4.3-13">In TLS-PSK operation at least the following information from the TLS connection should be exposed:<a href="#section-4.3-13" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-14.1">
             <p id="section-4.3-14.1.1">Originating IP address<a href="#section-4.3-14.1.1" class="pilcrow">¶</a></p>

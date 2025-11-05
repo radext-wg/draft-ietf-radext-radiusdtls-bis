@@ -447,13 +447,14 @@ Table of Contents
       TLS 1.3.
 
    *  When the configured trust base changes (e.g., removal of a CA from
-      the trust anchor; issuance of a new CRL for a given CA),
-      implementations SHOULD reassess the continued validity of the
-      certificate path of all connected peers.  This can either be done
-      by caching the peer's certificate for the duration of the
-      connection and re-evaluating the cached certificate or by
-      renegotiating the (D)TLS connection, either directly or by opening
-      a new (D)TLS connection and closing the old one.
+      the set of trust anchors; issuance of a new CRL for a CA in the
+      set of trust anchors), implementations SHOULD reassess the
+      continued validity of the certificate path of all connected peers.
+      This can either be done by caching the peer's certificate for the
+      duration of the connection and re-evaluating the cached
+      certificate or by renegotiating the (D)TLS connection, either
+      directly or by opening a new (D)TLS connection and closing the old
+      one.
 
    *  Implementations SHOULD NOT keep a connection open for longer than
       the validity span of the peer certificate.  At the time the peer
@@ -475,7 +476,7 @@ Table of Contents
    *  Certificates MAY use wildcards in the identifiers of DNS names and
       realm names, but only as the complete, left-most label.
 
-   *  RadSec clients validate the servers identity to match their local
+   *  RadSec clients validate the server's identity to match their local
       configuration, accepting the identity on the first match:
 
       -  If the expected RadSec server is associated with a specific NAI
@@ -501,7 +502,7 @@ Table of Contents
       -  The Common Name RDN MUST NOT be used to identify a server.
 
       -  Clients MAY use other attributes of the certificate to validate
-         the server's identity, but it MUST NOT accept any certificate
+         the server's identity, but they MUST NOT accept any certificate
          without validation.
 
       -  Clients which also act as servers (i.e. proxies) may be
@@ -537,7 +538,7 @@ Table of Contents
       -  If configured by the administrator, the identity check MAY be
          omitted after a successful [RFC5280] trust chain check, e.g. if
          the client used dynamic lookup there is no configured client
-         identity to verify.  The clients authorization MUST then be
+         identity to verify.  The client's authorization MUST then be
          validated using a certificate policy OID unless both peers are
          part of a trusted network.
 
@@ -625,7 +626,8 @@ Table of Contents
    should expose as many details of the presented certificate to the
    administrator as possible so that the trust model can be implemented
    by the administrator.  As a suggestion, at least the following
-   parameters of the X.509 client certificate should be exposed:
+   information from the TLS connection and the X.509 client certificate
+   should be exposed:
 
    *  Originating IP address
 
@@ -641,7 +643,7 @@ Table of Contents
 
    *  all X.509v3 Certificate Policy
 
-   In TLS-PSK operation at least the following parameters of the TLS
+   In TLS-PSK operation at least the following information from the TLS
    connection should be exposed:
 
    *  Originating IP address
