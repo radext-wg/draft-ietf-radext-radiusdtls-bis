@@ -588,8 +588,8 @@ If the ID changes, any security attributes such as Message-Authenticator MUST be
 Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
 
-RADIUS clients MUST NOT retry sending a packet by altering the protocol or ports of the configured server.
-This requirement does not, however, forbid the practice of putting multiple servers into a failover or load-balancing pool.
+RADIUS clients MUST NOT retry sending a packet by altering the protocol (i.e. switching from TLS to DTLS or vice versa) of the configured server on its own.
+This requirement does not, however, forbid the practice of putting servers with the same IP address and port but different protocols into a failover or load-balancing pool.
 In that situation, RADIUS requests MAY be retried with another server that is known to be part of the same pool.
 
 ## TCP Applications Are Not UDP Applications
