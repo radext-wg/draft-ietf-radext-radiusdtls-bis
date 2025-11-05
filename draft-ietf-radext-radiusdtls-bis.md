@@ -720,17 +720,9 @@ Implementations SHOULD therefore detect connections from itself, and reject them
 There is currently no detection method that works universally for all use-cases and TLS implementations.
 Some possible detection methods are listed below:
 
-- Comparing client or server random used in the TLS handshake. While
-- this is a very effective method, it requires access to values which
-- are normally private to the TLS implementation.
-Sending a custom
-- random number in an extension in the TLS client hello. Again, this
-- is very effective, but requires extension of the TLS implementation.
-- Comparing the incoming server certificate to all server certificates
-- configured on the proxy. While in some scenarios this can be a valid
-- detection method, using the same server certificate on multiple
-- servers would keep these servers from connecting with each other,
-- even when this connection is legitimate.
+- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.
+- Sending a custom random number in an extension in the TLS client hello. Again, this is very effective, but requires extension of the TLS implementation.
+- Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.
 
 The application layer RADIUS protocol also offers some loop detection, e.g. using a Proxy-State attribute.
 However, these methods are not capable of reliably detecting and suppressing these attacks in every case and are outside the scope of this document.
@@ -739,11 +731,9 @@ However, these methods are not capable of reliably detecting and suppressing the
 
 For debugging purposes, some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
-Following the recommendations in {{RFC9325, Section
-4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.
+Following the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.
 
-For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to
-{{?I-D.ietf-tls-keylogfile}}.
+For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.
 
 ## Possibility of Denial-of-Service attacks
 
@@ -752,14 +742,11 @@ Therefore, an attacker could try to exhaust server resources.
 
 With RADIUS/UDP, any bogus RADIUS packet would fail the cryptographic checks and the server would silently discard the bogus packet.
 For RadSec, the server needs to perform at least a partial TLS handshake to determine whether or not the client is authorized.
-Performing a
-(D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
-An attacker could try to trigger a high number of
-(D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
+Performing a (D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
+An attacker could try to trigger a high number of (D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
 To prevent this attack, a RadSec server SHOULD have configurable limits on new connection attempts.
 
-Both TLS and DTLS need to store session information for each open
-(D)TLS session.
+Both TLS and DTLS need to store session information for each open (D)TLS session.
 Especially with DTLS, a bogus or misbehaving client could open an excessive number of DTLS sessions.
 This session tracking could lead to a resource exhaustion on the server side, triggering a Denial-of-Service.
 Therefore, RadSec servers SHOULD have a configurable limit of the number of sessions they can track.
@@ -768,8 +755,7 @@ Doing so may free up idle resources that then allow the server to accept a new s
 
 RadSec servers MUST limit the number of partially open (D)TLS sessions and SHOULD expose this limit as configurable option to the administrator.
 
-To prevent resource exhaustion by partially opening a large number of
-(D)TLS sessions, RadSec servers SHOULD have a timeout on partially open (D)TLS sessions.
+To prevent resource exhaustion by partially opening a large number of (D)TLS sessions, RadSec servers SHOULD have a timeout on partially open (D)TLS sessions.
 Implementations SHOULD expose this timeout as configurable option to the administrator.
 The recommended default for this timeout is a few seconds. If a (D)TLS session is not established within this timeframe, it is likely that this is a bogus connection.
 In contrast, an established session might not send packets for longer periods of time, but since the endpoints are mutually authenticated this does not pose a problem other than the problems mentioned before.
@@ -783,8 +769,7 @@ To perform this lookup efficiently, RadSec servers SHOULD keep a list of the acc
 
 The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
 Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amount of data which was transferred, and on the encryption method.
-See {{RFC8446, Section 5.5}} and
-{{?I-D.irtf-cfrg-aead-limits}} for more information.
+See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more information.
 
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
 If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
@@ -964,10 +949,8 @@ For RADIUS clients, that may run on more constrained endpoints, implementers can
 ## Mandatory-to-implement trust profiles
 {: #design_trust_profiles}
 
-{{RFC6614}} mandates the implementation of the trust profile
-"certificate with PKIX trust model" for both clients and servers.
-The experience of the deployment of RADIUS/TLS as specified in {{RFC6614}}
-has shown that most actors still rely on RADIUS/UDP.
+{{RFC6614}} mandates the implementation of the trust profile "certificate with PKIX trust model" for both clients and servers.
+The experience of the deployment of RADIUS/TLS as specified in {{RFC6614}} has shown that most actors still rely on RADIUS/UDP.
 Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification we wanted to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.
 
 As with the supported transports, the assumption is that RADIUS servers are generally believed to be less constrained than RADIUS clients.
@@ -998,54 +981,25 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 
 # Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
-The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}}
-(RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
+The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
-* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification,
-  RFC6613 on the other hand had some specification for RADIUS/TLS.
-  These specifications have been merged into this document, and
-  therefore removes {{RFC6613}} as normative reference.
-* RFC6614
-  marked TLSv1.1 or later as mandatory, this specification requires
-  TLSv1.2 as minimum and recommends usage of TLSv1.3.
-* RFC6614
-  allowed use of TLS compression, this document forbids it.
-* RFC6614
-  only requires support for the trust model "certificates with PKIX"
-  ({{?RFC6614, Section 2.3}}). This document changes this. For
-  servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to
-  "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now
-  mandated and clients must implement at least one of the two.
-* The
-  mandatory-to-implement cipher suites are not referenced directly,
-  this is replaced by a pointer to the TLS BCP.
-* The specification
-  regarding steps for certificate verification has been updated.
-*
-  {{RFC6613}} mandated the use of Status-Server as watchdog algorithm,
-  {{?RFC7360}} only recommended it. This specification mandates the
-  use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
-*
-  {{RFC6613}} only included limited text around retransmissions, this
-  document now gives more guidance on how to handle retransmissions,
-  especially across different transports.
-* The rules for verifying
-  the endpoint certificate have been updated to follow guidance
-  provided in {{!RFC9525}}. Using the Common Name RDN for validation
-  of server certificates is now forbidden.
-* The response to unwanted
-  packets has changed. Endpoints should now reply with a
-  Protocol-Error packet, which is connection-specific and should not
-  be proxied.
+* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS. These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
+* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
+* RFC6614 allowed use of TLS compression, this document forbids it.
+* RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}). This document changes this. For   servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to   "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
+* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
+* The specification regarding steps for certificate verification has been updated.
+* {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
+* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
+* The rules for verifying the endpoint certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
+* The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
-The rationales behind some of these changes are outlined in
-{{design_decisions}}.
+The rationales behind some of these changes are outlined in {{design_decisions}}.
 
 # Acknowledgments
 {:numbered="false"}
 
-Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360:
-Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.
+Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.
 
 Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.
 
