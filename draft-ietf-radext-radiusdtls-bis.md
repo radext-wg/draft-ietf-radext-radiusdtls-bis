@@ -535,7 +535,7 @@ In contrast, the upper limit is much more difficult to define but may be in the 
 
 ## Behavior on (D)TLS connection closure of incoming connection
 
-If an incoming (D)TLS connection is closed, then there is no way to send a RADIUS response packet to the client.
+If an incoming (D)TLS connection or the underlying transport channel is closed or broken, then there is no way to send a RADIUS response packet to the client.
 The RadSec server behavior then depends on the types of packets being processed, and on the role of the server.
 
 A RadSec server acting as proxy MUST discard all requests associated with the closed connection.
