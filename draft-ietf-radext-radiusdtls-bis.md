@@ -694,20 +694,20 @@ RADIUS/UDP packets MUST NOT be sent to this port.
 RADIUS/DTLS clients SHOULD NOT probe servers to see if they support DTLS transport.
 Instead, clients SHOULD use DTLS as a transport layer only when administratively configured.
 
-## Connection Management
+## Session Management
 
-Where RADIUS/TLS can rely on the TCP state machine to perform connection tracking, RADIUS/DTLS cannot.
-As a result, RADIUS/DTLS implementations may need to perform DTLS connection tracking in the application layer.
+Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
+As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations MAY choose to use the method described here, or another, equivalent method.
 When implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
 
 We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
-The connection tracking described below can be seen as an extension of that cache, where entries contain DTLS connections instead of RADIUS/UDP packets.
+The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
 
-### Server Connection Management
+### Server Session Management
 
-A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS connections for each client, based on the following 5-tuple:
+A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS sessions for each client, based on the following 5-tuple:
 
 * source IP address
 * source port
@@ -717,37 +717,37 @@ A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS connection
 
 Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).
 
-Each 5-tuple points to a unique connection entry, which usually contains the following information:
+Each 5-tuple points to a unique session entry, which usually contains the following information:
 
-DTLS Connection:
-: Any information required to maintain and manage the DTLS connection.
+DTLS Session:
+: Any information required to maintain and manage the DTLS session.
 
 DTLS Data:
-: An implementation-specific variable that may contain information about the active DTLS connection.
+: An implementation-specific variable that may contain information about the active DTLS session.
 This variable may be empty or nonexistent.
 
-: This data will typically contain information such as idle timeouts, connection lifetimes, and other implementation-specific data.
+: This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.
 
-#### Connection Opening and Closing
+#### Session Opening and Closing
 
-Connection tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
+Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
 RADIUS/DTLS servers SHOULD use the stateless cookie tracking technique described in {{!RFC6347, Section 4.2.1}}.
-DTLS connections SHOULD NOT be tracked until a ClientHello packet has been received with an appropriate Cookie value.
-Server implementation SHOULD have a way of tracking DTLS connections that are partially set up.
-Servers MUST limit both the number and impact on resources of partial connections.
+DTLS sessions SHOULD NOT be tracked until a ClientHello packet has been received with an appropriate Cookie value.
+Server implementation SHOULD have a way of tracking DTLS sessions that are partially set up.
+Servers MUST limit both the number and impact on resources of partial sessions.
 
-Connections (both 5-tuple and entry) MUST be deleted when the DTLS connection is closed for any reason.
-When a connection is deleted due to it failing security requirements, the DTLS connection MUST be closed, any TLS session resumption parameters for that connection MUST be discarded, and all tracking information MUST be deleted.
+Sessions (both 5-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
+When a session is deleted due to it failing security requirements, the DTLS session MUST be closed, any TLS session resumption parameters for that session MUST be discarded, and all tracking information MUST be deleted.
 
-Since UDP is stateless, the potential exists for the client to initiate a new DTLS connection using a particular 5-tuple, before the server has closed the old connection.
-For security reasons, the server MUST keep the old connection active until either it has received secure notification from the client that the connection is closed or the server decides to close the connection based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS connection.
+Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
+For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.
 
-As a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active connection.
-This requirement can likely be reached by simply processing the packet through the existing connection, as with any other packet received via that 5-tuple.
+As a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active session.
+This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 5-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 
-### Client Connection Management
+### Client Session Management
 
 RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
 This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.
