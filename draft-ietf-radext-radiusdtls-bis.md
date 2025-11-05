@@ -697,7 +697,7 @@ Instead, clients SHOULD use DTLS as a transport layer only when administratively
 ## Connection Management
 
 Where RADIUS/TLS can rely on the TCP state machine to perform connection tracking, RADIUS/DTLS cannot.
-As a result, implementations of RADIUS/DTLS may need to perform connection management of the DTLS connection in the application layer.
+As a result, RADIUS/DTLS implementations may need to perform DTLS connection tracking in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations MAY choose to use the method described here, or another, equivalent method.
 When implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
