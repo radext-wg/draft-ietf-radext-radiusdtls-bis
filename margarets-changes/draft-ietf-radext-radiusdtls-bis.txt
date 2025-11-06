@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 9 May 2026                                      5 November 2025
+Expires: 10 May 2026                                     6 November 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 May 2026.
+   This Internet-Draft will expire on 10 May 2026.
 
 Copyright Notice
 
@@ -136,7 +136,7 @@ Table of Contents
 
    This document defines transport profiles for running the Remote
    Authentication Dial In User Service (RADIUS) over Transport Layer
-   Security (TLS) [RFC8446],[RFC5246] over TCP [STD7] and Datagram
+   Security (TLS) [RFC8446], [RFC5246] over TCP [STD7] and Datagram
    Transport Layer Security (DTLS) [RFC6347], [RFC9147] over UDP [STD6],
    allowing secure and reliable transport of RADIUS messages.  RADIUS/
    TLS and RADIUS/DTLS are collectively referred to as RadSec.
@@ -235,7 +235,7 @@ Table of Contents
    be preconfigured to use RADIUS/(D)TLS for a given endpoint.  This
    action has to be taken by the administrators of the two systems.
 
-   Implementations MUST follow the recommendations gi<ven in [BCP195],
+   Implementations MUST follow the recommendations given in [BCP195],
    especially in regards to recommended cipher suites and TLS session
    resumption.  Additionally, the following requirements have to be met
    for the (D)TLS session:
