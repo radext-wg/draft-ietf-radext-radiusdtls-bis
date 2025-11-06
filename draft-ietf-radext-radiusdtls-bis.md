@@ -231,6 +231,9 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
 * The peers MUST NOT negotiate compression.
 * The connection MUST be mutually authenticated (see {{mutual_auth}})
 
+RadSec implementations MAY use 0-RTT to speed up connection setup, but MUST implement protection mechanisms for replay.
+See {{?I-D.ietf-tls-rfc8446bis-14, Section 8}} for more detail.
+
 ## Mutual authentication
 {: #mutual_auth }
 
