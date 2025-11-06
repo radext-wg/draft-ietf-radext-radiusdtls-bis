@@ -533,7 +533,7 @@ The value of the idle timeout to use depends on the exact deployment and is a tr
 Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.
 In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
-## Behavior on (D)TLS connection closure of incoming connection
+## Behavior on (D)TLS connection closure of incoming connections
 
 If an incoming (D)TLS connection or the underlying transport channel is closed or broken, then there is no way to send a RADIUS response packet to the client.
 The RadSec server behavior then depends on the types of packets being processed, and on the role of the server.
