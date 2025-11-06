@@ -172,10 +172,10 @@ RADIUS/(D)TLS does not use separate ports for authentication, accounting and dyn
 The source port is arbitrary.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
-RADIUS/TLS servers MUST immediately start the TLS negotiation when a new connection to the RADIUS/TLS port is opened.
-They MUST close the connection and discard any data sent if the connecting client does not start a TLS negotiation or if the TLS negotiation fails at any point.
+RADIUS/TLS servers MUST immediately start the TLS handshake when a new connection to the RADIUS/TLS port is opened.
+They MUST close the connection and discard any data sent if the connecting client does not start a TLS handshake or if the TLS handshake fails at any point.
 
-RADIUS/DTLS servers MUST silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS negotiation or a packet sent over a DTLS connection established earlier.
+RADIUS/DTLS servers MUST silently discard any UDP datagram they receive over the RADIUS/DTLS port that is not a new DTLS handshake or a datagram related to a DTLS connection established earlier.
 
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
@@ -330,7 +330,7 @@ Additionally, a server MAY restrict individual or groups of clients to certain I
 One example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.
 
 A client connecting from outside the allowed range would be rejected, even if the mutual authentication otherwise would have been successful.
-To reduce server load and to prevent probing the validity of stolen credentials, the server SHOULD abort the (D)TLS negotiation immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e. the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP range.
+To reduce server load and to prevent probing the validity of stolen credentials, the server SHOULD abort the (D)TLS handshake immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e. the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP range.
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
