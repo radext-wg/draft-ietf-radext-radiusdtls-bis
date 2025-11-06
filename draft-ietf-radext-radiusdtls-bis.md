@@ -172,27 +172,27 @@ RadSec client implementations SHOULD implement this model, but MUST implement ei
 
 Implementations MUST comply with the the following rules:
 
-* Implementations MUST allow the configuration of a trust anchor (i.e. a list of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions. This list SHOULD be application-specific and not use a global system trust store.
+* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations SHOULD indicate their trust anchors when opening or accepting TLS sessions.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
-* When the configured trust base changes (e.g., removal of a CA from the trust anchor; issuance of a new CRL for a given CA), implementations SHOULD reassess the continued validity of the certificate path for all connected endpoints. This can either be done by caching the endpoint's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
-* Implementations SHOULD NOT keep a connection open for longer than the validity span of the endpoint certificate. At the time the endpoint certificate expires, the connection SHOULD be closed and re-opened.
+* When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
+* Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer's certificate. At the time the peer's certificate expires, the connection SHOULD be closed and re-opened.
 
-RadSec endpoints SHOULD NOT be pre-configured with a list of trusted CAs by the vendor or manufacturer that are enabled by default.
-Instead, the endpoints SHOULD start off with an empty CA list as trust anchor.
+RadSec endpoints SHOULD NOT be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
+Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
-This does not preclude vendors or manufacturers including their trust list in their products, but the enabling of those lists should be a conscious decision by an administrator.
+This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
 RADIUS/(D)TLS clients and servers MUST follow {{!RFC9525}} when validating endpoint identities. Specific details are provided below:
 
 * Certificates MAY use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.
-* RadSec clients validate the servers identity to match their local configuration, accepting the identity on the first match:
+* RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:
   * If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{!RFC7585, Section 2.2}}.
   * If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.  Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * The Common Name RDN MUST NOT be used to identify a server.
-  * Clients MAY use other attributes of the certificate to validate the server's identity, but it MUST NOT accept any certificate without validation.
+  * Clients MAY use other attributes of the certificate to validate the server's identity, but they MUST NOT accept any certificate without validation.
   * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in {{security_considerations}}.
 * RadSec servers validate the certificate of the RADIUS/(D)TLS client against a local database of acceptable clients.
   The database may enumerate acceptable clients either by IP address or by a name component in the certificate.
@@ -201,8 +201,8 @@ RADIUS/(D)TLS clients and servers MUST follow {{!RFC9525}} when validating endpo
   * Some servers MAY be configured to accept a client coming from a range or set of IP addresses.
 In this case, the server MUST verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server MUST match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Implementations MAY consider additional subjectAltName extensions to identify a client.
-  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify. The clients authorization MUST then be validated using a certificate policy OID unless both endpoints are part of a trusted network.
-* Implementations MAY allow configuration of a set of additional properties of the certificate to check for a endpoint's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
+  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy OID unless both endpoints are part of a trusted network.
+* Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using X.509 certificate fingerprints (TLS-X.509-FINGERPRINT)
 
@@ -226,7 +226,7 @@ Further guidance on the usage of TLS-PSK in RadSec is given in {{?RFC9813}}.
 In RADIUS/UDP, clients are uniquely identified by their IP addresses.
 Since the shared secret is associated with the origin IP address, if more than one RADIUS client is associated with the same IP address, then those clients also must utilize the same shared secret, a practice that is inherently insecure, as noted in {{!RFC5247}}.
 
-Depending on the trust model used, the RADIUS/(D)TLS client identity can be determined differently.
+Depending on the trust model used, the RadSec client identity can be determined differently.
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier.
 
@@ -250,7 +250,7 @@ To reduce server load and to prevent probing the validity of stolen credentials,
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
-As a suggestion, at least the following parameters of the X.509 client certificate should be exposed:
+As a suggestion, at least the following information from the TLS connection and the X.509 client certificate should be exposed:
 
 * Originating IP address
 * Certificate Fingerprint
@@ -260,7 +260,7 @@ As a suggestion, at least the following parameters of the X.509 client certifica
 * all X.509v3 Subject Alternative Name
 * all X.509v3 Certificate Policy
 
-In TLS-PSK operation at least the following parameters of the TLS connection should be exposed:
+In TLS-PSK operation at least the following information from the TLS connection should be exposed:
 
 * Originating IP address
 * TLS-PSK Identifier
@@ -286,7 +286,7 @@ If a resumed session is closed immediately after being established, the RadSec c
 {:#radius_packets}
 
 The RadSec specification does not change the client/server architecture of RADIUS.
-RadSec clients transmit the same packet types on the connection they initiated as a RadSec client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RadSec server would.
+RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
 As noted in {{portusage}}, RadSec uses the same port for Authentication and Accounting packets.
 As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.
 
@@ -300,7 +300,7 @@ It is also REQUIRED that RadSec clients accept Protocol-Error responses, whether
 The RADIUS/(D)TLS client SHOULD NOT assume that the configured server is not able to handle all packets of the packet type based on the Protocol-Error response.
 In proxy scenarios, a RADIUS proxy may be unable to forward accounting packets for one realm, but able to forward them for another.
 
-Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RADIUS/(D)TLS, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
+Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RadSec, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 
@@ -310,8 +310,8 @@ The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a rep
 
 * For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
 
-{{RFC6614}} also recommends that a RadSec client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
-This behavior, however, could lead to problems, especially in proxy fabrics, since the RadSec client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
+{{RFC6614}} also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
+This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
 
 Compared to the {{RFC6614}} recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
@@ -324,7 +324,12 @@ This issue is most notable in UDP to TCP proxying, but there are still possible 
 {{RFC2866, Section 1.2}} noted this issue many years ago:
 
 ~~~~
-A forwarding server may either perform its forwarding function in a pass through manner, where it sends retransmissions on as soon as it gets them, or it may take responsibility for retransmissions, for example in cases where the network link between forwarding and remote server has very different characteristics than the link between NAS and forwarding server.
+A forwarding server may either perform its forwarding function in a
+pass through manner, where it sends retransmissions on as soon as it
+gets them, or it may take responsibility for retransmissions, for
+example in cases where the network link between forwarding and remote
+server has very different characteristics than the link between NAS
+and forwarding server.
 ~~~~
 
 These differences are most notable in throughput, and in differing retransmission requirements.
@@ -355,8 +360,7 @@ That is, if an incoming connection on a reliable transport is closed, there may 
 Those retransmissions MUST be stopped, as there is nowhere to send the reply.
 Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy MUST stop all retransmissions of the old request and discard it.
 
-The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to
-"give up" on the packet and discard it.
+The above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to "give up" on the packet and discard it.
 Whether this discard process is due to internal client decisions, or interaction with incoming connections is irrelevant.
 When the client cannot do anything with responses to a request, it MUST stop retransmitting that request.
 
@@ -389,7 +393,7 @@ RadSec clients may need to reconnect to a server that rejected their connection 
 
 ### Reconnection attempts
 
-In contrast to RADIUS/UDP, RADIUS/(D)TLS establishes a (D)TLS session before transmitting any RADIUS packets.
+In contrast to RADIUS/UDP, RadSec establishes a (D)TLS session before transmitting any RADIUS packets.
 Therefore, in addition to retransmission of RADIUS packets, RadSec clients also have to deal with connection retries.
 
 Except in cases where an attempted resumption of a TLS session was closed by a RadSec server, RadSec clients MUST NOT immediately reconnect to a server after a failed connection attempt.
@@ -417,8 +421,7 @@ Where the connection to a RadSec server is configured to be static and always ke
 {:#client_retransmission_timers}
 
 RadSec clients MUST implement retransmission timers for retransmitting RADIUS packets such as the ones defined in {{RFC5080, Section 2.2.1}}.
-Other algorithms than the one defined in {{RFC5080}}
-are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
+Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
 As TLS is a reliable transport, RADIUS/TLS clients can only retransmit a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
 Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occurred in a later RADIUS hop or the home server ignores the RADIUS packet.
@@ -428,7 +431,7 @@ See {{duplicates_retransmissions}} for more discussion on retransmission behavio
 ## Session limits and timeout
 
 While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion.
-This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running endpoint relationships with long-running connections.
+This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
 Implementations SHOULD have configurable limits on the number of open connections.
 When this maximum is reached and a new session is needed, the server MUST either drop an old session in order to open the new one or not create a new session.
@@ -475,7 +478,7 @@ When TLS is used as transport, decoding the "next" packet on a connection depend
 As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.
 
 With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.
-However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the endpoint, a protocol violation at this stage implies that the endpoint is misbehaving.
+However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
 Implementations of this specification SHOULD treat the "silently discard" texts in the RADIUS specification referenced above as "silently discard and close the connection".
 That is, the implementation SHOULD send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:
@@ -495,7 +498,8 @@ After applying the above rules, there are still situations where the previous sp
 * Response packets that do not match any outstanding request
 * A server lacking the resources to process a request
 
-For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure. In any case, further processing of the original request MUST stop.
+For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure.
+In any case, further processing of the original request MUST stop.
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
@@ -524,7 +528,7 @@ As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do 
 {:#duplicates_retransmissions}
 
 As TCP is a reliable transport, RADIUS/TLS endpoints MUST NOT retransmit RADIUS packets over a given TCP connection.
-However, if the TLS session or TCP connection is closed or broken, retransmissions over new connections are permissible.
+However, if the TLS session or TCP connection is closed or broken, retries over new connections are permissible.
 RADIUS request packets that have not yet received a response MAY be transmitted by a RADIUS/TLS client over a new connection.
 As this procedure involves using a new session, the ID of the packet MAY change.
 If the ID changes, any security attributes such as Message-Authenticator MUST be recalculated.
@@ -679,7 +683,7 @@ For RADIUS however, many security considerations raised in the RADIUS documents 
 Those issues are largely mitigated when (D)TLS is used as a transport method, since encryption and authorization is achieved on the (D)TLS layer.
 The issues that are not mitigated by this specification are related to the RADIUS packet format and handling, which is unchanged in this specification.
 
-A few remaining security considerations and notes to administrators deploying RADIUS/(D)TLS are listed below.
+A few remaining security considerations and notes to administrators deploying RadSec are listed below.
 
 ## RADIUS Proxies
 
@@ -688,7 +692,7 @@ In the presence of proxies, these intermediate proxies can still inspect the ind
 Where intermediate proxies are untrusted, it is desirable to use other RADIUS mechanisms to prevent RADIUS packet payload from inspection by such proxies.
 One common method to protect passwords is the use of the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.
 
-Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
+Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one peer, to forward this packet to a different peer using the RADIUS/UDP transport profile.
 There is no technical solution to this problem with the current specification.
 Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as the transport.
 
@@ -701,11 +705,12 @@ RadSec endpoints that are configured to act both as client and server, typically
 Therefore, endpoints that are capable of acting as both client and server SHOULD implement mitigations to avoid accepting connections from itself.
 One example of a potentially vulnerable configuration is a setup where the RadSec server is accepting incoming connections from any address (or a wide address range).
 Since the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer or certificate OID.
-However, in this case, the client certificate which the RADIUS/(D)TLS endpoint uses for outgoing connections on the client side might also satisfy the trust check of the server side.
+However, in this case, the client certificate which the RadSec endpoint uses for outgoing connections on the client side might also satisfy the trust check of the server side.
 Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.
 
 Either through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.
-Such attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case. In particular, as described above, they also apply to certificate based authentication.
+Such attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case.
+In particular, as described above, they also apply to certificate based authentication.
 
 Implementations SHOULD therefore detect connections from itself, and reject them.
 There is currently no detection method that works universally for all use-cases and TLS implementations.
@@ -758,12 +763,12 @@ To perform this lookup efficiently, RadSec servers SHOULD keep a list of the acc
 
 ## TLS Session Lifetime and Key Rotation
 
-The underlying TLS sessions of RADIUS/(D)TLS connections may have a long lifetime.
+The underlying TLS sessions of RadSec connections may have a long lifetime.
 Especially when dealing with high volume of RADIUS traffic, the encryption keys have to be rotated regularly, depending on both the amount of data which was transferred, and on the encryption method.
 See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more information.
 
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
-If the underlying TLS library does not perform the rotation automatically, RADIUS/(D)TLS implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
+If the underlying TLS library does not perform the rotation automatically, RadSec implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
 
 ## Session Closing
 
@@ -783,21 +788,21 @@ This ensures forward compatibility with future RADIUS extensions.
 ## Migrating from RADIUS/UDP to RADIUS/(D)TLS
 
 Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
-We therefore recommend to migrate from RADIUS/UDP to RADIUS/(D)TLS.
+We therefore recommend to migrate from RADIUS/UDP to RadSec.
 Within this migration process, however, there are a few items that need to be considered by administrators.
 
-Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RADIUS/(D)TLS with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
-While this may seem like an easy way to upgrade RADIUS/UDP to RADIUS/(D)TLS, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
+Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
+While this may seem like an easy way to upgrade RADIUS/UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
 Using a potentially compromised shared secret as TLS-PSK compromises the whole TLS connection.
-Therefore, any shared secret used with RADIUS/UDP before MUST NOT be used with RADIUS/(D)TLS and (D)TLS-PSK.
+Therefore, any shared secret used with RADIUS/UDP before MUST NOT be used with RadSec and (D)TLS-PSK.
 Implementers MUST NOT reuse the configuration option for the RADIUS/UDP shared secret for the (D)TLS-PSK to prevent accidental reuse.
 
-When upgrading from RADIUS/UDP to RADIUS/(D)TLS, there may be a period of time, where the connection between client and server is configured for both transport profiles.
-If the old RADIUS/UDP configuration is left configured, but not used in normal operation, e.g. due to a fail-over configuration that prefers RADIUS/(D)TLS, an attacker could disrupt the RADIUS/(D)TLS communication and force a downgrade to RADIUS/UDP.
-To prevent this it is RECOMMENDED that, when the migration to RADIUS/(D)TLS is completed, the RADIUS/UDP configuration is removed.
-RadSec clients MUST NOT fall back to RADIUS/UDP if the RADIUS/(D)TLS communication fails, unless explicitly configured this way.
+When upgrading from RADIUS/UDP to RadSec, there may be a period of time, where the connection between client and server is configured for both transport profiles.
+If the old RADIUS/UDP configuration is left configured, but not used in normal operation, e.g. due to a fail-over configuration that prefers RadSec, an attacker could disrupt the RadSec communication and force a downgrade to RADIUS/UDP.
+To prevent this it is RECOMMENDED that, when the migration to RadSec is completed, the RADIUS/UDP configuration is removed.
+RadSec clients MUST NOT fall back to RADIUS/UDP if the RadSec communication fails, unless explicitly configured this way.
 
-Special considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RADIUS/(D)TLS.
+Special considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RadSec.
 A RADIUS server might not be able to detect if a RadSec client falls back to RADIUS/UDP, they will appear with the same source IP address to the server and use the same shared secret.
 It is therefore RECOMMENDED to not use RADIUS/UDP and RadSec clients behind a NAT at the same time.
 
@@ -813,13 +818,12 @@ This proxy will encapsulate all knowledge about servers, including security poli
 All client subsystems should communicate with this local proxy, ideally over a loopback address.
 
 The benefit of this configuration is that there is one place in the client that arbitrates all RADIUS traffic.
-Subsystems that do not implement RADIUS/(D)TLS can remain unaware of (D)TLS.
+Subsystems that do not implement RadSec can remain unaware of (D)TLS.
 (D)TLS sessions opened by the proxy can remain open for a long period of time, even when client subsystems are restarted.
-The proxy can do RADIUS/UDP to some servers and RADIUS/(D)TLS to others.
+The proxy can do RADIUS/UDP to some servers and RadSec to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
-By moving all RADIUS/(D)TLS knowledge to a
-(D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
+By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
 
 # Default ports and shared secrets
 {: #portusage}
@@ -981,7 +985,7 @@ The following list contains the most important changes from the previous specifi
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
-* The rules for verifying the endpoint certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.
+* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}.  Using the Common Name RDN for validation of server certificates is now forbidden.
 * The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
