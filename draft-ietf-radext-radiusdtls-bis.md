@@ -175,7 +175,7 @@ For considerations regarding the multi-purpose use of one port for authenticatio
 RADIUS/TLS servers MUST immediately start the TLS handshake when a new connection to the RADIUS/TLS port is opened.
 They MUST close the connection and discard any data sent if the connecting client does not start a TLS handshake or if the TLS handshake fails at any point.
 
-RADIUS/DTLS servers MUST silently discard any packet they receive over the RADIUS/DTLS port that is not a new DTLS handshake or a packet sent over a DTLS connection established earlier.
+RADIUS/DTLS servers MUST silently discard any UDP datagram they receive over the RADIUS/DTLS port that is not a new DTLS handshake or a datagram related to a DTLS connection established earlier.
 
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
