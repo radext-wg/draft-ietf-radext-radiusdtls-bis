@@ -289,15 +289,14 @@ Table of Contents
    arbitrary.  For considerations regarding the multi-purpose use of one
    port for authentication and accounting see Section 4.5.
 
-   RADIUS/TLS servers MUST immediately start the TLS negotiation when a
+   RADIUS/TLS servers MUST immediately start the TLS handshake when a
    new connection to the RADIUS/TLS port is opened.  They MUST close the
    connection and discard any data sent if the connecting client does
-   not start a TLS negotiation or if the TLS negotiation fails at any
-   point.
+   not start a TLS handshake or if the TLS handshake fails at any point.
 
-   RADIUS/DTLS servers MUST silently discard any packet they receive
-   over the RADIUS/DTLS port that is not a new DTLS negotiation or a
-   packet sent over a DTLS connection established earlier.
+   RADIUS/DTLS servers MUST silently discard any UDP datagram they
+   receive over the RADIUS/DTLS port that is not a new DTLS handshake or
+   a datagram related to a DTLS connection established earlier.
 
    RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP
    ports for RADIUS/DTLS or RADIUS/TLS.
@@ -614,7 +613,7 @@ Table of Contents
    even if the mutual authentication otherwise would have been
    successful.  To reduce server load and to prevent probing the
    validity of stolen credentials, the server SHOULD abort the (D)TLS
-   negotiation immediately with a TLS alert access_denied(49) after the
+   handshake immediately with a TLS alert access_denied(49) after the
    client transmitted identifying information, i.e. the client
    certificate or the PSK identifier, and the server recognizes that the
    client connects from outside the allowed IP range.
