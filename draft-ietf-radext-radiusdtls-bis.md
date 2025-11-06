@@ -823,7 +823,7 @@ Subsystems that do not implement RadSec can remain unaware of (D)TLS.
 The proxy can do RADIUS/UDP to some servers and RadSec to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
-By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
+By moving all RadSec knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
 
 # Default ports and shared secrets
 {: #portusage}
@@ -935,7 +935,7 @@ With the merging of RADIUS/TLS and RADIUS/DTLS the question of mandatory-to-impl
 In order to avoid incompatibilities, there were two possibilities: Either mandate one of the transports for all implementations or mandate the implementation of both transports for either the server or the client.
 As of the time writing, RADIUS/TLS is widely adapted for some use cases.
 However, TLS has some serious drawbacks when used for RADIUS transport.
-Especially the sequential nature of the connection and the connected issues like Head-of-Line blocking could create problems.
+Especially the sequential nature of the connection and the connected issues like head-of-line blocking could create problems.
 
 Therefore, the decision was made that RADIUS servers must implement both transports.
 For RADIUS clients, that may run on more constrained endpoints, implementers can choose to implement only the transport that is better suited for their needs.
@@ -977,7 +977,8 @@ Upon approval, IANA should update the Reference to radsec in the Service Name an
 
 The following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).
 
-* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS. These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
+* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
+  These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed use of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}).  This document changes this.  For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
