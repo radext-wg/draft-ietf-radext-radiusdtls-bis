@@ -2353,7 +2353,7 @@ Subsystems that do not implement RadSec can remain unaware of (D)TLS.
 (D)TLS sessions opened by the proxy can remain open for a long period of time, even when client subsystems are restarted.
 The proxy can do RADIUS/UDP to some servers and RadSec to others.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
 <p id="section-6.7-4">Delegation of responsibilities and separation of tasks are important security principles.
-By moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
+By moving all RadSec knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2517,7 +2517,7 @@ This section will discuss the rationale behind significant changes from the expe
 In order to avoid incompatibilities, there were two possibilities: Either mandate one of the transports for all implementations or mandate the implementation of both transports for either the server or the client.
 As of the time writing, RADIUS/TLS is widely adapted for some use cases.
 However, TLS has some serious drawbacks when used for RADIUS transport.
-Especially the sequential nature of the connection and the connected issues like Head-of-Line blocking could create problems.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+Especially the sequential nature of the connection and the connected issues like head-of-line blocking could create problems.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Therefore, the decision was made that RADIUS servers must implement both transports.
 For RADIUS clients, that may run on more constrained endpoints, implementers can choose to implement only the transport that is better suited for their needs.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 </section>
@@ -2768,7 +2768,8 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <p id="appendix-A-1">The following list contains the most important changes from the previous specifications in <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> (RADIUS/TCP), <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> (RADIUS/TLS) and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> (RADIUS/DTLS).<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS. These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> referenced <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
+These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
           <p id="appendix-A-2.2.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>

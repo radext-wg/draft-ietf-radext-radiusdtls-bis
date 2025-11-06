@@ -1482,9 +1482,9 @@ Table of Contents
    some servers and RadSec to others.
 
    Delegation of responsibilities and separation of tasks are important
-   security principles.  By moving all RADIUS/(D)TLS knowledge to a
-   (D)TLS-aware proxy, security analysis becomes simpler, and
-   enforcement of correct security becomes easier.
+   security principles.  By moving all RadSec knowledge to a (D)TLS-
+   aware proxy, security analysis becomes simpler, and enforcement of
+   correct security becomes easier.
 
 7.  Default ports and shared secrets
 
@@ -1655,7 +1655,7 @@ Table of Contents
    client.  As of the time writing, RADIUS/TLS is widely adapted for
    some use cases.  However, TLS has some serious drawbacks when used
    for RADIUS transport.  Especially the sequential nature of the
-   connection and the connected issues like Head-of-Line blocking could
+   connection and the connected issues like head-of-line blocking could
    create problems.
 
    Therefore, the decision was made that RADIUS servers must implement
