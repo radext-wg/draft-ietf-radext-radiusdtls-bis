@@ -153,7 +153,7 @@ The requirement that RADIUS remain largely unchanged ensures the simplest possib
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See {{security_considerations}} of this document or {{RFC9765}} for more details.
 
-We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
+We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
 
 ## Default ports and shared secrets
@@ -441,9 +441,10 @@ These requirements lead to an issue for proxies when they send packets across pr
 When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but MUST NOT forward those retransmissions across the reliable transport.
 The proxy MAY log information about these retransmissions, but it does not perform any other action.
 
-When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.
+When a proxy receives RADIUS packets on a reliable transport, and forwards them across an unreliable transport, the proxy MUST perform retransmissions across the unreliable transport as per {{RFC5080, Section 2.2.1}}.
 That is, the proxy takes responsibility for the retransmissions.
 Implementations MUST take care to not completely decouple the two transports in this situation.
+See {{radius_packet_handling}} for details on retransmitting RADIUS packets over DTLS.
 
 That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.
 Those retransmissions MUST be stopped, as there is nowhere to send the reply.
@@ -646,6 +647,7 @@ In contrast, RADIUS/UDP packets are usually received either quickly, or not at a
 This section discusses all specifications that are only relevant for RADIUS/DTLS.
 
 ## RADIUS packet handling
+{: #radius_packet_handling }
 
 The DTLS encryption adds an additional overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
