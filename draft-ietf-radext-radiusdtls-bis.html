@@ -1520,7 +1520,7 @@ Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class=
 <p id="section-3.1-5">The requirement that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
-<p id="section-3.1-6">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that RADIUS packets have an additional overhead due to DTLS.
+<p id="section-3.1-6">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in <a href="#dtls_spec" class="auto internal xref">Section 6</a>.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1934,9 +1934,10 @@ In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perfo
 These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.<a href="#section-4.6.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.6.2-2">When a proxy receives packets on an unreliable transport, and forwards them across a reliable transport, it receives retransmissions from the client, but <span class="bcp14">MUST NOT</span> forward those retransmissions across the reliable transport.
 The proxy <span class="bcp14">MAY</span> log information about these retransmissions, but it does not perform any other action.<a href="#section-4.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.6.2-3">When a proxy receives packets on a reliable transport, and forwards them across an unreliable transport, the proxy <span class="bcp14">MUST</span> perform retransmissions across the unreliable transport as per <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span>.
+<p id="section-4.6.2-3">When a proxy receives RADIUS packets on a reliable transport, and forwards them across an unreliable transport, the proxy <span class="bcp14">MUST</span> perform retransmissions across the unreliable transport as per <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span>.
 That is, the proxy takes responsibility for the retransmissions.
-Implementations <span class="bcp14">MUST</span> take care to not completely decouple the two transports in this situation.<a href="#section-4.6.2-3" class="pilcrow">¶</a></p>
+Implementations <span class="bcp14">MUST</span> take care to not completely decouple the two transports in this situation.
+See <a href="#radius_packet_handling" class="auto internal xref">Section 6.1</a> for details on retransmitting RADIUS packets over DTLS.<a href="#section-4.6.2-3" class="pilcrow">¶</a></p>
 <p id="section-4.6.2-4">That is, if an incoming connection on a reliable transport is closed, there may be pending retransmissions on an outgoing unreliable transport.
 Those retransmissions <span class="bcp14">MUST</span> be stopped, as there is nowhere to send the reply.
 Similarly, if the proxy sees that the client has given up on a request (such as by re-using an Identifier before the proxy has sent a response), the proxy <span class="bcp14">MUST</span> stop all retransmissions of the old request and discard it.<a href="#section-4.6.2-4" class="pilcrow">¶</a></p>
@@ -2176,7 +2177,7 @@ In contrast, RADIUS/UDP packets are usually received either quickly, or not at a
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-radius-dtls-specific-specif" class="section-name selfRef">RADIUS/DTLS specific specifications</a>
       </h2>
 <p id="section-6-1">This section discusses all specifications that are only relevant for RADIUS/DTLS.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div id="radius-packet-handling">
+<div id="radius_packet_handling">
 <section id="section-6.1">
         <h3 id="name-radius-packet-handling">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-radius-packet-handling" class="section-name selfRef">RADIUS packet handling</a>

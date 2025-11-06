@@ -261,8 +261,8 @@ Table of Contents
    this document or [RFC9765] for more details.
 
    We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means
-   that RADIUS packets have an additional overhead due to DTLS.  This is
-   discussed further in Section 6.
+   that UDP datagrams include an additional overhead due to DTLS.  This
+   is discussed further in Section 6.
 
 3.2.  Default ports and shared secrets
 
@@ -804,12 +804,13 @@ Table of Contents
    information about these retransmissions, but it does not perform any
    other action.
 
-   When a proxy receives packets on a reliable transport, and forwards
-   them across an unreliable transport, the proxy MUST perform
+   When a proxy receives RADIUS packets on a reliable transport, and
+   forwards them across an unreliable transport, the proxy MUST perform
    retransmissions across the unreliable transport as per [RFC5080],
    Section 2.2.1.  That is, the proxy takes responsibility for the
    retransmissions.  Implementations MUST take care to not completely
-   decouple the two transports in this situation.
+   decouple the two transports in this situation.  See Section 6.1 for
+   details on retransmitting RADIUS packets over DTLS.
 
    That is, if an incoming connection on a reliable transport is closed,
    there may be pending retransmissions on an outgoing unreliable
