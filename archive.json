@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-04T00:54:56.159235+00:00",
+  "timestamp": "2025-11-06T00:55:20.723614+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -543,7 +543,7 @@
       "id": "I_kwDOLrzygc7VRJPU",
       "title": "Remove Appendices",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/63",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -552,9 +552,17 @@
       ],
       "body": "The appendices may not be suitable for a standards-track document.\nMaybe we could remove them, shorten them, ...\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/KkYANOs3hdGn0TIDCmEyTkPwZwY/)\n\nesp. eduroam is already documented in RFC 7593",
       "createdAt": "2025-11-01T14:04:21Z",
-      "updatedAt": "2025-11-01T14:04:21Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-11-05T20:02:04Z",
+      "closedAt": "2025-11-05T20:02:04Z",
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed with #83 ",
+          "createdAt": "2025-11-05T20:02:00Z",
+          "updatedAt": "2025-11-05T20:02:00Z"
+        }
+      ]
     },
     {
       "number": 64,
@@ -775,6 +783,22 @@
       "body": "The draft says:\n\n> If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.\n\nWhat does it mean to be \"closed immediately\"?  Is that counted by a certain amount of time?  Is that counted by the number of messages exchanged after the session establishment?",
       "createdAt": "2025-11-03T21:14:23Z",
       "updatedAt": "2025-11-03T21:14:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 87,
+      "id": "I_kwDOLrzygc7Vz7C7",
+      "title": "Absolute lower and upper bounds for reconnection backoff?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/87",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 4.7.1 holds:\n\n> If a different algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and a jitter.\n\nWould it be good to specify an absolute lower and upper bound for the delay?",
+      "createdAt": "2025-11-04T15:46:48Z",
+      "updatedAt": "2025-11-04T15:46:48Z",
       "closedAt": null,
       "comments": []
     }
@@ -4556,25 +4580,33 @@
       "id": "PR_kwDOLrzygc6sU1JS",
       "title": "Update to Detecting live servers - per connection",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/57",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This change makes it clear that the watchdog needs to be on a per-connection basis.",
       "createdAt": "2025-10-06T17:15:24Z",
-      "updatedAt": "2025-10-06T17:15:24Z",
+      "updatedAt": "2025-11-05T20:03:01Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "after-wglc/detecting-live-servers",
       "headRefOid": "5e1ccd40b75a79245084bb800be5e96c464bc400",
-      "closedAt": null,
+      "closedAt": "2025-11-04T15:15:53Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Not necessary any more with merge of #79 ",
+          "createdAt": "2025-11-04T15:15:53Z",
+          "updatedAt": "2025-11-04T15:15:53Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -4659,25 +4691,33 @@
       "id": "PR_kwDOLrzygc6svzJK",
       "title": "radiusdtls-bis-09 - Detecting Live Servers - absence of reply",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/59",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "h-vn",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Clarify that the updated paragraph covers both the correct and incorrect cases. That is, when the client draws a conclusion that the server is unavailable, the conclusion may be correct or incorrect and the pargraph covers the both cases, not just the problems with the incorrect conclusion.\r\n\r\nI've so far understood the paragraph to only address the problems that arise when the conclusion is incorrect. Janfred's comment clarified this is not the case and I hope the updated text is also clearer about this.",
       "createdAt": "2025-10-08T17:26:47Z",
-      "updatedAt": "2025-10-08T17:26:47Z",
+      "updatedAt": "2025-11-04T15:16:10Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "live-servers-parens",
       "headRefOid": "b33514050ff6cbfee8c0ab7ebd37cdff7684db9c",
-      "closedAt": null,
+      "closedAt": "2025-11-04T15:16:09Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Not necessary any more with merge of #79",
+          "createdAt": "2025-11-04T15:16:09Z",
+          "updatedAt": "2025-11-04T15:16:09Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -4723,12 +4763,12 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/61",
       "state": "OPEN",
       "author": "h-vn",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The overhead and retransmissions commits aim to clarify the existing text.\r\n\r\nThe third commit, '(D)TLS data is opaque', attempts to clarify that any data received over a TLS/TCP or DTLS/UDP port should be pushed to the (D)TLS implementation for processing. (D)TLS then tells what happens next.\r\n\r\nThe text the third commit adds is intended to say what Janfred commented earlier, [What we mean is: either it's DTLS or it gets thrown away](https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/56/commits/dcc543c0066b12fa3592a2d813a5fa8d9952fbb4#r2407121622), with the help of (D)TLS implementation. The removed text, from a point of RADIUS server implementator, reads as if the RADIUS server needs to understand what's the state of TLS connection or DTLS association.\r\n\r\nIn any case, I'd say the two removed paragraph should be in the 'Packet / Connection Handling' in case they are kept.",
       "createdAt": "2025-10-12T17:12:15Z",
-      "updatedAt": "2025-10-13T09:36:39Z",
+      "updatedAt": "2025-11-04T21:14:29Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
@@ -4746,6 +4786,13 @@
           "body": "+1, modulu some minor comments",
           "createdAt": "2025-10-13T09:36:38Z",
           "updatedAt": "2025-10-13T09:36:38Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The changes in this PR can also be addressed when a full terminology check and update sweep is done.",
+          "createdAt": "2025-11-04T21:14:18Z",
+          "updatedAt": "2025-11-04T21:14:18Z"
         }
       ],
       "reviews": []
@@ -4762,7 +4809,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2025-11-01T20:53:27Z",
+      "updatedAt": "2025-11-04T21:12:53Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
@@ -4808,6 +4855,13 @@
           "body": "The changes that now remain look correct. It may be useful to hold this since Margaret wrote on the list that she's working on the shepherding process. ",
           "createdAt": "2025-10-24T15:35:28Z",
           "updatedAt": "2025-10-24T15:35:28Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "At the time of writing there are only two changes remaining. The one is about 'changes to Radius' which is likely better handled with this PR anymore. The other commit is about home server not receiving CoA-Request and Disconnect-Request, which are not that important.",
+          "createdAt": "2025-11-04T21:12:37Z",
+          "updatedAt": "2025-11-04T21:12:37Z"
         }
       ],
       "reviews": [
@@ -4957,43 +5011,66 @@
       "labels": [],
       "body": "Limit the details about protocol-error, since a propoer protocol-error draft only just started.",
       "createdAt": "2025-11-02T17:48:01Z",
-      "updatedAt": "2025-11-02T17:57:00Z",
+      "updatedAt": "2025-11-04T15:41:30Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-update-protocol-error",
-      "headRefOid": "4dd7212eeb6f8f4bdc04209480cc7514dd3b3603",
+      "headRefOid": "8bf1ddaafb2c92a5f885bbf622c30d43b9f01ffc",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7LrTMg",
+          "commit": {
+            "abbreviatedOid": "4dd7212"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T15:32:09Z",
+          "updatedAt": "2025-11-04T15:32:17Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\nRADIUS/(D)TLS clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.\r\nFurther details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description on Protocol-Error.\r\n```",
+              "createdAt": "2025-11-04T15:32:09Z",
+              "updatedAt": "2025-11-04T15:32:18Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 79,
       "id": "PR_kwDOLrzygc6xEq4h",
       "title": "Reword detecting live servers section",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/79",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses also the comments in #57 #59 \r\n\r\nrelated to #64 ",
       "createdAt": "2025-11-02T18:32:55Z",
-      "updatedAt": "2025-11-02T20:40:46Z",
+      "updatedAt": "2025-11-05T20:02:49Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "after-wglc/reword-detecting-live-servers",
       "headRefOid": "2aee47b8dabc7ed7c39bbcc0a6b4cf3e02848fe0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-04T15:14:59Z",
+      "mergedAt": "2025-11-04T15:14:59Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "6b6cea9360d73d1ccaf257d94e4c28b8496356c4"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5002,7 +5079,7 @@
             "abbreviatedOid": "e74a7e7"
           },
           "author": "meadmaker",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2025-11-02T19:02:40Z",
@@ -5023,26 +5100,49 @@
       "id": "PR_kwDOLrzygc6xExfL",
       "title": "Clarify allowed retransmissions/retries",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/80",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "closes #86",
       "createdAt": "2025-11-02T19:10:26Z",
-      "updatedAt": "2025-11-02T19:10:26Z",
+      "updatedAt": "2025-11-05T20:00:51Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-clarify-retransmission",
-      "headRefOid": "8a928b6ec971f1c97f55a0b7534dd9a361383d84",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6f89f83694c16698b6c42d78e3c0675502220416",
+      "closedAt": "2025-11-05T20:00:50Z",
+      "mergedAt": "2025-11-05T20:00:50Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "48944effeb52f2de840d498aa584becfa6b8d9ce"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MFmJ-",
+          "commit": {
+            "abbreviatedOid": "8a928b6"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T19:45:18Z",
+          "updatedAt": "2025-11-05T19:45:18Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nRADIUS clients MUST NOT retry sending a packet by altering the protocol (i.e. switching from TLS to DTLS or vice versa) of the configured server on its own.\r\nThis requirement does not, however, forbid the practice of putting servers with the same IP address and port but different protocols into a failover or load-balancing pool.\r\n```",
+              "createdAt": "2025-11-05T19:45:18Z",
+              "updatedAt": "2025-11-05T19:45:18Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 81,
@@ -5077,24 +5177,26 @@
       "id": "PR_kwDOLrzygc6xO09t",
       "title": "Separate the SHOULDS for PKIX",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/82",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The document gives a list of rules that MUST be used when implementing PKIX authentication, but then includes two SHOULD items.  This change moves that to a separate list.",
       "createdAt": "2025-11-03T16:51:32Z",
-      "updatedAt": "2025-11-03T17:36:19Z",
+      "updatedAt": "2025-11-04T14:50:25Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "separate_shoulds_for_PKIX",
       "headRefOid": "a6f801cae4bdf36c07c5a95dc11667328e3db688",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-04T14:50:25Z",
+      "mergedAt": "2025-11-04T14:50:25Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "91ef4d2ca324e58c723a20ca6e4185fc765f054a"
+      },
       "comments": [
         {
           "author": "Janfred",
@@ -5105,7 +5207,7 @@
         },
         {
           "author": "meadmaker",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Changed as requested",
           "createdAt": "2025-11-03T17:36:19Z",
           "updatedAt": "2025-11-03T17:36:19Z"
@@ -5118,24 +5220,26 @@
       "id": "PR_kwDOLrzygc6xPV-L",
       "title": "Modified initial sections, added terminology, moved changes section t\u2026",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/83",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mrw42",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026o end, removed eduroam and Open Roaming sections.",
       "createdAt": "2025-11-03T17:33:44Z",
-      "updatedAt": "2025-11-03T17:50:03Z",
+      "updatedAt": "2025-11-04T23:50:34Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "mrw42/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "term-section",
-      "headRefOid": "bc45887f2c01b053e6a94c4b603d0138e4e75a43",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "7b1fc83789f642f4b89ec0e4662bf5e207ee15a8",
+      "closedAt": "2025-11-04T23:50:34Z",
+      "mergedAt": "2025-11-04T23:50:34Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "b99e0437c3bbc8c6a78811fe2723306123b42831"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5217,6 +5321,466 @@
               "updatedAt": "2025-11-03T17:50:03Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Ls8FB",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T16:46:34Z",
+          "updatedAt": "2025-11-04T16:46:35Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\r\nTransport Layer Security (DTLS) {{!RFC6347}},{{!RFC9147}} over UDP {{!STD6}}.,\r\n```",
+              "createdAt": "2025-11-04T16:46:34Z",
+              "updatedAt": "2025-11-04T16:46:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Ls-q-",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T16:48:27Z",
+          "updatedAt": "2025-11-04T16:48:27Z",
+          "comments": [
+            {
+              "originalPosition": 194,
+              "body": "```suggestion\r\n# Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)\r\n```",
+              "createdAt": "2025-11-04T16:48:27Z",
+              "updatedAt": "2025-11-04T16:48:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LtIYT",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T16:56:03Z",
+          "updatedAt": "2025-11-04T16:56:03Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "Same as with TCP segments, I don't think we mention IP packets anywhere in the document, so I would remove this.",
+              "createdAt": "2025-11-04T16:56:03Z",
+              "updatedAt": "2025-11-04T16:56:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LtJdG",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T16:56:52Z",
+          "updatedAt": "2025-11-04T16:56:53Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "Either it is truly TLS and DTLS, then we would need a reference to TLS as well, or its just DTLS, then remove the parenthesis.",
+              "createdAt": "2025-11-04T16:56:53Z",
+              "updatedAt": "2025-11-04T16:56:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LtpRJ",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T17:18:59Z",
+          "updatedAt": "2025-11-04T17:18:59Z",
+          "comments": [
+            {
+              "originalPosition": 106,
+              "body": "Same comment as above: Either TLS and DTLS, then also reference TLS, or only DTLS.\r\nIn this case, I think its both.",
+              "createdAt": "2025-11-04T17:18:59Z",
+              "updatedAt": "2025-11-04T17:18:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LtyFi",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T17:25:12Z",
+          "updatedAt": "2025-11-04T17:25:13Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Add parenthesis around D in the explanation to make it clear we mean both TLS and DTLS.",
+              "createdAt": "2025-11-04T17:25:13Z",
+              "updatedAt": "2025-11-04T17:25:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LtyoZ",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T17:25:36Z",
+          "updatedAt": "2025-11-04T17:25:37Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "```suggestion\r\n(D)TLS connection:\r\n: A single (D)TLS communication channel (with DTLS this is a synonym for Association).\r\n```",
+              "createdAt": "2025-11-04T17:25:36Z",
+              "updatedAt": "2025-11-04T17:25:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LwWrJ",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T20:02:44Z",
+          "updatedAt": "2025-11-04T20:02:44Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Added back in introduction.",
+              "createdAt": "2025-11-04T20:02:44Z",
+              "updatedAt": "2025-11-04T20:02:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LwWx-",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T20:02:52Z",
+          "updatedAt": "2025-11-04T20:02:52Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "Done",
+              "createdAt": "2025-11-04T20:02:52Z",
+              "updatedAt": "2025-11-04T20:02:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LwW6h",
+          "commit": {
+            "abbreviatedOid": "bc45887"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T20:03:04Z",
+          "updatedAt": "2025-11-04T20:03:04Z",
+          "comments": [
+            {
+              "originalPosition": 126,
+              "body": "Removed.",
+              "createdAt": "2025-11-04T20:03:04Z",
+              "updatedAt": "2025-11-04T20:03:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Lw8J4",
+          "commit": {
+            "abbreviatedOid": "ef85575"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T20:55:32Z",
+          "updatedAt": "2025-11-04T20:55:32Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "'Section 3.8.4.' should be part of the link. Like this: `{{RFC9293, Section 3.8.4}}`.",
+              "createdAt": "2025-11-04T20:55:32Z",
+              "updatedAt": "2025-11-04T20:55:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Lxfiz",
+          "commit": {
+            "abbreviatedOid": "ef85575"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T21:50:42Z",
+          "updatedAt": "2025-11-04T21:50:42Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "Done\r\n",
+              "createdAt": "2025-11-04T21:50:42Z",
+              "updatedAt": "2025-11-04T21:50:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LxwmW",
+          "commit": {
+            "abbreviatedOid": "5855576"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T22:21:45Z",
+          "updatedAt": "2025-11-04T22:21:45Z",
+          "comments": [
+            {
+              "originalPosition": 106,
+              "body": "```suggestion\r\n: As defined in TLS {{RFC5246}}.\r\n```",
+              "createdAt": "2025-11-04T22:21:45Z",
+              "updatedAt": "2025-11-04T22:21:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Lx8KM",
+          "commit": {
+            "abbreviatedOid": "5855576"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T22:45:20Z",
+          "updatedAt": "2025-11-04T22:45:21Z",
+          "comments": [
+            {
+              "originalPosition": 135,
+              "body": "```suggestion\r\n```\r\n\r\nMy previous comment on this is still valid, we don't have any mention of IP packets (nor do we need to, because that's all already included in the discussion of TCP or UDP) and we never care about actual IP packets, only their content.",
+              "createdAt": "2025-11-04T22:45:21Z",
+              "updatedAt": "2025-11-04T22:45:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Lx8rp",
+          "commit": {
+            "abbreviatedOid": "5855576"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T22:46:25Z",
+          "updatedAt": "2025-11-04T22:46:25Z",
+          "comments": [
+            {
+              "originalPosition": 137,
+              "body": "```suggestion\r\n: A RadSec instance that initiates a new connection.\r\n```\r\n\r\n(to be consistent with the other points)",
+              "createdAt": "2025-11-04T22:46:25Z",
+              "updatedAt": "2025-11-04T22:46:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyAmi",
+          "commit": {
+            "abbreviatedOid": "998ea69"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T22:54:51Z",
+          "updatedAt": "2025-11-04T22:54:51Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "Done\r\n",
+              "createdAt": "2025-11-04T22:54:51Z",
+              "updatedAt": "2025-11-04T22:54:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyEbq",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:03:25Z",
+          "updatedAt": "2025-11-04T23:03:26Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\r\nThis document defines transport profiles for running the Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.\r\nRADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.\r\n```\r\n\r\nRe-format to one-line-per-sentence",
+              "createdAt": "2025-11-04T23:03:26Z",
+              "updatedAt": "2025-11-04T23:03:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyE0I",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:04:15Z",
+          "updatedAt": "2025-11-04T23:04:15Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\r\nThis document defines transport profiles for running Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) {{!RFC8446}}, {{!RFC5246}} over TCP {{!STD7}} and Datagram Transport Layer Security (DTLS) {{!RFC6347}}, {{!RFC9147}} over UDP {{!STD6}}., allowing secure and reliable transport of RADIUS messages.\r\nRADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.\r\n```\r\n\r\n\r\nRe-format to one-line-per-sentence",
+              "createdAt": "2025-11-04T23:04:15Z",
+              "updatedAt": "2025-11-04T23:04:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyFYl",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:05:24Z",
+          "updatedAt": "2025-11-04T23:05:24Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nThe RADIUS protocol is a widely deployed authentication, authorization and accounting solution defined in {{!RFC2865}}, {{!RFC2866}}, {{!RFC5176}} and others.\r\nDeployment experience has shown several shortcomings, such as its dependency on the unreliable transport protocol, UDP, and its lack of confidentiality for large parts of RADIUS messages.\r\nAdditionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which has been proven to be insecure.\r\nAlthough RADIUS/(D)TLS does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.\r\nFor an updated version of RADIUS/(D)TLS without need for MD5 see {{?RFC9765}}.\r\n```\r\n\r\nRe-format to one-line-per-sentence",
+              "createdAt": "2025-11-04T23:05:24Z",
+              "updatedAt": "2025-11-04T23:05:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyF2X",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:06:21Z",
+          "updatedAt": "2025-11-04T23:06:21Z",
+          "comments": [
+            {
+              "originalPosition": 164,
+              "body": "```suggestion\r\nWhenever \"(D)TLS\" or \"RADIUS/(D)TLS\" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.\r\nWhere \"TLS\" or \"RADIUS/TLS\" is mentioned, the specification only applies to RADIUS/TLS, where \"DTLS\" or \"RADIUS/DTLS\" is mentioned it only applies to RADIUS/DTLS.\r\n```\r\n\r\n\r\nRe-format to one-line-per-sentence",
+              "createdAt": "2025-11-04T23:06:21Z",
+              "updatedAt": "2025-11-04T23:06:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyGIU",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:06:55Z",
+          "updatedAt": "2025-11-04T23:06:55Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "```suggestion\r\nServer implementations MUST support both RADIUS/TLS and RADIUS/DTLS.\r\nClient implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.\r\n```\r\n\r\nRe-format to one-line-per-sentence",
+              "createdAt": "2025-11-04T23:06:55Z",
+              "updatedAt": "2025-11-04T23:07:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyMJR",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:20:41Z",
+          "updatedAt": "2025-11-04T23:20:41Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "When we have one line per sentence it runs off the right and or wraps awkwardly on a small screen.  I had to reformat it to actually read the paragraphs and find the terminology to change.  \r\n\r\nIf you want to do this for every paragraph, why don't you do it in a separate PR after you accept my actual, substantive changes?\r\n\r\nWe need to actually move forward on the text.\r\n",
+              "createdAt": "2025-11-04T23:20:41Z",
+              "updatedAt": "2025-11-04T23:20:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LyMhU",
+          "commit": {
+            "abbreviatedOid": "f31495c"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T23:21:37Z",
+          "updatedAt": "2025-11-04T23:21:37Z",
+          "comments": [
+            {
+              "originalPosition": 164,
+              "body": "You will find the longer PR does  this, too.  Please change later if you must.",
+              "createdAt": "2025-11-04T23:21:37Z",
+              "updatedAt": "2025-11-04T23:21:37Z"
+            }
+          ]
         }
       ]
     },
@@ -5225,26 +5789,720 @@
       "id": "PR_kwDOLrzygc6xRbcK",
       "title": "Check PKIX addr against range",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/84",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I found the wording around using PKIX authentication for clients identified by IP address belonging to an IP range confusing.  My first impression of the text was that it expected the certificate to include the IP range, and I was confused about how that would be represented.  It took me a few times reading it before I understood what it was trying to say.\r\n\r\n- Turn this line into its own bullet point, which seems like it was intended anyway\r\n- Make it clear that this is an optional server configuration\r\n- Make it clear that the server has separate validations for the client IP address being part of its configured range and for the client IP address being identified in the certificate",
       "createdAt": "2025-11-03T20:43:58Z",
-      "updatedAt": "2025-11-03T20:43:58Z",
+      "updatedAt": "2025-11-04T17:00:15Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
       "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "check_pkix_addr_against_range",
-      "headRefOid": "292762c20d2787cceca8b514d434cd1d1c7cca43",
+      "headRefOid": "9a551479377cc0c9e78336c32257b042ddedd6ce",
+      "closedAt": "2025-11-04T17:00:15Z",
+      "mergedAt": "2025-11-04T17:00:15Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "d02d81833f269e3d8f9ab3c250fdfc0d3c8bea0c"
+      },
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Maybe \"range or set\" ? In theory, it is also possible to allow a list of IP addresses instead of a range (or a list of ranges)",
+          "createdAt": "2025-11-04T14:55:13Z",
+          "updatedAt": "2025-11-04T14:55:13Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Done!",
+          "createdAt": "2025-11-04T15:38:48Z",
+          "updatedAt": "2025-11-04T15:38:48Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Lr4U3",
+          "commit": {
+            "abbreviatedOid": "78062a8"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T15:59:21Z",
+          "updatedAt": "2025-11-04T15:59:22Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n  * Some servers MAY be configured to accept a client coming from a range or set of IP addresses.  In this case, the server MUST verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server MUST match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.\r\n```",
+              "createdAt": "2025-11-04T15:59:22Z",
+              "updatedAt": "2025-11-04T15:59:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 86,
+      "id": "PR_kwDOLrzygc6xct-3",
+      "title": "Clarify for reconnections",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/86",
+      "state": "MERGED",
+      "author": "meadmaker",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Reword the exception, mostly because \"iff\" is not an English word ;-)\r\n- Supply an absolute lower limit for configuring the lower limit of reconnection time, so that administrators don't set the lower limit to 0 seconds.",
+      "createdAt": "2025-11-04T15:37:02Z",
+      "updatedAt": "2025-11-04T16:17:02Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6b6cea9360d73d1ccaf257d94e4c28b8496356c4",
+      "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "reconnection",
+      "headRefOid": "257639f4abe921a5e5a78d659c1766696fa3be5a",
+      "closedAt": "2025-11-04T16:17:02Z",
+      "mergedAt": "2025-11-04T16:17:02Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "9df32789bdd5ffd9cb84d8315dc57d368b1e4c10"
+      },
+      "comments": [
+        {
+          "author": "meadmaker",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "As for the absolute lower limit of reconnection time, I think it's important to have a well-considered lower limit, but I don't have a good feel for exactly what that number is.  I put half a second in the pull request, but if you feel that a different number would be better please use that instead.",
+          "createdAt": "2025-11-04T15:43:55Z",
+          "updatedAt": "2025-11-04T15:43:55Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Lr3jd",
+          "commit": {
+            "abbreviatedOid": "12d42a0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T15:58:44Z",
+          "updatedAt": "2025-11-04T15:58:45Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nExcept in cases where an attempted resumption of a TLS session was closed by the RADIUS/(D)TLS server, RADIUS/(D)TLS clients MUST NOT immediately reconnect to a server after a failed connection attempt.  Typical reconnections MUST have a lower bound for the time in between retries.  The lower bound SHOULD be configurable, but MUST NOT be less than 0.5 seconds.  In cases where the server closes the connection on an attempted TLS session resumption, the client MUST NOT use TLS session resumption for the following connection attempt.\r\n```",
+              "createdAt": "2025-11-04T15:58:44Z",
+              "updatedAt": "2025-11-04T15:58:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7LsKGJ",
+          "commit": {
+            "abbreviatedOid": "2c8a8ef"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-04T16:12:31Z",
+          "updatedAt": "2025-11-04T16:12:32Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nExcept in cases where an attempted resumption of a TLS session was closed by the RADIUS/(D)TLS server, RADIUS/(D)TLS clients MUST NOT immediately reconnect to a server after a failed connection attempt.\r\nA connection attempt is treated as failed if it fails at any point until a the (D)TLS session is established successfully.\r\nTypical reconnections MUST have a lower bound for the time in between retries.\r\nThe lower bound SHOULD be configurable, but MUST NOT be less than 0.5 seconds.\r\nIn cases where the server closes the connection on an attempted TLS session resumption, the client MUST NOT use TLS session resumption for the following connection attempt.\r\n```",
+              "createdAt": "2025-11-04T16:12:32Z",
+              "updatedAt": "2025-11-04T16:12:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 88,
+      "id": "PR_kwDOLrzygc6xdDtO",
+      "title": "Check limits before opening the session",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/88",
+      "state": "MERGED",
+      "author": "meadmaker",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Using the word \"started\" implies that the session has already succeeded in its creation.",
+      "createdAt": "2025-11-04T16:01:53Z",
+      "updatedAt": "2025-11-04T16:15:45Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6b6cea9360d73d1ccaf257d94e4c28b8496356c4",
+      "headRepository": "meadmaker/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "check-limits-before-session-creation",
+      "headRefOid": "1d9946bafc12893e1aebb5cf7052741f2a715e2c",
+      "closedAt": "2025-11-04T16:15:45Z",
+      "mergedAt": "2025-11-04T16:15:45Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "f499db5962e12b1a383021efea2910cbc74b5022"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 89,
+      "id": "PR_kwDOLrzygc6xgjqY",
+      "title": "WIP: Apply terminology throughout, remove most discussion of Protocol-Erro\u2026",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/89",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026r, editorial changes, move \"Changes to RADIUS\" session after protocol specification, etc.",
+      "createdAt": "2025-11-04T22:00:25Z",
+      "updatedAt": "2025-11-05T19:36:25Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "573edd80f9008dd4f73aac3adb2952e1d0302ab3",
+      "headRepository": "mrw42/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fix-conflicts",
+      "headRefOid": "a173515903a697af89ca9013532fb1c22bfff7c9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Unfortunately, this pull request changes the line wrapping completely, which makes it impossible to quickly spot changes.\r\n\r\nIn the current version I'm trying to have one sentence per line.",
+          "createdAt": "2025-11-04T22:58:32Z",
+          "updatedAt": "2025-11-04T22:58:32Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I was trying to help by doing a whole bunch of work in the document and submitting it as a PR, but perhaps that was a waste of time\u2026 I can\u2019t reasonably edit, or even properly read, a document that is written one sentence per line.  So, you can merge this PR, or you can redo the work it contains, whichever is easier for you. Let me know when you have a version that you believe fully updates terminology throughout the document (to match the terminology section), addresses all of the open WG issues, and addresses my other shepherd review comments sent in email.  I will then do another review.",
+          "createdAt": "2025-11-05T14:28:48Z",
+          "updatedAt": "2025-11-05T14:32:49Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mrw42 I think the concern is the mixing of whitespace changes and editorial changes.  That makes it difficult to review the changes, as the git \"diff\" view doesn't display the changes correctly.\r\n\r\nI've talked with Janfred, and we're going to look at a solution.  There's no question that the document has to make progress.  I hope we can continue to make progress this week.",
+          "createdAt": "2025-11-05T14:49:17Z",
+          "updatedAt": "2025-11-05T14:49:17Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I understand the concern...   It really wasn't possible for me to make changes in effectively every paragraph in the document and retain the white space, given that in some cases I was needing to move back and forth three page widths to see the full sentences.  I understand why the resulting changes will be hard for Janfred to deal with if he wants to review each separate change.  Many of the changes were made using find/replace, checking each instance to make sure the change would apply correctly.  For instance almost every instance of the word \"node\" in document was changed to \"endpoint\" and almost every instance of RADIUS/(D)TLS was changes to RadSec...  ",
+          "createdAt": "2025-11-05T18:27:12Z",
+          "updatedAt": "2025-11-05T18:27:12Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since this contains too many changes, I'm marking this as Work-in-progress.\r\n\r\nMost of the terminology has been updated in 3a91230\r\n\r\nThe other changes are too big to grasp, so I'll keep this as a reference without intention of merging this specific PR, but rather going through the changes individually.",
+          "createdAt": "2025-11-05T19:36:01Z",
+          "updatedAt": "2025-11-05T19:36:01Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 90,
+      "id": "PR_kwDOLrzygc6xssoF",
+      "title": "Reduce RADIUS to its abbreviation again in the document title",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/90",
+      "state": "MERGED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "While it might be good to spell everything out, the abbreviation RADIUS is really not applicable to what the protocol does any more, and I think it should be treated more like a fixed term.\r\n\r\nWith the other abbreviations (TLS/DTLS) spelled out, the title gets very long otherwise.",
+      "createdAt": "2025-11-05T16:46:40Z",
+      "updatedAt": "2025-11-05T20:02:41Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "3a912302cd8f5ce4cb911598a187c6302085c649",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/make-title-smaller-again",
+      "headRefOid": "c4973fcdb2577c323af7cdd1f3eafa90c05d8054",
+      "closedAt": "2025-11-05T19:37:12Z",
+      "mergedAt": "2025-11-05T19:37:12Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "6c18dab345edb0e5424bed4ad64d16c73bec6d00"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 91,
+      "id": "PR_kwDOLrzygc6xsulz",
+      "title": "Add the change from \"RADIUS/(D)TLS\" to \"RadSec\" to list of changes",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/91",
+      "state": "MERGED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I think this is notable enough.\r\n\r\nMaybe also include the previous terms (RADIUS/TLS and RADIUS/DTLS) explicitly here?",
+      "createdAt": "2025-11-05T16:48:40Z",
+      "updatedAt": "2025-11-05T20:04:35Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "3a912302cd8f5ce4cb911598a187c6302085c649",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/add-radsec-to-changes",
+      "headRefOid": "c2654eff3cee7d62b70f126619230cedaaea39d0",
+      "closedAt": "2025-11-05T20:04:34Z",
+      "mergedAt": "2025-11-05T20:04:34Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "c7e94afe45aa9cfa28b84db4d020a3e4b54eb154"
+      },
+      "comments": [
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think the proposal is fine as-is. The prevois terms are already mentioned in the section just above as well as in the title.",
+          "createdAt": "2025-11-05T17:00:31Z",
+          "updatedAt": "2025-11-05T17:00:31Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MEHG5",
+          "commit": {
+            "abbreviatedOid": "458a714"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T18:04:19Z",
+          "updatedAt": "2025-11-05T18:04:20Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\n* The protocols RADIUS/TLS and RADIUS/DTLS are now collectively referred to as RadSec.\r\n```\r\n\r\nChange to clarify that RadSec consists technically of two protocols.",
+              "createdAt": "2025-11-05T18:04:20Z",
+              "updatedAt": "2025-11-05T18:04:20Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 92,
+      "id": "PR_kwDOLrzygc6xtQVP",
+      "title": "Minor fixes to punctuation, some incorrect use of 'trust base' and other minor fixes.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/92",
+      "state": "MERGED",
+      "author": "h-vn",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Some genetive forms were missing, which are now corrected. 'trust base' was only used once and it seems 'trust store' is the correct alternative which is also used elsewhere. There seems also be one incorrect use of 'trust anchor' where 'trust store' would be correct.\r\n\r\nMinor updates to wording of what is exposed for client identification.",
+      "createdAt": "2025-11-05T17:28:37Z",
+      "updatedAt": "2025-11-05T18:00:51Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a492e127257329af7000f4bae242504a11d692d2",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "trust-store",
+      "headRefOid": "5e39fef845f06a727691679693b7f6c8acad42f4",
+      "closedAt": "2025-11-05T18:00:51Z",
+      "mergedAt": "2025-11-05T18:00:51Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "5bcf4a42615dbe0ecbac3cdfe12115ad1f02cac4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MDud4",
+          "commit": {
+            "abbreviatedOid": "a91a24f"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T17:40:42Z",
+          "updatedAt": "2025-11-05T17:40:43Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n* When the configured trust base changes (e.g., removal of a CA from set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.\r\n```",
+              "createdAt": "2025-11-05T17:40:42Z",
+              "updatedAt": "2025-11-05T17:40:43Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 93,
+      "id": "PR_kwDOLrzygc6xtbnY",
+      "title": "Drop RFC 6614 discussion of RADIUS/UDP client identification",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/93",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarify client identity determination in RadSec by removing the irrelevant discussion of how RADIUS/UDP does it. This text is a left over from RFC 6614.",
+      "createdAt": "2025-11-05T17:43:51Z",
+      "updatedAt": "2025-11-05T17:43:51Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "a492e127257329af7000f4bae242504a11d692d2",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "udp-connecting-client-identity",
+      "headRefOid": "4042574d6d9e440298fc2f29bb3e8fa76c0a868f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 94,
+      "id": "PR_kwDOLrzygc6xt30s",
+      "title": "unify use of the term 'trust base'",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/94",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-05T18:25:14Z",
+      "updatedAt": "2025-11-05T19:23:35Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "5bcf4a42615dbe0ecbac3cdfe12115ad1f02cac4",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-unify-trust-base",
+      "headRefOid": "9b7ed0d4eec2e1ea40f2f2ca144e1f28aab0bd02",
+      "closedAt": "2025-11-05T19:23:35Z",
+      "mergedAt": "2025-11-05T19:23:35Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "78e3b9de38379a04bb4b278e7a3fb650c304fe08"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MEjF3",
+          "commit": {
+            "abbreviatedOid": "4d1873d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T18:36:59Z",
+          "updatedAt": "2025-11-05T18:36:59Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.\r\n```\r\n\r\nIn this case, I'd leave the \"trust store\" in there, because here we really do mean \"all the CAs that come with the system and are trusted for everything\".\r\n(even though it's introducing a new term, but I think \"trust store\" should be a well-known term)",
+              "createdAt": "2025-11-05T18:36:59Z",
+              "updatedAt": "2025-11-05T18:36:59Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 95,
+      "id": "PR_kwDOLrzygc6xvJKc",
+      "title": "Draft: Apply Margaret's changes as best as possible with formatting",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/95",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See also #89 ",
+      "createdAt": "2025-11-05T20:24:34Z",
+      "updatedAt": "2025-11-05T20:45:10Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c7e94afe45aa9cfa28b84db4d020a3e4b54eb154",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "margarets-changes",
+      "headRefOid": "bb21c0a9396cdcade304170a50211bf3da1d1607",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MGWQE",
+          "commit": {
+            "abbreviatedOid": "2f553cd"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Formatting changes",
+          "createdAt": "2025-11-05T20:28:44Z",
+          "updatedAt": "2025-11-05T20:34:39Z",
+          "comments": [
+            {
+              "originalPosition": 737,
+              "body": "```suggestion\r\n- Comparing client or server random used in the TLS handshake. While this is a very effective method, it requires access to values which are normally private to the TLS implementation.\r\n- Sending a custom random number in an extension in the TLS client hello. Again, this is very effective, but requires extension of the TLS implementation.\r\n- Comparing the incoming server certificate to all server certificates configured on the proxy. While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.\r\n```",
+              "createdAt": "2025-11-05T20:28:44Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 747,
+              "body": "```suggestion\r\nFollowing the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.\r\n```",
+              "createdAt": "2025-11-05T20:29:01Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 751,
+              "body": "```suggestion\r\nFor cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.\r\n```",
+              "createdAt": "2025-11-05T20:29:17Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 764,
+              "body": "```suggestion\r\nPerforming a (D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.\r\nAn attacker could try to trigger a high number of (D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.\r\n```",
+              "createdAt": "2025-11-05T20:29:34Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 769,
+              "body": "```suggestion\r\nBoth TLS and DTLS need to store session information for each open (D)TLS session.\r\n```",
+              "createdAt": "2025-11-05T20:29:44Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 785,
+              "body": "```suggestion\r\nTo prevent resource exhaustion by partially opening a large number of (D)TLS sessions, RadSec servers SHOULD have a timeout on partially open (D)TLS sessions.\r\nImplementations SHOULD expose this timeout as configurable option to the administrator.\r\nThe recommended default for this timeout is a few seconds. If a (D)TLS session is not established within this timeframe, it is likely that this is a bogus connection.\r\nIn contrast, an established session might not send packets for longer periods of time, but since the endpoints are mutually authenticated this does not pose a problem other than the problems mentioned before.\r\n```",
+              "createdAt": "2025-11-05T20:30:32Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 798,
+              "body": "```suggestion\r\nSee {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more information.\r\n```",
+              "createdAt": "2025-11-05T20:30:47Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 971,
+              "body": "```suggestion\r\n{{RFC6614}} mandates the implementation of the trust profile \"certificate with PKIX trust model\" for both clients and servers.\r\nThe experience of the deployment of RADIUS/TLS as specified in {{RFC6614}} has shown that most actors still rely on RADIUS/UDP.\r\n```",
+              "createdAt": "2025-11-05T20:31:13Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 1036,
+              "body": "```suggestion\r\nThe following list contains the most important changes from the previous specifications in {{RFC6613}} (RADIUS/TCP), {{RFC6614}} (RADIUS/TLS) and {{RFC7360}} (RADIUS/DTLS).\r\n\r\n* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS. These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.\r\n* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.\r\n* RFC6614 allowed use of TLS compression, this document forbids it.\r\n* RFC6614 only requires support for the trust model \"certificates with PKIX\" ({{?RFC6614, Section 2.3}}). This document changes this. For   servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to   \"certificates with PKIX\" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.\r\n* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.\r\n* The specification regarding steps for certificate verification has been updated.\r\n* {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it. This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.\r\n* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.\r\n* The rules for verifying the endpoint certificate have been updated to follow guidance provided in {{!RFC9525}}. Using the Common Name RDN for validation of server certificates is now forbidden.\r\n* The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.\r\n\r\nThe rationales behind some of these changes are outlined in {{design_decisions}}.\r\n```",
+              "createdAt": "2025-11-05T20:33:59Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            },
+            {
+              "originalPosition": 1043,
+              "body": "```suggestion\r\nThanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.\r\n```",
+              "createdAt": "2025-11-05T20:34:11Z",
+              "updatedAt": "2025-11-05T20:34:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MGkcP",
+          "commit": {
+            "abbreviatedOid": "bb21c0a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T20:39:32Z",
+          "updatedAt": "2025-11-05T20:45:10Z",
+          "comments": [
+            {
+              "originalPosition": 216,
+              "body": "I don't agree with removing the description here. I think it is important to note that RADIUS needs mutual trust.",
+              "createdAt": "2025-11-05T20:39:32Z",
+              "updatedAt": "2025-11-05T20:45:10Z"
+            },
+            {
+              "originalPosition": 225,
+              "body": "The \"MUST\" here confuses the \"SHOULD\"s later. See #82 ",
+              "createdAt": "2025-11-05T20:40:19Z",
+              "updatedAt": "2025-11-05T20:45:10Z"
+            },
+            {
+              "originalPosition": 279,
+              "body": "This is a change in BCP14 language without any explanation.\r\n\r\nThis should at least be discussed. Leaving SHA-1 in was to keep backwards compatibility to the previous spec. (Maybe there were additional reasons, I'm not exactly sure)",
+              "createdAt": "2025-11-05T20:41:58Z",
+              "updatedAt": "2025-11-05T20:45:10Z"
+            },
+            {
+              "originalPosition": 177,
+              "body": "This is normative language and shouldn't be used in the terminology section",
+              "createdAt": "2025-11-05T20:45:01Z",
+              "updatedAt": "2025-11-05T20:45:10Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 96,
+      "id": "PR_kwDOLrzygc6xvXcn",
+      "title": "TLS terminology: connection instead of session",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/96",
+      "state": "OPEN",
+      "author": "h-vn",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update most of the uses of 'TLS session' to 'TLS connection'. Exception is TLS session resumption which is its own concept.\r\nEdit: Also skip section named 'Session Management'. We can get back to it separately, if needed.",
+      "createdAt": "2025-11-05T20:43:39Z",
+      "updatedAt": "2025-11-06T00:08:36Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c7e94afe45aa9cfa28b84db4d020a3e4b54eb154",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "tls-session-to-connection",
+      "headRefOid": "8abc2f8fb36bb7d34390206e4b56baf55aec6f0b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I've reverted changes to Session Management and its subsections to make this PR clearer. Possible changes to the Session Management section can now be handled separately.",
+          "createdAt": "2025-11-05T23:46:58Z",
+          "updatedAt": "2025-11-05T23:46:58Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MGveg",
+          "commit": {
+            "abbreviatedOid": "1a3370e"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T20:48:16Z",
+          "updatedAt": "2025-11-05T20:48:16Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "```suggestion\r\nIf a connection that used session resumption is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.\r\n```\r\n\r\nRe @fmauchle 's comment: maybe it's worth adding what we mean by \"immediately after\", e.g. \"no data sent\" or \"closed after less than 5 seconds\"",
+              "createdAt": "2025-11-05T20:48:16Z",
+              "updatedAt": "2025-11-05T20:48:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MGz7z",
+          "commit": {
+            "abbreviatedOid": "1a3370e"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T20:52:17Z",
+          "updatedAt": "2025-11-05T20:52:17Z",
+          "comments": [
+            {
+              "originalPosition": 140,
+              "body": "```suggestion\r\nIf an incoming (D)TLS connection or the underlying transport channel is closed or broken, then there is no way to send a RADIUS response packet to the client.\r\n```\r\n\r\nI'm not sure how to get TCP and UDP together better, but what we mean is: (D)TLS fails, or TCP is closed, or the UDP socket is broken, or our Uplink is down, or any other \"aaaaa internet\" thing happens",
+              "createdAt": "2025-11-05T20:52:17Z",
+              "updatedAt": "2025-11-05T20:52:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MG2Qq",
+          "commit": {
+            "abbreviatedOid": "1a3370e"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T20:54:23Z",
+          "updatedAt": "2025-11-05T20:54:23Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "I'm not exactly sure if we don't actually mean Session in this instance. Just as a reminder for me, so I don't forget.",
+              "createdAt": "2025-11-05T20:54:23Z",
+              "updatedAt": "2025-11-05T20:54:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MG11O",
+          "commit": {
+            "abbreviatedOid": "1a3370e"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T20:53:55Z",
+          "updatedAt": "2025-11-05T21:38:04Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "```suggestion\nIf the connection of a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.\n```",
+              "createdAt": "2025-11-05T20:53:55Z",
+              "updatedAt": "2025-11-05T21:38:04Z"
+            },
+            {
+              "originalPosition": 227,
+              "body": "Deleting a conection doesn't really make sense. Either it must delete data related to the connection or the session data (so session resumption is no longer possible)",
+              "createdAt": "2025-11-05T21:31:43Z",
+              "updatedAt": "2025-11-05T21:38:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MHrdS",
+          "commit": {
+            "abbreviatedOid": "1a3370e"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-05T21:38:17Z",
+          "updatedAt": "2025-11-05T21:38:18Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "I agree. 'Session' appears to be used also when there's state (session state) that the application layer software needs to keep its own purposes. This session incudes info about TLS connection, certificates from the full handshake, etc. Or this is my understanding at least.\r\n\r\nI'd merge this pull request to get the changes applied that clearly relate to (D)TLS connections. It's then easier to do what's needed for this and the respective client section.",
+              "createdAt": "2025-11-05T21:38:17Z",
+              "updatedAt": "2025-11-05T21:38:18Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
