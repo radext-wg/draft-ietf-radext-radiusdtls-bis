@@ -373,20 +373,15 @@ As non-exhaustive example, a RadSec client can transmit packets of type Access-R
 
 However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
-Due to the use of one single port for all packet types, it is required that a RadSec server has a means to signal which types of RADIUS packets are supported on the server to a connecting peer.
+Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.
 
-Since the number of outstanding RADIUS packets is limited, it is important to reply to packets of a packet type which the RADIUS/(D)TLS server does not process or, in a proxy setup, does not forward.
-Otherwise, these outstanding packets would impact the performance of the connection.
-The reply, however, must clearly indicate that the server did not process this packet to prevent the client from falsely assuming the server processed the packet.
-
-For every unwanted packet, a RADIUS/(D)TLS server SHOULD respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}.
+A server MAY therefore respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.
 
-The RADIUS/(D)TLS client SHOULD NOT assume that the configured server is not able to handle all packets of the packet type based on the Protocol-Error response.
-In proxy scenarios, a RADIUS proxy may be unable to forward accounting packets for one realm, but able to forward them for another.
-
-Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RadSec, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.
+RadSec clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description on Protocol-Error.
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 
@@ -579,9 +574,6 @@ After applying the above rules, there are still situations where the previous sp
 * Packet with an invalid code field (see {{radius_packets}} for details)
 * Response packets that do not match any outstanding request
 * A server lacking the resources to process a request
-
-For request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure.
-In any case, further processing of the original request MUST stop.
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
