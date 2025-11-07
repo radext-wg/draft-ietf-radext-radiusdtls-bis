@@ -476,7 +476,7 @@ It only reduces the granularity of Acct-Delay-Time to the retransmission timeout
 
 ## Client Timers
 
-RadSec clients may need to reconnect to a server that rejected their connection attempt and retransmit RADIUS packets which did not get an answer.
+RadSec clients may need to reconnect to a server that rejected their connection attempt and retry RADIUS packets which did not get an answer.
 The following sections define the client behavior.
 
 ### Reconnection attempts
@@ -505,7 +505,8 @@ Where the connection to a RadSec server is configured to be static and always ke
 RadSec clients MUST implement retransmission timers for retransmitting RADIUS packets such as the ones defined in {{RFC5080, Section 2.2.1}}.
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
-As TLS is a reliable transport, RADIUS/TLS clients can only re-send a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
+As TLS is a reliable transport, RADIUS/TLS clients can only retry a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
+A retry is the re-sending of the same content in a newly constructed RADIUS packet, where a retransmission is the re-sending of the exact same packet over the same connection to deal with packet loss on transport.
 Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occurred in a later RADIUS hop or the home server ignores the RADIUS packet.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
