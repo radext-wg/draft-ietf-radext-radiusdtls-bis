@@ -228,6 +228,11 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
 * The peers MUST NOT negotiate compression.
 * The connection MUST be mutually authenticated (see {{mutual_auth}})
 
+The use of 0-RTT features of (D)TLS is NOT RECOMMENDED.
+RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
+If 0-RTT is used, implementations MUST also implement protection mechanisms against replay attacks.
+See {{?I-D.ietf-tls-rfc8446bis-14, Section 8}} for more detail.
+
 ## Mutual authentication
 {: #mutual_auth }
 
