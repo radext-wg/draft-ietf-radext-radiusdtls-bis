@@ -212,8 +212,8 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 ## (D)TLS requirements
 
 RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
-All data received over a TCP or TLS port is opaque for the RADIUS client or server application and must be passed to the TLS or DTLS implementation for processing.
-Closing TLS connections and discarding UDP datagrams are done as indicated by the (D)TLS implmentation.
+All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
+Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implmentation.
 
 RadSec has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
