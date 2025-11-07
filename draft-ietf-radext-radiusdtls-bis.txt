@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 10 May 2026                                     6 November 2025
+Expires: 11 May 2026                                     7 November 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 May 2026.
+   This Internet-Draft will expire on 11 May 2026.
 
 Copyright Notice
 
@@ -289,15 +289,6 @@ Table of Contents
    arbitrary.  For considerations regarding the multi-purpose use of one
    port for authentication and accounting see Section 4.5.
 
-   RADIUS/TLS servers MUST immediately start the TLS handshake when a
-   new connection to the RADIUS/TLS port is opened.  They MUST close the
-   connection and discard any data sent if the connecting client does
-   not start a TLS handshake or if the TLS handshake fails at any point.
-
-   RADIUS/DTLS servers MUST silently discard any UDP datagram they
-   receive over the RADIUS/DTLS port that is not a new DTLS handshake or
-   a datagram related to a DTLS connection established earlier.
-
    RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP
    ports for RADIUS/DTLS or RADIUS/TLS.
 
@@ -370,8 +361,12 @@ Table of Contents
 
 4.1.  (D)TLS requirements
 
-   As defined in Section 3.2, RadSec clients MUST start a (D)TLS
-   handshake immediately upon connecting to a new server.
+   RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately
+   upon connecting to a new server.  All data received over a TCP or UDP
+   port assigned for RadSec is opaque for the RADIUS client or server
+   application and must be handled by the TLS or DTLS implementation.
+   Closing TLS connections and discarding invalid UDP datagrams are done
+   by the (D)TLS implmentation.
 
    RadSec has no notion of negotiating (D)TLS in an ongoing
    communication.  As RADIUS has no provisions for capability signaling,
