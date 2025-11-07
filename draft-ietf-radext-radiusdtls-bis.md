@@ -506,6 +506,7 @@ RadSec clients MUST implement retransmission timers for retransmitting RADIUS pa
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
 As TLS is a reliable transport, RADIUS/TLS clients can only retry a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
+A retry is the re-sending of the same content in a newly constructed RADIUS packet, where a retransmission is the re-sending of the exact same packet over the same connection to deal with packet loss on transport.
 Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occurred in a later RADIUS hop or the home server ignores the RADIUS packet.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
