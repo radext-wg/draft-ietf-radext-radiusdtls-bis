@@ -365,7 +365,8 @@ As non-exhaustive example, a RADIUS/(D)TLS client can transmit packets of type A
 
 However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RADIUS/(D)TLS uses the same connection for all RADIUS packets.
-Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process. Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.
+Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.
 
 A server MAY therefore respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
