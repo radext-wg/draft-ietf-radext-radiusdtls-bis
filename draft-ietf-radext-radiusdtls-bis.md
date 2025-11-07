@@ -244,7 +244,6 @@ RADIUS/(D)TLS allows for the following modes of mutual authentication, which wil
 
 * TLS-X.509-PKIX
 * TLS-X.509-FINGERPRINT
-* TLS-RAW-PUBLIC-KEY
 * TLS-PSK
 
 Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
@@ -295,10 +294,6 @@ Specific details are provided below:
 RadSec implementations SHOULD allow the configuration of a list of trusted certificates, identified via fingerprint of the DER encoded certificate bytes.
 When implementing this model, support for SHA-1 as hash algorithm for the fingerprint is REQUIRED, and support for the more contemporary hash function SHA-256 is RECOMMENDED.
 
-### Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
-
-RadSec implementations SHOULD support using Raw Public Keys {{!RFC7250}} for mutual authentication.
-
 ### Authentication using TLS-PSK (TLS-PSK)
 {: #tlspsk }
 
@@ -315,8 +310,6 @@ Since the shared secret is associated with the origin IP address, if more than o
 Depending on the trust model used, the RadSec client identity can be determined differently.
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier.
-
-With TLS-RAW-PUBLIC-KEY, a client is uniquely identified by the Raw public key.
 
 With TLS-X.509-FINGERPRINT, a client is uniquely identified by the fingerprint of the presented client certificate.
 
