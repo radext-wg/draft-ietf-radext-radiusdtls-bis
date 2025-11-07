@@ -116,6 +116,9 @@ RadSec server:
 RadSec endpoint:
 : A RADIUS-over-(D)TLS client or server
 
+RadSec peer:
+: A RadSec endpoint connected to the RadSec endpoint that is the primary subject of discussion.
+
 Whenever "(D)TLS", "RADIUS/(D)TLS" or "RadSec" is mentioned, the specification applies for both RADIUS/TLS and RADIUS/DTLS.
 Where "TLS" or "RADIUS/TLS" is mentioned, the specification applies only for RADIUS/TLS, where "DTLS" or "RADIUS/DTLS" is mentioned, it only applies to RADIUS/DTLS.
 
