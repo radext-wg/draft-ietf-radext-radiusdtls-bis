@@ -1859,16 +1859,13 @@ As noted in <a href="#portusage" class="auto internal xref">Section 3.2</a>, Rad
 As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
 <p id="section-4.5-2">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
-Due to the use of one single port for all packet types, it is required that a RadSec server has a means to signal which types of RADIUS packets are supported on the server to a connecting peer.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
-<p id="section-4.5-3">Since the number of outstanding RADIUS packets is limited, it is important to reply to packets of a packet type which the RADIUS/(D)TLS server does not process or, in a proxy setup, does not forward.
-Otherwise, these outstanding packets would impact the performance of the connection.
-The reply, however, must clearly indicate that the server did not process this packet to prevent the client from falsely assuming the server processed the packet.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
-<p id="section-4.5-4">For every unwanted packet, a RADIUS/(D)TLS server <span class="bcp14">SHOULD</span> respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>.
+Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-3">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
-Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
-<p id="section-4.5-5">The RADIUS/(D)TLS client <span class="bcp14">SHOULD NOT</span> assume that the configured server is not able to handle all packets of the packet type based on the Protocol-Error response.
-In proxy scenarios, a RADIUS proxy may be unable to forward accounting packets for one realm, but able to forward them for another.<a href="#section-4.5-5" class="pilcrow">¶</a></p>
-<p id="section-4.5-6">Since proxying of RADIUS packets is a general issue in RADIUS and not specific to RadSec, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.<a href="#section-4.5-6" class="pilcrow">¶</a></p>
+Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.5-4">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description on Protocol-Error.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
 <div id="differences-from-rfc-6614-unwanted-radius-packet-handling">
 <section id="section-4.5.1">
           <h4 id="name-differences-from-rfc-6614-u">
@@ -2104,9 +2101,7 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close n
             <p id="section-4.10-7.3.1">A server lacking the resources to process a request<a href="#section-4.10-7.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.10-8">For request packets that would have been silently discarded in the previous specifications, servers <span class="bcp14">SHOULD</span> reply with a Protocol-Error <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span> message to avoid request ID exhaustion, and servers <span class="bcp14">SHOULD</span> include an Error-Cause attribute indicating the type of failure.
-In any case, further processing of the original request <span class="bcp14">MUST</span> stop.<a href="#section-4.10-8" class="pilcrow">¶</a></p>
-<p id="section-4.10-9">These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-4.10-9" class="pilcrow">¶</a></p>
+<p id="section-4.10-8">These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-4.10-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2712,6 +2707,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.dekok-protocol-error">[I-D.dekok-protocol-error]</dt>
+        <dd>
+<span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Standardising Protocol-Error"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-dekok-protocol-error-00</span>, <time datetime="2025-06-24" class="refDate">24 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-dekok-protocol-error-00">https://datatracker.ietf.org/doc/html/draft-dekok-protocol-error-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-tls-keylogfile">[I-D.ietf-tls-keylogfile]</dt>
         <dd>
 <span class="refAuthor">Thomson, M.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"The SSLKEYLOGFILE Format for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-keylogfile-05</span>, <time datetime="2025-06-09" class="refDate">9 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05">https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05</a>&gt;</span>. </dd>
