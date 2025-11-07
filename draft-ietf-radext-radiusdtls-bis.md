@@ -172,11 +172,6 @@ RADIUS/(D)TLS does not use separate ports for authentication, accounting and dyn
 The source port is arbitrary.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
-RADIUS/TLS servers MUST immediately start the TLS handshake when a new connection to the RADIUS/TLS port is opened.
-They MUST close the connection and discard any data sent if the connecting client does not start a TLS handshake or if the TLS handshake fails at any point.
-
-RADIUS/DTLS servers MUST silently discard any UDP datagram they receive over the RADIUS/DTLS port that is not a new DTLS handshake or a datagram related to a DTLS connection established earlier.
-
 RADIUS/(D)TLS peers MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
 ## Detecting Live Servers
@@ -216,7 +211,9 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 
 ## (D)TLS requirements
 
-As defined in {{portusage}}, RadSec clients MUST start a (D)TLS handshake immediately upon connecting to a new server.
+RADIUS/(D)TLS clients MUST establish a (D)TLS session immediately upon connecting to a new server.
+All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
+Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implmentation.
 
 RadSec has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
