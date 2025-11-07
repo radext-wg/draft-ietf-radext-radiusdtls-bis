@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 10 May 2026                                     6 November 2025
+Expires: 11 May 2026                                     7 November 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 May 2026.
+   This Internet-Draft will expire on 11 May 2026.
 
 Copyright Notice
 
@@ -396,9 +396,12 @@ Table of Contents
 
    *  The connection MUST be mutually authenticated (see Section 4.2)
 
-   RadSec implementations MAY use 0-RTT to speed up connection setup,
-   but MUST implement protection mechanisms for replay.  See
-   [I-D.ietf-tls-rfc8446bis-14], Section 8 for more detail.
+   The use of 0-RTT features of (D)TLS is NOT RECOMMENDED.  RADIUS
+   packets may contain confidential data that should be protected by
+   forward secrecy, which 0-RTT cannot provide.  If 0-RTT is used,
+   implementations MUST also implement protection mechanisms against
+   replay attacks.  See [I-D.ietf-tls-rfc8446bis-14], Section 8 for more
+   detail.
 
 4.2.  Mutual authentication
 
