@@ -4,7 +4,7 @@ entity:
 title: "RadSec: RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"
 abbrev: "RadSec: RADIUS over TLS and DTLS"
 category: std
-
+Ist nichts wo ich 
 obsoletes: 6614, 7360
 
 docname: draft-ietf-radext-radiusdtls-bis-latest
@@ -243,7 +243,6 @@ Allowing anonymous clients would ensure privacy for RadSec traffic, but would ne
 RADIUS/(D)TLS allows for the following modes of mutual authentication, which will be further specified in this section:
 
 * TLS-X.509-PKIX
-* TLS-X.509-FINGERPRINT
 * TLS-PSK
 
 Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
@@ -289,10 +288,6 @@ Specific details are provided below:
   * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy OID unless both endpoints are part of a trusted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
-### Authentication using X.509 certificate fingerprints (TLS-X.509-FINGERPRINT)
-
-RadSec implementations SHOULD allow the configuration of a list of trusted certificates, identified via fingerprint of the DER encoded certificate bytes.
-When implementing this model, support for SHA-1 as hash algorithm for the fingerprint is REQUIRED, and support for the more contemporary hash function SHA-256 is RECOMMENDED.
 
 ### Authentication using TLS-PSK (TLS-PSK)
 {: #tlspsk }
@@ -310,8 +305,6 @@ Since the shared secret is associated with the origin IP address, if more than o
 Depending on the trust model used, the RadSec client identity can be determined differently.
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier.
-
-With TLS-X.509-FINGERPRINT, a client is uniquely identified by the fingerprint of the presented client certificate.
 
 With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.
 
@@ -469,7 +462,7 @@ It only reduces the granularity of Acct-Delay-Time to the retransmission timeout
 
 ## Client Timers
 
-RadSec clients may need to reconnect to a server that rejected their connection attempt and retransmit RADIUS packets which did not get an answer.
+RadSec clients may need to reconnect to a server that rejected their connection attempt and retry RADIUS packets which did not get an answer.
 The following sections define the client behavior.
 
 ### Reconnection attempts
@@ -498,7 +491,8 @@ Where the connection to a RadSec server is configured to be static and always ke
 RadSec clients MUST implement retransmission timers for retransmitting RADIUS packets such as the ones defined in {{RFC5080, Section 2.2.1}}.
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).
 
-As TLS is a reliable transport, RADIUS/TLS clients can only re-send a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
+As TLS is a reliable transport, RADIUS/TLS clients can only retry a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.
+A retry is the re-sending of the same content in a newly constructed RADIUS packet, where a retransmission is the re-sending of the exact same packet over the same connection to deal with packet loss on transport.
 Instead, the timers, MRC or MRD specifically, can be used to determine that a packet will most likely not receive an answer ever, for example because a packet loss has occurred in a later RADIUS hop or the home server ignores the RADIUS packet.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
@@ -958,6 +952,7 @@ The following list contains the most important changes from the previous specifi
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed use of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}).  This document changes this.  For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
+* The recommendation for TLS-X509-FINGERPRINT ({{RFC6614, Section 2.3}}) is removed since the model has not been implemented by any known implementation of the experimental RADIUS/(D)TLS specifications.
 * The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
