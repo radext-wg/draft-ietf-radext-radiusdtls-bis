@@ -243,7 +243,6 @@ Allowing anonymous clients would ensure privacy for RadSec traffic, but would ne
 RADIUS/(D)TLS allows for the following modes of mutual authentication, which will be further specified in this section:
 
 * TLS-X.509-PKIX
-* TLS-RAW-PUBLIC-KEY
 * TLS-PSK
 
 Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
@@ -289,9 +288,6 @@ Specific details are provided below:
   * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy OID unless both endpoints are part of a trusted network.
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
-### Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
-
-RadSec implementations SHOULD support using Raw Public Keys {{!RFC7250}} for mutual authentication.
 
 ### Authentication using TLS-PSK (TLS-PSK)
 {: #tlspsk }
@@ -309,8 +305,6 @@ Since the shared secret is associated with the origin IP address, if more than o
 Depending on the trust model used, the RadSec client identity can be determined differently.
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier.
-
-With TLS-RAW-PUBLIC-KEY, a client is uniquely identified by the Raw public key.
 
 With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.
 
