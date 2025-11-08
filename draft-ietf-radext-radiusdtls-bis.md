@@ -957,7 +957,7 @@ The following list contains the most important changes from the previous specifi
 * RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
 * RFC6614 allowed use of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}).  This document changes this.  For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
-* The recommendation for TLS-X509-FINGERPRINT ({{RFC6614, Section 2.3}}) is removed since there are no RadSec implementations supporting it.
+* The recommendation for TLS-X509-FINGERPRINT ({{RFC6614, Section 2.3}}) is removed since the model has not been implemented by any known implementation of the experimental RADIUS/(D)TLS specifications.
 * The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
