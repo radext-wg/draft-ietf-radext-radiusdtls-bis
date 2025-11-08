@@ -77,9 +77,7 @@ Table of Contents
      4.2.  Mutual authentication
        4.2.1.  Authentication using X.509 certificates with PKIX trust
                model (TLS-X.509-PKIX)
-       4.2.2.  Authentication using Raw Public Keys
-               (TLS-RAW-PUBLIC-KEYS)
-       4.2.3.  Authentication using TLS-PSK (TLS-PSK)
+       4.2.2.  Authentication using TLS-PSK (TLS-PSK)
      4.3.  Connecting Client Identity
      4.4.  TLS Session Resumption
      4.5.  RADIUS packets
@@ -410,8 +408,6 @@ Table of Contents
 
    *  TLS-X.509-PKIX
 
-   *  TLS-RAW-PUBLIC-KEY
-
    *  TLS-PSK
 
    Independent of the chosen mode of authentication, the mutual
@@ -545,12 +541,7 @@ Table of Contents
       subjectAltName entries of type uniformResourceIdentifier [RFC5280]
       or a set of allowed X.509v3 Certificate Policies).
 
-4.2.2.  Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
-
-   RadSec implementations SHOULD support using Raw Public Keys [RFC7250]
-   for mutual authentication.
-
-4.2.3.  Authentication using TLS-PSK (TLS-PSK)
+4.2.2.  Authentication using TLS-PSK (TLS-PSK)
 
    RadSec server implementations MUST support the use of TLS-PSK.
    RadSec client implementations SHOULD support the use of TLS-PSK, but
@@ -572,9 +563,6 @@ Table of Contents
 
    With TLS-PSK, a client is uniquely identified by its TLS-PSK
    identifier.
-
-   With TLS-RAW-PUBLIC-KEY, a client is uniquely identified by the Raw
-   public key.
 
    With TLS-X.509-PKIX, a client is uniquely identified by the tuple of
    the serial number of the presented client certificate and the issuer.
@@ -1798,12 +1786,6 @@ Table of Contents
               DOI 10.17487/RFC6520, February 2012,
               <https://www.rfc-editor.org/rfc/rfc6520>.
 
-   [RFC7250]  Wouters, P., Ed., Tschofenig, H., Ed., Gilmore, J.,
-              Weiler, S., and T. Kivinen, "Using Raw Public Keys in
-              Transport Layer Security (TLS) and Datagram Transport
-              Layer Security (DTLS)", RFC 7250, DOI 10.17487/RFC7250,
-              June 2014, <https://www.rfc-editor.org/rfc/rfc7250>.
-
    [RFC7585]  Winter, S. and M. McCauley, "Dynamic Peer Discovery for
               RADIUS/TLS and RADIUS/DTLS Based on the Network Access
               Identifier (NAI)", RFC 7585, DOI 10.17487/RFC7585, October
@@ -1939,7 +1921,7 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
    *  RFC6614 only requires support for the trust model "certificates
       with PKIX" ([RFC6614], Section 2.3).  This document changes this.
       For servers, TLS-X.509-PKIX (Section 4.2.1, equivalent to
-      "certificates with PKIX" in RFC6614) and TLS-PSK (Section 4.2.3)
+      "certificates with PKIX" in RFC6614) and TLS-PSK (Section 4.2.2)
       is now mandated and clients must implement at least one of the
       two.
 
