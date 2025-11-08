@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 11 May 2026                                     7 November 2025
+Expires: 12 May 2026                                     8 November 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 May 2026.
+   This Internet-Draft will expire on 12 May 2026.
 
 Copyright Notice
 
@@ -77,11 +77,9 @@ Table of Contents
      4.2.  Mutual authentication
        4.2.1.  Authentication using X.509 certificates with PKIX trust
                model (TLS-X.509-PKIX)
-       4.2.2.  Authentication using X.509 certificate fingerprints
-               (TLS-X.509-FINGERPRINT)
-       4.2.3.  Authentication using Raw Public Keys
+       4.2.2.  Authentication using Raw Public Keys
                (TLS-RAW-PUBLIC-KEYS)
-       4.2.4.  Authentication using TLS-PSK (TLS-PSK)
+       4.2.3.  Authentication using TLS-PSK (TLS-PSK)
      4.3.  Connecting Client Identity
      4.4.  TLS Session Resumption
      4.5.  RADIUS packets
@@ -412,8 +410,6 @@ Table of Contents
 
    *  TLS-X.509-PKIX
 
-   *  TLS-X.509-FINGERPRINT
-
    *  TLS-RAW-PUBLIC-KEY
 
    *  TLS-PSK
@@ -549,21 +545,12 @@ Table of Contents
       subjectAltName entries of type uniformResourceIdentifier [RFC5280]
       or a set of allowed X.509v3 Certificate Policies).
 
-4.2.2.  Authentication using X.509 certificate fingerprints (TLS-
-        X.509-FINGERPRINT)
-
-   RadSec implementations SHOULD allow the configuration of a list of
-   trusted certificates, identified via fingerprint of the DER encoded
-   certificate bytes.  When implementing this model, support for SHA-1
-   as hash algorithm for the fingerprint is REQUIRED, and support for
-   the more contemporary hash function SHA-256 is RECOMMENDED.
-
-4.2.3.  Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
+4.2.2.  Authentication using Raw Public Keys (TLS-RAW-PUBLIC-KEYS)
 
    RadSec implementations SHOULD support using Raw Public Keys [RFC7250]
    for mutual authentication.
 
-4.2.4.  Authentication using TLS-PSK (TLS-PSK)
+4.2.3.  Authentication using TLS-PSK (TLS-PSK)
 
    RadSec server implementations MUST support the use of TLS-PSK.
    RadSec client implementations SHOULD support the use of TLS-PSK, but
@@ -588,9 +575,6 @@ Table of Contents
 
    With TLS-RAW-PUBLIC-KEY, a client is uniquely identified by the Raw
    public key.
-
-   With TLS-X.509-FINGERPRINT, a client is uniquely identified by the
-   fingerprint of the presented client certificate.
 
    With TLS-X.509-PKIX, a client is uniquely identified by the tuple of
    the serial number of the presented client certificate and the issuer.
@@ -1955,9 +1939,14 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
    *  RFC6614 only requires support for the trust model "certificates
       with PKIX" ([RFC6614], Section 2.3).  This document changes this.
       For servers, TLS-X.509-PKIX (Section 4.2.1, equivalent to
-      "certificates with PKIX" in RFC6614) and TLS-PSK (Section 4.2.4)
+      "certificates with PKIX" in RFC6614) and TLS-PSK (Section 4.2.3)
       is now mandated and clients must implement at least one of the
       two.
+
+   *  The recommendation for TLS-X509-FINGERPRINT ([RFC6614],
+      Section 2.3) is removed since the model has not been implemented
+      by any known implementation of the experimental RADIUS/(D)TLS
+      specifications.
 
    *  The mandatory-to-implement cipher suites are not referenced
       directly, this is replaced by a pointer to the TLS BCP.
