@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-06T00:55:20.723614+00:00",
+  "timestamp": "2025-11-09T00:58:02.624642+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -799,6 +799,46 @@
       "body": "Section 4.7.1 holds:\n\n> If a different algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and a jitter.\n\nWould it be good to specify an absolute lower and upper bound for the delay?",
       "createdAt": "2025-11-04T15:46:48Z",
       "updatedAt": "2025-11-04T15:46:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 99,
+      "id": "I_kwDOLrzygc7Wonyw",
+      "title": "Remove TLS-X509-FINGERPRINT trust model",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/99",
+      "state": "CLOSED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "No one implements this (to our knowledge) and this is copied from 6614.\nI think it's safe to throw it out.",
+      "createdAt": "2025-11-07T16:01:26Z",
+      "updatedAt": "2025-11-08T21:33:24Z",
+      "closedAt": "2025-11-08T21:33:24Z",
+      "comments": [
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "With OpenSSL you can do it with [X509_digest](https://docs.openssl.org/master/man3/X509_digest/) which Radiator supports for additional checks of TLS connections in general. That is, they can be used from OpenSSL verify callback that runs after the basic CA chain and other checks. I am not aware of anyone using it with RadSec as a replacement of certificate chain check and the text describing it is very general in any case.",
+          "createdAt": "2025-11-07T19:33:12Z",
+          "updatedAt": "2025-11-07T19:54:48Z"
+        }
+      ]
+    },
+    {
+      "number": 100,
+      "id": "I_kwDOLrzygc7Wo4Ak",
+      "title": "Cleanup after Protocol-Error change to MAY",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/100",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In the \"Differences from 6614 handling\" there should maybe be a paragraph explaining why the 6614 behavior is not breaking stuff and why we make protocol error optional.\n\nTo summarize quickly:\n* 6614 behavior bad, synthesize responses when not authoritative\n* Protocol-Error still in development as of time writing, we expect this to change\n* Doing nothing for now is better than reverting to 6614 behavior",
+      "createdAt": "2025-11-07T16:19:21Z",
+      "updatedAt": "2025-11-07T16:19:21Z",
       "closedAt": null,
       "comments": []
     }
@@ -4761,24 +4801,26 @@
       "id": "PR_kwDOLrzygc6tVQ9q",
       "title": "radiusdtls-bis-09 - Mostly DTLS specific updates",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/61",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The overhead and retransmissions commits aim to clarify the existing text.\r\n\r\nThe third commit, '(D)TLS data is opaque', attempts to clarify that any data received over a TLS/TCP or DTLS/UDP port should be pushed to the (D)TLS implementation for processing. (D)TLS then tells what happens next.\r\n\r\nThe text the third commit adds is intended to say what Janfred commented earlier, [What we mean is: either it's DTLS or it gets thrown away](https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/56/commits/dcc543c0066b12fa3592a2d813a5fa8d9952fbb4#r2407121622), with the help of (D)TLS implementation. The removed text, from a point of RADIUS server implementator, reads as if the RADIUS server needs to understand what's the state of TLS connection or DTLS association.\r\n\r\nIn any case, I'd say the two removed paragraph should be in the 'Packet / Connection Handling' in case they are kept.",
       "createdAt": "2025-10-12T17:12:15Z",
-      "updatedAt": "2025-11-04T21:14:29Z",
+      "updatedAt": "2025-11-07T16:04:40Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "a0450adbf505a092f2a8511a5272b224255f3530",
+      "baseRefOid": "c49fcb98d7969edc6fea2b354def796e2ccea2af",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "dtls-specific-updates",
-      "headRefOid": "bfb8515761d74b52b5769487c1925102c295310c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6f835f777e916d853c4e7a808225f35488b70f87",
+      "closedAt": "2025-11-07T16:04:40Z",
+      "mergedAt": "2025-11-07T16:04:40Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "3823ef03fa2a851be21d5dca59fb6b532df0a748"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -4795,7 +4837,28 @@
           "updatedAt": "2025-11-04T21:14:18Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MtwHg",
+          "commit": {
+            "abbreviatedOid": "e8c06ae"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T15:06:42Z",
+          "updatedAt": "2025-11-07T15:08:47Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "```suggestion\r\nAll data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.\r\nClosing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implmentation.\r\n```",
+              "createdAt": "2025-11-07T15:06:42Z",
+              "updatedAt": "2025-11-07T15:55:37Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 62,
@@ -5004,24 +5067,26 @@
       "id": "PR_kwDOLrzygc6xEil7",
       "title": "remove not yet defined details about protocol error",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/78",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Limit the details about protocol-error, since a propoer protocol-error draft only just started.",
       "createdAt": "2025-11-02T17:48:01Z",
-      "updatedAt": "2025-11-04T15:41:30Z",
+      "updatedAt": "2025-11-07T16:24:05Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "fb795448c8b007521941dd81ffff871517bb4f82",
+      "baseRefOid": "3823ef03fa2a851be21d5dca59fb6b532df0a748",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-update-protocol-error",
-      "headRefOid": "8bf1ddaafb2c92a5f885bbf622c30d43b9f01ffc",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6cdf25e6cc63ad3eedf10e2ed5e14f93ce3e0677",
+      "closedAt": "2025-11-07T16:24:05Z",
+      "mergedAt": "2025-11-07T16:24:05Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "4560e45b50e18ecf66a82532795102319fc7ac69"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5041,6 +5106,86 @@
               "body": "```suggestion\r\nRADIUS/(D)TLS clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.\r\nFurther details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description on Protocol-Error.\r\n```",
               "createdAt": "2025-11-04T15:32:09Z",
               "updatedAt": "2025-11-04T15:32:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Mdwmd",
+          "commit": {
+            "abbreviatedOid": "8bf1dda"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T20:17:50Z",
+          "updatedAt": "2025-11-06T20:17:50Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nA server MAY therefore respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}, to alleviate this situation and signal that it was unable to process a packet.\r\nThe Error-Cause attribute of this packet SHOULD be set to the value 406 (\"Unsupported Extension\"), if the server does not support the packet type, or the value 502 (\"Request Not Routable (Proxy)\"), if the request cannot be routed.\r\n```",
+              "createdAt": "2025-11-06T20:17:50Z",
+              "updatedAt": "2025-11-06T20:17:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Md5FX",
+          "commit": {
+            "abbreviatedOid": "8bf1dda"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T20:25:24Z",
+          "updatedAt": "2025-11-06T20:25:25Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Maybe we should adjust the text in this section as well now.\r\nI'm struggling to find a good wording for what we mean, but we should say something about how (and if) legacy clients that don't send protocol-error (because it is a MAY) should go forward. Should they stop sending CoA-NAK, Disconnect-NAK, Accounting-Response and silently discard or should they keep sending the NAKs/Responses?",
+              "createdAt": "2025-11-06T20:25:24Z",
+              "updatedAt": "2025-11-06T20:25:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MtQTd",
+          "commit": {
+            "abbreviatedOid": "8bf1dda"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T14:45:20Z",
+          "updatedAt": "2025-11-07T14:45:21Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "I don't quite understand your comment.\r\nClients never send protocol-error, only servers do.\r\nA server that is updated should change to protocol-error. Any old behavior (if servers don't get updated) doesn't break things, they just lack the improvement.\r\nThe future spec will then define more details and probably require the sending of protocol-error.",
+              "createdAt": "2025-11-07T14:45:20Z",
+              "updatedAt": "2025-11-07T14:45:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MvQrX",
+          "commit": {
+            "abbreviatedOid": "5a242c2"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T16:12:36Z",
+          "updatedAt": "2025-11-07T16:12:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\nDue to the use of one single port for all packet types, clients might send packets to the server which it cannot process.\r\nWithout a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.\r\n```",
+              "createdAt": "2025-11-07T16:12:36Z",
+              "updatedAt": "2025-11-07T16:12:36Z"
             }
           ]
         }
@@ -6236,13 +6381,13 @@
       "labels": [],
       "body": "See also #89 ",
       "createdAt": "2025-11-05T20:24:34Z",
-      "updatedAt": "2025-11-05T20:45:10Z",
+      "updatedAt": "2025-11-07T16:42:09Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "c7e94afe45aa9cfa28b84db4d020a3e4b54eb154",
+      "baseRefOid": "ab2ac67b670116e553e6d42e795acfc355c91a66",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "margarets-changes",
-      "headRefOid": "bb21c0a9396cdcade304170a50211bf3da1d1607",
+      "headRefOid": "cbbc0479d19f15406bd1728d694404b58697baac",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -6259,7 +6404,7 @@
           "state": "COMMENTED",
           "body": "Formatting changes",
           "createdAt": "2025-11-05T20:28:44Z",
-          "updatedAt": "2025-11-05T20:34:39Z",
+          "updatedAt": "2025-11-06T16:09:20Z",
           "comments": [
             {
               "originalPosition": 737,
@@ -6360,6 +6505,586 @@
               "updatedAt": "2025-11-05T20:45:10Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MY_W6",
+          "commit": {
+            "abbreviatedOid": "bb21c0a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T16:10:00Z",
+          "updatedAt": "2025-11-06T16:10:01Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nThis document defines transport profiles for running the Remote Authentication Dial In User Service (RADIUS) over Transport Layer Security (TLS) {{!RFC8446}}, {{!RFC5246}} over TCP {{!STD7}} and Datagram Transport Layer Security (DTLS) {{!RFC6347}}, {{!RFC9147}} over UDP {{!STD6}}, allowing secure and reliable transport of RADIUS messages.\r\n```",
+              "createdAt": "2025-11-06T16:10:00Z",
+              "updatedAt": "2025-11-06T16:42:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MZEHr",
+          "commit": {
+            "abbreviatedOid": "bb21c0a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T16:12:47Z",
+          "updatedAt": "2025-11-06T16:12:48Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\n{::boilerplate bcp14-tagged}\r\n```\r\n\r\nThis is the BCP14 boilerplate, it's important.",
+              "createdAt": "2025-11-06T16:12:47Z",
+              "updatedAt": "2025-11-06T16:12:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MZHvb",
+          "commit": {
+            "abbreviatedOid": "bb21c0a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Another whitespace/typo update",
+          "createdAt": "2025-11-06T16:15:03Z",
+          "updatedAt": "2025-11-06T16:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 200,
+              "body": "```suggestion\r\nImplementations MUST follow the recommendations given in {{!BCP195}}, especially in regards to recommended cipher suites and TLS session resumption.\r\n```",
+              "createdAt": "2025-11-06T16:15:03Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 254,
+              "body": "```suggestion\r\n  * If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.  Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{!RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.\r\n```",
+              "createdAt": "2025-11-06T16:15:29Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 260,
+              "body": "```suggestion\r\n  * Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in {{security_considerations}}.\r\n```",
+              "createdAt": "2025-11-06T16:15:44Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 285,
+              "body": "```suggestion\r\nRadSec implementations SHOULD support using Raw Public Keys {{!RFC7250}} for mutual authentication.\r\n```",
+              "createdAt": "2025-11-06T16:16:04Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 311,
+              "body": "```suggestion\r\nOne example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.\r\n```",
+              "createdAt": "2025-11-06T16:16:16Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 338,
+              "body": "```suggestion\r\nSession resumption lowers the time and effort required to start a (D)TLS session and increases network responsiveness.\r\n```",
+              "createdAt": "2025-11-06T16:16:30Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 418,
+              "body": "```suggestion\r\nDue to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{!RFC5080, Section 2.2.1}}.\r\n```",
+              "createdAt": "2025-11-06T16:16:52Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 437,
+              "body": "```suggestion\r\nIn order to avoid congestive collapse, it is RECOMMENDED that RadSec clients which originate Accounting-Request packets (i.e. not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.\r\n```",
+              "createdAt": "2025-11-06T16:17:10Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 488,
+              "body": "```suggestion\r\nWhile RADIUS/UDP could be implemented mostly stateless (except for the requests in flight), both TCP/TLS as well as DTLS require state tracking of the underlying TLS connection and are thus subject to potential resource exhaustion.\r\nThis is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running endpoint relationships with long-running connections.\r\n```",
+              "createdAt": "2025-11-06T16:17:33Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 492,
+              "body": "```suggestion\r\nImplementations SHOULD have configurable limits on the number of open connections.\r\nWhen this maximum is reached and a new session is needed, the server MUST either drop an old session in order to open the new one or not create a new session.\r\n```",
+              "createdAt": "2025-11-06T16:17:47Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 497,
+              "body": "```suggestion\r\nTherefore, both RadSec clients and servers MAY close connections after they have been idle for some time (no traffic except application layer watchdog).\r\nThis idle timeout SHOULD be configurable within reasonable limits and it SHOULD be possible to disable idle timeouts completely.\r\n```",
+              "createdAt": "2025-11-06T16:18:00Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 503,
+              "body": "```suggestion\r\nOn the server side, this mostly helps avoid resource exhaustion.\r\nFor clients, proactively closing sessions can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections.\r\nSome scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection.\r\nThese scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.\r\n```",
+              "createdAt": "2025-11-06T16:18:24Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 509,
+              "body": "```suggestion\r\nThe value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections.\r\nVery short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.\r\nIn contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.\r\n```",
+              "createdAt": "2025-11-06T16:19:36Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 523,
+              "body": "```suggestion\r\nA discarded RADIUS request packet be associated with a cached RADIUS response packet ({{RFC5080, Section 2.2.2}}), in which case the cached response paccket also MUST be discarded.\r\n```",
+              "createdAt": "2025-11-06T16:19:56Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 536,
+              "body": "```suggestion\r\nImplementations of this specification SHOULD treat the \"silently discard\" texts in the RADIUS specification referenced above as \"silently discard and close the connection\".\r\n```",
+              "createdAt": "2025-11-06T16:20:08Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 547,
+              "body": "```suggestion\r\nFor request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure. In any case, further processing of the original request MUST stop.\r\n```",
+              "createdAt": "2025-11-06T16:20:19Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 576,
+              "body": "```suggestion\r\nAs an implementation note, it is RECOMMENDED that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.\r\n```",
+              "createdAt": "2025-11-06T16:20:35Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 631,
+              "body": "```suggestion\r\nFor the receiving RADIUS/DTLS endpoint, the length checks defined in {{RFC2865, Section 3}} still apply.\r\n```",
+              "createdAt": "2025-11-06T16:20:51Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 649,
+              "body": "```suggestion\r\nWhen implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.\r\n```",
+              "createdAt": "2025-11-06T16:21:05Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 659,
+              "body": "```suggestion\r\nRADIUS/DTLS servers SHOULD use the stateless cookie tracking technique described in {{!RFC6347, Section 4.2.1}}.\r\n```",
+              "createdAt": "2025-11-06T16:21:16Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 669,
+              "body": "```suggestion\r\nTaking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.\r\n```",
+              "createdAt": "2025-11-06T16:21:28Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 673,
+              "body": "```suggestion\r\nAs a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active session.\r\n```",
+              "createdAt": "2025-11-06T16:21:40Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 692,
+              "body": "```suggestion\r\nOne common method to protect passwords is the use of the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.\r\n```",
+              "createdAt": "2025-11-06T16:21:55Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 729,
+              "body": "```suggestion\r\n- Comparing client or server random used in the TLS handshake.  While this is a very effective method, it requires access to values which are normally private to the TLS implementation.\r\n- Sending a custom random number in an extension in the TLS client hello.  Again, this is very effective, but requires extension of the TLS implementation.\r\n- Comparing the incoming server certificate to all server certificates configured on the proxy.  While in some scenarios this can be a valid detection method, using the same server certificate on multiple servers would keep these servers from connecting with each other, even when this connection is legitimate.\r\n```",
+              "createdAt": "2025-11-06T16:22:20Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 776,
+              "body": "```suggestion\r\nTherefore, any shared secret used with RADIUS/UDP before MUST NOT be used with RADIUS/(D)TLS and (D)TLS-PSK.\r\n```",
+              "createdAt": "2025-11-06T16:22:37Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 935,
+              "body": "```suggestion\r\n* {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.\r\n```",
+              "createdAt": "2025-11-06T16:22:57Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            },
+            {
+              "originalPosition": 931,
+              "body": "```suggestion\r\n* RFC6614 only requires support for the trust model \"certificates with PKIX\" ({{?RFC6614, Section 2.3}}).  This document changes this.  For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to \"certificates with PKIX\" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.\r\n```",
+              "createdAt": "2025-11-06T16:23:31Z",
+              "updatedAt": "2025-11-06T16:23:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MZylN",
+          "commit": {
+            "abbreviatedOid": "0d3e3a6"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T16:45:40Z",
+          "updatedAt": "2025-11-06T18:01:54Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "```suggestion\r\n* Implementations MUST allow the configuration of a trust base (i.e. a set of trusted Certificate Authorities (CAs){{!RFC5280}}) for new TLS sessions.  This list SHOULD be application-specific and not use a global system trust store.\r\n```",
+              "createdAt": "2025-11-06T16:45:40Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 231,
+              "body": "```suggestion\r\n* When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.\r\n```",
+              "createdAt": "2025-11-06T16:46:57Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 232,
+              "body": "```suggestion\r\n* Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer's certificate. At the time the peer's certificate expires, the connection SHOULD be closed and re-opened.\r\n```",
+              "createdAt": "2025-11-06T16:48:39Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 237,
+              "body": "```suggestion\r\nRadSec endpoints SHOULD NOT be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.\r\nInstead, the endpoints SHOULD start off with an empty CA set as the trust base.\r\n```",
+              "createdAt": "2025-11-06T16:49:26Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 240,
+              "body": "```suggestion\r\nThis does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should be a conscious decision by an administrator.\r\n```",
+              "createdAt": "2025-11-06T16:49:56Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 248,
+              "body": "```suggestion\r\n* RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:\r\n```",
+              "createdAt": "2025-11-06T17:44:40Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 254,
+              "body": "```suggestion\r\n  * Clients MAY use other attributes of the certificate to validate the server's identity, but they MUST NOT accept any certificate without validation.\r\n```",
+              "createdAt": "2025-11-06T17:44:57Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 266,
+              "body": "```suggestion\r\n  * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy OID unless both endpoints are part of a trusted network.\r\n```",
+              "createdAt": "2025-11-06T17:45:42Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 267,
+              "body": "```suggestion\r\n* Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).\r\n```",
+              "createdAt": "2025-11-06T17:46:15Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 292,
+              "body": "```suggestion\r\nDepending on the trust model used, the RadSec client identity can be determined differently.\r\n```",
+              "createdAt": "2025-11-06T17:46:39Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 301,
+              "body": "```suggestion\r\nAs a suggestion, at least the following information from the TLS connection and the X.509 client certificate should be exposed:\r\n```",
+              "createdAt": "2025-11-06T17:47:05Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 310,
+              "body": "```suggestion\r\nIn TLS-PSK operation at least the following information from the TLS connection should be exposed:\r\n```",
+              "createdAt": "2025-11-06T17:47:23Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 335,
+              "body": "```suggestion\r\nRadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.\r\n```",
+              "createdAt": "2025-11-06T17:47:49Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 358,
+              "body": "```suggestion\r\nSince proxying of RADIUS packets is a general issue in RADIUS and not specific to RadSec, the details of handling the Protocol-Error reply on the client side are outside of the scope of this document.\r\n```",
+              "createdAt": "2025-11-06T17:48:25Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 368,
+              "body": "```suggestion\r\n{{RFC6614}} also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.\r\n```",
+              "createdAt": "2025-11-06T17:48:44Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 369,
+              "body": "```suggestion\r\nThis behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.\r\n```",
+              "createdAt": "2025-11-06T17:48:56Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 383,
+              "body": "```suggestion\r\nA forwarding server may either perform its forwarding function in a\r\npass through manner, where it sends retransmissions on as soon as it\r\ngets them, or it may take responsibility for retransmissions, for\r\nexample in cases where the network link between forwarding and remote\r\nserver has very different characteristics than the link between NAS\r\nand forwarding server.\r\n```\r\n\r\n(This is a quote, so line breaks as in the quoted text)",
+              "createdAt": "2025-11-06T17:49:46Z",
+              "updatedAt": "2025-11-06T18:01:54Z"
+            },
+            {
+              "originalPosition": 393,
+              "body": "```suggestion\r\nThe above requirements are a logical extension of the common practice where a client stops retransmission of a packet once it decides to \"give up\" on the packet and discard it.\r\n```",
+              "createdAt": "2025-11-06T17:49:58Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 406,
+              "body": "```suggestion\r\nIn contrast to RADIUS/UDP, RadSec establishes a (D)TLS session before transmitting any RADIUS packets.\r\n```",
+              "createdAt": "2025-11-06T17:50:11Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 432,
+              "body": "```suggestion\r\nOther algorithms than the one defined in {{RFC5080}} are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).\r\n```",
+              "createdAt": "2025-11-06T17:50:35Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 444,
+              "body": "```suggestion\r\nThis is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.\r\n```",
+              "createdAt": "2025-11-06T17:52:25Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 477,
+              "body": "```suggestion\r\nHowever, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.\r\n```",
+              "createdAt": "2025-11-06T17:53:05Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 487,
+              "body": "```suggestion\r\nFor request packets that would have been silently discarded in the previous specifications, servers SHOULD reply with a Protocol-Error {{!RFC7930, Section 4}} message to avoid request ID exhaustion, and servers SHOULD include an Error-Cause attribute indicating the type of failure.\r\nIn any case, further processing of the original request MUST stop.\r\n```",
+              "createdAt": "2025-11-06T17:53:25Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 523,
+              "body": "```suggestion\r\nHowever, if the TLS session or TCP connection is closed or broken, retries over new connections are permissible.\r\n```",
+              "createdAt": "2025-11-06T17:54:20Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 586,
+              "body": "```suggestion\r\nA few remaining security considerations and notes to administrators deploying RadSec are listed below.\r\n```",
+              "createdAt": "2025-11-06T17:56:27Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 597,
+              "body": "```suggestion\r\nAdditionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one peer, to forward this packet to a different peer using the RADIUS/UDP transport profile.\r\n```",
+              "createdAt": "2025-11-06T17:56:57Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 614,
+              "body": "```suggestion\r\nHowever, in this case, the client certificate which the RadSec endpoint uses for outgoing connections on the client side might also satisfy the trust check of the server side.\r\n```",
+              "createdAt": "2025-11-06T17:57:26Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 620,
+              "body": "```suggestion\r\nSuch attacks have been described for TLS-PSK {{?RFC9257}}, dubbed a selfie-attack, but are much broader in the RADIUS/(D)TLS case.\r\nIn particular, as described above, they also apply to certificate based authentication.\r\n```",
+              "createdAt": "2025-11-06T17:57:40Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 642,
+              "body": "```suggestion\r\nThe underlying TLS sessions of RadSec connections may have a long lifetime.\r\n```",
+              "createdAt": "2025-11-06T17:57:58Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 648,
+              "body": "```suggestion\r\nIf the underlying TLS library does not perform the rotation automatically, RadSec implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.\r\n```",
+              "createdAt": "2025-11-06T17:58:13Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 657,
+              "body": "```suggestion\r\nWe therefore recommend to migrate from RADIUS/UDP to RadSec.\r\n```",
+              "createdAt": "2025-11-06T17:58:27Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 663,
+              "body": "```suggestion\r\nFirstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.\r\nWhile this may seem like an easy way to upgrade RADIUS/UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.\r\n```",
+              "createdAt": "2025-11-06T17:58:51Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 666,
+              "body": "```suggestion\r\nTherefore, any shared secret used with RADIUS/UDP before MUST NOT be used with RadSec and (D)TLS-PSK.\r\n```",
+              "createdAt": "2025-11-06T17:59:05Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 676,
+              "body": "```suggestion\r\nWhen upgrading from RADIUS/UDP to RadSec, there may be a period of time, where the connection between client and server is configured for both transport profiles.\r\nIf the old RADIUS/UDP configuration is left configured, but not used in normal operation, e.g. due to a fail-over configuration that prefers RadSec, an attacker could disrupt the RadSec communication and force a downgrade to RADIUS/UDP.\r\nTo prevent this it is RECOMMENDED that, when the migration to RadSec is completed, the RADIUS/UDP configuration is removed.\r\nRadSec clients MUST NOT fall back to RADIUS/UDP if the RadSec communication fails, unless explicitly configured this way.\r\n```",
+              "createdAt": "2025-11-06T18:00:00Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 679,
+              "body": "```suggestion\r\nSpecial considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RadSec.\r\n```",
+              "createdAt": "2025-11-06T18:00:22Z",
+              "updatedAt": "2025-11-06T19:12:48Z"
+            },
+            {
+              "originalPosition": 688,
+              "body": "```suggestion\r\nSubsystems that do not implement RadSec can remain unaware of (D)TLS.\r\n```",
+              "createdAt": "2025-11-06T18:00:38Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 691,
+              "body": "```suggestion\r\nThe proxy can do RADIUS/UDP to some servers and RadSec to others.\r\n```",
+              "createdAt": "2025-11-06T18:00:49Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 696,
+              "body": "```suggestion\r\nBy moving all RADIUS/(D)TLS knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.\r\n```",
+              "createdAt": "2025-11-06T18:01:08Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            },
+            {
+              "originalPosition": 828,
+              "body": "```suggestion\r\n* The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}.  Using the Common Name RDN for validation of server certificates is now forbidden.\r\n* The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.\r\n```",
+              "createdAt": "2025-11-06T18:01:47Z",
+              "updatedAt": "2025-11-06T18:01:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Mcuqc",
+          "commit": {
+            "abbreviatedOid": "8cac916"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "some more backported changes",
+          "createdAt": "2025-11-06T19:14:07Z",
+          "updatedAt": "2025-11-06T19:30:27Z",
+          "comments": [
+            {
+              "originalPosition": 514,
+              "body": "```suggestion\r\nBy moving all RadSec knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.\r\n```",
+              "createdAt": "2025-11-06T19:14:08Z",
+              "updatedAt": "2025-11-06T19:19:28Z"
+            },
+            {
+              "originalPosition": 620,
+              "body": "```suggestion\r\nEspecially the sequential nature of the connection and the connected issues like head-of-line blocking could create problems.\r\n```",
+              "createdAt": "2025-11-06T19:14:28Z",
+              "updatedAt": "2025-11-06T19:19:28Z"
+            },
+            {
+              "originalPosition": 635,
+              "body": "```suggestion\r\n* {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.\r\n  These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.\r\n```",
+              "createdAt": "2025-11-06T19:14:48Z",
+              "updatedAt": "2025-11-06T19:19:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7McrIp",
+          "commit": {
+            "abbreviatedOid": "8cac916"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T19:10:45Z",
+          "updatedAt": "2025-11-06T19:29:04Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "I think TLS and DLTS records are slightly different and specified in different RFCs. I propose to keep the original definitions.",
+              "createdAt": "2025-11-06T19:10:45Z",
+              "updatedAt": "2025-11-06T19:29:04Z"
+            },
+            {
+              "originalPosition": 185,
+              "body": "This is a duplicate form the definitions section, do we need to repeat it here?",
+              "createdAt": "2025-11-06T19:13:51Z",
+              "updatedAt": "2025-11-06T19:29:04Z"
+            },
+            {
+              "originalPosition": 306,
+              "body": "Conflicting proposal in #78 ",
+              "createdAt": "2025-11-06T19:22:59Z",
+              "updatedAt": "2025-11-06T19:29:04Z"
+            },
+            {
+              "originalPosition": 343,
+              "body": "```suggestion\r\nAs TLS is a reliable transport, RADIUS/TLS clients can only retry a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.\r\n```",
+              "createdAt": "2025-11-06T19:24:42Z",
+              "updatedAt": "2025-11-06T19:29:04Z"
+            },
+            {
+              "originalPosition": 417,
+              "body": "This has already been reworded in current master, don't revert to the old state.",
+              "createdAt": "2025-11-06T19:27:15Z",
+              "updatedAt": "2025-11-06T19:29:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Mden6",
+          "commit": {
+            "abbreviatedOid": "cbbc047"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T20:01:03Z",
+          "updatedAt": "2025-11-06T20:01:03Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\r\nTLS record:\r\n: As defined in TLS {{RFC5246}}.\r\n\r\nDTLS record:\r\n: As defined in DTLS {{RFC9147}}.  A DTLS record is always contained in one UDP datagram.\r\n```\r\n \r\n Basically: revert to the original source.",
+              "createdAt": "2025-11-06T20:01:03Z",
+              "updatedAt": "2025-11-06T20:01:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Mv9Of",
+          "commit": {
+            "abbreviatedOid": "cbbc047"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T16:42:08Z",
+          "updatedAt": "2025-11-07T16:42:09Z",
+          "comments": [
+            {
+              "originalPosition": 321,
+              "body": "Similar text already merged. Skip this.",
+              "createdAt": "2025-11-07T16:42:09Z",
+              "updatedAt": "2025-11-07T16:42:09Z"
+            }
+          ]
         }
       ]
     },
@@ -6368,24 +7093,26 @@
       "id": "PR_kwDOLrzygc6xvXcn",
       "title": "TLS terminology: connection instead of session",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/96",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Update most of the uses of 'TLS session' to 'TLS connection'. Exception is TLS session resumption which is its own concept.\r\nEdit: Also skip section named 'Session Management'. We can get back to it separately, if needed.",
       "createdAt": "2025-11-05T20:43:39Z",
-      "updatedAt": "2025-11-06T00:08:36Z",
+      "updatedAt": "2025-11-06T19:46:06Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c7e94afe45aa9cfa28b84db4d020a3e4b54eb154",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "tls-session-to-connection",
       "headRefOid": "8abc2f8fb36bb7d34390206e4b56baf55aec6f0b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-06T19:46:06Z",
+      "mergedAt": "2025-11-06T19:46:06Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "ab2ac67b670116e553e6d42e795acfc355c91a66"
+      },
       "comments": [
         {
           "author": "h-vn",
@@ -6499,6 +7226,422 @@
               "body": "I agree. 'Session' appears to be used also when there's state (session state) that the application layer software needs to keep its own purposes. This session incudes info about TLS connection, certificates from the full handshake, etc. Or this is my understanding at least.\r\n\r\nI'd merge this pull request to get the changes applied that clearly relate to (D)TLS connections. It's then easier to do what's needed for this and the respective client section.",
               "createdAt": "2025-11-05T21:38:17Z",
               "updatedAt": "2025-11-05T21:38:18Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 97,
+      "id": "PR_kwDOLrzygc6x_1hr",
+      "title": "Use handshake instead of negotiation where appropriate.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/97",
+      "state": "MERGED",
+      "author": "h-vn",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update the draft use 'handshake' instead of 'negotation' when TLS handshake is discussed.",
+      "createdAt": "2025-11-06T21:12:42Z",
+      "updatedAt": "2025-11-06T21:25:04Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "ab2ac67b670116e553e6d42e795acfc355c91a66",
+      "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "negotiation-to-handshake",
+      "headRefOid": "4c0c4dbf617b13a44e7ea8b76132bb416cf8e7dd",
+      "closedAt": "2025-11-06T21:25:04Z",
+      "mergedAt": "2025-11-06T21:25:04Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "5c1ee75cabbfdbd388e2d5d2752ef09519b893e2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MewXS",
+          "commit": {
+            "abbreviatedOid": "338fab8"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T21:22:00Z",
+          "updatedAt": "2025-11-06T21:22:00Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nRADIUS/DTLS servers MUST silently discard any UDP datagram they receive over the RADIUS/DTLS port that is not a new DTLS handshake or a datagram related to a DTLS connection established earlier.\r\n```\r\n\r\nThis applies the terminology we introduced earlier.",
+              "createdAt": "2025-11-06T21:22:00Z",
+              "updatedAt": "2025-11-06T21:22:01Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 98,
+      "id": "PR_kwDOLrzygc6yAwDQ",
+      "title": "Add text for 0rtt",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/98",
+      "state": "MERGED",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-06T22:56:22Z",
+      "updatedAt": "2025-11-07T16:26:00Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c49fcb98d7969edc6fea2b354def796e2ccea2af",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "feature/0rtt",
+      "headRefOid": "b3fc1e228da0938e0d91b2b4d0fd4d9e63ea0fd2",
+      "closedAt": "2025-11-07T16:26:00Z",
+      "mergedAt": "2025-11-07T16:25:59Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "fb8ed6b4fc867c6351cd93f61bf143bb1b3184a1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7MfyKH",
+          "commit": {
+            "abbreviatedOid": "af98aeb"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-06T23:05:53Z",
+          "updatedAt": "2025-11-06T23:05:53Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\nThe use of 0-RTT features of (D)TLS is NOT RECOMMENDED.\r\nRADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.\r\nIf 0-RTT is used, implementations MUST also implement protection mechanisms against replay attacks.\r\n```",
+              "createdAt": "2025-11-06T23:05:53Z",
+              "updatedAt": "2025-11-06T23:05:53Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 101,
+      "id": "PR_kwDOLrzygc6yLsJq",
+      "title": "align use of retry terminology",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/101",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-07T17:03:15Z",
+      "updatedAt": "2025-11-07T21:21:18Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb8ed6b4fc867c6351cd93f61bf143bb1b3184a1",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-use-retry",
+      "headRefOid": "8a04bd3dd71fbf801b9ab3aefac2bc1f2ebad6fd",
+      "closedAt": "2025-11-07T21:21:18Z",
+      "mergedAt": "2025-11-07T21:21:18Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "9e7eeb3a46c5f23a61b7d36b2727e0940a40854f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Myj6-",
+          "commit": {
+            "abbreviatedOid": "51437e3"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T19:02:47Z",
+          "updatedAt": "2025-11-07T19:02:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Line 508: is 'retransmission' correct or should it also be 'retry'. That is 'can only retry if ... must not otherwise retry'.",
+              "createdAt": "2025-11-07T19:02:47Z",
+              "updatedAt": "2025-11-07T19:02:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7MyvLH",
+          "commit": {
+            "abbreviatedOid": "51437e3"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T19:11:58Z",
+          "updatedAt": "2025-11-07T19:11:58Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "yes, it is only allowed to do retries (send over new connection) but not retransmission. ",
+              "createdAt": "2025-11-07T19:11:58Z",
+              "updatedAt": "2025-11-07T19:11:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Mz71I",
+          "commit": {
+            "abbreviatedOid": "51437e3"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T20:16:06Z",
+          "updatedAt": "2025-11-07T20:16:07Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nAs TLS is a reliable transport, RADIUS/TLS clients can only retry a packet if a connection closes without that packet receiving a reply, therefore the timers MUST NOT result in retransmission of any packet.\r\nA retry is the re-sending of the same content in a newly constructed RADIUS packet, where a retransmission is the re-sending of the exact same packet over the same connection to deal with packet loss on transport.\r\n```\r\n\r\nThis is a suggestion for a definition of retry and retransmission.",
+              "createdAt": "2025-11-07T20:16:06Z",
+              "updatedAt": "2025-11-07T20:16:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7M06Tr",
+          "commit": {
+            "abbreviatedOid": "51437e3"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T21:08:24Z",
+          "updatedAt": "2025-11-07T21:08:24Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "+1\r\nmaybe need to think where to put this definition after chapter reordering is complete.",
+              "createdAt": "2025-11-07T21:08:24Z",
+              "updatedAt": "2025-11-07T21:08:25Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 102,
+      "id": "PR_kwDOLrzygc6yMAaD",
+      "title": "Unify use of term endpoint",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/102",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-07T17:28:46Z",
+      "updatedAt": "2025-11-07T19:14:18Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "fb8ed6b4fc867c6351cd93f61bf143bb1b3184a1",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "patch-1",
+      "headRefOid": "b5dc715478f5c70ce65a9153eca0611feddc430a",
+      "closedAt": "2025-11-07T19:14:18Z",
+      "mergedAt": "2025-11-07T19:14:18Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "0b7d24fb6693bfec58dde61e7ec656a18a7a90cd"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Mye60",
+          "commit": {
+            "abbreviatedOid": "2389e6f"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T18:58:50Z",
+          "updatedAt": "2025-11-07T18:58:50Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "```suggestion\r\n* When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.\r\n```\r\n\r\nIn this instance we do mean peers I think.",
+              "createdAt": "2025-11-07T18:58:50Z",
+              "updatedAt": "2025-11-07T18:58:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7Myg3b",
+          "commit": {
+            "abbreviatedOid": "2389e6f"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T19:00:23Z",
+          "updatedAt": "2025-11-07T19:00:23Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "```suggestion\r\n* Implementations SHOULD NOT keep a connection open for longer than the validity span of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and re-opened.\r\n```\r\n\r\nI would keep the term peer certificate here as well.\r\nWe use it in the sentence before anyway.",
+              "createdAt": "2025-11-07T19:00:23Z",
+              "updatedAt": "2025-11-07T19:00:23Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 103,
+      "id": "PR_kwDOLrzygc6yM3mv",
+      "title": "Consistently use term RadSec",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/103",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-07T18:36:40Z",
+      "updatedAt": "2025-11-07T19:18:25Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0b7d24fb6693bfec58dde61e7ec656a18a7a90cd",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-terminology-radsec",
+      "headRefOid": "2c60f8c8906779f331b653cdbd4e4d5bc3bbd077",
+      "closedAt": "2025-11-07T19:18:24Z",
+      "mergedAt": "2025-11-07T19:18:24Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "314758ba971952ea237803bf4a8b75044b577ab7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7Mya4Y",
+          "commit": {
+            "abbreviatedOid": "b1fa70c"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "I looked through the changes and they look good to me. No typos etc. spotted.",
+          "createdAt": "2025-11-07T18:55:25Z",
+          "updatedAt": "2025-11-07T18:55:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 104,
+      "id": "PR_kwDOLrzygc6yNr9r",
+      "title": "Remove X509-FINGERPRINT",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/104",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #99 ",
+      "createdAt": "2025-11-07T19:49:08Z",
+      "updatedAt": "2025-11-08T21:33:23Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "314758ba971952ea237803bf4a8b75044b577ab7",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-x509-fingerprint",
+      "headRefOid": "3dd93ef4242f9a83810e5c1d61d9a927573303da",
+      "closedAt": "2025-11-08T21:33:23Z",
+      "mergedAt": "2025-11-08T21:33:23Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "ce7a04ea401c17428ec9a1a1486602ea07bcbd55"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7M1PBx",
+          "commit": {
+            "abbreviatedOid": "f8f0858"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-07T21:28:57Z",
+          "updatedAt": "2025-11-07T21:28:57Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\n* The recommendation for TLS-X509-FINGERPRINT ({{RFC6614, Section 2.3}}) is removed since the model has not been implemented by any known implementation of the experimental RADIUS/(D)TLS specifications.\r\n```\r\n\r\nWe've just changed",
+              "createdAt": "2025-11-07T21:28:57Z",
+              "updatedAt": "2025-11-07T21:28:57Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 105,
+      "id": "PR_kwDOLrzygc6yN0Vg",
+      "title": "Remove raw pubkey auth",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/105",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Raw public key was not part of 6614, we therefore should not introduce new auth methods here. Besides there are no (?) implementations.",
+      "createdAt": "2025-11-07T20:01:26Z",
+      "updatedAt": "2025-11-08T21:45:28Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "ce7a04ea401c17428ec9a1a1486602ea07bcbd55",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-raw-pubkey",
+      "headRefOid": "fc005f334c780fcd446b31e484e566e2c0e8542a",
+      "closedAt": "2025-11-08T21:45:28Z",
+      "mergedAt": "2025-11-08T21:45:28Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "33084a347e7df953856fc07a44f08592c61c7d2b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7M9sYb",
+          "commit": {
+            "abbreviatedOid": "f83c2a2"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-08T21:35:56Z",
+          "updatedAt": "2025-11-08T21:35:56Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n```\r\n\r\nArtifact of edit that had nothing to do with the PR",
+              "createdAt": "2025-11-08T21:35:56Z",
+              "updatedAt": "2025-11-08T21:35:56Z"
             }
           ]
         }
