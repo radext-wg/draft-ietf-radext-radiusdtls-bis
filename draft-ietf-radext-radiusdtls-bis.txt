@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 12 May 2026                                     8 November 2025
+Expires: 14 May 2026                                    10 November 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2026.
+   This Internet-Draft will expire on 14 May 2026.
 
 Copyright Notice
 
@@ -552,14 +552,15 @@ Table of Contents
 
 4.3.  Connecting Client Identity
 
-   In RADIUS/UDP, clients are uniquely identified by their IP addresses.
-   Since the shared secret is associated with the origin IP address, if
-   more than one RADIUS client is associated with the same IP address,
-   then those clients also must utilize the same shared secret, a
-   practice that is inherently insecure, as noted in [RFC5247].
+   In RADIUS/UDP, clients are uniquely identified by their IP addresses,
+   as the shared secret is associated with the origin IP address.  With
+   RadSec the shared secret has a fixed value and multiple distinct
+   RadSec clients can connect from the same IP address.  This requires
+   changing the method of identifying individual clients from RADIUS/
+   UDP.
 
-   Depending on the trust model used, the RadSec client identity can be
-   determined differently.
+   Depending on the trust model used, the RadSec client identity is
+   determined as follows.
 
    With TLS-PSK, a client is uniquely identified by its TLS-PSK
    identifier.
@@ -1749,11 +1750,6 @@ Table of Contents
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008,
               <https://www.rfc-editor.org/rfc/rfc5246>.
-
-   [RFC5247]  Aboba, B., Simon, D., and P. Eronen, "Extensible
-              Authentication Protocol (EAP) Key Management Framework",
-              RFC 5247, DOI 10.17487/RFC5247, August 2008,
-              <https://www.rfc-editor.org/rfc/rfc5247>.
 
    [RFC5248]  Hansen, T. and J. Klensin, "A Registry for SMTP Enhanced
               Mail System Status Codes", BCP 138, RFC 5248,
