@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-09T00:58:02.624642+00:00",
+  "timestamp": "2025-11-11T00:56:13.193668+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -6299,26 +6299,90 @@
       "id": "PR_kwDOLrzygc6xtbnY",
       "title": "Drop RFC 6614 discussion of RADIUS/UDP client identification",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/93",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Clarify client identity determination in RadSec by removing the irrelevant discussion of how RADIUS/UDP does it. This text is a left over from RFC 6614.",
       "createdAt": "2025-11-05T17:43:51Z",
-      "updatedAt": "2025-11-05T17:43:51Z",
+      "updatedAt": "2025-11-10T18:44:41Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a492e127257329af7000f4bae242504a11d692d2",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "udp-connecting-client-identity",
-      "headRefOid": "4042574d6d9e440298fc2f29bb3e8fa76c0a868f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "headRefOid": "6a137df8d5d2a4e8e19027354fef65adfeabd922",
+      "closedAt": "2025-11-10T18:44:41Z",
+      "mergedAt": "2025-11-10T18:44:41Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "8cdd5342b9fccce7e7447d7f9b7e76cd33342b5c"
+      },
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would still include this, maybe reword it a little bit.\r\nIt's an important change to how RADIUS/UDP handles things, and we should note that.",
+          "createdAt": "2025-11-09T23:04:02Z",
+          "updatedAt": "2025-11-09T23:04:02Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7NEJ53",
+          "commit": {
+            "abbreviatedOid": "4042574"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-09T23:10:26Z",
+          "updatedAt": "2025-11-09T23:10:26Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nIn RADIUS/UDP, clients are uniquely identified by their IP addresses, as the shared secret is associated with the origin IP address.\r\nWith RadSec multiple distinct RadSec clients can connect from the same IP address.\r\nThis requires changing the method of identifying individual clients from RADIUS/UDP.\r\n\r\nDepending on the trust model used, the RadSec client identity is determined as follows.\r\n```\r\n\r\nMaybe this is a better way of saying what we mean without the (probably unnecessary) comment about the insecurity of using a common shared secret per IP address.",
+              "createdAt": "2025-11-09T23:10:26Z",
+              "updatedAt": "2025-11-09T23:10:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7NUL1U",
+          "commit": {
+            "abbreviatedOid": "4042574"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-10T18:35:34Z",
+          "updatedAt": "2025-11-10T18:35:34Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Your suggestion is better than the original text because it ties the old practice with the new options with an explanation.\r\n\r\nHowever, leaving in the text about shared secret without saying that it's now fixed, sort of hints that identity is needed to determine the shared secret. Let me add one more thing.",
+              "createdAt": "2025-11-10T18:35:34Z",
+              "updatedAt": "2025-11-10T18:35:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7NUUKt",
+          "commit": {
+            "abbreviatedOid": "6a137df"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "This attempts to clarify that selecting the correct shared secret is no longer a concern because its value is now fixed.",
+          "createdAt": "2025-11-10T18:44:09Z",
+          "updatedAt": "2025-11-10T18:44:09Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 94,
