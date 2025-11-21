@@ -181,11 +181,11 @@ RadSec implementations MUST utilize the existence of a TCP, TLS or DTLS connecti
 As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
-This effect may also be seen on a home servers that uses differing credential backends for each realm they service.
+A similar effect may also be seen on home servers that uses different credential backends for each realm they service.
 
 To avoid these issues, RadSec clients MUST mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
-* The network stack indicates that the connection is no longer viable; such as the destination being no longer unroutable.
+* The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection has been closed by the peer.
 * The transport layer, D(TLS), provides no usable connection
 * The application-layer watchdog algorithm has marked it 'DOWN'.
 
@@ -213,7 +213,7 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 
 RadSec clients MUST establish a (D)TLS session immediately upon connecting to a new server.
 All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
-Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implmentation.
+Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.
 
 RadSec has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
