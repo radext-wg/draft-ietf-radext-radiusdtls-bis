@@ -1563,11 +1563,11 @@ For considerations regarding the multi-purpose use of one port for authenticatio
 <p id="section-3.3-2">As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
-This effect may also be seen on a home servers that uses differing credential backends for each realm they service.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+A similar effect may also be seen on home servers that uses different credential backends for each realm they service.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <p id="section-3.3-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-4.1">
-            <p id="section-3.3-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer unroutable.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection has been closed by the peer.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-4.2">
             <p id="section-3.3-4.2.1">The transport layer, D(TLS), provides no usable connection<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
@@ -1605,7 +1605,7 @@ Client implementations <span class="bcp14">SHOULD</span> implement both, but <sp
         </h3>
 <p id="section-4.1-1">RadSec clients <span class="bcp14">MUST</span> establish a (D)TLS session immediately upon connecting to a new server.
 All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
-Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implmentation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">RadSec has no notion of negotiating (D)TLS in an ongoing communication.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
 Servers and clients need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.

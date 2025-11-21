@@ -303,8 +303,8 @@ Table of Contents
    multiple routes for differing realms behind a proxy where the absence
    of a reply could lead to a client to incorrectly deduce that the
    proxy is unavailable when the cause was an unresponsive downstream
-   hop for a single realm.  This effect may also be seen on a home
-   servers that uses differing credential backends for each realm they
+   hop for a single realm.  A similar effect may also be seen on home
+   servers that uses different credential backends for each realm they
    service.
 
    To avoid these issues, RadSec clients MUST mark a connection 'DOWN'
@@ -312,7 +312,8 @@ Table of Contents
    following conditions are met:
 
    *  The network stack indicates that the connection is no longer
-      viable; such as the destination being no longer unroutable.
+      viable; such as the destination being no longer routable or the
+      underlying TCP connection has been closed by the peer.
 
    *  The transport layer, D(TLS), provides no usable connection
 
@@ -362,7 +363,7 @@ Table of Contents
    assigned for RadSec is opaque for the RADIUS client or server
    application and must be handled by the TLS or DTLS implementation.
    Closing TLS connections and discarding invalid UDP datagrams are done
-   by the (D)TLS implmentation.
+   by the (D)TLS implementation.
 
    RadSec has no notion of negotiating (D)TLS in an ongoing
    communication.  As RADIUS has no provisions for capability signaling,
