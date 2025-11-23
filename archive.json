@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-11T00:56:13.193668+00:00",
+  "timestamp": "2025-11-23T01:02:54.606550+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -6200,7 +6200,7 @@
       "labels": [],
       "body": "I think this is notable enough.\r\n\r\nMaybe also include the previous terms (RADIUS/TLS and RADIUS/DTLS) explicitly here?",
       "createdAt": "2025-11-05T16:48:40Z",
-      "updatedAt": "2025-11-05T20:04:35Z",
+      "updatedAt": "2025-11-21T12:40:20Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "3a912302cd8f5ce4cb911598a187c6302085c649",
@@ -7356,7 +7356,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-11-06T22:56:22Z",
-      "updatedAt": "2025-11-07T16:26:00Z",
+      "updatedAt": "2025-11-21T12:40:15Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c49fcb98d7969edc6fea2b354def796e2ccea2af",
