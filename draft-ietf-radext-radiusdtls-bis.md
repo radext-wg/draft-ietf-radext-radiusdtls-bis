@@ -861,8 +861,9 @@ Within this migration process, however, there are a few items that need to be co
 Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
 While this may seem like an easy way to upgrade RADIUS/UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
 Using a potentially compromised shared secret as TLS-PSK compromises the whole TLS connection.
-Therefore, any shared secret used with RADIUS/UDP before MUST NOT be used with RadSec and (D)TLS-PSK.
-Implementers MUST NOT reuse the configuration option for the RADIUS/UDP shared secret for the (D)TLS-PSK to prevent accidental reuse.
+Therefore, as defined in {{?RFC9813, Section 4.1.3}}, any shared secret used with RADIUS/UDP before MUST NOT be used with RadSec and (D)TLS-PSK.
+We also strongly recommend implementers to not reuse the configuration option for the RADIUS/UDP shared secret in the existing user interfaces for the (D)TLS-PSK too.
+Instead, these should be separate input fields in order to prevent accidental reuse of an existing shared secret when switching to (D)TLS-PSK.
 
 When upgrading from RADIUS/UDP to RadSec, there may be a period of time, where the connection between client and server is configured for both transport profiles.
 If the old RADIUS/UDP configuration is left configured, but not used in normal operation, e.g. due to a fail-over configuration that prefers RadSec, an attacker could disrupt the RadSec communication and force a downgrade to RADIUS/UDP.
