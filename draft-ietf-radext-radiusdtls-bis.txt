@@ -6,7 +6,7 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                            S. Winter
 Intended status: Standards Track                                 RESTENA
-Expires: 25 May 2026                                    21 November 2025
+Expires: 25 June 2026                                   22 December 2025
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2026.
+   This Internet-Draft will expire on 25 June 2026.
 
 Copyright Notice
 
@@ -1549,10 +1549,14 @@ Table of Contents
    UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared
    secret render the shared secret potentially compromised.  Using a
    potentially compromised shared secret as TLS-PSK compromises the
-   whole TLS connection.  Therefore, any shared secret used with RADIUS/
-   UDP before MUST NOT be used with RadSec and (D)TLS-PSK.  Implementers
-   MUST NOT reuse the configuration option for the RADIUS/UDP shared
-   secret for the (D)TLS-PSK to prevent accidental reuse.
+   whole TLS connection.  Therefore, as defined in [RFC9813],
+   Section 4.1.3, any shared secret used with RADIUS/UDP before MUST NOT
+   be used with RadSec and (D)TLS-PSK.  We also strongly recommend
+   implementers to not reuse the configuration option for the RADIUS/UDP
+   shared secret in the existing user interfaces for the (D)TLS-PSK too.
+   Instead, these should be separate input fields in order to prevent
+   accidental reuse of an existing shared secret when switching to
+   (D)TLS-PSK.
 
    When upgrading from RADIUS/UDP to RadSec, there may be a period of
    time, where the connection between client and server is configured
@@ -1850,9 +1854,9 @@ Table of Contents
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
               AEAD Algorithms", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-aead-limits-10, 8 April 2025,
+              irtf-cfrg-aead-limits-11, 4 December 2025,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              aead-limits-10>.
+              aead-limits-11>.
 
    [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
               DOI 10.17487/RFC1321, April 1992,
