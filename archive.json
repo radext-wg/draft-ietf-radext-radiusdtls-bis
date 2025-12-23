@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-23T01:02:54.606550+00:00",
+  "timestamp": "2025-12-23T00:58:35.197540+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -605,7 +605,7 @@
       "id": "I_kwDOLrzygc7VRPeO",
       "title": "Move or remove section \"Changes from RFC6614/7360\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -614,9 +614,17 @@
       ],
       "body": "Section 1.2 \"Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)\" should mabye be moved from the introduction section to somewhere else, since this doc is supposed to be a standalone spec without any ties to the previous one.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/VVMzZXdELn1k0qbkwexLrRvhRfM/)\n\nMy opinion: The section should still be included in the document, but maybe as Appendix or later in the document to help people already implementing 6614/7360 to update their implementations to the new doc.",
       "createdAt": "2025-11-01T14:27:53Z",
-      "updatedAt": "2025-11-01T14:27:53Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-12-22T15:56:49Z",
+      "closedAt": "2025-12-22T15:56:48Z",
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "the section was moved to an appendix, so I'm closing this issue.",
+          "createdAt": "2025-12-22T15:56:48Z",
+          "updatedAt": "2025-12-22T15:56:48Z"
+        }
+      ]
     },
     {
       "number": 67,
