@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-23T00:58:35.197540+00:00",
+  "timestamp": "2026-01-01T01:06:03.895213+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -7718,6 +7718,34 @@
           ]
         }
       ]
+    },
+    {
+      "number": 106,
+      "id": "PR_kwDOLrzygc67AMN8",
+      "title": "Make changes to the document organization to address shepherd review \u2026",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "alandekok"
+      ],
+      "labels": [],
+      "body": "\u2026comments. Other minor edits.",
+      "createdAt": "2025-12-30T17:22:33Z",
+      "updatedAt": "2025-12-30T17:22:33Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "c6f4db1276eb525d5557900b6d9f9e9d27df9d6e",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/shep-rev2",
+      "headRefOid": "5b3135a2b36c12b96a12c68fd9e7e11a212886dd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
