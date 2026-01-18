@@ -37,6 +37,7 @@ author:
     code: 01845
     country: USA
     email: margaret@painless-security.com
+    role: editor
   - name: Stefan Winter
     org: Fondation Restena | Restena Foundation
     street: 2, avenue de l'Université
