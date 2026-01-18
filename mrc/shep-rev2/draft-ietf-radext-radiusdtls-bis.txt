@@ -80,13 +80,14 @@ Table of Contents
      3.4.  Connecting Client Identity
      3.5.  TLS Session Resumption
      3.6.  RADIUS packets
-     3.7.  Client Timers
-       3.7.1.  Reconnection attempts
-       3.7.2.  RADIUS packet retransmission
-     3.8.  (D)TLS connection limits and timeout
-     3.9.  Behavior on (D)TLS connection closure of incoming
+     3.7.  Detecting Live Servers
+     3.8.  Client Timers
+       3.8.1.  Reconnection attempts
+       3.8.2.  RADIUS packet retransmission
+     3.9.  (D)TLS connection limits and timeout
+     3.10. Behavior on (D)TLS connection closure of incoming
             connections
-     3.10. Malformed Packets and Unknown clients
+     3.11. Malformed Packets and Unknown clients
    4.  RADIUS/TLS-specific specifications
      4.1.  Sending and receiving RADIUS traffic
      4.2.  Duplicates and Retransmissions
@@ -103,12 +104,11 @@ Table of Contents
        6.2.1.  Throughput Differences lead to Network Collapse
        6.2.2.  Differing Retransmission Requirements
        6.2.3.  Acct-Delay-Time and Event-Timestamp
-     6.3.  Detecting Live Servers
-     6.4.  PKIX Trust Models
-     6.5.  TCP Applications Are Not UDP Applications
-     6.6.  Session Management
-       6.6.1.  Server Session Management
-       6.6.2.  Client Session Management
+     6.3.  PKIX Trust Models
+     6.4.  TCP Applications Are Not UDP Applications
+     6.5.  Session Management
+       6.5.1.  Server Session Management
+       6.5.2.  Client Session Management
    7.  Security Considerations
      7.1.  RADIUS Proxies
        7.1.1.  Loopback-Attack on endpoints acting as Server and
@@ -564,13 +564,71 @@ Table of Contents
    [I-D.dekok-protocol-error] for a more detailed description on
    Protocol-Error.
 
-3.7.  Client Timers
+3.7.  Detecting Live Servers
+
+   RadSec implementations MUST utilize the existence of a TCP, TLS or
+   DTLS connection where applicable in addition to the application-layer
+   watchdog defined in [RFC3539], Section 3.4 when determining
+   liveliness of each connection.
+
+   As RADIUS is a "hop-by-hop" protocol, proxies hide information about
+   the topology downstream to the client.  While the client may be able
+   to deduce the operational state of the next-hop (i.e. proxy), it is
+   unable to determine the operational state of any hops beyond it.
+   This is particularly problematic for topologies that aggregate
+   multiple routes for differing realms behind a proxy where the absence
+   of a reply could lead to a client to incorrectly deduce that the
+   proxy is unavailable when the cause was an unresponsive downstream
+   hop for a single realm.  A similar effect may also be seen on home
+   servers that uses different credential backends for each realm they
+   service.
+
+   To avoid these issues, RadSec clients MUST mark a connection 'DOWN'
+   (as labelled by [RFC3539], Section 3.4) if one or more of the
+   following conditions are met:
+
+   *  The network stack indicates that the connection is no longer
+      viable; such as the destination being no longer routable or the
+      underlying TCP connection has been closed by the peer.
+
+   *  The transport layer, D(TLS), provides no usable connection
+
+   *  The application-layer watchdog algorithm has marked it 'DOWN'.
+
+   When a client opens multiple connections to a server, it is also
+   possible that only one of the connections is unresponsive, e.g.
+   because the server deleted the DTLS connection shared state or the
+   connection was load balanced on the server side to a backend server
+   that is now unresponsive.  Therefore, the liveness check MUST be done
+   on a per-connection basis, and a failure on one connection MUST NOT
+   lead to all connections to this server being marked down.
+
+   RadSec clients MUST implement the Status-Server extension as
+   described in [RFC5997] as the application level watchdog to detect
+   the liveliness of the peer in the absence of responses.  RadSec
+   servers MUST be able to answer to Status-Server requests.  Since
+   RADIUS has a limitation of 256 simultaneous "in flight" packets due
+   to the length of the ID field ([RFC3539], Section 2.4), it is
+   RECOMMENDED that RadSec clients reserve ID zero (0) on each
+   connection for Status-Server packets.  This value was picked
+   arbitrarily, as there is no reason to choose any other value over
+   another for this use.
+
+   For RADIUS/TLS, the endpoints MAY send TCP keepalives as described in
+   [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the endpoints
+   MAY send periodic keepalives as defined in [RFC6520].  This is a way
+   of proactively and rapidly triggering a connection DOWN notification
+   from the network stack.  These liveliness checks are essentially
+   redundant in the presence of an application-layer watchdog, but may
+   provide more rapid notifications of connectivity issues.
+
+3.8.  Client Timers
 
    RadSec clients may need to reconnect to a server that rejected their
    connection attempt and retry RADIUS packets which did not get an
    answer.  The following sections define the client behavior.
 
-3.7.1.  Reconnection attempts
+3.8.1.  Reconnection attempts
 
    RadSec endpoints establish a (D)TLS connection before transmitting
    any RADIUS packets.  Therefore, in addition to retransmission of
@@ -608,7 +666,7 @@ Table of Contents
    limit for the time between retries (e.g. 60 seconds) and not give up
    trying to reconnect.
 
-3.7.2.  RADIUS packet retransmission
+3.8.2.  RADIUS packet retransmission
 
    RadSec clients MUST implement retransmission timers for
    retransmitting RADIUS packets such as the ones defined in [RFC5080],
@@ -630,7 +688,7 @@ Table of Contents
 
    See Section 4.2 for more discussion on retransmission behavior.
 
-3.8.  (D)TLS connection limits and timeout
+3.9.  (D)TLS connection limits and timeout
 
    While RADIUS/UDP could be implemented mostly stateless (except for
    the requests in flight), both TCP/TLS as well as DTLS require state
@@ -672,7 +730,7 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
-3.9.  Behavior on (D)TLS connection closure of incoming connections
+3.10.  Behavior on (D)TLS connection closure of incoming connections
 
    If an incoming (D)TLS connection or the underlying transport channel
    is closed or broken, then there is no way to send a RADIUS response
@@ -708,7 +766,7 @@ Table of Contents
    behavior ensures that the desired action is still taken, even if the
    home server cannot inform the client of the result of that action.
 
-3.10.  Malformed Packets and Unknown clients
+3.11.  Malformed Packets and Unknown clients
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -802,6 +860,13 @@ Table of Contents
    Therefore, RADIUS/TLS endpoints MUST NOT assume that the packet
    length is invalid solely based on the currently available bytes in
    the stream.
+
+   As an implementation note, it is RECOMMENDED that RADIUS/TLS
+   implementations do not pass a single RADIUS packet to the TLS library
+   in multiple fragments and instead assemble the RADIUS packet and pass
+   it as one unit, in order to avoid unnecessary overhead when sending
+   or receiving (especially if every new write generates a new TLS
+   record) and wait times on the other endpoint.
 
 4.2.  Duplicates and Retransmissions
 
@@ -1106,7 +1171,7 @@ Table of Contents
 
    Where RadSec clients do include Acct-Delay-Time in RADIUS packets,
    the client SHOULD use timers to detect packet loss, as described in
-   Section 3.7.2.  RadSec clients SHOULD NOT update the Acct-Delay-Time,
+   Section 3.8.2.  RadSec clients SHOULD NOT update the Acct-Delay-Time,
    and therefore create a new RADIUS packet with the same information,
    until the timer has determined that the original packet has in fact
    been completely lost.  This ensures that there is no congestive
@@ -1117,65 +1182,7 @@ Table of Contents
    timeout, compared to the different approach of updating the Acct-
    Delay-Time on each retransmission.
 
-6.3.  Detecting Live Servers
-
-   RadSec implementations MUST utilize the existence of a TCP, TLS or
-   DTLS connection where applicable in addition to the application-layer
-   watchdog defined in [RFC3539], Section 3.4 when determining
-   liveliness of each connection.
-
-   As RADIUS is a "hop-by-hop" protocol, proxies hide information about
-   the topology downstream to the client.  While the client may be able
-   to deduce the operational state of the next-hop (i.e. proxy), it is
-   unable to determine the operational state of any hops beyond it.
-   This is particularly problematic for topologies that aggregate
-   multiple routes for differing realms behind a proxy where the absence
-   of a reply could lead to a client to incorrectly deduce that the
-   proxy is unavailable when the cause was an unresponsive downstream
-   hop for a single realm.  A similar effect may also be seen on home
-   servers that uses different credential backends for each realm they
-   service.
-
-   To avoid these issues, RadSec clients MUST mark a connection 'DOWN'
-   (as labelled by [RFC3539], Section 3.4) if one or more of the
-   following conditions are met:
-
-   *  The network stack indicates that the connection is no longer
-      viable; such as the destination being no longer routable or the
-      underlying TCP connection has been closed by the peer.
-
-   *  The transport layer, D(TLS), provides no usable connection
-
-   *  The application-layer watchdog algorithm has marked it 'DOWN'.
-
-   When a client opens multiple connections to a server, it is also
-   possible that only one of the connections is unresponsive, e.g.
-   because the server deleted the DTLS connection shared state or the
-   connection was load balanced on the server side to a backend server
-   that is now unresponsive.  Therefore, the liveness check MUST be done
-   on a per-connection basis, and a failure on one connection MUST NOT
-   lead to all connections to this server being marked down.
-
-   RadSec clients MUST implement the Status-Server extension as
-   described in [RFC5997] as the application level watchdog to detect
-   the liveliness of the peer in the absence of responses.  RadSec
-   servers MUST be able to answer to Status-Server requests.  Since
-   RADIUS has a limitation of 256 simultaneous "in flight" packets due
-   to the length of the ID field ([RFC3539], Section 2.4), it is
-   RECOMMENDED that RadSec clients reserve ID zero (0) on each
-   connection for Status-Server packets.  This value was picked
-   arbitrarily, as there is no reason to choose any other value over
-   another for this use.
-
-   For RADIUS/TLS, the endpoints MAY send TCP keepalives as described in
-   [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the endpoints
-   MAY send periodic keepalives as defined in [RFC6520].  This is a way
-   of proactively and rapidly triggering a connection DOWN notification
-   from the network stack.  These liveliness checks are essentially
-   redundant in the presence of an application-layer watchdog, but may
-   provide more rapid notifications of connectivity issues.
-
-6.4.  PKIX Trust Models
+6.3.  PKIX Trust Models
 
    There are numerous trust models in PKIX environments, and it is
    beyond the scope of this document to define how a particular
@@ -1208,7 +1215,7 @@ Table of Contents
 
    *  TLS-PSK Identifier
 
-6.5.  TCP Applications Are Not UDP Applications
+6.4.  TCP Applications Are Not UDP Applications
 
    Implementers should be aware that programming a robust TCP-based
    application can be very different from programming a robust UDP-based
@@ -1235,7 +1242,7 @@ Table of Contents
    all, in which case the RADIUS/UDP stack triggers a retransmission of
    the packet on the application layer.
 
-6.6.  Session Management
+6.5.  Session Management
 
    Where RADIUS/TLS can rely on the TCP state machine to perform session
    tracking, RADIUS/DTLS cannot.  As a result, implementations of
@@ -1253,7 +1260,7 @@ Table of Contents
    an extension of that cache, where entries contain DTLS sessions
    instead of RADIUS/UDP packets.
 
-6.6.1.  Server Session Management
+6.5.1.  Server Session Management
 
    A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS
    sessions for each client, based on the following 5-tuple:
@@ -1285,7 +1292,7 @@ Table of Contents
       timeouts, session lifetimes, and other implementation-specific
       data.
 
-6.6.1.1.  Session Opening and Closing
+6.5.1.1.  Session Opening and Closing
 
    Session tracking is subject to Denial-of-Service (DoS) attacks due to
    the ability of an attacker to forge UDP traffic.  RADIUS/DTLS servers
@@ -1318,7 +1325,7 @@ Table of Contents
    as with any other packet received via that 5-tuple.  Non-compliant,
    or unexpected packets will be ignored by the DTLS layer.
 
-6.6.2.  Client Session Management
+6.5.2.  Client Session Management
 
    RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS
    packets to different servers from the same source socket.  This
