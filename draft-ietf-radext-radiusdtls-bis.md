@@ -30,6 +30,13 @@ author:
     email: rieckers@dfn.de
     abbrev: DFN
     uri: www.dfn.de
+  - name: Margaret Cullen
+    org: Painless Security
+    street: 4 High Street, Suite 206
+    city: North Andover, MA
+    code: 01845
+    country: USA
+    email: margaret@painless-security.com
   - name: Stefan Winter
     org: Fondation Restena | Restena Foundation
     street: 2, avenue de l'Université
@@ -59,11 +66,11 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) {{!RFC8446}} {{!RFC5246}} over TCP {{!STD7}}, and Datagram Transport Layer Security (DTLS) {{!RFC6347}} {{!RFC9147}} over UDP {{!STD6}}, allowing secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 
-RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in {{!RFC2865}}, {{!RFC2866}}, and {{!RFC5176}}. among others.
+RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in {{!RFC2865}}, {{!RFC2866}}, and {{!RFC5176}}, among others.
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
 Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which does not meet modern security expectations.
 Although RadSec does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
-For an updated version of RadSec without need for MD5 see {{?RFC9765}}. See {{!RFC8900}} for more details about the issues with RADIUS/UDP.
+For an updated version of RadSec without need for MD5 see {{?RFC9765}}. See {{?RFC8900}} for more details about the issues with RADIUS/UDP.
 
 # Conventions and Terminology
 
@@ -142,7 +149,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 | RADIUS/DTLS | 2083/udp | "radius/dtls" |
 
 RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
-The client port used for a RadSec connections is not fixed -- it is assigned by the client for each RADIUS session..
+The client source port used for a RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
 RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
@@ -277,6 +284,11 @@ If a connection that used session resumption is closed immediately after being e
 
 ## RADIUS packets
 {:#radius_packets}
+
+The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS {{RFC2865}} or RADIUS Dynamic Authorization {{RFC5176}}.
+Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
+
+The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
 
 The RadSec specification does not change the client/server architecture of RADIUS.
 RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
@@ -500,6 +512,24 @@ This section discusses topics related to the internal behavior of RadSec implemn
 
 ## RADIUS Implementation Changes
 
+The RADIUS packet format is unchanged from [RFC2865], [RFC2866] and [RFC5176].
+Specifically, all of the following portions of RADIUS remain unchanged when using RadSec:
+
+* Packet format
+* Permitted codes
+* Request Authenticator calculation
+* Response Authenticator calculation
+* Minimum packet length
+* Maximum packet length
+* Attribute format
+* Vendor-Specific Attribute (VSA) format
+* Permitted data types
+* Calculation of dynamic attributes such as CHAP-Challenge, or Message-Authenticator
+* Calculation of "encrypted" attributes such as Tunnel-Password.
+
+The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS {{RFC2865}} or RADIUS Dynamic Authorization {{RFC5176}}.
+Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
+
 The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network, and to the establishment of the (D)TLS connection.
 The fact that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
@@ -640,10 +670,6 @@ In TLS-PSK operation at least the following information from the TLS connection 
 
 * Originating IP address
 * TLS-PSK Identifier
-
-## Reassemble Fragments before Forwarding
-
-It is RECOMMENDED that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.
 
 ## TCP Applications Are Not UDP Applications
 
