@@ -983,5 +983,5 @@ Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server w
 
 Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.
 
-Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Margaret Cullen, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen.
+Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen.
 
