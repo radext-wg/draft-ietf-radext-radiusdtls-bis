@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-01T01:06:03.895213+00:00",
+  "timestamp": "2026-01-18T01:05:35.023409+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -7733,7 +7733,7 @@
       "labels": [],
       "body": "\u2026comments. Other minor edits.",
       "createdAt": "2025-12-30T17:22:33Z",
-      "updatedAt": "2025-12-30T17:22:33Z",
+      "updatedAt": "2026-01-16T08:32:53Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6f4db1276eb525d5557900b6d9f9e9d27df9d6e",
@@ -7745,7 +7745,238 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7adhCu",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T11:30:42Z",
+          "updatedAt": "2026-01-15T11:31:00Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "\r\nI think that the introduction is not the place to reference this, since this is also an issue with RADIUS/DTLS, so we don't fix this (unless RADIUS/TLS is used).\r\n\r\nAdditionally: This should be an informative reference and not a normative one.\r\nThe referenced RFC is not RADIUS related, so it should at least include more detail why this explains issues with RAIDUS/UDP.\r\n\r\n\r\n```suggestion\r\nFor an updated version of RadSec without need for MD5 see {{?RFC9765}}.\r\n```",
+              "createdAt": "2026-01-15T11:30:42Z",
+              "updatedAt": "2026-01-15T11:31:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7adlp7",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T11:36:46Z",
+          "updatedAt": "2026-01-15T11:36:56Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "The section about differences in unwanted packet handling is not an implementation consideration.\r\nThe section should be left here, because it is directly related to the previous text.\r\nThis is important to read for everyone that implemented the previous spec, and I fear that people will skip over the implementation consideration section quicker than over this.",
+              "createdAt": "2026-01-15T11:36:47Z",
+              "updatedAt": "2026-01-15T11:36:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7adwZ0",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T11:47:59Z",
+          "updatedAt": "2026-01-15T11:47:59Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "This section should not be simply removed. It can be moved into the section \"Radsec Packet and connection handling\", but the text should sill be left in the document.",
+              "createdAt": "2026-01-15T11:47:59Z",
+              "updatedAt": "2026-01-15T11:47:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7adxCK",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T11:48:53Z",
+          "updatedAt": "2026-01-15T11:48:53Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nRADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in {{!RFC2865}}, {{!RFC2866}}, and {{!RFC5176}}, among others.\r\n```",
+              "createdAt": "2026-01-15T11:48:53Z",
+              "updatedAt": "2026-01-15T11:48:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ad1ye",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T11:55:07Z",
+          "updatedAt": "2026-01-15T11:55:08Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "```suggestion\r\nThe client port used for a RadSec connections is not fixed -- it is selected by the client for each RADIUS session.\r\n```\r\nI would not use \"assign\" here, because it's not really important. Just let the OS do its thing.",
+              "createdAt": "2026-01-15T11:55:07Z",
+              "updatedAt": "2026-01-15T11:55:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7aeCF0",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T12:10:38Z",
+          "updatedAt": "2026-01-15T12:10:38Z",
+          "comments": [
+            {
+              "originalPosition": 490,
+              "body": "This is not about fragments in the IP sense, and it's not limited to \"forwarding\" but more in general sending.\r\n\r\nI would recommend leaving this section just where it was, because there it makes sense, here it is a little bit difficult to find the connection (and the right headline, I though of some, but I couldn't find the right one)",
+              "createdAt": "2026-01-15T12:10:38Z",
+              "updatedAt": "2026-01-15T12:10:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7aeDaq",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T12:12:15Z",
+          "updatedAt": "2026-01-15T12:12:16Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "See below, I would recommend leaving this here. It's directly related to the text before and should not be moved. It loses its context.",
+              "createdAt": "2026-01-15T12:12:16Z",
+              "updatedAt": "2026-01-15T12:12:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7akzK_",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T18:46:58Z",
+          "updatedAt": "2026-01-15T18:46:58Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "I would say \"the client source port\", and perhaps just say something like \"is typically an ephemeral port picked automatically by the Operating System\"",
+              "createdAt": "2026-01-15T18:46:58Z",
+              "updatedAt": "2026-01-15T18:46:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ak07q",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T18:49:23Z",
+          "updatedAt": "2026-01-15T18:57:40Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "I am fine either way",
+              "createdAt": "2026-01-15T18:49:23Z",
+              "updatedAt": "2026-01-15T18:57:40Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "I can see the use of it. What was the reasoning for removing it?",
+              "createdAt": "2026-01-15T18:51:44Z",
+              "updatedAt": "2026-01-15T18:57:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7atnpS",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "I believe we should not spend too much time on editorial issues. Let the RFC Editor do their job. I also think that implementers are often clever enough and we do not need to treat them as clueless people who constantly lose context while reading the document.",
+          "createdAt": "2026-01-16T07:48:13Z",
+          "updatedAt": "2026-01-16T08:32:53Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Me too.",
+              "createdAt": "2026-01-16T07:48:13Z",
+              "updatedAt": "2026-01-16T08:32:53Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "I believe that the summary (that the RADIUS protocol is unchanged) is included below. I don't have strong opinion whether the verbatim list of all the things that are unchanged is needed or a couple of summary sentences are enough,, to me this is a matter of taste. I'm fine either way.",
+              "createdAt": "2026-01-16T07:58:38Z",
+              "updatedAt": "2026-01-16T08:32:53Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "I think that if the text persists, then still the RFC2119 MUST above is not needed - lowercase \"must\" (or just \"are\") is OK. ",
+              "createdAt": "2026-01-16T08:03:41Z",
+              "updatedAt": "2026-01-16T08:32:53Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "I agree with Paul's text. That said, I believe this all are nits.",
+              "createdAt": "2026-01-16T08:07:41Z",
+              "updatedAt": "2026-01-16T08:32:53Z"
+            },
+            {
+              "originalPosition": 311,
+              "body": "I think that this particular para is not as important as the previous one (it only affects performace), thus I can see the reasons why it is moved to implementation considerations (this recommendation can be ignored without lose of interoperability). I'm fine either way - leaving the text here or moving to implementation considerations, I don't think it is all that important.",
+              "createdAt": "2026-01-16T08:19:03Z",
+              "updatedAt": "2026-01-16T08:32:53Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
