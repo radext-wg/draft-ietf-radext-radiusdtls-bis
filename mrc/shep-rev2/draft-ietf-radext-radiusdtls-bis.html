@@ -6,6 +6,7 @@
 <meta content="initial-scale=1.0" name="viewport">
 <title>RadSec: RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)</title>
 <meta content="Jan-Frederik Rieckers" name="author">
+<meta content="Margaret Cullen" name="author">
 <meta content="Stefan Winter" name="author">
 <meta content="
        This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.
@@ -20,7 +21,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
     platformdirs 4.5.1
@@ -1046,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RadSec: RADIUS over TLS and DTLS</td>
-<td class="right">December 2025</td>
+<td class="right">January 2026</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Rieckers &amp; Winter</td>
-<td class="center">Expires 3 July 2026</td>
+<td class="left">Rieckers, et al.</td>
+<td class="center">Expires 22 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,17 +1067,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-30" class="published">30 December 2025</time>
+<time datetime="2026-01-18" class="published">18 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-03">3 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-22">22 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">J.-F. Rieckers</div>
 <div class="org">DFN</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Cullen</div>
+<div class="org">Painless Security</div>
 </div>
 <div class="author">
       <div class="author-name">S. Winter</div>
@@ -1123,7 +1128,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1132,7 +1137,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1266,19 +1271,16 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-pkix-trust-models" class="internal xref">PKIX Trust Models</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
-                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-reassemble-fragments-before" class="internal xref">Reassemble Fragments before Forwarding</a></p>
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6">
-                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7">
-                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="auto internal xref">6.7</a>.  <a href="#name-session-management" class="internal xref">Session Management</a></p>
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-session-management" class="internal xref">Session Management</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7.2.1">
-                    <p id="section-toc.1-1.6.2.7.2.1.1"><a href="#section-6.7.1" class="auto internal xref">6.7.1</a>.  <a href="#name-server-session-management" class="internal xref">Server Session Management</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.1">
+                    <p id="section-toc.1-1.6.2.6.2.1.1"><a href="#section-6.6.1" class="auto internal xref">6.6.1</a>.  <a href="#name-server-session-management" class="internal xref">Server Session Management</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.7.2.2">
-                    <p id="section-toc.1-1.6.2.7.2.2.1"><a href="#section-6.7.2" class="auto internal xref">6.7.2</a>.  <a href="#name-client-session-management" class="internal xref">Client Session Management</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.2">
+                    <p id="section-toc.1-1.6.2.6.2.2.1"><a href="#section-6.6.2" class="auto internal xref">6.6.2</a>.  <a href="#name-client-session-management" class="internal xref">Client Session Management</a></p>
 </li>
                 </ul>
 </li>
@@ -1363,7 +1365,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
       </h2>
 <p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP <span>[<a href="#STD7" class="cite xref">STD7</a>]</span>, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> over UDP <span>[<a href="#STD6" class="cite xref">STD6</a>]</span>, allowing secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span>, and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>. among others.
+<p id="section-1-2">RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span>, and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>, among others.
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
 Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm <span>[<a href="#RFC1321" class="cite xref">RFC1321</a>]</span>, which does not meet modern security expectations.
 Although RadSec does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
@@ -1505,7 +1507,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
           </tbody>
         </table>
 <p id="section-3.1-3">RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
-The client port used for a RadSec connections is not fixed -- it is assigned by the client for each RADIUS session..
+The client source port used for a RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.6</a>.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <p id="section-3.1-4">RadSec endpoints <span class="bcp14">MUST NOT</span> use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 </section>
@@ -1704,19 +1706,22 @@ If a connection that used session resumption is closed immediately after being e
         <h3 id="name-radius-packets">
 <a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-radius-packets" class="section-name selfRef">RADIUS packets</a>
         </h3>
-<p id="section-3.6-1">The RadSec specification does not change the client/server architecture of RADIUS.
+<p id="section-3.6-1">The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or RADIUS Dynamic Authorization <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.
+Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or Message-Authenticator <span>[<a href="#RFC3579" class="cite xref">RFC3579</a>]</span> also does not change.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
+<p id="section-3.6-2">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-3">The RadSec specification does not change the client/server architecture of RADIUS.
 RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
 As noted in <a href="#portusage" class="auto internal xref">Section 3.1</a>, RadSec uses the same port for Authentication and Accounting packets.
-As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
-<p id="section-3.6-2">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
+As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.<a href="#section-3.6-3" class="pilcrow">¶</a></p>
+<p id="section-3.6-4">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
 Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
-Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
-<p id="section-3.6-3">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-3.6-4" class="pilcrow">¶</a></p>
+<p id="section-3.6-5">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
-Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.6-3" class="pilcrow">¶</a></p>
-<p id="section-3.6-4">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
-Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description on Protocol-Error.<a href="#section-3.6-4" class="pilcrow">¶</a></p>
+Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.6-5" class="pilcrow">¶</a></p>
+<p id="section-3.6-6">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description on Protocol-Error.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-timers">
@@ -1972,12 +1977,51 @@ Instead, clients <span class="bcp14">SHOULD</span> use DTLS as a transport layer
         <h3 id="name-radius-implementation-chang">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-radius-implementation-chang" class="section-name selfRef">RADIUS Implementation Changes</a>
         </h3>
-<p id="section-6.1-1">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network, and to the establishment of the (D)TLS connection.
+<p id="section-6.1-1">The RADIUS packet format is unchanged from <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span> and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.
+Specifically, all of the following portions of RADIUS remain unchanged when using RadSec:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-2.1">
+            <p id="section-6.1-2.1.1">Packet format<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.2">
+            <p id="section-6.1-2.2.1">Permitted codes<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.3">
+            <p id="section-6.1-2.3.1">Request Authenticator calculation<a href="#section-6.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.4">
+            <p id="section-6.1-2.4.1">Response Authenticator calculation<a href="#section-6.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.5">
+            <p id="section-6.1-2.5.1">Minimum packet length<a href="#section-6.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.6">
+            <p id="section-6.1-2.6.1">Maximum packet length<a href="#section-6.1-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.7">
+            <p id="section-6.1-2.7.1">Attribute format<a href="#section-6.1-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.8">
+            <p id="section-6.1-2.8.1">Vendor-Specific Attribute (VSA) format<a href="#section-6.1-2.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.9">
+            <p id="section-6.1-2.9.1">Permitted data types<a href="#section-6.1-2.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.10">
+            <p id="section-6.1-2.10.1">Calculation of dynamic attributes such as CHAP-Challenge, or Message-Authenticator<a href="#section-6.1-2.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.11">
+            <p id="section-6.1-2.11.1">Calculation of "encrypted" attributes such as Tunnel-Password.<a href="#section-6.1-2.11.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.1-3">The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or RADIUS Dynamic Authorization <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.
+Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or Message-Authenticator <span>[<a href="#RFC3579" class="cite xref">RFC3579</a>]</span> also does not change.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network, and to the establishment of the (D)TLS connection.
 The fact that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
-This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
-This is discussed further in <a href="#dtls_spec" class="auto internal xref">Section 5</a>.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
+This is discussed further in <a href="#dtls_spec" class="auto internal xref">Section 5</a>.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <div id="differences-from-rfc-6614-unwanted-radius-packet-handling">
 <section id="section-6.1.1">
           <h4 id="name-differences-from-rfc-6614-u">
@@ -2155,119 +2199,111 @@ As a suggestion, at least the following information from the TLS connection and 
         </ul>
 </section>
 </div>
-<div id="reassemble-fragments-before-forwarding">
-<section id="section-6.5">
-        <h3 id="name-reassemble-fragments-before">
-<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-reassemble-fragments-before" class="section-name selfRef">Reassemble Fragments before Forwarding</a>
-        </h3>
-<p id="section-6.5-1">It is <span class="bcp14">RECOMMENDED</span> that RADIUS/TLS implementations do not pass a single RADIUS packet to the TLS library in multiple fragments and instead assemble the RADIUS packet and pass it as one unit, in order to avoid unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="tcp-applications-are-not-udp-applications">
-<section id="section-6.6">
+<section id="section-6.5">
         <h3 id="name-tcp-applications-are-not-ud">
-<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-tcp-applications-are-not-ud" class="section-name selfRef">TCP Applications Are Not UDP Applications</a>
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-tcp-applications-are-not-ud" class="section-name selfRef">TCP Applications Are Not UDP Applications</a>
         </h3>
-<p id="section-6.6-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
-<p id="section-6.6-2">Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
-<p id="section-6.6-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
-If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.6-3" class="pilcrow">¶</a></p>
-<p id="section-6.6-4">Unlike UDP, TCP is subject to issues related to head-of-line blocking.
+<p id="section-6.5-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-2">Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
+<p id="section-6.5-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
+If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
+<p id="section-6.5-4">Unlike UDP, TCP is subject to issues related to head-of-line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS endpoints can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
 Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
-In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-6.6-4" class="pilcrow">¶</a></p>
+In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-6.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="session-management">
-<section id="section-6.7">
+<section id="section-6.6">
         <h3 id="name-session-management">
-<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-session-management" class="section-name selfRef">Session Management</a>
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-session-management" class="section-name selfRef">Session Management</a>
         </h3>
-<p id="section-6.7-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
+<p id="section-6.6-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations <span class="bcp14">MAY</span> choose to use the method described here, or another, equivalent method.
-When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.<a href="#section-6.7-1" class="pilcrow">¶</a></p>
-<p id="section-6.7-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
-The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.7-2" class="pilcrow">¶</a></p>
+When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.6-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
+The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
 <div id="server-session-management">
-<section id="section-6.7.1">
+<section id="section-6.6.1">
           <h4 id="name-server-session-management">
-<a href="#section-6.7.1" class="section-number selfRef">6.7.1. </a><a href="#name-server-session-management" class="section-name selfRef">Server Session Management</a>
+<a href="#section-6.6.1" class="section-number selfRef">6.6.1. </a><a href="#name-server-session-management" class="section-name selfRef">Server Session Management</a>
           </h4>
-<p id="section-6.7.1-1">A RADIUS/DTLS server using the 5-tuple method <span class="bcp14">MUST</span> track ongoing DTLS sessions for each client, based on the following 5-tuple:<a href="#section-6.7.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-1">A RADIUS/DTLS server using the 5-tuple method <span class="bcp14">MUST</span> track ongoing DTLS sessions for each client, based on the following 5-tuple:<a href="#section-6.6.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.7.1-2.1">
-              <p id="section-6.7.1-2.1.1">source IP address<a href="#section-6.7.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.6.1-2.1">
+              <p id="section-6.6.1-2.1.1">source IP address<a href="#section-6.6.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.7.1-2.2">
-              <p id="section-6.7.1-2.2.1">source port<a href="#section-6.7.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.6.1-2.2">
+              <p id="section-6.6.1-2.2.1">source port<a href="#section-6.6.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.7.1-2.3">
-              <p id="section-6.7.1-2.3.1">destination IP address<a href="#section-6.7.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.6.1-2.3">
+              <p id="section-6.6.1-2.3.1">destination IP address<a href="#section-6.6.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.7.1-2.4">
-              <p id="section-6.7.1-2.4.1">destination port<a href="#section-6.7.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.6.1-2.4">
+              <p id="section-6.6.1-2.4.1">destination port<a href="#section-6.6.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.7.1-2.5">
-              <p id="section-6.7.1-2.5.1">protocol (fixed to <code>UDP</code>)<a href="#section-6.7.1-2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.6.1-2.5">
+              <p id="section-6.6.1-2.5.1">protocol (fixed to <code>UDP</code>)<a href="#section-6.6.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-6.7.1-3">Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).<a href="#section-6.7.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.7.1-4">Each 5-tuple points to a unique session entry, which usually contains the following information:<a href="#section-6.7.1-4" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-6.7.1-5">
-            <dt id="section-6.7.1-5.1">DTLS Session:</dt>
-            <dd style="margin-left: 1.5em" id="section-6.7.1-5.2">
-              <p id="section-6.7.1-5.2.1">Any information required to maintain and manage the DTLS session.<a href="#section-6.7.1-5.2.1" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-3">Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).<a href="#section-6.6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.1-4">Each 5-tuple points to a unique session entry, which usually contains the following information:<a href="#section-6.6.1-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-6.6.1-5">
+            <dt id="section-6.6.1-5.1">DTLS Session:</dt>
+            <dd style="margin-left: 1.5em" id="section-6.6.1-5.2">
+              <p id="section-6.6.1-5.2.1">Any information required to maintain and manage the DTLS session.<a href="#section-6.6.1-5.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.7.1-5.3">DTLS Data:</dt>
-            <dd style="margin-left: 1.5em" id="section-6.7.1-5.4">
-              <p id="section-6.7.1-5.4.1">An implementation-specific variable that may contain information about the active DTLS session.
-This variable may be empty or nonexistent.<a href="#section-6.7.1-5.4.1" class="pilcrow">¶</a></p>
+<dt id="section-6.6.1-5.3">DTLS Data:</dt>
+            <dd style="margin-left: 1.5em" id="section-6.6.1-5.4">
+              <p id="section-6.6.1-5.4.1">An implementation-specific variable that may contain information about the active DTLS session.
+This variable may be empty or nonexistent.<a href="#section-6.6.1-5.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.7.1-5.5"></dt>
-            <dd style="margin-left: 1.5em" id="section-6.7.1-5.6">
-              <p id="section-6.7.1-5.6.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.7.1-5.6.1" class="pilcrow">¶</a></p>
+<dt id="section-6.6.1-5.5"></dt>
+            <dd style="margin-left: 1.5em" id="section-6.6.1-5.6">
+              <p id="section-6.6.1-5.6.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.6.1-5.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 <div id="session-opening-and-closing">
-<section id="section-6.7.1.1">
+<section id="section-6.6.1.1">
             <h5 id="name-session-opening-and-closing">
-<a href="#section-6.7.1.1" class="section-number selfRef">6.7.1.1. </a><a href="#name-session-opening-and-closing" class="section-name selfRef">Session Opening and Closing</a>
+<a href="#section-6.6.1.1" class="section-number selfRef">6.6.1.1. </a><a href="#name-session-opening-and-closing" class="section-name selfRef">Session Opening and Closing</a>
             </h5>
-<p id="section-6.7.1.1-1">Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
+<p id="section-6.6.1.1-1">Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
 RADIUS/DTLS servers <span class="bcp14">SHOULD</span> use the stateless cookie tracking technique described in <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>], <a href="https://rfc-editor.org/rfc/rfc6347#section-4.2.1" class="relref">Section 4.2.1</a></span>.
 DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHello packet has been received with an appropriate Cookie value.
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
-Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.7.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.7.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
-When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.7.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.7.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
+Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.6.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
+When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.6.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.6.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server <span class="bcp14">MUST</span> keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.7.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.7.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.6.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.6.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
 This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 5-tuple.
-Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.7.1.1-4" class="pilcrow">¶</a></p>
+Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.6.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="client-session-management">
-<section id="section-6.7.2">
+<section id="section-6.6.2">
           <h4 id="name-client-session-management">
-<a href="#section-6.7.2" class="section-number selfRef">6.7.2. </a><a href="#name-client-session-management" class="section-name selfRef">Client Session Management</a>
+<a href="#section-6.6.2" class="section-number selfRef">6.6.2. </a><a href="#name-client-session-management" class="section-name selfRef">Client Session Management</a>
           </h4>
-<p id="section-6.7.2-1">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
-This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.7.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.7.2-2">RADIUS/DTLS clients <span class="bcp14">MAY</span> use PMTU discovery <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span> to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
+<p id="section-6.6.2-1">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
+This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.6.2-2">RADIUS/DTLS clients <span class="bcp14">MAY</span> use PMTU discovery <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span> to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
 While a RADIUS client has limited to no possibilities to reduce the size of an outgoing RADIUS packet without unwanted side effects, it gives the RADIUS client the possibility to determine whether or not the RADIUS packet can even be sent over the connection.
 IP fragmentation may not be functioning, so by determining the PMTU, the RADIUS client can preemptively select a different RADIUS server to send the RADIUS packet to.
-Further discussion of this problem is deemed outside of the scope of this document.<a href="#section-6.7.2-2" class="pilcrow">¶</a></p>
+Further discussion of this problem is deemed outside of the scope of this document.<a href="#section-6.6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2559,6 +2595,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Aboba, B.</span> and <span class="refAuthor">J. Wood</span>, <span class="refTitle">"Authentication, Authorization and Accounting (AAA) Transport Profile"</span>, <span class="seriesInfo">RFC 3539</span>, <span class="seriesInfo">DOI 10.17487/RFC3539</span>, <time datetime="2003-06" class="refDate">June 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3539">https://www.rfc-editor.org/rfc/rfc3539</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3579">[RFC3579]</dt>
+        <dd>
+<span class="refAuthor">Aboba, B.</span> and <span class="refAuthor">P. Calhoun</span>, <span class="refTitle">"RADIUS (Remote Authentication Dial In User Service) Support For Extensible Authentication Protocol (EAP)"</span>, <span class="seriesInfo">RFC 3579</span>, <span class="seriesInfo">DOI 10.17487/RFC3579</span>, <time datetime="2003-09" class="refDate">September 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3579">https://www.rfc-editor.org/rfc/rfc3579</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC4033">[RFC4033]</dt>
         <dd>
 <span class="refAuthor">Arends, R.</span>, <span class="refAuthor">Austein, R.</span>, <span class="refAuthor">Larson, M.</span>, <span class="refAuthor">Massey, D.</span>, and <span class="refAuthor">S. Rose</span>, <span class="refTitle">"DNS Security Introduction and Requirements"</span>, <span class="seriesInfo">RFC 4033</span>, <span class="seriesInfo">DOI 10.17487/RFC4033</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4033">https://www.rfc-editor.org/rfc/rfc4033</a>&gt;</span>. </dd>
@@ -2618,10 +2658,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC8446">[RFC8446]</dt>
         <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8900">[RFC8900]</dt>
-        <dd>
-<span class="refAuthor">Bonica, R.</span>, <span class="refAuthor">Baker, F.</span>, <span class="refAuthor">Huston, G.</span>, <span class="refAuthor">Hinden, R.</span>, <span class="refAuthor">Troan, O.</span>, and <span class="refAuthor">F. Gont</span>, <span class="refTitle">"IP Fragmentation Considered Fragile"</span>, <span class="seriesInfo">BCP 230</span>, <span class="seriesInfo">RFC 8900</span>, <span class="seriesInfo">DOI 10.17487/RFC8900</span>, <time datetime="2020-09" class="refDate">September 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8900">https://www.rfc-editor.org/rfc/rfc8900</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9147">[RFC9147]</dt>
         <dd>
@@ -2691,6 +2727,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC7360">[RFC7360]</dt>
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) as a Transport Layer for RADIUS"</span>, <span class="seriesInfo">RFC 7360</span>, <span class="seriesInfo">DOI 10.17487/RFC7360</span>, <time datetime="2014-09" class="refDate">September 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7360">https://www.rfc-editor.org/rfc/rfc7360</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8900">[RFC8900]</dt>
+        <dd>
+<span class="refAuthor">Bonica, R.</span>, <span class="refAuthor">Baker, F.</span>, <span class="refAuthor">Huston, G.</span>, <span class="refAuthor">Hinden, R.</span>, <span class="refAuthor">Troan, O.</span>, and <span class="refAuthor">F. Gont</span>, <span class="refTitle">"IP Fragmentation Considered Fragile"</span>, <span class="seriesInfo">BCP 230</span>, <span class="seriesInfo">RFC 8900</span>, <span class="seriesInfo">DOI 10.17487/RFC8900</span>, <time datetime="2020-09" class="refDate">September 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8900">https://www.rfc-editor.org/rfc/rfc8900</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9257">[RFC9257]</dt>
         <dd>
@@ -2788,6 +2828,19 @@ These specifications have been merged into this document, and therefore removes 
 <div class="url">
 <span>URI:</span>
 <a href="www.dfn.de" class="url">www.dfn.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Margaret Cullen</span></div>
+<div dir="auto" class="left"><span class="org">Painless Security</span></div>
+<div dir="auto" class="left"><span class="street-address">4 High Street, Suite 206</span></div>
+<div dir="auto" class="left">
+<span class="locality">North Andover, MA</span>,  <span class="postal-code">01845</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:margaret@painless-security.com" class="email">margaret@painless-security.com</a>
 </div>
 </address>
 <address class="vcard">

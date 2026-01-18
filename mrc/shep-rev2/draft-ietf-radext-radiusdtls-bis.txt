@@ -4,9 +4,11 @@
 
 RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
-Obsoletes: 6614, 7360 (if approved)                            S. Winter
-Intended status: Standards Track                                 RESTENA
-Expires: 3 July 2026                                    30 December 2025
+Obsoletes: 6614, 7360 (if approved)                            M. Cullen
+Intended status: Standards Track                       Painless Security
+Expires: 22 July 2026                                          S. Winter
+                                                                 RESTENA
+                                                         18 January 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -48,11 +50,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 July 2026.
+   This Internet-Draft will expire on 22 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -103,11 +105,10 @@ Table of Contents
        6.2.3.  Acct-Delay-Time and Event-Timestamp
      6.3.  Detecting Live Servers
      6.4.  PKIX Trust Models
-     6.5.  Reassemble Fragments before Forwarding
-     6.6.  TCP Applications Are Not UDP Applications
-     6.7.  Session Management
-       6.7.1.  Server Session Management
-       6.7.2.  Client Session Management
+     6.5.  TCP Applications Are Not UDP Applications
+     6.6.  Session Management
+       6.6.1.  Server Session Management
+       6.6.2.  Client Session Management
    7.  Security Considerations
      7.1.  RADIUS Proxies
        7.1.1.  Loopback-Attack on endpoints acting as Server and
@@ -142,7 +143,7 @@ Table of Contents
 
    RADIUS is a widely deployed Authentication, Authorization and
    Accounting (AAA) protocol defined in [RFC2865], [RFC2866], and
-   [RFC5176]. among others.  Deployment experience has shown several
+   [RFC5176], among others.  Deployment experience has shown several
    shortcomings, such as dependency on the unreliable transport
    protocol, UDP, and a lack of confidentiality for large parts of
    RADIUS messages.  Additionally, the confidentiality and integrity
@@ -237,10 +238,11 @@ Table of Contents
                                   Table 1
 
    RadSec does not use separate ports for authentication, accounting and
-   dynamic authorization changes.  The client port used for a RadSec
-   connections is not fixed -- it is assigned by the client for each
-   RADIUS session.. For considerations regarding the multi-purpose use
-   of one port for authentication and accounting see Section 3.6.
+   dynamic authorization changes.  The client source port used for a
+   RadSec connections is not fixed -- it is typically an ephemeral port
+   picked by the client Operating System.  For considerations regarding
+   the multi-purpose use of one port for authentication and accounting
+   see Section 3.6.
 
    RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports
    for RADIUS/DTLS or RADIUS/TLS.
@@ -512,6 +514,17 @@ Table of Contents
    instead.
 
 3.6.  RADIUS packets
+
+   The use of (D)TLS transport does not change the calculation of
+   security-related fields (such as the Response-Authenticator) in
+   RADIUS [RFC2865] or RADIUS Dynamic Authorization [RFC5176].
+   Calculation of attributes such as User-Password [RFC2865] or Message-
+   Authenticator [RFC3579] also does not change.
+
+   The changes to RADIUS implementations required to implement this
+   specification are largely limited to the portions that send and
+   receive packets on the network and the establishment of the (D)TLS
+   connection.
 
    The RadSec specification does not change the client/server
    architecture of RADIUS.  RadSec clients transmit the same packet
@@ -903,6 +916,39 @@ Table of Contents
 
 6.1.  RADIUS Implementation Changes
 
+   The RADIUS packet format is unchanged from [RFC2865], [RFC2866] and
+   [RFC5176].  Specifically, all of the following portions of RADIUS
+   remain unchanged when using RadSec:
+
+   *  Packet format
+
+   *  Permitted codes
+
+   *  Request Authenticator calculation
+
+   *  Response Authenticator calculation
+
+   *  Minimum packet length
+
+   *  Maximum packet length
+
+   *  Attribute format
+
+   *  Vendor-Specific Attribute (VSA) format
+
+   *  Permitted data types
+
+   *  Calculation of dynamic attributes such as CHAP-Challenge, or
+      Message-Authenticator
+
+   *  Calculation of "encrypted" attributes such as Tunnel-Password.
+
+   The use of (D)TLS transport does not change the calculation of
+   security-related fields (such as the Response-Authenticator) in
+   RADIUS [RFC2865] or RADIUS Dynamic Authorization [RFC5176].
+   Calculation of attributes such as User-Password [RFC2865] or Message-
+   Authenticator [RFC3579] also does not change.
+
    The changes to RADIUS implementations required to implement this
    specification are largely limited to the portions that send and
    receive packets on the network, and to the establishment of the
@@ -1162,16 +1208,7 @@ Table of Contents
 
    *  TLS-PSK Identifier
 
-6.5.  Reassemble Fragments before Forwarding
-
-   It is RECOMMENDED that RADIUS/TLS implementations do not pass a
-   single RADIUS packet to the TLS library in multiple fragments and
-   instead assemble the RADIUS packet and pass it as one unit, in order
-   to avoid unnecessary overhead when sending or receiving (especially
-   if every new write generates a new TLS record) and wait times on the
-   other endpoint.
-
-6.6.  TCP Applications Are Not UDP Applications
+6.5.  TCP Applications Are Not UDP Applications
 
    Implementers should be aware that programming a robust TCP-based
    application can be very different from programming a robust UDP-based
@@ -1198,7 +1235,7 @@ Table of Contents
    all, in which case the RADIUS/UDP stack triggers a retransmission of
    the packet on the application layer.
 
-6.7.  Session Management
+6.6.  Session Management
 
    Where RADIUS/TLS can rely on the TCP state machine to perform session
    tracking, RADIUS/DTLS cannot.  As a result, implementations of
@@ -1216,7 +1253,7 @@ Table of Contents
    an extension of that cache, where entries contain DTLS sessions
    instead of RADIUS/UDP packets.
 
-6.7.1.  Server Session Management
+6.6.1.  Server Session Management
 
    A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS
    sessions for each client, based on the following 5-tuple:
@@ -1248,7 +1285,7 @@ Table of Contents
       timeouts, session lifetimes, and other implementation-specific
       data.
 
-6.7.1.1.  Session Opening and Closing
+6.6.1.1.  Session Opening and Closing
 
    Session tracking is subject to Denial-of-Service (DoS) attacks due to
    the ability of an attacker to forge UDP traffic.  RADIUS/DTLS servers
@@ -1281,7 +1318,7 @@ Table of Contents
    as with any other packet received via that 5-tuple.  Non-compliant,
    or unexpected packets will be ignored by the DTLS layer.
 
-6.7.2.  Client Session Management
+6.6.2.  Client Session Management
 
    RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS
    packets to different servers from the same source socket.  This
@@ -1699,6 +1736,12 @@ Table of Contents
               DOI 10.17487/RFC3539, June 2003,
               <https://www.rfc-editor.org/rfc/rfc3539>.
 
+   [RFC3579]  Aboba, B. and P. Calhoun, "RADIUS (Remote Authentication
+              Dial In User Service) Support For Extensible
+              Authentication Protocol (EAP)", RFC 3579,
+              DOI 10.17487/RFC3579, September 2003,
+              <https://www.rfc-editor.org/rfc/rfc3579>.
+
    [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
               Rose, "DNS Security Introduction and Requirements",
               RFC 4033, DOI 10.17487/RFC4033, March 2005,
@@ -1772,11 +1815,6 @@ Table of Contents
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/rfc/rfc8446>.
-
-   [RFC8900]  Bonica, R., Baker, F., Huston, G., Hinden, R., Troan, O.,
-              and F. Gont, "IP Fragmentation Considered Fragile",
-              BCP 230, RFC 8900, DOI 10.17487/RFC8900, September 2020,
-              <https://www.rfc-editor.org/rfc/rfc8900>.
 
    [RFC9147]  Rescorla, E., Tschofenig, H., and N. Modadugu, "The
               Datagram Transport Layer Security (DTLS) Protocol Version
@@ -1853,6 +1891,11 @@ Table of Contents
               Transport Layer for RADIUS", RFC 7360,
               DOI 10.17487/RFC7360, September 2014,
               <https://www.rfc-editor.org/rfc/rfc7360>.
+
+   [RFC8900]  Bonica, R., Baker, F., Huston, G., Hinden, R., Troan, O.,
+              and F. Gont, "IP Fragmentation Considered Fragile",
+              BCP 230, RFC 8900, DOI 10.17487/RFC8900, September 2020,
+              <https://www.rfc-editor.org/rfc/rfc8900>.
 
    [RFC9257]  Housley, R., Hoyland, J., Sethi, M., and C. A. Wood,
               "Guidance for External Pre-Shared Key (PSK) Usage in TLS",
@@ -1951,6 +1994,14 @@ Authors' Addresses
    Germany
    Email: rieckers@dfn.de
    URI:   www.dfn.de
+
+
+   Margaret Cullen
+   Painless Security
+   4 High Street, Suite 206
+   North Andover, MA,  01845
+   United States of America
+   Email: margaret@painless-security.com
 
 
    Stefan Winter
