@@ -1982,8 +1982,8 @@ Acknowledgments
    forwarding issues between TCP and UDP based transports.
 
    Thanks to the following people for their feedback and suggested text
-   changes: Alex Clouter, Margaret Cullen, Mark Donnelly, Fabian
-   Mauchle, Valery Smyslov, Heikki Vatiainen.
+   changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov,
+   Heikki Vatiainen.
 
 Authors' Addresses
 
