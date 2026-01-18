@@ -4,7 +4,7 @@
 
 RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
-Obsoletes: 6614, 7360 (if approved)                            M. Cullen
+Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
 Expires: 22 July 2026                                          S. Winter
                                                                  RESTENA
@@ -1996,7 +1996,7 @@ Authors' Addresses
    URI:   www.dfn.de
 
 
-   Margaret Cullen
+   Margaret Cullen (editor)
    Painless Security
    4 High Street, Suite 206
    North Andover, MA,  01845
