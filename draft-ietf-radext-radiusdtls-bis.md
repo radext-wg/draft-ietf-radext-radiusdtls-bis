@@ -137,8 +137,10 @@ This section defines the behavior of RadSec endpoints for the handling of establ
 Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
 Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
 
-## Default ports and shared secrets
+## RadSec Packet Format, Default ports and shared secrets
 {: #portusage}
+
+The format of RADIUS packets in RadSec is unchanged from the format specified in {{RFC2865}}, {{RFC2866}} and {{RFC5176}}.
 
 IANA has reserved server ports for RADIUS/TLS and RADIUS/DTLS.
 Since authentication of peers, confidentiality, and integrity protection are provided by the (D)TLS layer, the shared secret for the RADIUS packets is set to a static string, depending on whether TLS or DTLS is in use.
