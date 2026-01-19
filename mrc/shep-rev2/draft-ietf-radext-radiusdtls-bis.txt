@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 22 July 2026                                          S. Winter
+Expires: 23 July 2026                                          S. Winter
                                                                  RESTENA
-                                                         18 January 2026
+                                                         19 January 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 July 2026.
+   This Internet-Draft will expire on 23 July 2026.
 
 Copyright Notice
 
@@ -561,15 +561,20 @@ Table of Contents
    thus stop any retransmission of the original packet over the current
    connection.  Further details of handling the Protocol-Error reply on
    the client side are outside of the scope of this document, see
-   [I-D.dekok-protocol-error] for a more detailed description on
+   [I-D.dekok-protocol-error] for a more detailed description of
    Protocol-Error.
+
+   Note that sending Protocol-Error in response to unwanted packets
+   replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response
+   in these situations as specified in [RFC6614].  See further details
+   in Section 6.1.1 below.
 
 3.7.  Detecting Live Servers
 
    RadSec implementations MUST utilize the existence of a TCP, TLS or
    DTLS connection where applicable in addition to the application-layer
-   watchdog defined in [RFC3539], Section 3.4 when determining
-   liveliness of each connection.
+   watchdog defined in [RFC3539], Section 3.4 when determining the
+   liveness of each connection.
 
    As RADIUS is a "hop-by-hop" protocol, proxies hide information about
    the topology downstream to the client.  While the client may be able
@@ -589,7 +594,7 @@ Table of Contents
 
    *  The network stack indicates that the connection is no longer
       viable; such as the destination being no longer routable or the
-      underlying TCP connection has been closed by the peer.
+      underlying TCP connection being closed by the peer.
 
    *  The transport layer, D(TLS), provides no usable connection
 
@@ -605,14 +610,13 @@ Table of Contents
 
    RadSec clients MUST implement the Status-Server extension as
    described in [RFC5997] as the application level watchdog to detect
-   the liveliness of the peer in the absence of responses.  RadSec
-   servers MUST be able to answer to Status-Server requests.  Since
-   RADIUS has a limitation of 256 simultaneous "in flight" packets due
-   to the length of the ID field ([RFC3539], Section 2.4), it is
-   RECOMMENDED that RadSec clients reserve ID zero (0) on each
-   connection for Status-Server packets.  This value was picked
-   arbitrarily, as there is no reason to choose any other value over
-   another for this use.
+   the liveness of the peer in the absence of responses.  RadSec servers
+   MUST be able to answer to Status-Server requests.  Since RADIUS has a
+   limitation of 256 simultaneous "in flight" packets due to the length
+   of the ID field ([RFC3539], Section 2.4), it is RECOMMENDED that
+   RadSec clients reserve ID zero (0) on each connection for Status-
+   Server packets.  This value was picked arbitrarily, as there is no
+   reason to choose any other value over another for this use.
 
    For RADIUS/TLS, the endpoints MAY send TCP keepalives as described in
    [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the endpoints
@@ -1990,7 +1994,7 @@ Acknowledgments
 
    Thanks to the following people for their feedback and suggested text
    changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov,
-   Heikki Vatiainen.
+   Heikki Vatiainen, Paul Wouters.
 
 Authors' Addresses
 

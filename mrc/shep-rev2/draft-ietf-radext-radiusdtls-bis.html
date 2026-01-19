@@ -1051,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 22 July 2026</td>
+<td class="center">Expires 23 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-18" class="published">18 January 2026</time>
+<time datetime="2026-01-19" class="published">19 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-22">22 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-23">23 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1722,7 +1722,9 @@ Without a response from the server, the client has to wait for the requests to t
 The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.6-5" class="pilcrow">¶</a></p>
 <p id="section-3.6-6">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
-Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description on Protocol-Error.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description of Protocol-Error.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
+<p id="section-3.6-7">Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>.
+See further details in <a href="#unwanted_packet_handling" class="auto internal xref">Section 6.1.1</a> below.<a href="#section-3.6-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="detecting-live-servers">
@@ -1730,7 +1732,7 @@ Further details of handling the Protocol-Error reply on the client side are outs
         <h3 id="name-detecting-live-servers">
 <a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-detecting-live-servers" class="section-name selfRef">Detecting Live Servers</a>
         </h3>
-<p id="section-3.7-1">RadSec implementations <span class="bcp14">MUST</span> utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> when determining liveliness of each connection.<a href="#section-3.7-1" class="pilcrow">¶</a></p>
+<p id="section-3.7-1">RadSec implementations <span class="bcp14">MUST</span> utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span> when determining the liveness of each connection.<a href="#section-3.7-1" class="pilcrow">¶</a></p>
 <p id="section-3.7-2">As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
@@ -1738,7 +1740,7 @@ A similar effect may also be seen on home servers that uses different credential
 <p id="section-3.7-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.7-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.7-4.1">
-            <p id="section-3.7-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection has been closed by the peer.<a href="#section-3.7-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.7-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.<a href="#section-3.7-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.7-4.2">
             <p id="section-3.7-4.2.1">The transport layer, D(TLS), provides no usable connection<a href="#section-3.7-4.2.1" class="pilcrow">¶</a></p>
@@ -1749,7 +1751,7 @@ A similar effect may also be seen on home servers that uses different credential
         </ul>
 <p id="section-3.7-5">When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS connection shared state or the connection was load balanced on the server side to a backend server that is now unresponsive.
 Therefore, the liveness check <span class="bcp14">MUST</span> be done on a per-connection basis, and a failure on one connection <span class="bcp14">MUST NOT</span> lead to all connections to this server being marked down.<a href="#section-3.7-5" class="pilcrow">¶</a></p>
-<p id="section-3.7-6">RadSec clients <span class="bcp14">MUST</span> implement the Status-Server extension as described in <span>[<a href="#RFC5997" class="cite xref">RFC5997</a>]</span> as the application level watchdog to detect the liveliness of the peer in the absence of responses.
+<p id="section-3.7-6">RadSec clients <span class="bcp14">MUST</span> implement the Status-Server extension as described in <span>[<a href="#RFC5997" class="cite xref">RFC5997</a>]</span> as the application level watchdog to detect the liveness of the peer in the absence of responses.
 RadSec servers <span class="bcp14">MUST</span> be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field (<span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-2.4" class="relref">Section 2.4</a></span>), it is <span class="bcp14">RECOMMENDED</span> that RadSec clients reserve ID zero (0) on each connection for Status-Server packets.
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.<a href="#section-3.7-6" class="pilcrow">¶</a></p>
@@ -2058,7 +2060,7 @@ This includes the usage of the outdated security mechanisms in RADIUS that are b
 This is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.1-5">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in <a href="#dtls_spec" class="auto internal xref">Section 5</a>.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
-<div id="differences-from-rfc-6614-unwanted-radius-packet-handling">
+<div id="unwanted_packet_handling">
 <section id="section-6.1.1">
           <h4 id="name-differences-from-rfc-6614-u">
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-differences-from-rfc-6614-u" class="section-name selfRef">Differences from RFC 6614 unwanted RADIUS packet handling</a>
@@ -2807,7 +2809,7 @@ These specifications have been merged into this document, and therefore removes 
 <p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
-<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
