@@ -71,7 +71,7 @@ RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) p
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
 Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which does not meet modern security expectations.
 Although RadSec does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
-For an updated version of RadSec without need for MD5 see {{?RFC9765}}. See {{?RFC8900}} for more details about the issues with RADIUS/UDP.
+For an updated version of RadSec without need for MD5 see {{?RFC9765}}.
 
 # Conventions and Terminology
 
