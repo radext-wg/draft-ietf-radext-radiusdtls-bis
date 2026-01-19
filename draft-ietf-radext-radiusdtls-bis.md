@@ -306,11 +306,14 @@ The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupp
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.
 
 RadSec clients MUST accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
-Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description on Protocol-Error.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see {{?I-D.dekok-protocol-error}} for a more detailed description of Protocol-Error.
+
+Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in {{RFC6614}}.
+See further details in {{unwanted_packet_handling}} below.
 
 ## Detecting Live Servers
 
-RadSec implementations MUST utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in {{!RFC3539, Section 3.4}} when determining liveliness of each connection.
+RadSec implementations MUST utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in {{!RFC3539, Section 3.4}} when determining the liveness of each connection.
 
 As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
@@ -319,14 +322,14 @@ A similar effect may also be seen on home servers that uses different credential
 
 To avoid these issues, RadSec clients MUST mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
-* The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection has been closed by the peer.
+* The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.
 * The transport layer, D(TLS), provides no usable connection
 * The application-layer watchdog algorithm has marked it 'DOWN'.
 
 When a client opens multiple connections to a server, it is also possible that only one of the connections is unresponsive, e.g. because the server deleted the DTLS connection shared state or the connection was load balanced on the server side to a backend server that is now unresponsive.
 Therefore, the liveness check MUST be done on a per-connection basis, and a failure on one connection MUST NOT lead to all connections to this server being marked down.
 
-RadSec clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveliness of the peer in the absence of responses.
+RadSec clients MUST implement the Status-Server extension as described in {{!RFC5997}} as the application level watchdog to detect the liveness of the peer in the absence of responses.
 RadSec servers MUST be able to answer to Status-Server requests.
 Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the length of the ID field ({{RFC3539, Section 2.4}}), it is RECOMMENDED that RadSec clients reserve ID zero (0) on each connection for Status-Server packets.
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.
@@ -570,6 +573,7 @@ We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP dat
 This is discussed further in {{dtls_spec}}.
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
+{: #unwanted_packet_handling }
 
 The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a reply that depends on the request type:
 
@@ -985,5 +989,5 @@ Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server w
 
 Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.
 
-Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen.
+Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.
 
