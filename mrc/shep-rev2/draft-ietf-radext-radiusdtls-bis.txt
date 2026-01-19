@@ -151,8 +151,7 @@ Table of Contents
    not meet modern security expectations.  Although RadSec does not
    remove the MD5-based mechanisms, it adds confidentiality and
    integrity protection through the TLS layer.  For an updated version
-   of RadSec without need for MD5 see [RFC9765].  See [RFC8900] for more
-   details about the issues with RADIUS/UDP.
+   of RadSec without need for MD5 see [RFC9765].
 
 2.  Conventions and Terminology
 
