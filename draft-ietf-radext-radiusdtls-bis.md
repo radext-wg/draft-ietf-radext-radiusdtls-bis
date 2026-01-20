@@ -536,7 +536,7 @@ Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside
 For UDP datagrams containing multiple DTLS records, each DTLS record MUST be parsed individually.
 
 If a RADIUS packet needs to be re-transmitted, either as retransmission due to a missing response by the client or as retransmission of a cached response by the server, the RADIUS/DTLS endpoints MUST re-process the RADIUS packet through DTLS.
-That is, for the purpose of retransmissions, RADIUS/DTLS endpoints cache the RADIUS packet, as a RADIUS/UDP endpoint would, and does not cache the DTLS record that contains the RADIUS packet.
+That is, for the purpose of retransmissions, RADIUS/DTLS endpoints cache the RADIUS packet, as a RADIUS/UDP endpoint would, and do not cache the DTLS record that contains the RADIUS packet.
 
 ## Server behavior
 
