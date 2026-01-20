@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 23 July 2026                                          S. Winter
+Expires: 24 July 2026                                          S. Winter
                                                                  RESTENA
-                                                         19 January 2026
+                                                         20 January 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 July 2026.
+   This Internet-Draft will expire on 24 July 2026.
 
 Copyright Notice
 
@@ -71,7 +71,7 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Terminology
    3.  RadSec Packet and Connection Handling
-     3.1.  Default ports and shared secrets
+     3.1.  RadSec Packet Format, Default ports and shared secrets
      3.2.  (D)TLS requirements
      3.3.  Mutual authentication
        3.3.1.  Authentication using X.509 certificates with PKIX trust
@@ -216,7 +216,10 @@ Table of Contents
    Client implementations SHOULD implement both, but MUST implement at
    least one of RADIUS/TLS or RADIUS/DTLS.
 
-3.1.  Default ports and shared secrets
+3.1.  RadSec Packet Format, Default ports and shared secrets
+
+   The format of RADIUS packets in RadSec is unchanged from the format
+   specified in [RFC2865], [RFC2866] and [RFC5176].
 
    IANA has reserved server ports for RADIUS/TLS and RADIUS/DTLS.  Since
    authentication of peers, confidentiality, and integrity protection
