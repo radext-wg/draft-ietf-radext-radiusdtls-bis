@@ -71,7 +71,7 @@ RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) p
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
 Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm {{?RFC1321}}, which does not meet modern security expectations.
 Although RadSec does not remove the MD5-based mechanisms, it adds confidentiality and integrity protection through the TLS layer.
-For an updated version of RadSec without need for MD5 see {{?RFC9765}}.
+For an experimental version of RadSec without the need for MD5 see {{?RFC9765}}.
 
 # Conventions and Terminology
 
@@ -449,6 +449,28 @@ After applying the above rules, there are still situations where the previous sp
 * A server lacking the resources to process a request
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
+
+## Cross Protocol Considerations
+
+A client may be configured to use multiple servers, and therefore needs to be able to distinguish servers from one another.  Those servers may use different transport protocols, in any combination.  For example, a client may be configured with a RADIUS/UDP server, and RADIUS/DTLS server, and a RADIUS/TLS server all at the same time.  These servers may share IP addresses, but not the same UDP or TCP ports.  These considerations also affect RADIUS servers.
+
+RADIUS implementations MUST be able to distinguish servers by at least the 3-tuple of:
+
+* protocol (one of RADIUS/UDP, RADIUS/DTLS, or RADIUS/TLS)
+* server IP,
+* server port.
+
+Implementations MUST NOT exchange both insecure and secure traffic on the same UDP or TCP port.  It is RECOMMENDED that implementations make it impossible for such a configuration to be created.
+
+It is RECOMMENDED that servers do not accept both secure and insecure traffic from the same source IP address.  Allowing RADIUS/UDP and RADIUS/DTLS from the same client exposes the traffic to downbidding attacks and is NOT RECOMMENDED.
+
+Clients MAY place servers into a load-balance or fail-over pools, no matter what the combination of values in the 3-tuple.  Clients SHOULD limit these pools to servers with a similar security profile, e.g. all UDP, or all (D)TLS.  Mixing insecure traffic with secure traffic will likely create security risks.
+
+Where a server accepts packets on multiple different 3-tuples (protocol, server IP, server port), it MUST track clients independently for each 3-tuple combination.  A RADIUS client has no way of knowing if different 3-tuple combinations are all managed by the same RADIUS server.  Therefore, the server behavior has to be compatible with the clients expectations.
+
+When a server receives a packet from a source IP address on a 3-tuple, it MUST process that packet according to the profile for that 3-tuple.  This requirement means that (for example), a server can be configured to accept RADIUS/UDP traffic on multiple UDP ports, and then have a completely different (and non-overlapping) set of clients configured for each port.
+
+While this behavior is not required by previous specifications, it codifies long-standing practices.  As such, existing server implementations likely do not need to do anything in order to support the requirements of this section.
 
 # RADIUS/TLS-specific specifications
 
