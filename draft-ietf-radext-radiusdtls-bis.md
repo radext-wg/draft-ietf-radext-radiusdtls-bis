@@ -161,7 +161,8 @@ RadSec clients MUST establish a (D)TLS session immediately upon connecting to a 
 All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
 Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.
 
-RadSec does not provide for negotiation of (D)TLS.  Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
+RadSec does not provide for negotiation of (D)TLS in ongoing RADIUS communication.
+ Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
 Servers and clients therefore need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.
 This action has to be taken by the administrators of the two systems.
