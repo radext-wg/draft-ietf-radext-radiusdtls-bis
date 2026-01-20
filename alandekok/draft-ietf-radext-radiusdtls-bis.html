@@ -1835,7 +1835,7 @@ In contrast, the upper limit is much more difficult to define but may be in the 
         </h3>
 <p id="section-3.10-1">If an incoming (D)TLS connection or the underlying transport channel is closed or broken, then there is no way to send a RADIUS response packet to the client.
 The RadSec server behavior then depends on the types of packets being processed, and on the role of the server.<a href="#section-3.10-1" class="pilcrow">¶</a></p>
-<p id="section-3.10-2">A RadSec server acting <span class="bcp14">MUST</span> discard or stop all requests that are associated with the closed connection.  This requirement also applies to proxied requests which are associated with the incoming request.
+<p id="section-3.10-2">A RadSec server <span class="bcp14">MUST</span> discard or stop all requests that are associated with the closed connection.  This requirement also applies to proxied requests which are associated with the incoming request.
 As no response can be sent over the now-closed (D)TLS connection, any further processing of those requests is pointless.
 A discarded request may have a cached RADIUS response packet (<span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>), in which case the cached response also <span class="bcp14">MUST</span> be discarded.
 If there is no cached response packet, then the request might still be processed by the home server.
