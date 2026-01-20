@@ -954,7 +954,7 @@ Table of Contents
    different protocol or connection (i.e. switching from TLS to DTLS or
    vice versa).  However, when a connection fails, a RADIUS client MAY
    send packets associated with that connection over a different
-   connection or to a different server.  This requirement does not,
+   configured connection or server.  This requirement does not,
    therefore, forbid the practice of putting servers with the same IP
    address and port but different protocols into a failover or load-
    balancing pool.  In that situation, RADIUS requests MAY be sent to
