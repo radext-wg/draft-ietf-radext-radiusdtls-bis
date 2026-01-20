@@ -858,7 +858,7 @@ RadSec servers MUST limit the number of partially open (D)TLS connections and SH
 
 To prevent resource exhaustion by partially opening a large number of (D)TLS connections, RadSec servers SHOULD have a timeout on partially open (D)TLS connections.
 We recommend a limit of a few seconds, implementations SHOULD expose this timeout as configurable option to the administrator.
-If a (D)TLS connection is not established within this timeframe, it is likely that this is connection is either not from a valid client, or is from a valid client with unreliable connectivity.
+If a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.
 In contrast, an established connection might not send packets for longer periods of time, but since the endpoints are mutually authenticated, leaving a connection available does not pose a problem other than the problems mentioned before.
 
 A different means of prevention is IP filtering.
