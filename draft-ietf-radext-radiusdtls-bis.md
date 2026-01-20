@@ -925,7 +925,7 @@ All client subsystems should communicate with this local proxy, perhaps via an i
 The benefit of this configuration is that there is one place in the client that arbitrates all RADIUS traffic.
 Subsystems that do not implement RadSec can both remain unaware of (D)TLS, and can leverage the benefits of (D)TLS.
 (D)TLS connections opened by the proxy can remain open for a long period of time, even when client subsystems are restarted.
-The proxy can be configured do RADIUS/UDP to some servers and RadSec to others.
+The proxy can be configured to do RADIUS/UDP to some servers and RadSec to others.
 
 Delegation of responsibilities and separation of tasks are important security principles.
 By moving all RadSec knowledge to a (D)TLS-aware proxy, security analysis becomes simpler, and enforcement of correct security becomes easier.
