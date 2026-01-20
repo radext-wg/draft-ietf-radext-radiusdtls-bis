@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-18T01:05:35.023409+00:00",
+  "timestamp": "2026-01-20T01:00:06.363172+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -712,9 +712,17 @@
       ],
       "body": "Section 6.4.2 \"Client Session Management\" in the DTLS-specific section talks about PMTU discovery.\nThere may be some issues with this, we should revisit it.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/DeaIod0aX4FSlP1lIDGoPIgiUeA/)",
       "createdAt": "2025-11-01T14:50:11Z",
-      "updatedAt": "2025-11-01T14:50:11Z",
+      "updatedAt": "2026-01-19T14:01:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To follow up on this (see Discussion on ML for other comments): As far as I understand PMTU discovery in DTLS it works with keep-alive packets, so it is possible to make PMTU discovery without sending payload data.\n\nI'm not 100% sure about this, I have only briefly read over the RFCs and haven't looked at implementations, so if anyone has more knowledge about this please correct me.",
+          "createdAt": "2026-01-19T14:01:00Z",
+          "updatedAt": "2026-01-19T14:01:00Z"
+        }
+      ]
     },
     {
       "number": 72,
@@ -759,15 +767,15 @@
       "id": "I_kwDOLrzygc7VXPq5",
       "title": "Clarify that the TCP and UDP are the only transport protocols this draft discusses",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/76",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This draft could be a more specific to say that:\n\n- RADIUS/TLS is RADIUS/TLS/TCP; and\n- RADIUS/DTLS is RADIUS/DTLS/UDP\n\nThis is to clarify that SCTP, QUIC and other transports are not implicitly included just because TLS or DTLS can run on top, or within, them.\n\nAn example: Quoting DTLS 1.3 RFC, section [4.4](https://www.rfc-editor.org/rfc/rfc9147.html#section-4.4-4)\n\n> For DTLS over UDP, the upper layer protocol SHOULD be allowed to obtain the PMTU estimate maintained in the IP layer.\nFor DTLS over **DCCP**, the upper layer protocol SHOULD be allowed to obtain the current estimate of the PMTU.\nFor DTLS over **TCP** or **SCTP**, which automatically fragment and reassemble datagrams, there is no PMTU limitation. However, the upper layer protocol MUST NOT write any record that exceeds the maximum record size of 2^14 bytes.\n\n",
       "createdAt": "2025-11-02T15:15:44Z",
-      "updatedAt": "2025-11-03T17:36:36Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-19T12:42:55Z",
+      "closedAt": "2026-01-19T12:42:55Z",
       "comments": [
         {
           "author": "Janfred",
@@ -775,6 +783,13 @@
           "body": "It's already included in the abstract, but maybe worth keeping in mind when reading through the document again, to see if we can add this at another point in the document as well to be absolutely clear.",
           "createdAt": "2025-11-02T16:44:41Z",
           "updatedAt": "2025-11-02T16:44:41Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is specifically stated in the introduction now. Heikki, please reopen with a specific suggestion if you think more is needed.",
+          "createdAt": "2026-01-19T12:42:41Z",
+          "updatedAt": "2026-01-19T12:42:41Z"
         }
       ]
     },
@@ -806,9 +821,17 @@
       "labels": [],
       "body": "Section 4.7.1 holds:\n\n> If a different algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and a jitter.\n\nWould it be good to specify an absolute lower and upper bound for the delay?",
       "createdAt": "2025-11-04T15:46:48Z",
-      "updatedAt": "2025-11-04T15:46:48Z",
+      "updatedAt": "2026-01-19T12:46:32Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I don't think we want to define an absolute upper bound.  Without one, I think it would be possible to configure RADIUS for a high-delay network because of the lock-step nature of of RADIUS authentication. \n\n I don't think we would want to rule that out.  I don't have any strong thoughts on a useful lower bound or whether it would be good to define one.",
+          "createdAt": "2026-01-19T12:46:32Z",
+          "updatedAt": "2026-01-19T12:46:32Z"
+        }
+      ]
     },
     {
       "number": 99,
@@ -7724,7 +7747,7 @@
       "id": "PR_kwDOLrzygc67AMN8",
       "title": "Make changes to the document organization to address shepherd review \u2026",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -7733,18 +7756,42 @@
       "labels": [],
       "body": "\u2026comments. Other minor edits.",
       "createdAt": "2025-12-30T17:22:33Z",
-      "updatedAt": "2026-01-16T08:32:53Z",
+      "updatedAt": "2026-01-19T23:58:22Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6f4db1276eb525d5557900b6d9f9e9d27df9d6e",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/shep-rev2",
-      "headRefOid": "5b3135a2b36c12b96a12c68fd9e7e11a212886dd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "2c469310684daf91cd6081f4c88f206172b628bb",
+      "closedAt": "2026-01-19T22:48:24Z",
+      "mergedAt": "2026-01-19T22:48:24Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "aa6ae5fe49769d49375c3a64e195bdd59112830c"
+      },
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'm OK with all of these changes, despite my minor nits / comments.  It's good to merge.\r\n\r\nOnce a new revision is published, I'll do a full pass over it again.  I find it hard to read individual commits in isolation.  If I have any comments, I will submit a PR with any changes I might want.",
+          "createdAt": "2026-01-19T20:50:38Z",
+          "updatedAt": "2026-01-19T20:50:38Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "You shouldn\u2019t just remove the mention of RFC 8900, as orople agreed to add\r\nit. If you don\u2019t like it where it was, you will need to put it somewhere\r\nelse.\r\n\r\nMargaret\r\n\r\nOn Mon, Jan 19, 2026 at 5:48\u202fPM Jan-Frederik Rieckers <\r\n***@***.***> wrote:\r\n\r\n> Merged #106\r\n> <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106>\r\n> into main.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106#event-22148146939>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/ABO6Z5H4BQRYFL6IL5HINWL4HVNMZAVCNFSM6AAAAACQKTSQ6GVHI2DSMVQWIX3LMV45UABCJFZXG5LFIV3GK3TUJZXXI2LGNFRWC5DJN5XDWMRSGE2DQMJUGY4TGOI>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> <radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106/issue_event/22148146939\r\n> @github.com>\r\n>\r\n",
+          "createdAt": "2026-01-19T23:24:33Z",
+          "updatedAt": "2026-01-19T23:24:33Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> You shouldn\u2019t just remove the mention of RFC 8900, as orople agreed to add it. If you don\u2019t like it where it was, you will need to put it somewhere else.\r\n\r\nThe reference to RFC 8900 was already included before in the document. You said \"if you find a better place for it, put it there\", and it was already in the document, at a place where it makes sense.",
+          "createdAt": "2026-01-19T23:58:22Z",
+          "updatedAt": "2026-01-19T23:58:22Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7adhCu",
@@ -7975,8 +8022,627 @@
               "updatedAt": "2026-01-16T08:32:53Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFFy5",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T15:22:42Z",
+          "updatedAt": "2026-01-18T15:22:43Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "I agree this reference should be informative, not normative -- my mistake.  There was discussion on the list about including this reference, and I don't see an obviously better place to include it, so I will leave it here for now.  Janfred, if you have a better place in mind, please suggest a new location on the list, after this draft is published to the group.",
+              "createdAt": "2026-01-18T15:22:43Z",
+              "updatedAt": "2026-01-18T15:22:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFIFB",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T15:42:23Z",
+          "updatedAt": "2026-01-18T15:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "I am confused by this comment, because I don't think this section was moved to the Implementation Considerations section... I'm keeping this open for now, in case I am missing something.",
+              "createdAt": "2026-01-18T15:42:23Z",
+              "updatedAt": "2026-01-18T15:42:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFIxm",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T15:47:44Z",
+          "updatedAt": "2026-01-18T15:47:44Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "The concern that was discussed by some is that including an (incomplete) list of what has _not_ changed might imply that anything not on this list is no longer mandatory for RadSec.  The point is that RADIUS is exactly as it was before except for a few minor behavioral changes due to:  running over TCP, having the TLS session to use as a hint for reachability, being able to run accounting and auth on a single port, and not using the source IP address to identify the client.  I think maybe the objection to this section was mostly due to the fact that it used to be the first thing in the document, so I will try putting it back in the Implementation Considerations section, and we can see if people still think it needs to be removed to avoid implying that there are the only things that haven't changed.\r\n\r\n",
+              "createdAt": "2026-01-18T15:47:44Z",
+              "updatedAt": "2026-01-18T16:03:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFLKB",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:05:42Z",
+          "updatedAt": "2026-01-18T16:05:42Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "Done.  Thanks!",
+              "createdAt": "2026-01-18T16:05:42Z",
+              "updatedAt": "2026-01-18T16:05:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFMEy",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:13:13Z",
+          "updatedAt": "2026-01-18T16:13:13Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "Adopted Paul's text.",
+              "createdAt": "2026-01-18T16:13:13Z",
+              "updatedAt": "2026-01-18T16:13:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFMn7",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:18:04Z",
+          "updatedAt": "2026-01-18T16:18:04Z",
+          "comments": [
+            {
+              "originalPosition": 490,
+              "body": "This is definitely an implementation consideration and not a protocol requirement.  I have changed the section name to \"Keep RADIUS packets contiguous where possible\", but I actually wonder whether we should just remove the advice.  ",
+              "createdAt": "2026-01-18T16:18:04Z",
+              "updatedAt": "2026-01-18T16:18:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFNFU",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:22:14Z",
+          "updatedAt": "2026-01-18T16:22:14Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "This definitely an implementation consideration and not a protocol requirement.  I am not sure we even need to say things like this, because we certainly can't cover every aspect of writing good TLS applications, so I would rather remove it than include it in the main protocol definition.  I am leaving it in the Implementation Considerations with another try at a section name (see previous comment) for now,\r\n",
+              "createdAt": "2026-01-18T16:22:14Z",
+              "updatedAt": "2026-01-18T16:22:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFNP-",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:23:46Z",
+          "updatedAt": "2026-01-18T16:23:46Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "I agree.  I removed the MUST and included it in Implementation Considerations because it only really applies if you already have an implementation of RADIUS.",
+              "createdAt": "2026-01-18T16:23:46Z",
+              "updatedAt": "2026-01-18T16:23:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFNTM",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:24:11Z",
+          "updatedAt": "2026-01-18T16:24:11Z",
+          "comments": [
+            {
+              "originalPosition": 490,
+              "body": "I've not said that this isn't an implementation consideration, but it is only related to sending packets in RADIUS/TLS, and it's only one paragraph, so removing it from the original position and putting it here makes no sense to me.",
+              "createdAt": "2026-01-18T16:24:11Z",
+              "updatedAt": "2026-01-18T16:24:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFNpK",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:27:25Z",
+          "updatedAt": "2026-01-18T16:27:25Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "The point that this implies that is normative is \"It is recommended to send one RADIUS packet per TLS record\"",
+              "createdAt": "2026-01-18T16:27:25Z",
+              "updatedAt": "2026-01-18T16:27:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFN4J",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:29:36Z",
+          "updatedAt": "2026-01-18T16:29:37Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "Would everyone be okay with just removing this text?",
+              "createdAt": "2026-01-18T16:29:37Z",
+              "updatedAt": "2026-01-18T16:29:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFOM_",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:32:30Z",
+          "updatedAt": "2026-01-18T16:32:30Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "Okay, I am going to remove the text for now, based on what Valery said below.  If we decide to put it back, we will need to decide where at that time.\r\n",
+              "createdAt": "2026-01-18T16:32:30Z",
+              "updatedAt": "2026-01-18T16:32:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFOr6",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:36:45Z",
+          "updatedAt": "2026-01-18T16:36:45Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "No! This is obviously a discussion point, Paul reacted with a thumbs up to my original comment, Valery said ok either way, so right now there is no consensus. This is something that we can take to the list and see if other people have strong opinions about it, but it shouldn't be just removed.",
+              "createdAt": "2026-01-18T16:36:45Z",
+              "updatedAt": "2026-01-18T16:36:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFQfD",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:51:49Z",
+          "updatedAt": "2026-01-18T16:51:50Z",
+          "comments": [
+            {
+              "originalPosition": 490,
+              "body": "Removed this section, do discussion of the title is not longer pertinent.",
+              "createdAt": "2026-01-18T16:51:49Z",
+              "updatedAt": "2026-01-18T16:51:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFQ0w",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:54:42Z",
+          "updatedAt": "2026-01-18T16:54:42Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\n    email: margaret@painless-security.com\r\n    role: editor\r\n```\r\n\r\n(I'm not exactly sure, how this needs to be referenced)",
+              "createdAt": "2026-01-18T16:54:42Z",
+              "updatedAt": "2026-01-18T16:55:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFRWG",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T16:59:58Z",
+          "updatedAt": "2026-01-18T16:59:58Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "The section \"Differences from RFC6614 unwanted RADIUS packet handling\" is removed from this part and moved to the implementation section.",
+              "createdAt": "2026-01-18T16:59:58Z",
+              "updatedAt": "2026-01-18T16:59:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFRrY",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:03:01Z",
+          "updatedAt": "2026-01-18T17:03:01Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "I am not sure of the distinction you are making,  Most of this text came from other documents and was not actually written by either of us... I don't have any strong objection, though.",
+              "createdAt": "2026-01-18T17:03:01Z",
+              "updatedAt": "2026-01-18T17:07:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFR_2",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:05:50Z",
+          "updatedAt": "2026-01-18T17:05:51Z",
+          "comments": [
+            {
+              "originalPosition": 487,
+              "body": "I don't think all of this is an implementation consideration. There is normative text in this, and there is text that is new to the spec (the requirement for the status-server) compared to 6614/7360",
+              "createdAt": "2026-01-18T17:05:50Z",
+              "updatedAt": "2026-01-18T17:06:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFSaG",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:09:17Z",
+          "updatedAt": "2026-01-18T17:09:18Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "It seems to me that a paragraph that starts \"As an implementation note\" is clearly an implementation consideration.  However, it seems very important to you that this stay where it was, so I will put it back.\r\n\r\n",
+              "createdAt": "2026-01-18T17:09:18Z",
+              "updatedAt": "2026-01-18T20:16:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFSip",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:10:32Z",
+          "updatedAt": "2026-01-18T17:10:32Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "Okay, I have been looking at these, and I now realize that you are commenting at the point where the text was deleted, not on the text where it is now.  I think I now understand what you are asking for, and will look at these again.\r\n\r\n",
+              "createdAt": "2026-01-18T17:10:32Z",
+              "updatedAt": "2026-01-18T20:12:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFTp4",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:21:12Z",
+          "updatedAt": "2026-01-18T17:21:12Z",
+          "comments": [
+            {
+              "originalPosition": 487,
+              "body": "The text that is quoted above this comment does not mention the status-server.  What text are you talking about, specifically?\r\n",
+              "createdAt": "2026-01-18T17:21:12Z",
+              "updatedAt": "2026-01-18T17:21:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFT02",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:22:52Z",
+          "updatedAt": "2026-01-18T17:22:52Z",
+          "comments": [
+            {
+              "originalPosition": 487,
+              "body": "It's the text below with the section title \"Detecting Live server\"",
+              "createdAt": "2026-01-18T17:22:52Z",
+              "updatedAt": "2026-01-18T17:22:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bFYVe",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T17:54:37Z",
+          "updatedAt": "2026-01-18T17:54:37Z",
+          "comments": [
+            {
+              "originalPosition": 487,
+              "body": "Oh, okay. Let me look at that\u2026",
+              "createdAt": "2026-01-18T17:54:37Z",
+              "updatedAt": "2026-01-18T17:54:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bF5FM",
+          "commit": {
+            "abbreviatedOid": "0c655e1"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T20:34:33Z",
+          "updatedAt": "2026-01-18T20:34:33Z",
+          "comments": [
+            {
+              "originalPosition": 487,
+              "body": "I have moved this section back to the protocol definition section after the parts that more fundamentally define RadSec.",
+              "createdAt": "2026-01-18T20:34:33Z",
+              "updatedAt": "2026-01-18T20:34:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bF6BQ",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T20:43:35Z",
+          "updatedAt": "2026-01-18T20:43:36Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "I am trying to figure out what to do about this.  A standards track document should really not describe itself in terms of differences from an experimental document.  So, what I want to do here is figure out what actual protocol behavior is specified for this document and include that in the normative protocol definition.\r\n\r\nI personally think we could entirely drop the comparison to rfc6614, but I think you have objected to that in the past.  Would it work to include the differences in the Implementation Considerations but include the normative text is in the protocol description?  If so, I can try to pick that apart.",
+              "createdAt": "2026-01-18T20:43:35Z",
+              "updatedAt": "2026-01-18T20:48:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bRI5n",
+          "commit": {
+            "abbreviatedOid": "5b3135a"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-19T15:50:45Z",
+          "updatedAt": "2026-01-19T15:50:45Z",
+          "comments": [
+            {
+              "originalPosition": 185,
+              "body": "I left the \"differences\" section in the implementation considerations, but referenced it from the main protocol section after the text on using Protocol-Error.  Hopefully, that will remind implementors that this has changed.",
+              "createdAt": "2026-01-19T15:50:45Z",
+              "updatedAt": "2026-01-19T15:50:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bTs5P",
+          "commit": {
+            "abbreviatedOid": "0d66c59"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-19T19:40:16Z",
+          "updatedAt": "2026-01-19T19:40:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bUS-d",
+          "commit": {
+            "abbreviatedOid": "26e2248"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-19T20:29:02Z",
+          "updatedAt": "2026-01-19T20:29:02Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Perhaps\r\n\r\n```\r\nRadSec servers MUST respond to Status-Server requests.\r\n```\r\n\r\nSo it's more than \"be able\" to answer.  There's no reason to _not_ answer Status-Server.",
+              "createdAt": "2026-01-19T20:29:02Z",
+              "updatedAt": "2026-01-19T20:29:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bVOgF",
+          "commit": {
+            "abbreviatedOid": "26e2248"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-19T22:23:59Z",
+          "updatedAt": "2026-01-19T22:23:59Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "The question is if it is acceptable that RadSec servers have a config switch \"disable status-server\". Maybe this is useful in some cases, I'd have to think about it. I'd suggest you include this in your general overhaul. I'll also try to keep it in mind and think about it a bit.",
+              "createdAt": "2026-01-19T22:23:59Z",
+              "updatedAt": "2026-01-19T22:23:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bVU-N",
+          "commit": {
+            "abbreviatedOid": "0d66c59"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-19T22:44:37Z",
+          "updatedAt": "2026-01-19T22:44:37Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "RFC 8900 is already referenced in the section \"RADIUS packet handling\" for the DTLS-specific specifications, so there should be no need to reference it here.\r\n\r\n```suggestion\r\nFor an updated version of RadSec without need for MD5 see {{?RFC9765}}.\r\n```",
+              "createdAt": "2026-01-19T22:44:37Z",
+              "updatedAt": "2026-01-19T22:44:37Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 107,
+      "id": "PR_kwDOLrzygc6-GN7D",
+      "title": "Re-introduce at least one sentence about packet format",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/107",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I think its still important to state at the beginning that we don't change the packet format. I agree that the details about \"whats not changed\" is not something that we need to say at this point, but IMHO the reference to the packet format should be in there.",
+      "createdAt": "2026-01-19T22:54:18Z",
+      "updatedAt": "2026-01-19T22:54:18Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "aa6ae5fe49769d49375c3a64e195bdd59112830c",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/small-text-changes",
+      "headRefOid": "629a6094425a863375365728d9c98fa8ed8a69f5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
