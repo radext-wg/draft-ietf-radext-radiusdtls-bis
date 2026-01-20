@@ -505,7 +505,7 @@ If the ID changes, any security attributes such as Message-Authenticator MUST be
 Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
 
-RADIUS clients MUST NOT perform retries by sending a packet on a different protocol or connection (i.e. switching from TLS to DTLS or vice versa).  However, when a connection fails, a RADIUS client MAY send packets associated with that connection over a different connection or to a different server.
+RADIUS clients MUST NOT perform retries by sending a packet on a different protocol or connection (i.e. switching from TLS to DTLS or vice versa).  However, when a connection fails, a RADIUS client MAY send packets associated with that connection over a different configured connection or server.
 This requirement does not, therefore, forbid the practice of putting servers with the same IP address and port but different protocols into a failover or load-balancing pool.
 In that situation, RADIUS requests MAY be sent to another server that is known to be part of the same pool.
 
