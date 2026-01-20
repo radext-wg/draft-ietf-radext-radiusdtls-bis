@@ -1003,7 +1003,7 @@ Table of Contents
    retransmission of a cached response by the server, the RADIUS/DTLS
    endpoints MUST re-process the RADIUS packet through DTLS.  That is,
    for the purpose of retransmissions, RADIUS/DTLS endpoints cache the
-   RADIUS packet, as a RADIUS/UDP endpoint would, and does not cache the
+   RADIUS packet, as a RADIUS/UDP endpoint would, and do not cache the
    DTLS record that contains the RADIUS packet.
 
 5.2.  Server behavior

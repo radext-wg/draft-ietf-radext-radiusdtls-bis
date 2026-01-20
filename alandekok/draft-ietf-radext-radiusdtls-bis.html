@@ -2000,7 +2000,7 @@ That is, a receiving RADIUS/DTLS endpoint <span class="bcp14">MUST</span> perfor
 Exactly one RADIUS packet is encapsulated in a DTLS record, and any data outside the range of the RADIUS length field within the decrypted payload of a single DTLS record <span class="bcp14">MUST</span> be treated as padding, as it would be with a RADIUS/UDP packet, and be ignored.  RADIUS implementations <span class="bcp14">MUST NOT</span> discard packets simply due to the existence of padding.
 For UDP datagrams containing multiple DTLS records, each DTLS record <span class="bcp14">MUST</span> be parsed individually.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">If a RADIUS packet needs to be re-transmitted, either as retransmission due to a missing response by the client or as retransmission of a cached response by the server, the RADIUS/DTLS endpoints <span class="bcp14">MUST</span> re-process the RADIUS packet through DTLS.
-That is, for the purpose of retransmissions, RADIUS/DTLS endpoints cache the RADIUS packet, as a RADIUS/UDP endpoint would, and does not cache the DTLS record that contains the RADIUS packet.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+That is, for the purpose of retransmissions, RADIUS/DTLS endpoints cache the RADIUS packet, as a RADIUS/UDP endpoint would, and do not cache the DTLS record that contains the RADIUS packet.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="server-behavior">
