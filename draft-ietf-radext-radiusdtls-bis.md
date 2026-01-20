@@ -380,7 +380,7 @@ See {{duplicates_retransmissions}} for more discussion on retransmission behavio
 
 ## (D)TLS connection limits and timeout
 
-While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight and possibly {{?RFC5080 Section 2.2.2}} deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
+While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight and possibly {{?RFC5080, Section 2.2.2}} deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
 This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
 Implementations SHOULD have configurable limits on the number of open connections.
