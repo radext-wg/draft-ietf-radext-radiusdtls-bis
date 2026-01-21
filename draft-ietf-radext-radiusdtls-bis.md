@@ -485,8 +485,8 @@ As a result, the way RADIUS packets are sent and received has to change.
 Instead of relying on the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS endpoints have to keep track of the packet borders by examining the header of the received RADIUS packets.
 
 After the TLS connection is established, a RADIUS/TLS endpoint MUST NOT send any data except for RADIUS packets over the connection.
-Since the RADIUS packet header contains a `Length` field, the size of the RADIUS packet can be deduced.
-The next RADIUS packet MUST be sent directly after the RADIUS packet before, that is, the endpoints MUST NOT add padding before, between, or after RADIUS packets.
+Since the RADIUS packet header contains a `Length` field, the end of the current RADIUS packet can be deduced.
+The next RADIUS packet MUST be sent directly after the current RADIUS packet, that is, the endpoints MUST NOT add padding before, between, or after RADIUS packets.
 
 When receiving RADIUS packets, a RADIUS/TLS endpoint MUST determine the borders of RADIUS packet based on the `Length` field in the RADIUS header.
 Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first received only partially, and the remainder of the packet is contained in following fragments.
