@@ -673,9 +673,11 @@ Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity aroun
 Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.
 
 Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client SHOULD use timers to detect packet loss, as described in {{client_retransmission_timers}}.
-Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client SHOULD then create a new RADIUS packet with the same information, but still SHOULD NOT update Acct-Delay-Time due to the presence of Event-Timestamp.
-This ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission, while keeping the functionality of Acct-Delay-Time to determine how long ago the event occurred.
-It only reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
+Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client SHOULD then create a new RADIUS packet with the same information, but and MAY update Acct-Delay-Time.
+This behavior ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission.
+The Event-Timestamp is then interpreted as the time at which the event occured.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
+Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
+
 
 ## PKIX Trust Models
 
