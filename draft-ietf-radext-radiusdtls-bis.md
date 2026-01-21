@@ -792,7 +792,7 @@ A few remaining security considerations and notes to administrators deploying Ra
 
 It is RECOMMENDED that servers do not accept both secure and insecure traffic from the same source IP address.  Allowing RADIUS/UDP and RADIUS/DTLS from the same client exposes the traffic to downbidding attacks and is NOT RECOMMENDED.
 
-Clients MAY place servers into a load-balance or fail-over pools, no matter what the combination of values in the 3-tuple which identifies a server.  Clients SHOULD limit these pools to servers with a similar security profile, e.g. all UDP, or all (D)TLS.  Mixing insecure traffic with secure traffic will likely create security risks.
+Administrators of a client can place servers into a load-balance or fail-over pools, no matter what the combination of values in the 3-tuple which identifies a server. However, administrators should limit these pools to servers with a similar security profile, e.g. all UDP, or all (D)TLS. Mixing insecure traffic with secure traffic will likely create security risks.
 
 ## RADIUS Proxies
 
