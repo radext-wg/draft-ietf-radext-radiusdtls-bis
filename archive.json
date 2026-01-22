@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-20T01:00:06.363172+00:00",
+  "timestamp": "2026-01-22T01:01:57.374355+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -4903,7 +4903,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2025-11-04T21:12:53Z",
+      "updatedAt": "2026-01-20T20:13:39Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
@@ -4956,6 +4956,13 @@
           "body": "At the time of writing there are only two changes remaining. The one is about 'changes to Radius' which is likely better handled with this PR anymore. The other commit is about home server not receiving CoA-Request and Disconnect-Request, which are not that important.",
           "createdAt": "2025-11-04T21:12:37Z",
           "updatedAt": "2025-11-04T21:12:37Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Have these changes been included in other commits, or do they still need to be processed?",
+          "createdAt": "2026-01-20T20:13:39Z",
+          "updatedAt": "2026-01-20T20:13:39Z"
         }
       ],
       "reviews": [
@@ -4973,9 +4980,9 @@
           "comments": [
             {
               "originalPosition": 2,
-              "body": "If no changes to the packet format are needed, don't mentions this here.\r\n\"This section discusses the needed changes to the port usage and shared secrets ({{portusage}}).",
+              "body": "```suggestion\r\nThis section discusses the needed changes to the port usage and shared secrets ({{portusage}}).\r\n```",
               "createdAt": "2025-11-01T20:53:26Z",
-              "updatedAt": "2025-11-01T20:53:27Z"
+              "updatedAt": "2025-11-07T15:23:36Z"
             }
           ]
         }
@@ -6469,21 +6476,21 @@
       "id": "PR_kwDOLrzygc6xvJKc",
       "title": "Draft: Apply Margaret's changes as best as possible with formatting",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/95",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See also #89 ",
       "createdAt": "2025-11-05T20:24:34Z",
-      "updatedAt": "2025-11-07T16:42:09Z",
+      "updatedAt": "2026-01-20T20:12:13Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "ab2ac67b670116e553e6d42e795acfc355c91a66",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "margarets-changes",
       "headRefOid": "cbbc0479d19f15406bd1728d694404b58697baac",
-      "closedAt": null,
+      "closedAt": "2026-01-20T20:12:13Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -7756,7 +7763,7 @@
       "labels": [],
       "body": "\u2026comments. Other minor edits.",
       "createdAt": "2025-12-30T17:22:33Z",
-      "updatedAt": "2026-01-19T23:58:22Z",
+      "updatedAt": "2026-01-20T02:29:11Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6f4db1276eb525d5557900b6d9f9e9d27df9d6e",
@@ -7790,6 +7797,13 @@
           "body": "> You shouldn\u2019t just remove the mention of RFC 8900, as orople agreed to add it. If you don\u2019t like it where it was, you will need to put it somewhere else.\r\n\r\nThe reference to RFC 8900 was already included before in the document. You said \"if you find a better place for it, put it there\", and it was already in the document, at a place where it makes sense.",
           "createdAt": "2026-01-19T23:58:22Z",
           "updatedAt": "2026-01-19T23:58:22Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sorry, I didn\u2019t see that.  I am okay with removing the extra reference, then!\r\n\r\nMargaret\r\n\r\n\r\n> On Jan 19, 2026, at 6:58\u202fPM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> \r\n> \r\n> Janfred\r\n>  left a comment \r\n> (radext-wg/draft-ietf-radext-radiusdtls-bis#106)\r\n>  <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106#issuecomment-3770481125>\r\n> You shouldn\u2019t just remove the mention of RFC 8900, as orople agreed to add it. If you don\u2019t like it where it was, you will need to put it somewhere else.\r\n> \r\n> The reference to RFC 8900 was already included before in the document. You said \"if you find a better place for it, put it there\", and it was already in the document, at a place where it makes sense.\r\n> \r\n> \u2014\r\n> Reply to this email directly, view it on GitHub <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/106#issuecomment-3770481125>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/ABO6Z5CZAKBJHDQHOYQAXUD4HVVTHAVCNFSM6AAAAACQKTSQ6GVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTONZQGQ4DCMJSGU>.\r\n> You are receiving this because you authored the thread.\r\n> \r\n\r\n",
+          "createdAt": "2026-01-20T02:29:11Z",
+          "updatedAt": "2026-01-20T02:29:11Z"
         }
       ],
       "reviews": [
@@ -8615,6 +8629,46 @@
               "updatedAt": "2026-01-19T22:44:37Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bWH96",
+          "commit": {
+            "abbreviatedOid": "26e2248"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T01:39:33Z",
+          "updatedAt": "2026-01-20T01:39:33Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Is there some plan for Alan to do a \"general overhaul\"?  I thought the goal was to get this document into Paul's hands in the next few weeks, so any overhaul needs to be out _very_ soon.\r\n",
+              "createdAt": "2026-01-20T01:39:33Z",
+              "updatedAt": "2026-01-20T01:39:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bWIY6",
+          "commit": {
+            "abbreviatedOid": "26e2248"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T01:41:04Z",
+          "updatedAt": "2026-01-20T01:41:04Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "You don't describe things as a \"MUST\"  that can be turned off...  If clients must implement Status-Server, clients MUST respond to them.",
+              "createdAt": "2026-01-20T01:41:04Z",
+              "updatedAt": "2026-01-20T01:41:04Z"
+            }
+          ]
         }
       ]
     },
@@ -8623,26 +8677,744 @@
       "id": "PR_kwDOLrzygc6-GN7D",
       "title": "Re-introduce at least one sentence about packet format",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/107",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "I think its still important to state at the beginning that we don't change the packet format. I agree that the details about \"whats not changed\" is not something that we need to say at this point, but IMHO the reference to the packet format should be in there.",
       "createdAt": "2026-01-19T22:54:18Z",
-      "updatedAt": "2026-01-19T22:54:18Z",
+      "updatedAt": "2026-01-20T19:57:01Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "aa6ae5fe49769d49375c3a64e195bdd59112830c",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "janfred/small-text-changes",
       "headRefOid": "629a6094425a863375365728d9c98fa8ed8a69f5",
+      "closedAt": "2026-01-20T19:57:01Z",
+      "mergedAt": "2026-01-20T19:57:01Z",
+      "mergedBy": "mrw42",
+      "mergeCommit": {
+        "oid": "7102f1f049ff5d41860979634ec842305a05feba"
+      },
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Good addition!  ",
+          "createdAt": "2026-01-20T19:56:55Z",
+          "updatedAt": "2026-01-20T19:56:55Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 108,
+      "id": "PR_kwDOLrzygc6-SF1n",
+      "title": "Nits and more explanations",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/108",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I've added two commits:\r\n\r\n* one of largely nits and tweaks\r\n* one which adds more explanations of cross-protocol issues\r\n\r\nThe cross-protocol issues were alluded to via 1-2 sentences way down in the document.  I've moved them here, and added more text.",
+      "createdAt": "2026-01-20T18:58:27Z",
+      "updatedAt": "2026-01-21T21:46:14Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "aa6ae5fe49769d49375c3a64e195bdd59112830c",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "alandekok",
+      "headRefOid": "695484ce325f65d903c5e9bf840cfada022f9b63",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I've pushed all of my changes back.   If there are no further comments, we can merge it into the document.  (I won't do that, tho)",
+          "createdAt": "2026-01-21T16:56:08Z",
+          "updatedAt": "2026-01-21T16:56:08Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7bljmU",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:02:32Z",
+          "updatedAt": "2026-01-20T20:02:33Z",
+          "comments": [
+            {
+              "originalPosition": 130,
+              "body": "This did not end up being a sentence... :-).  Would removing the word \"acting\" be what you want, or adding back \"as a proxy\"?",
+              "createdAt": "2026-01-20T20:02:32Z",
+              "updatedAt": "2026-01-20T20:02:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blqwT",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:08:45Z",
+          "updatedAt": "2026-01-20T20:08:46Z",
+          "comments": [
+            {
+              "originalPosition": 392,
+              "body": "I don't understand how a system that is unaware of RadSec can leverage the benefits of (D)TLS.  Can you explain?  [Same comment on other places where this wording is used...]",
+              "createdAt": "2026-01-20T20:08:45Z",
+              "updatedAt": "2026-01-20T20:08:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blrn2",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:09:30Z",
+          "updatedAt": "2026-01-20T20:09:30Z",
+          "comments": [
+            {
+              "originalPosition": 395,
+              "body": "The proxy can be configured _to_ do... ? (add the word \"to\")",
+              "createdAt": "2026-01-20T20:09:30Z",
+              "updatedAt": "2026-01-20T20:09:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blteP",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "I have a few comments, but in general these updates look good to me. ",
+          "createdAt": "2026-01-20T20:11:24Z",
+          "updatedAt": "2026-01-20T20:11:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blt8t",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:12:02Z",
+          "updatedAt": "2026-01-20T20:12:02Z",
+          "comments": [
+            {
+              "originalPosition": 115,
+              "body": "```suggestion\r\nWhile RADIUS/UDP could be implemented mostly stateless (except for the requests in flight and possibly {{?RFC5080, Section 2.2.2}} deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.\r\n```\r\n(Syntax issue with kdrfc)",
+              "createdAt": "2026-01-20T20:12:02Z",
+              "updatedAt": "2026-01-20T20:12:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bluRy",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:12:28Z",
+          "updatedAt": "2026-01-20T20:12:28Z",
+          "comments": [
+            {
+              "originalPosition": 130,
+              "body": "```suggestion\r\nA RadSec server MUST discard or stop all requests that are associated with the closed connection.  This requirement also applies to proxied requests which are associated with the incoming request.\r\n```",
+              "createdAt": "2026-01-20T20:12:28Z",
+              "updatedAt": "2026-01-20T20:12:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blvXX",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:13:44Z",
+          "updatedAt": "2026-01-20T20:13:44Z",
+          "comments": [
+            {
+              "originalPosition": 199,
+              "body": "I think the relevant information here is really \"where does the packet end and the next packet start\". The size is only the tool to find out the border.",
+              "createdAt": "2026-01-20T20:13:44Z",
+              "updatedAt": "2026-01-20T20:13:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blxbA",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:15:56Z",
+          "updatedAt": "2026-01-20T20:15:57Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "```suggestion\r\nRADIUS clients MUST NOT perform retries by sending a packet on a different protocol or connection (i.e. switching from TLS to DTLS or vice versa).  However, when a connection fails, a RADIUS client MAY send packets associated with that connection over a different configured connection or server.\r\n```\r\n\r\nI think it is important to highlight that this needs to be configured, so the implementation should not do anything on its own.",
+              "createdAt": "2026-01-20T20:15:56Z",
+              "updatedAt": "2026-01-20T20:15:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7blyzq",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:17:39Z",
+          "updatedAt": "2026-01-20T20:17:40Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\r\nRadSec does not provide for negotiation of (D)TLS in ongoing RADIUS communication.\r\n Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.\r\n```\r\n\r\nWe do provide negotiation, just not the in-band negotiation (i.e. STARTTLS equivalents)",
+              "createdAt": "2026-01-20T20:17:40Z",
+              "updatedAt": "2026-01-20T20:17:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl3YF",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:23:38Z",
+          "updatedAt": "2026-01-20T20:23:39Z",
+          "comments": [
+            {
+              "originalPosition": 179,
+              "body": "I feel that this is more a security consideration than specification, especially since the clients are configured with pools and don't choose their own pool members.",
+              "createdAt": "2026-01-20T20:23:38Z",
+              "updatedAt": "2026-01-20T20:23:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl4_S",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:25:44Z",
+          "updatedAt": "2026-01-20T20:25:44Z",
+          "comments": [
+            {
+              "originalPosition": 392,
+              "body": "The intent is to say that the _subsystem_ doesn't know about RadSec, but the local _proxy_ knows about it.  The subsystem sends packets to the proxy, which then uses RadSec.  So the subsystem gets its public traffic sent via RadSec.  And only the proxy has to be updated to implement RadSec",
+              "createdAt": "2026-01-20T20:25:44Z",
+              "updatedAt": "2026-01-20T20:25:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl5O3",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:26:03Z",
+          "updatedAt": "2026-01-20T20:26:03Z",
+          "comments": [
+            {
+              "originalPosition": 395,
+              "body": "Yes, that's a good change.",
+              "createdAt": "2026-01-20T20:26:03Z",
+              "updatedAt": "2026-01-20T20:26:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl5g2",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:26:23Z",
+          "updatedAt": "2026-01-20T20:26:23Z",
+          "comments": [
+            {
+              "originalPosition": 395,
+              "body": "```suggestion\r\nThe proxy can be configured to do RADIUS/UDP to some servers and RadSec to others.\r\n```",
+              "createdAt": "2026-01-20T20:26:23Z",
+              "updatedAt": "2026-01-20T20:26:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl6f-",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:27:42Z",
+          "updatedAt": "2026-01-20T20:27:43Z",
+          "comments": [
+            {
+              "originalPosition": 366,
+              "body": "```suggestion\r\nIf a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.\r\n```",
+              "createdAt": "2026-01-20T20:27:42Z",
+              "updatedAt": "2026-01-20T20:27:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl6uy",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:28:01Z",
+          "updatedAt": "2026-01-20T20:28:01Z",
+          "comments": [
+            {
+              "originalPosition": 179,
+              "body": "it can go into the security considerations section.",
+              "createdAt": "2026-01-20T20:28:01Z",
+              "updatedAt": "2026-01-20T20:28:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl9Lu",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:31:21Z",
+          "updatedAt": "2026-01-20T20:31:21Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "I think the result of the discussion with Peter was not what is here now:\r\nIf the packet is completely lost (as in: all retransmissions have failed and the client has given up), then it is ok to update the Acct-Delay-Time, and it should be done to still convey this information, if it is needed.\r\n\r\nOtherwise the next paragraph about the granularity of Acct-Delay-Time is nonsense.",
+              "createdAt": "2026-01-20T20:31:21Z",
+              "updatedAt": "2026-01-20T20:31:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bl_YA",
+          "commit": {
+            "abbreviatedOid": "941b6aa"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T20:34:18Z",
+          "updatedAt": "2026-01-20T20:34:18Z",
+          "comments": [
+            {
+              "originalPosition": 237,
+              "body": "```suggestion\r\nThat is, for the purpose of retransmissions, RADIUS/DTLS endpoints cache the RADIUS packet, as a RADIUS/UDP endpoint would, and do not cache the DTLS record that contains the RADIUS packet.\r\n```\r\n\r\n(Grammar, the sentence talks about endpoints (plural) before)",
+              "createdAt": "2026-01-20T20:34:18Z",
+              "updatedAt": "2026-01-20T20:34:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bm6FJ",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T21:40:48Z",
+          "updatedAt": "2026-01-20T21:40:48Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "What do we do if the following situation occurs?\r\n\r\n* a packet is sent over a path with Event-Timestamp = \"when\", and Acct-Delay-Time = 0\r\n* the final server sees the packet and replies, but the reply is lost\r\n* the client sends the packet over a different path with Event-Timestamp = \"when\", and Acct-Delay-Time = 30\r\n\r\nI think that's possible.  The recommendation, then, is to treat Event-Timestamp as the definitive time when the event happened.  And Acct-Delay-Time as \"the client has been trying to send the packet for this length of time\"\r\n\r\nSo if Event-Timestamp exists, that's the time of the event.  Otherwise, the time of the event is \"now - Acct-Delay-Time\"",
+              "createdAt": "2026-01-20T21:40:48Z",
+              "updatedAt": "2026-01-20T21:40:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7bm_VB",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-20T21:45:49Z",
+          "updatedAt": "2026-01-20T21:45:49Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "I think that's a good way of describing it. If Event-Timestamp is there, this is the link to when the event actually happened, so Acct-Delay-Time is really only there for \"performance monitoring\" (or something like that), but \"client has tried to send this for this amount of time\" can be useful information and shouldn't be removed.",
+              "createdAt": "2026-01-20T21:45:49Z",
+              "updatedAt": "2026-01-20T21:45:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b1o-Z",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T16:43:22Z",
+          "updatedAt": "2026-01-21T16:43:22Z",
+          "comments": [
+            {
+              "originalPosition": 392,
+              "body": "address in commit 754dee805924",
+              "createdAt": "2026-01-21T16:43:22Z",
+              "updatedAt": "2026-01-21T16:43:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b1rJg",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T16:44:45Z",
+          "updatedAt": "2026-01-21T16:44:46Z",
+          "comments": [
+            {
+              "originalPosition": 199,
+              "body": "I'll tweak it.  Addressed in commit 38cdf7f94624ae8b6",
+              "createdAt": "2026-01-21T16:44:46Z",
+              "updatedAt": "2026-01-21T16:44:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b1tQk",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T16:46:07Z",
+          "updatedAt": "2026-01-21T16:46:07Z",
+          "comments": [
+            {
+              "originalPosition": 179,
+              "body": "Moved.  Address in commit dd085ed",
+              "createdAt": "2026-01-21T16:46:07Z",
+              "updatedAt": "2026-01-21T16:46:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b16LN",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T16:55:10Z",
+          "updatedAt": "2026-01-21T16:55:11Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "Addressed in commit eb92cb2\r\n",
+              "createdAt": "2026-01-21T16:55:11Z",
+              "updatedAt": "2026-01-21T16:55:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2DQ3",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:02:18Z",
+          "updatedAt": "2026-01-21T17:02:18Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "I like the new text, thanks. :+1: \r\n\r\n(playing devils advocate: Now the spec has RFC2119 keywords on the interpretation of Event-Timestamp and Acct-Delay-Time. Maybe this could be reworded to only give a hint on what the attributes contain instead of making a mandatory specification how these attributes are to be interpreted? Maybe this interpretation is already included in the RFCs that specify this?\r\nI haven't read these yet, I wanted to give quick feedback.)",
+              "createdAt": "2026-01-21T17:02:18Z",
+              "updatedAt": "2026-01-21T17:02:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2ICs",
+          "commit": {
+            "abbreviatedOid": "eb92cb2"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:06:20Z",
+          "updatedAt": "2026-01-21T17:06:20Z",
+          "comments": [
+            {
+              "originalPosition": 344,
+              "body": "One of Margaret's review comments was that the security considerations section shouldn't include BCP14/RFC2119 language.\r\n\r\nOne specific suggestion (edits only the last paragraph):\r\n```suggestion\r\n## Mixing Secure and Insecure Traffic\r\n\r\nIt is RECOMMENDED that servers do not accept both secure and insecure traffic from the same source IP address.  Allowing RADIUS/UDP and RADIUS/DTLS from the same client exposes the traffic to downbidding attacks and is NOT RECOMMENDED.\r\n\r\nAdministrators can place servers into a load-balance or fail-over pools, no matter what the combination of values in the 3-tuple which identifies a server. However, administrators should limit these pools to servers with a similar security profile, e.g. all UDP, or all (D)TLS. Mixing insecure traffic with secure traffic will likely create security risks.\r\n\r\n```",
+              "createdAt": "2026-01-21T17:06:20Z",
+              "updatedAt": "2026-01-21T17:06:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2K-b",
+          "commit": {
+            "abbreviatedOid": "eb92cb2"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:08:59Z",
+          "updatedAt": "2026-01-21T17:09:00Z",
+          "comments": [
+            {
+              "originalPosition": 344,
+              "body": "To add to this: I personally think the first paragraph is ok, especially since there is no MUST/MUST NOT/... in there, For the second paragraph it's really about administrator action, and I think this should not use BCP14 keywords and clearly state that this is the admins configuring the software, not the software doing things on its own.",
+              "createdAt": "2026-01-21T17:09:00Z",
+              "updatedAt": "2026-01-21T17:09:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2MI3",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:10:04Z",
+          "updatedAt": "2026-01-21T17:10:04Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "The RFC2119 keywords are for _updating_ Event-Timestamp and Acct-Delay-Time.  The text in how to interpret them isn't normative, and doesn't contain RFC2119 keywords.\r\n\r\nThe interpretation of Event-Timestamp is consistent with previous RFCs, which apparently don't explain it in sufficient detail:\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc2869#section-5.3\r\n\r\n```\r\n      This attribute is included in an Accounting-Request packet to\r\n      record the time that this event occurred on the NAS\r\n```\r\n\r\nWhich seems pretty clear.  Despite that, I've seen implementations update Event-Timestamp whenever a packet is retransmitted, which is ludicrous.\r\n\r\nThe updated text helps to push back on such antisocial interpretations.\r\n",
+              "createdAt": "2026-01-21T17:10:04Z",
+              "updatedAt": "2026-01-21T17:10:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2N2Z",
+          "commit": {
+            "abbreviatedOid": "eb92cb2"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:11:39Z",
+          "updatedAt": "2026-01-21T17:11:39Z",
+          "comments": [
+            {
+              "originalPosition": 344,
+              "body": "OK. I'll tweak this, and push a fix shortly.",
+              "createdAt": "2026-01-21T17:11:39Z",
+              "updatedAt": "2026-01-21T17:11:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2PVj",
+          "commit": {
+            "abbreviatedOid": "eb92cb2"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:12:53Z",
+          "updatedAt": "2026-01-21T17:12:54Z",
+          "comments": [
+            {
+              "originalPosition": 344,
+              "body": "I'll push that.  commit 695484c",
+              "createdAt": "2026-01-21T17:12:54Z",
+              "updatedAt": "2026-01-21T17:12:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2RCE",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:14:15Z",
+          "updatedAt": "2026-01-21T17:14:15Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "I was referring to:\r\n> Systems MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured\r\n\r\nI'll add a suggestion.",
+              "createdAt": "2026-01-21T17:14:15Z",
+              "updatedAt": "2026-01-21T17:14:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2XVS",
+          "commit": {
+            "abbreviatedOid": "695484c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:19:40Z",
+          "updatedAt": "2026-01-21T17:19:40Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "```suggestion\r\nThe Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Event-Timestamp and Acct-Delay-Time are conveying differing information and should not be processed together (e.g. by subtracting the indicated delay time from the time stamp to determine when an event has occurred). The existence of Acct-Delay-Time serves only as an additional indication of delays in sending the packet.\r\n```\r\n\r\nThis is one suggestion, I'm not happy with the wording yet, but it removes the \"MUST NOT\" without just making it lower case.",
+              "createdAt": "2026-01-21T17:19:40Z",
+              "updatedAt": "2026-01-21T17:19:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2Xkn",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:19:51Z",
+          "updatedAt": "2026-01-21T17:19:52Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "If Acct-Delay-Time is subtracted from Event-Timestamp to get \"time at which the event occurred\", then Event-Timestamp isn't the time at which the event occurred.  Which contradicts RFC 2869.\r\n\r\nThe only reason for Acct-Delay-Time is that pre RFC 2869, there was no Event-Timestamp.  Once an accounting packet has Event-Timestamp (and most systems do NTP...) then Acct-Delay-Time is useless.\r\n\r\nThe only reason to use Acct-Delay-Time is when NTP isn't working.  A client can then signal _relative_ delays, and doesn't need to signal _absolute_ time.  A later system which does use NTP can then use it's local time and Acct-Delay-Time to get the time of the event.\r\n\r\nArguably, if a packet contains Event-Timestamp, them it SHOULD NOT contain Acct-Delay-Time.  largely to avoid confusion by people who are unable to read RFC 2869.",
+              "createdAt": "2026-01-21T17:19:52Z",
+              "updatedAt": "2026-01-21T17:19:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b2bdI",
+          "commit": {
+            "abbreviatedOid": "7ab541d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T17:23:12Z",
+          "updatedAt": "2026-01-21T17:23:12Z",
+          "comments": [
+            {
+              "originalPosition": 309,
+              "body": "I'm not arguing about the (un-)usefulness of Acct-Delay-Time, I think we agree completely that Event-Timestamp is better.\r\nWhat I'm proposing is to remove any actual specification that is not directly RadSec-related, and the details of how to interpret these values is out-of-scope for radsec, so we can give hints, but we shouldn't specify this.",
+              "createdAt": "2026-01-21T17:23:12Z",
+              "updatedAt": "2026-01-21T17:23:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b6hFu",
+          "commit": {
+            "abbreviatedOid": "695484c"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T21:46:14Z",
+          "updatedAt": "2026-01-21T21:46:14Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "I'm worried about removing the `MUST NOT`, as I've run into products which completely misunderstand Event-Timestamp.\r\n\r\nThere are reasons to just remove all of the discussion of `Event-Timestamp` and `Acct-Delay-Time` from this document.  If this document is limited to just one topic of \"how to encode RADIUS over TLS\", then any content in RADIUS packets is out of scope.\r\n\r\nHowever, if this document is defining how RADIUS works in the year 2026, then \"how to do RADIUS properly\" is entirely within scope.  Specifically, how to avoid congestive collapse due to multi-decade misunderstanding of the previous RFCs.\r\n\r\nI think if we don't discuss Event-Timestamp and Acct-Delay-Time, then we _will_ have congestive collapse, due ot vendors doing the most ridiculous things.\r\n\r\ne.g. see https://github.com/WayFi-Wireless/passpoint-implementation-issues\r\n\r\nThere are _multiple_ vendors who have implemented RadSec on a client, and then haven't allowed for client certificates to be configured.  So those vendors presumably still require a unique shared secret per client?\r\n\r\nSo I'd like to understand why it's necessary to remove the `MUST NOT` here.  How does removing it help to prevent congestive collapse, when some implementations will ignore everything that isn't a `MUST NOT`?",
+              "createdAt": "2026-01-21T21:46:14Z",
+              "updatedAt": "2026-01-21T21:46:15Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
