@@ -779,7 +779,7 @@ Where intermediate proxies are untrusted, it is desirable to use other RADIUS me
 One common method to protect user credentials is the use of the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.
 
 Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
-The use of EAP methods that utilize TLS can also protect user credentials in this case..
+There is no technical solution to this problem with the current specification.
 However, if the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.
 
 One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
