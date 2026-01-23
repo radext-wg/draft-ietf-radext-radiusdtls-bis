@@ -172,12 +172,14 @@ This action has to be taken by the administrators of the two systems.
 Implementations MUST follow the recommendations given in {{!RFC9325}}, especially in regards to TLS versions, recommended cipher suites, and TLS session resumption.
 Additionally, the following requirements have to be met for the (D)TLS connection:
 
+* Support for TLS 1.2 {{!RFC5248}} / DTLS 1.2 {{!RFC6347}} is REQUIRED, support for TLS 1.3 {{!RFC8446}} / DTLS 1.3 {{!RFC9147}} or higher is RECOMMENDED.
 * Negotiation of a cipher suite providing for confidentiality as well as integrity protection is REQUIRED.
 * The endpoints MUST NOT negotiate compression.
 * The connection MUST be mutually authenticated (see {{mutual_auth}}).
 
 The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.
 RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
+If 0-RTT is used, implementations MUST also implement protection mechanisms against replay attacks.
 
 ## Mutual authentication
 {: #mutual_auth }
@@ -214,12 +216,13 @@ Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should be a conscious decision by an administrator.
 
-RadSec endpoints MUST follow {{!RFC9525}} when validating peer identities.
+RadSec endpoints MUST follow {{!RFC9525}} when validating server identities.
+
 Specific details are provided below:
 
 * Certificates MAY include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.
 * RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:
-  * If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery {{?RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{?RFC7585, Section 2.2}}.
+  * If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{RFC7585, Section 2.2}}.
   * If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.  Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{?RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * The Common Name RDN MUST NOT be used to identify a server.
@@ -659,7 +662,7 @@ RadSec clients SHOULD NOT update the Acct-Delay-Time, and therefore create a new
 This ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission, while keeping the functionality of Acct-Delay-Time to determine how long ago the event occurred.
 It only reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
 
-## PKIX Trust Models
+## Additional Verification of Peers
 
 There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
@@ -672,8 +675,6 @@ As a suggestion, at least the following information from the TLS connection and 
 * all X.509v3 Extended Key Usage
 * all X.509v3 Subject Alternative Name
 * all X.509v3 Certificate Policy
-
-## Exposure of TLS-PSK Information
 
 In TLS-PSK operation at least the following information from the TLS connection should be exposed:
 
@@ -782,7 +783,7 @@ The use of EAP methods that utilize TLS can also protect user credentials in thi
 However, if the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.
 
 One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
-For this, dynamic discovery as defined in {{?RFC7585}} can be used.
+For this, dynamic discovery as defined in {{RFC7585}} can be used.
 
 ### Loopback-Attack on endpoints acting as Server and Client
 
