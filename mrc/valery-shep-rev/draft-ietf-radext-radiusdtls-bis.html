@@ -1272,22 +1272,19 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-pkix-trust-models" class="internal xref">PKIX Trust Models</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-additional-verification-of-" class="internal xref">Additional Verification of Peers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
-                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-exposure-of-tls-psk-informa" class="internal xref">Exposure of TLS-PSK Information</a></p>
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
-                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6">
-                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-session-management" class="internal xref">Session Management</a></p>
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-session-management" class="internal xref">Session Management</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.1">
-                    <p id="section-toc.1-1.6.2.6.2.1.1"><a href="#section-6.6.1" class="auto internal xref">6.6.1</a>.  <a href="#name-server-session-management" class="internal xref">Server Session Management</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5.2.1">
+                    <p id="section-toc.1-1.6.2.5.2.1.1"><a href="#section-6.5.1" class="auto internal xref">6.5.1</a>.  <a href="#name-server-session-management" class="internal xref">Server Session Management</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6.2.2">
-                    <p id="section-toc.1-1.6.2.6.2.2.1"><a href="#section-6.6.2" class="auto internal xref">6.6.2</a>.  <a href="#name-client-session-management" class="internal xref">Client Session Management</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5.2.2">
+                    <p id="section-toc.1-1.6.2.5.2.2.1"><a href="#section-6.5.2" class="auto internal xref">6.5.2</a>.  <a href="#name-client-session-management" class="internal xref">Client Session Management</a></p>
 </li>
                 </ul>
 </li>
@@ -1536,17 +1533,21 @@ This action has to be taken by the administrators of the two systems.<a href="#s
 Additionally, the following requirements have to be met for the (D)TLS connection:<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-4.1">
-            <p id="section-3.2-4.1.1">Negotiation of a cipher suite providing for confidentiality as well as integrity protection is <span class="bcp14">REQUIRED</span>.<a href="#section-3.2-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-4.1.1">Support for TLS 1.2 <span>[<a href="#RFC5248" class="cite xref">RFC5248</a>]</span> / DTLS 1.2 <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> is <span class="bcp14">REQUIRED</span>, support for TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> / DTLS 1.3 <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> or higher is <span class="bcp14">RECOMMENDED</span>.<a href="#section-3.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.2">
-            <p id="section-3.2-4.2.1">The endpoints <span class="bcp14">MUST NOT</span> negotiate compression.<a href="#section-3.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-4.2.1">Negotiation of a cipher suite providing for confidentiality as well as integrity protection is <span class="bcp14">REQUIRED</span>.<a href="#section-3.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.3">
-            <p id="section-3.2-4.3.1">The connection <span class="bcp14">MUST</span> be mutually authenticated (see <a href="#mutual_auth" class="auto internal xref">Section 3.3</a>).<a href="#section-3.2-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-4.3.1">The endpoints <span class="bcp14">MUST NOT</span> negotiate compression.<a href="#section-3.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.2-4.4">
+            <p id="section-3.2-4.4.1">The connection <span class="bcp14">MUST</span> be mutually authenticated (see <a href="#mutual_auth" class="auto internal xref">Section 3.3</a>).<a href="#section-3.2-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.2-5">The use of the 0-RTT feature of (D)TLS is <span class="bcp14">NOT RECOMMENDED</span>.
-RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
+If 0-RTT is used, implementations <span class="bcp14">MUST</span> also implement protection mechanisms against replay attacks.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual_auth">
@@ -1598,58 +1599,58 @@ See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://r
 Instead, the endpoints <span class="bcp14">SHOULD</span> start off with an empty CA set as the trust base.
 The addition of a CA <span class="bcp14">SHOULD</span> be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should be a conscious decision by an administrator.<a href="#section-3.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.3.1-5">RadSec endpoints <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating peer identities.
-Specific details are provided below:<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-5">RadSec endpoints <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating server identities.<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-6">Specific details are provided below:<a href="#section-3.3.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.1">
-              <p id="section-3.3.1-6.1.1">Certificates <span class="bcp14">MAY</span> include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-3.3.1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.1">
+              <p id="section-3.3.1-7.1.1">Certificates <span class="bcp14">MAY</span> include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-3.3.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.3.1-6.2">
-              <p id="section-3.3.1-6.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-3.3.1-6.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.2">
+              <p id="section-3.3.1-7.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-3.3.1-7.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.2.2.1">
-                  <p id="section-3.3.1-6.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-3.3.1-6.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.2.2.1">
+                  <p id="section-3.3.1-7.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-3.3.1-7.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.2">
-                  <p id="section-3.3.1-6.2.2.2.1">If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.  Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-3.3.1-6.2.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.2">
+                  <p id="section-3.3.1-7.2.2.2.1">If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.  Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-3.3.1-7.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.3">
-                  <p id="section-3.3.1-6.2.2.3.1">If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.2.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.3">
+                  <p id="section-3.3.1-7.2.2.3.1">If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.4">
-                  <p id="section-3.3.1-6.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-3.3.1-6.2.2.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.4">
+                  <p id="section-3.3.1-7.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-3.3.1-7.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.5">
-                  <p id="section-3.3.1-6.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but they <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-3.3.1-6.2.2.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.5">
+                  <p id="section-3.3.1-7.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but they <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-3.3.1-7.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.6">
-                  <p id="section-3.3.1-6.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-3.3.1-6.2.2.6.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.6">
+                  <p id="section-3.3.1-7.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-3.3.1-7.2.2.6.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
-            <li class="normal" id="section-3.3.1-6.3">
-              <p id="section-3.3.1-6.3.1">RadSec servers validate the certificate of the RadSec client against a local database of acceptable clients.
-The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-3.3.1-6.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.3">
+              <p id="section-3.3.1-7.3.1">RadSec servers validate the certificate of the RadSec client against a local database of acceptable clients.
+The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-3.3.1-7.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.3.2.1">
-                  <p id="section-3.3.1-6.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.3.2.1">
+                  <p id="section-3.3.1-7.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.2">
-                  <p id="section-3.3.1-6.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.2">
+                  <p id="section-3.3.1-7.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.3">
-                  <p id="section-3.3.1-6.3.2.3.1">Some servers <span class="bcp14">MAY</span> be configured to accept a client coming from a range or set of IP addresses.  In this case, the server <span class="bcp14">MUST</span> verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server <span class="bcp14">MUST</span> match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.3">
+                  <p id="section-3.3.1-7.3.2.3.1">Some servers <span class="bcp14">MAY</span> be configured to accept a client coming from a range or set of IP addresses.  In this case, the server <span class="bcp14">MUST</span> verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server <span class="bcp14">MUST</span> match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.4">
-                  <p id="section-3.3.1-6.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-3.3.1-6.3.2.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.4">
+                  <p id="section-3.3.1-7.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-3.3.1-7.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.5">
-                  <p id="section-3.3.1-6.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both endpoints are part of a trusted network.<a href="#section-3.3.1-6.3.2.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.5">
+                  <p id="section-3.3.1-7.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both endpoints are part of a trusted network.<a href="#section-3.3.1-7.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
-            <li class="normal" id="section-3.3.1-6.4">
-              <p id="section-3.3.1-6.4.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-3.3.1-6.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.4">
+              <p id="section-3.3.1-7.4.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-3.3.1-7.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2163,10 +2164,10 @@ It only reduces the granularity of Acct-Delay-Time to the retransmission timeout
 </div>
 </section>
 </div>
-<div id="pkix-trust-models">
+<div id="additional-verification-of-peers">
 <section id="section-6.3">
-        <h3 id="name-pkix-trust-models">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-pkix-trust-models" class="section-name selfRef">PKIX Trust Models</a>
+        <h3 id="name-additional-verification-of-">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-additional-verification-of-" class="section-name selfRef">Additional Verification of Peers</a>
         </h3>
 <p id="section-6.3-1">There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
@@ -2194,129 +2195,122 @@ As a suggestion, at least the following information from the TLS connection and 
             <p id="section-6.3-2.7.1">all X.509v3 Certificate Policy<a href="#section-6.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-</section>
-</div>
-<div id="exposure-of-tls-psk-information">
-<section id="section-6.4">
-        <h3 id="name-exposure-of-tls-psk-informa">
-<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-exposure-of-tls-psk-informa" class="section-name selfRef">Exposure of TLS-PSK Information</a>
-        </h3>
-<p id="section-6.4-1">In TLS-PSK operation at least the following information from the TLS connection should be exposed:<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">In TLS-PSK operation at least the following information from the TLS connection should be exposed:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-2.1">
-            <p id="section-6.4-2.1.1">Originating IP address<a href="#section-6.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.3-4.1">
+            <p id="section-6.3-4.1.1">Originating IP address<a href="#section-6.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-2.2">
-            <p id="section-6.4-2.2.1">TLS-PSK Identifier<a href="#section-6.4-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.3-4.2">
+            <p id="section-6.3-4.2.1">TLS-PSK Identifier<a href="#section-6.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="tcp-applications-are-not-udp-applications">
-<section id="section-6.5">
+<section id="section-6.4">
         <h3 id="name-tcp-applications-are-not-ud">
-<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-tcp-applications-are-not-ud" class="section-name selfRef">TCP Applications Are Not UDP Applications</a>
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-tcp-applications-are-not-ud" class="section-name selfRef">TCP Applications Are Not UDP Applications</a>
         </h3>
-<p id="section-6.5-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-<p id="section-6.5-2">Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
-<p id="section-6.5-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
-If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
-<p id="section-6.5-4">Unlike UDP, TCP is subject to issues related to head-of-line blocking.
+<p id="section-6.4-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
+If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.4-4">Unlike UDP, TCP is subject to issues related to head-of-line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS endpoints can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
 Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
-In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-6.5-4" class="pilcrow">¶</a></p>
+In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="session-management">
-<section id="section-6.6">
+<section id="section-6.5">
         <h3 id="name-session-management">
-<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-session-management" class="section-name selfRef">Session Management</a>
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-session-management" class="section-name selfRef">Session Management</a>
         </h3>
-<p id="section-6.6-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
+<p id="section-6.5-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
 Implementations <span class="bcp14">MAY</span> choose to use the method described here, or another, equivalent method.
-When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
-<p id="section-6.6-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
-The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
+When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
+The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <div id="server-session-management">
-<section id="section-6.6.1">
+<section id="section-6.5.1">
           <h4 id="name-server-session-management">
-<a href="#section-6.6.1" class="section-number selfRef">6.6.1. </a><a href="#name-server-session-management" class="section-name selfRef">Server Session Management</a>
+<a href="#section-6.5.1" class="section-number selfRef">6.5.1. </a><a href="#name-server-session-management" class="section-name selfRef">Server Session Management</a>
           </h4>
-<p id="section-6.6.1-1">A RADIUS/DTLS server using the 5-tuple method <span class="bcp14">MUST</span> track ongoing DTLS sessions for each client, based on the following 5-tuple:<a href="#section-6.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.5.1-1">A RADIUS/DTLS server using the 5-tuple method <span class="bcp14">MUST</span> track ongoing DTLS sessions for each client, based on the following 5-tuple:<a href="#section-6.5.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.6.1-2.1">
-              <p id="section-6.6.1-2.1.1">source IP address<a href="#section-6.6.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.5.1-2.1">
+              <p id="section-6.5.1-2.1.1">source IP address<a href="#section-6.5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.6.1-2.2">
-              <p id="section-6.6.1-2.2.1">source port<a href="#section-6.6.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.5.1-2.2">
+              <p id="section-6.5.1-2.2.1">source port<a href="#section-6.5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.6.1-2.3">
-              <p id="section-6.6.1-2.3.1">destination IP address<a href="#section-6.6.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.5.1-2.3">
+              <p id="section-6.5.1-2.3.1">destination IP address<a href="#section-6.5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.6.1-2.4">
-              <p id="section-6.6.1-2.4.1">destination port<a href="#section-6.6.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.5.1-2.4">
+              <p id="section-6.5.1-2.4.1">destination port<a href="#section-6.5.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-6.6.1-2.5">
-              <p id="section-6.6.1-2.5.1">protocol (fixed to <code>UDP</code>)<a href="#section-6.6.1-2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-6.5.1-2.5">
+              <p id="section-6.5.1-2.5.1">protocol (fixed to <code>UDP</code>)<a href="#section-6.5.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-6.6.1-3">Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).<a href="#section-6.6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.6.1-4">Each 5-tuple points to a unique session entry, which usually contains the following information:<a href="#section-6.6.1-4" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-6.6.1-5">
-            <dt id="section-6.6.1-5.1">DTLS Session:</dt>
-            <dd style="margin-left: 1.5em" id="section-6.6.1-5.2">
-              <p id="section-6.6.1-5.2.1">Any information required to maintain and manage the DTLS session.<a href="#section-6.6.1-5.2.1" class="pilcrow">¶</a></p>
+<p id="section-6.5.1-3">Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).<a href="#section-6.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.5.1-4">Each 5-tuple points to a unique session entry, which usually contains the following information:<a href="#section-6.5.1-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-6.5.1-5">
+            <dt id="section-6.5.1-5.1">DTLS Session:</dt>
+            <dd style="margin-left: 1.5em" id="section-6.5.1-5.2">
+              <p id="section-6.5.1-5.2.1">Any information required to maintain and manage the DTLS session.<a href="#section-6.5.1-5.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.6.1-5.3">DTLS Data:</dt>
-            <dd style="margin-left: 1.5em" id="section-6.6.1-5.4">
-              <p id="section-6.6.1-5.4.1">An implementation-specific variable that may contain information about the active DTLS session.
-This variable may be empty or nonexistent.<a href="#section-6.6.1-5.4.1" class="pilcrow">¶</a></p>
+<dt id="section-6.5.1-5.3">DTLS Data:</dt>
+            <dd style="margin-left: 1.5em" id="section-6.5.1-5.4">
+              <p id="section-6.5.1-5.4.1">An implementation-specific variable that may contain information about the active DTLS session.
+This variable may be empty or nonexistent.<a href="#section-6.5.1-5.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.6.1-5.5"></dt>
-            <dd style="margin-left: 1.5em" id="section-6.6.1-5.6">
-              <p id="section-6.6.1-5.6.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.6.1-5.6.1" class="pilcrow">¶</a></p>
+<dt id="section-6.5.1-5.5"></dt>
+            <dd style="margin-left: 1.5em" id="section-6.5.1-5.6">
+              <p id="section-6.5.1-5.6.1">This data will typically contain information such as idle timeouts, session lifetimes, and other implementation-specific data.<a href="#section-6.5.1-5.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 <div id="session-opening-and-closing">
-<section id="section-6.6.1.1">
+<section id="section-6.5.1.1">
             <h5 id="name-session-opening-and-closing">
-<a href="#section-6.6.1.1" class="section-number selfRef">6.6.1.1. </a><a href="#name-session-opening-and-closing" class="section-name selfRef">Session Opening and Closing</a>
+<a href="#section-6.5.1.1" class="section-number selfRef">6.5.1.1. </a><a href="#name-session-opening-and-closing" class="section-name selfRef">Session Opening and Closing</a>
             </h5>
-<p id="section-6.6.1.1-1">Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
+<p id="section-6.5.1.1-1">Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
 RADIUS/DTLS servers <span class="bcp14">SHOULD</span> use the stateless cookie tracking technique described in <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>], <a href="https://rfc-editor.org/rfc/rfc6347#section-4.2.1" class="relref">Section 4.2.1</a></span> for DTLS 1.2 and <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>], <a href="https://rfc-editor.org/rfc/rfc9147#section-5.1" class="relref">Section 5.1</a></span> for DTLS 1.3.
 DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHello packet has been received with an appropriate Cookie value.
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
-Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.6.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
-When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.6.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.6.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
+Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.5.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.5.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
+When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.5.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.5.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server <span class="bcp14">MUST</span> keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.6.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.6.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
+Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.5.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.5.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
 This requirement can likely be reached by simply processing the packet through the existing session, as with any other packet received via that 5-tuple.
-Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.6.1.1-4" class="pilcrow">¶</a></p>
+Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.5.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="client-session-management">
-<section id="section-6.6.2">
+<section id="section-6.5.2">
           <h4 id="name-client-session-management">
-<a href="#section-6.6.2" class="section-number selfRef">6.6.2. </a><a href="#name-client-session-management" class="section-name selfRef">Client Session Management</a>
+<a href="#section-6.5.2" class="section-number selfRef">6.5.2. </a><a href="#name-client-session-management" class="section-name selfRef">Client Session Management</a>
           </h4>
-<p id="section-6.6.2-1">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
-This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.6.2-2">RADIUS/DTLS clients <span class="bcp14">MAY</span> use PMTU discovery <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span> to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
+<p id="section-6.5.2-1">RADIUS/DTLS clients <span class="bcp14">SHOULD NOT</span> send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
+This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.<a href="#section-6.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.5.2-2">RADIUS/DTLS clients <span class="bcp14">MAY</span> use PMTU discovery <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span> to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
 While a RADIUS client has limited to no possibilities to reduce the size of an outgoing RADIUS packet without unwanted side effects, it gives the RADIUS client the possibility to determine whether or not the RADIUS packet can even be sent over the connection.
 IP fragmentation may not be functioning, so by determining the PMTU, the RADIUS client can preemptively select a different RADIUS server to send the RADIUS packet to.
-Further discussion of this problem is deemed outside of the scope of this document.<a href="#section-6.6.2-2" class="pilcrow">¶</a></p>
+Further discussion of this problem is deemed outside of the scope of this document.<a href="#section-6.5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2609,6 +2603,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Dierks, T.</span> and <span class="refAuthor">E. Rescorla</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.2"</span>, <span class="seriesInfo">RFC 5246</span>, <span class="seriesInfo">DOI 10.17487/RFC5246</span>, <time datetime="2008-08" class="refDate">August 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5246">https://www.rfc-editor.org/rfc/rfc5246</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC5248">[RFC5248]</dt>
+        <dd>
+<span class="refAuthor">Hansen, T.</span> and <span class="refAuthor">J. Klensin</span>, <span class="refTitle">"A Registry for SMTP Enhanced Mail System Status Codes"</span>, <span class="seriesInfo">BCP 138</span>, <span class="seriesInfo">RFC 5248</span>, <span class="seriesInfo">DOI 10.17487/RFC5248</span>, <time datetime="2008-06" class="refDate">June 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5248">https://www.rfc-editor.org/rfc/rfc5248</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
         <dd>
 <span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
@@ -2628,6 +2626,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC6347">[RFC6347]</dt>
         <dd>
 <span class="refAuthor">Rescorla, E.</span> and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"Datagram Transport Layer Security Version 1.2"</span>, <span class="seriesInfo">RFC 6347</span>, <span class="seriesInfo">DOI 10.17487/RFC6347</span>, <time datetime="2012-01" class="refDate">January 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6347">https://www.rfc-editor.org/rfc/rfc6347</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7585">[RFC7585]</dt>
+        <dd>
+<span class="refAuthor">Winter, S.</span> and <span class="refAuthor">M. McCauley</span>, <span class="refTitle">"Dynamic Peer Discovery for RADIUS/TLS and RADIUS/DTLS Based on the Network Access Identifier (NAI)"</span>, <span class="seriesInfo">RFC 7585</span>, <span class="seriesInfo">DOI 10.17487/RFC7585</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7585">https://www.rfc-editor.org/rfc/rfc7585</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7930">[RFC7930]</dt>
         <dd>
@@ -2705,10 +2707,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC7360">[RFC7360]</dt>
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) as a Transport Layer for RADIUS"</span>, <span class="seriesInfo">RFC 7360</span>, <span class="seriesInfo">DOI 10.17487/RFC7360</span>, <time datetime="2014-09" class="refDate">September 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7360">https://www.rfc-editor.org/rfc/rfc7360</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7585">[RFC7585]</dt>
-        <dd>
-<span class="refAuthor">Winter, S.</span> and <span class="refAuthor">M. McCauley</span>, <span class="refTitle">"Dynamic Peer Discovery for RADIUS/TLS and RADIUS/DTLS Based on the Network Access Identifier (NAI)"</span>, <span class="seriesInfo">RFC 7585</span>, <span class="seriesInfo">DOI 10.17487/RFC7585</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7585">https://www.rfc-editor.org/rfc/rfc7585</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8900">[RFC8900]</dt>
         <dd>

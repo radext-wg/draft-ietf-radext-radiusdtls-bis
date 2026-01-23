@@ -107,12 +107,11 @@ Table of Contents
        6.2.1.  Throughput Differences lead to Network Collapse
        6.2.2.  Differing Retransmission Requirements
        6.2.3.  Acct-Delay-Time and Event-Timestamp
-     6.3.  PKIX Trust Models
-     6.4.  Exposure of TLS-PSK Information
-     6.5.  TCP Applications Are Not UDP Applications
-     6.6.  Session Management
-       6.6.1.  Server Session Management
-       6.6.2.  Client Session Management
+     6.3.  Additional Verification of Peers
+     6.4.  TCP Applications Are Not UDP Applications
+     6.5.  Session Management
+       6.5.1.  Server Session Management
+       6.5.2.  Client Session Management
    7.  Security Considerations
      7.1.  RADIUS Proxies
        7.1.1.  Loopback-Attack on endpoints acting as Server and
@@ -275,6 +274,10 @@ Table of Contents
    TLS session resumption.  Additionally, the following requirements
    have to be met for the (D)TLS connection:
 
+   *  Support for TLS 1.2 [RFC5248] / DTLS 1.2 [RFC6347] is REQUIRED,
+      support for TLS 1.3 [RFC8446] / DTLS 1.3 [RFC9147] or higher is
+      RECOMMENDED.
+
    *  Negotiation of a cipher suite providing for confidentiality as
       well as integrity protection is REQUIRED.
 
@@ -284,7 +287,9 @@ Table of Contents
 
    The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.  RADIUS
    packets may contain confidential data that should be protected by
-   forward secrecy, which 0-RTT cannot provide.
+   forward secrecy, which 0-RTT cannot provide.  If 0-RTT is used,
+   implementations MUST also implement protection mechanisms against
+   replay attacks.
 
 3.3.  Mutual authentication
 
@@ -355,8 +360,10 @@ Table of Contents
    but the enabling of those lists should be a conscious decision by an
    administrator.
 
-   RadSec endpoints MUST follow [RFC9525] when validating peer
-   identities.  Specific details are provided below:
+   RadSec endpoints MUST follow [RFC9525] when validating server
+   identities.
+
+   Specific details are provided below:
 
    *  Certificates MAY include a single wildcard in the identifiers of
       DNS names and realm names, but only as the complete, left-most
@@ -1189,7 +1196,7 @@ Table of Contents
    timeout, compared to the different approach of updating the Acct-
    Delay-Time on each retransmission.
 
-6.3.  PKIX Trust Models
+6.3.  Additional Verification of Peers
 
    There are numerous trust models in PKIX environments, and it is
    beyond the scope of this document to define how a particular
@@ -1215,8 +1222,6 @@ Table of Contents
 
    *  all X.509v3 Certificate Policy
 
-6.4.  Exposure of TLS-PSK Information
-
    In TLS-PSK operation at least the following information from the TLS
    connection should be exposed:
 
@@ -1224,7 +1229,7 @@ Table of Contents
 
    *  TLS-PSK Identifier
 
-6.5.  TCP Applications Are Not UDP Applications
+6.4.  TCP Applications Are Not UDP Applications
 
    Implementers should be aware that programming a robust TCP-based
    application can be very different from programming a robust UDP-based
@@ -1251,7 +1256,7 @@ Table of Contents
    all, in which case the RADIUS/UDP stack triggers a retransmission of
    the packet on the application layer.
 
-6.6.  Session Management
+6.5.  Session Management
 
    Where RADIUS/TLS can rely on the TCP state machine to perform session
    tracking, RADIUS/DTLS cannot.  As a result, implementations of
@@ -1269,7 +1274,7 @@ Table of Contents
    an extension of that cache, where entries contain DTLS sessions
    instead of RADIUS/UDP packets.
 
-6.6.1.  Server Session Management
+6.5.1.  Server Session Management
 
    A RADIUS/DTLS server using the 5-tuple method MUST track ongoing DTLS
    sessions for each client, based on the following 5-tuple:
@@ -1301,7 +1306,7 @@ Table of Contents
       timeouts, session lifetimes, and other implementation-specific
       data.
 
-6.6.1.1.  Session Opening and Closing
+6.5.1.1.  Session Opening and Closing
 
    Session tracking is subject to Denial-of-Service (DoS) attacks due to
    the ability of an attacker to forge UDP traffic.  RADIUS/DTLS servers
@@ -1335,7 +1340,7 @@ Table of Contents
    as with any other packet received via that 5-tuple.  Non-compliant,
    or unexpected packets will be ignored by the DTLS layer.
 
-6.6.2.  Client Session Management
+6.5.2.  Client Session Management
 
    RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS
    packets to different servers from the same source socket.  This
@@ -1751,6 +1756,11 @@ Table of Contents
               DOI 10.17487/RFC5246, August 2008,
               <https://www.rfc-editor.org/rfc/rfc5246>.
 
+   [RFC5248]  Hansen, T. and J. Klensin, "A Registry for SMTP Enhanced
+              Mail System Status Codes", BCP 138, RFC 5248,
+              DOI 10.17487/RFC5248, June 2008,
+              <https://www.rfc-editor.org/rfc/rfc5248>.
+
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
               Infrastructure Certificate and Certificate Revocation List
@@ -1774,6 +1784,11 @@ Table of Contents
    [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
               Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
               January 2012, <https://www.rfc-editor.org/rfc/rfc6347>.
+
+   [RFC7585]  Winter, S. and M. McCauley, "Dynamic Peer Discovery for
+              RADIUS/TLS and RADIUS/DTLS Based on the Network Access
+              Identifier (NAI)", RFC 7585, DOI 10.17487/RFC7585, October
+              2015, <https://www.rfc-editor.org/rfc/rfc7585>.
 
    [RFC7930]  Hartman, S., "Larger Packets for RADIUS over TCP",
               RFC 7930, DOI 10.17487/RFC7930, August 2016,
@@ -1861,11 +1876,6 @@ Table of Contents
               Transport Layer for RADIUS", RFC 7360,
               DOI 10.17487/RFC7360, September 2014,
               <https://www.rfc-editor.org/rfc/rfc7360>.
-
-   [RFC7585]  Winter, S. and M. McCauley, "Dynamic Peer Discovery for
-              RADIUS/TLS and RADIUS/DTLS Based on the Network Access
-              Identifier (NAI)", RFC 7585, DOI 10.17487/RFC7585, October
-              2015, <https://www.rfc-editor.org/rfc/rfc7585>.
 
    [RFC8900]  Bonica, R., Baker, F., Huston, G., Hinden, R., Troan, O.,
               and F. Gont, "IP Fragmentation Considered Fragile",
