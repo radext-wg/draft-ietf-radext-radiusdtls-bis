@@ -23,6 +23,9 @@ Abstract
    messages.  RADIUS/TLS and RADIUS/DTLS are collectively referred to as
    RadSec.
 
+   This document obsoletes RFC6614 and RFC7360, which specified
+   experimental versions of RADIUS over TLS and DTLS.
+
 About This Document
 
    This note is to be removed before publishing as an RFC.
@@ -105,7 +108,7 @@ Table of Contents
        6.2.1.  Throughput Differences lead to Network Collapse
        6.2.2.  Differing Retransmission Requirements
        6.2.3.  Acct-Delay-Time and Event-Timestamp
-     6.3.  PKIX Trust Models
+     6.3.  Additional Verification of Peers
      6.4.  TCP Applications Are Not UDP Applications
      6.5.  Session Management
        6.5.1.  Server Session Management
@@ -115,7 +118,7 @@ Table of Contents
      7.2.  RADIUS Proxies
        7.2.1.  Loopback-Attack on endpoints acting as Server and
                Client
-     7.3.  Usage of null encryption cipher suites for debugging
+     7.3.  Usage of NULL encryption cipher suites for debugging
      7.4.  Possibility of Denial-of-Service attacks
      7.5.  TLS Connection Lifetime and Key Rotation
      7.6.  Connection Closing
@@ -137,11 +140,12 @@ Table of Contents
 1.  Introduction
 
    This document defines transport profiles for running RADIUS over
-   Transport Layer Security (TLS) [RFC8446] [RFC5246] over TCP [STD7],
-   and Datagram Transport Layer Security (DTLS) [RFC6347] [RFC9147] over
-   UDP [STD6], allowing secure and reliable transport of RADIUS
-   messages.  RADIUS/TLS and RADIUS/DTLS are collectively referred to as
-   RadSec.
+   Transport Layer Security (TLS) [RFC8446] [RFC5446] over TCP, and
+   Datagram Transport Layer Security (DTLS) [RFC9147] [RFC6347] over
+   UDP, allowing secure and reliable transport of RADIUS messages.
+   RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
+   This document obsoletes [RFC6614] and [RFC7360], which specified
+   experimental versions of RADIUS over TLS and DTLS.
 
    RADIUS is a widely deployed Authentication, Authorization and
    Accounting (AAA) protocol defined in [RFC2865], [RFC2866], and
@@ -177,16 +181,16 @@ Table of Contents
 
    RADIUS packet type:  As defined in [RFC2865], Section 4.
 
-   (D)TLS handshake message:  As defined in TLS [RFC5246] and DTLS
+   (D)TLS handshake message:  As defined in TLS [RFC8446] and DTLS
       [RFC9147].
 
-   TLS record:  As defined in TLS [RFC5246].
+   TLS record:  As defined in TLS [RFC8446].
 
    DTLS record:  As defined in DTLS [RFC9147].  A DTLS record is always
       contained in one UDP datagram.
 
    (D)TLS connection:  A single (D)TLS communication channel (with DTLS
-      this is a synonym for Association).
+      this is a synonym for association).
 
    UDP datagram:  A UDP packet, including the header and data.
 
@@ -270,10 +274,10 @@ Table of Contents
    use RADIUS/(D)TLS for a given endpoint.  This action has to be taken
    by the administrators of the two systems.
 
-   Implementations MUST follow the recommendations given in [BCP195],
-   especially in regards to recommended cipher suites and TLS session
-   resumption.  Additionally, the following requirements have to be met
-   for the (D)TLS connection:
+   Implementations MUST follow the recommendations given in [RFC9325],
+   especially in regards to TLS versions, recommended cipher suites, and
+   TLS session resumption.  Additionally, the following requirements
+   have to be met for the (D)TLS connection:
 
    *  Support for TLS 1.2 [RFC5246] / DTLS 1.2 [RFC6347] is REQUIRED,
       support for TLS 1.3 [RFC8446] / DTLS 1.3 [RFC9147] or higher is
@@ -284,14 +288,13 @@ Table of Contents
 
    *  The endpoints MUST NOT negotiate compression.
 
-   *  The connection MUST be mutually authenticated (see Section 3.3)
+   *  The connection MUST be mutually authenticated (see Section 3.3).
 
    The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.  RADIUS
    packets may contain confidential data that should be protected by
    forward secrecy, which 0-RTT cannot provide.  If 0-RTT is used,
    implementations MUST also implement protection mechanisms against
-   replay attacks.  See [I-D.ietf-tls-rfc8446bis-14], Section 8 for more
-   detail.
+   replay attacks.
 
 3.3.  Mutual authentication
 
@@ -362,11 +365,14 @@ Table of Contents
    but the enabling of those lists should require an explicit act by an
    administrator.
 
-   RadSec endpoints MUST follow [RFC9525] when validating peer
-   identities.  Specific details are provided below:
+   RadSec endpoints MUST follow [RFC9525] when validating server
+   identities.
 
-   *  Certificates MAY use wildcards in the identifiers of DNS names and
-      realm names, but only as the complete, left-most label.
+   Specific details are provided below:
+
+   *  Certificates MAY include a single wildcard in the identifiers of
+      DNS names and realm names, but only as the complete, left-most
+      label.
 
    *  RadSec clients validate the server's identity to match their local
       configuration, accepting the identity on the first match:
@@ -505,7 +511,8 @@ Table of Contents
    the initial full handshake, sufficient to allow authorization
    decisions to be made during resumption.  For RadSec servers, this
    should preferably be done using stateless session resumption as
-   specified in [RFC5077], to reduce the resource usage for cached data.
+   specified in [RFC5077] for TLS 1.2 or [RFC8446] for TLS 1.3, to
+   reduce the resource usage for cached data.
 
    When establishing a (D)TLS connection with session resumption, both
    client and server MUST re-authorize the connection by using the
@@ -630,10 +637,11 @@ Table of Contents
    For RADIUS/TLS, the endpoints MAY send TCP keepalives as described in
    [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the endpoints
    MAY send periodic keepalives as defined in [RFC6520].  This is a way
-   of proactively and rapidly triggering a connection DOWN notification
-   from the network stack.  These liveliness checks are essentially
-   redundant in the presence of an application-layer watchdog, but may
-   provide more rapid notifications of connectivity issues.
+   of proactively and rapidly triggering a 'Connection DOWN'
+   notification from the network stack.  These liveliness checks are
+   essentially redundant in the presence of an application-layer
+   watchdog, but may provide more rapid notifications of connectivity
+   issues.
 
 3.8.  Client Timers
 
@@ -1255,7 +1263,7 @@ Table of Contents
    the retransmission timeout, compared to the different approach of
    updating the Acct-Delay-Time on each retransmission.
 
-6.3.  PKIX Trust Models
+6.3.  Additional Verification of Peers
 
    There are numerous trust models in PKIX environments, and it is
    beyond the scope of this document to define how a particular
@@ -1370,11 +1378,12 @@ Table of Contents
    Session tracking is subject to Denial-of-Service (DoS) attacks due to
    the ability of an attacker to forge UDP traffic.  RADIUS/DTLS servers
    SHOULD use the stateless cookie tracking technique described in
-   [RFC6347], Section 4.2.1.  DTLS sessions SHOULD NOT be tracked until
-   a ClientHello packet has been received with an appropriate Cookie
-   value.  Server implementation SHOULD have a way of tracking DTLS
-   sessions that are partially set up.  Servers MUST limit both the
-   number and impact on resources of partial sessions.
+   [RFC6347], Section 4.2.1 for DTLS 1.2 and [RFC9147], Section 5.1 for
+   DTLS 1.3.  DTLS sessions SHOULD NOT be tracked until a ClientHello
+   packet has been received with an appropriate Cookie value.  Server
+   implementation SHOULD have a way of tracking DTLS sessions that are
+   partially set up.  Servers MUST limit both the number and impact on
+   resources of partial sessions.
 
    Sessions (both 5-tuple and entry) MUST be deleted when the DTLS
    session is closed for any reason.  When a session is deleted due to
@@ -1469,10 +1478,11 @@ Table of Contents
    via RadSec from one endpoint, to forward this packet to a different
    endpoint using the RADIUS/UDP transport profile.  There is no
    technical solution to this problem with the current specification.
-   Where the confidentiality of the contents of the RADIUS packet across
-   the whole path is required, organizational solutions need to be in
-   place, that ensure that every intermediate RADIUS proxy is configured
-   to forward the RADIUS packets using RadSec as transport.
+   However, if the confidentiality of the full contents of the RADIUS
+   packet across the whole path is required, organizational solutions
+   need to be in place that ensure that every intermediate RADIUS proxy
+   is configured to forward the RADIUS packets using RadSec as
+   transport.
 
    One possible way to reduce the attack surface is to reduce the number
    of proxies in the overall proxy chain.  For this, dynamic discovery
@@ -1528,18 +1538,18 @@ Table of Contents
    methods are not capable of reliably detecting and suppressing these
    attacks in every case and are outside the scope of this document.
 
-7.3.  Usage of null encryption cipher suites for debugging
+7.3.  Usage of NULL encryption cipher suites for debugging
 
-   For debugging purposes, some TLS implementations offer cipher suites
-   with NULL encryption, to allow inspection of the plaintext with
-   packet sniffing tools.  Since with RadSec the RADIUS shared secret is
-   set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for
-   RADIUS/DTLS), using a NULL encryption cipher suite will also result
-   in complete disclosure of the whole RADIUS packet, including the
-   encrypted RADIUS attributes, to any party eavesdropping on the
-   conversation.  Following the recommendations in [RFC9325],
-   Section 4.1, this specification forbids the usage of NULL encryption
-   cipher suites for RadSec.
+   Some TLS 1.2 implementations offer cipher suites with NULL
+   encryption, to allow inspection of the plaintext with packet sniffing
+   tools.  Since with RadSec the RADIUS shared secret is set to a static
+   string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS),
+   using a NULL encryption cipher suite will also result in complete
+   disclosure of the whole RADIUS packet, including the encrypted RADIUS
+   attributes, to any party eavesdropping on the conversation.
+   Following the recommendations in [RFC9325], Section 4.1, this
+   specification forbids the usage of NULL encryption cipher suites for
+   RadSec.
 
    For cases where administrators need access to the decrypted RadSec
    traffic, we suggest using different approaches, like exporting the
@@ -1630,17 +1640,6 @@ Table of Contents
    validation means that two parties do not have a common shared secret.
    Since the shared secret is static, this again means the other party
    is misbehaving.
-
-   We wish to avoid the situation where a third party can send well-
-   formed RADIUS packets to a RADIUS proxy that cause a (D)TLS
-   connection to close.  Therefore, in other situations, the connection
-   SHOULD remain open in the face of non-conforming packets.  Any
-   malformed RADIUS packets sent by a third party will go through the
-   security checks of the RADIUS proxy upon reception and will not be
-   forwarded.  Well-formed RADIUS packets with portions that the proxy
-   does not understand do not pose a security risk to the security
-   properties of the RadSec connection and can be forwarded.  This
-   ensures forward compatibility with future RADIUS extensions.
 
 7.7.  Migrating from RADIUS/UDP to RadSec
 
@@ -1800,20 +1799,6 @@ Table of Contents
 
 10.1.  Normative References
 
-   [BCP195]   Best Current Practice 195,
-              <https://www.rfc-editor.org/info/bcp195>.
-              At the time of writing, this BCP comprises the following:
-
-              Moriarty, K. and S. Farrell, "Deprecating TLS 1.0 and TLS
-              1.1", BCP 195, RFC 8996, DOI 10.17487/RFC8996, March 2021,
-              <https://www.rfc-editor.org/info/rfc8996>.
-
-              Sheffer, Y., Saint-Andre, P., and T. Fossati,
-              "Recommendations for Secure Use of Transport Layer
-              Security (TLS) and Datagram Transport Layer Security
-              (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
-              2022, <https://www.rfc-editor.org/info/rfc9325>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1839,16 +1824,6 @@ Table of Contents
               DOI 10.17487/RFC3579, September 2003,
               <https://www.rfc-editor.org/rfc/rfc3579>.
 
-   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
-              Rose, "DNS Security Introduction and Requirements",
-              RFC 4033, DOI 10.17487/RFC4033, March 2005,
-              <https://www.rfc-editor.org/rfc/rfc4033>.
-
-   [RFC5077]  Salowey, J., Zhou, H., Eronen, P., and H. Tschofenig,
-              "Transport Layer Security (TLS) Session Resumption without
-              Server-Side State", RFC 5077, DOI 10.17487/RFC5077,
-              January 2008, <https://www.rfc-editor.org/rfc/rfc5077>.
-
    [RFC5080]  Nelson, D. and A. DeKok, "Common Remote Authentication
               Dial In User Service (RADIUS) Implementation Issues and
               Suggested Fixes", RFC 5080, DOI 10.17487/RFC5080, December
@@ -1871,6 +1846,10 @@ Table of Contents
               (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
               <https://www.rfc-editor.org/rfc/rfc5280>.
 
+   [RFC5446]  Korhonen, J. and U. Nilsson, "Service Selection for Mobile
+              IPv4", RFC 5446, DOI 10.17487/RFC5446, February 2009,
+              <https://www.rfc-editor.org/rfc/rfc5446>.
+
    [RFC5997]  DeKok, A., "Use of Status-Server Packets in the Remote
               Authentication Dial In User Service (RADIUS) Protocol",
               RFC 5997, DOI 10.17487/RFC5997, August 2010,
@@ -1884,12 +1863,6 @@ Table of Contents
    [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
               Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
               January 2012, <https://www.rfc-editor.org/rfc/rfc6347>.
-
-   [RFC6520]  Seggelmann, R., Tuexen, M., and M. Williams, "Transport
-              Layer Security (TLS) and Datagram Transport Layer Security
-              (DTLS) Heartbeat Extension", RFC 6520,
-              DOI 10.17487/RFC6520, February 2012,
-              <https://www.rfc-editor.org/rfc/rfc6520>.
 
    [RFC7585]  Winter, S. and M. McCauley, "Dynamic Peer Discovery for
               RADIUS/TLS and RADIUS/DTLS Based on the Network Access
@@ -1913,25 +1886,15 @@ Table of Contents
               1.3", RFC 9147, DOI 10.17487/RFC9147, April 2022,
               <https://www.rfc-editor.org/rfc/rfc9147>.
 
+   [RFC9325]  Sheffer, Y., Saint-Andre, P., and T. Fossati,
+              "Recommendations for Secure Use of Transport Layer
+              Security (TLS) and Datagram Transport Layer Security
+              (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
+              2022, <https://www.rfc-editor.org/rfc/rfc9325>.
+
    [RFC9525]  Saint-Andre, P. and R. Salz, "Service Identity in TLS",
               RFC 9525, DOI 10.17487/RFC9525, November 2023,
               <https://www.rfc-editor.org/rfc/rfc9525>.
-
-   [STD6]     Internet Standard 6,
-              <https://www.rfc-editor.org/info/std6>.
-              At the time of writing, this STD comprises the following:
-
-              Postel, J., "User Datagram Protocol", STD 6, RFC 768,
-              DOI 10.17487/RFC0768, August 1980,
-              <https://www.rfc-editor.org/info/rfc768>.
-
-   [STD7]     Internet Standard 7,
-              <https://www.rfc-editor.org/info/std7>.
-              At the time of writing, this STD comprises the following:
-
-              Eddy, W., Ed., "Transmission Control Protocol (TCP)",
-              STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
-              <https://www.rfc-editor.org/info/rfc9293>.
 
 10.2.  Informative References
 
@@ -1948,13 +1911,6 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
               keylogfile-05>.
 
-   [I-D.ietf-tls-rfc8446bis-14]
-              Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", Work in Progress, Internet-Draft, draft-
-              ietf-tls-rfc8446bis-14, 13 September 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              rfc8446bis-14>.
-
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
               AEAD Algorithms", Work in Progress, Internet-Draft, draft-
@@ -1969,6 +1925,22 @@ Table of Contents
    [RFC2869]  Rigney, C., Willats, W., and P. Calhoun, "RADIUS
               Extensions", RFC 2869, DOI 10.17487/RFC2869, June 2000,
               <https://www.rfc-editor.org/rfc/rfc2869>.
+
+   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "DNS Security Introduction and Requirements",
+              RFC 4033, DOI 10.17487/RFC4033, March 2005,
+              <https://www.rfc-editor.org/rfc/rfc4033>.
+
+   [RFC5077]  Salowey, J., Zhou, H., Eronen, P., and H. Tschofenig,
+              "Transport Layer Security (TLS) Session Resumption without
+              Server-Side State", RFC 5077, DOI 10.17487/RFC5077,
+              January 2008, <https://www.rfc-editor.org/rfc/rfc5077>.
+
+   [RFC6520]  Seggelmann, R., Tuexen, M., and M. Williams, "Transport
+              Layer Security (TLS) and Datagram Transport Layer Security
+              (DTLS) Heartbeat Extension", RFC 6520,
+              DOI 10.17487/RFC6520, February 2012,
+              <https://www.rfc-editor.org/rfc/rfc6520>.
 
    [RFC6613]  DeKok, A., "RADIUS over TCP", RFC 6613,
               DOI 10.17487/RFC6613, May 2012,
@@ -1993,6 +1965,10 @@ Table of Contents
               "Guidance for External Pre-Shared Key (PSK) Usage in TLS",
               RFC 9257, DOI 10.17487/RFC9257, July 2022,
               <https://www.rfc-editor.org/rfc/rfc9257>.
+
+   [RFC9293]  Eddy, W., Ed., "Transmission Control Protocol (TCP)",
+              STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9293>.
 
    [RFC9765]  DeKok, A., "RADIUS/1.1: Leveraging Application-Layer
               Protocol Negotiation (ALPN) to Remove MD5", RFC 9765,

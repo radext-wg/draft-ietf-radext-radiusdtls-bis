@@ -11,6 +11,7 @@
 <meta content="
        This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec. 
+       This document obsoletes RFC6614 and RFC7360, which specified experimental versions of RADIUS over TLS and DTLS. 
     " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
 <meta content="RADIUS" name="keyword">
@@ -1097,6 +1098,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS), allowing the secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document obsoletes RFC6614 and RFC7360, which specified experimental versions of RADIUS over TLS and DTLS.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1273,7 +1275,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-pkix-trust-models" class="internal xref">PKIX Trust Models</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-additional-verification-of-" class="internal xref">Additional Verification of Peers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
                 <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
@@ -1306,7 +1308,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-usage-of-null-encryption-ci" class="internal xref">Usage of null encryption cipher suites for debugging</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-usage-of-null-encryption-ci" class="internal xref">Usage of NULL encryption cipher suites for debugging</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
                 <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-possibility-of-denial-of-se" class="internal xref">Possibility of Denial-of-Service attacks</a></p>
@@ -1371,8 +1373,8 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP <span>[<a href="#STD7" class="cite xref">STD7</a>]</span>, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> over UDP <span>[<a href="#STD6" class="cite xref">STD6</a>]</span>, allowing secure and reliable transport of RADIUS messages.
-RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5446" class="cite xref">RFC5446</a>]</span> over TCP, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> over UDP, allowing secure and reliable transport of RADIUS messages.
+RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.  This document obsoletes <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span>, which specified experimental versions of RADIUS over TLS and DTLS.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span>, and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>, among others.
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
 Additionally, the confidentiality and integrity mechanisms in RADIUS rely on the MD5 algorithm <span>[<a href="#RFC1321" class="cite xref">RFC1321</a>]</span>, which does not meet modern security expectations.
@@ -1423,12 +1425,12 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-2-3.13">(D)TLS handshake message:</dt>
         <dd style="margin-left: 1.5em" id="section-2-3.14">
-          <p id="section-2-3.14.1">As defined in TLS <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> and DTLS <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span>.<a href="#section-2-3.14.1" class="pilcrow">¶</a></p>
+          <p id="section-2-3.14.1">As defined in TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> and DTLS <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span>.<a href="#section-2-3.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-3.15">TLS record:</dt>
         <dd style="margin-left: 1.5em" id="section-2-3.16">
-          <p id="section-2-3.16.1">As defined in TLS <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span>.<a href="#section-2-3.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-3.16.1">As defined in TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>.<a href="#section-2-3.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-3.17">DTLS record:</dt>
@@ -1438,7 +1440,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-2-3.19">(D)TLS connection:</dt>
         <dd style="margin-left: 1.5em" id="section-2-3.20">
-          <p id="section-2-3.20.1">A single (D)TLS communication channel (with DTLS this is a synonym for Association).<a href="#section-2-3.20.1" class="pilcrow">¶</a></p>
+          <p id="section-2-3.20.1">A single (D)TLS communication channel (with DTLS this is a synonym for association).<a href="#section-2-3.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-3.21">UDP datagram:</dt>
@@ -1534,7 +1536,7 @@ Closing TLS connections and discarding invalid UDP datagrams are done by the (D)
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
 Servers and clients therefore need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.
 This action has to be taken by the administrators of the two systems.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.2-3">Implementations <span class="bcp14">MUST</span> follow the recommendations given in <span>[<a href="#BCP195" class="cite xref">BCP195</a>]</span>, especially in regards to recommended cipher suites and TLS session resumption.
+<p id="section-3.2-3">Implementations <span class="bcp14">MUST</span> follow the recommendations given in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>]</span>, especially in regards to TLS versions, recommended cipher suites, and TLS session resumption.
 Additionally, the following requirements have to be met for the (D)TLS connection:<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-4.1">
@@ -1547,13 +1549,12 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
             <p id="section-3.2-4.3.1">The endpoints <span class="bcp14">MUST NOT</span> negotiate compression.<a href="#section-3.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.4">
-            <p id="section-3.2-4.4.1">The connection <span class="bcp14">MUST</span> be mutually authenticated (see <a href="#mutual_auth" class="auto internal xref">Section 3.3</a>)<a href="#section-3.2-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-4.4.1">The connection <span class="bcp14">MUST</span> be mutually authenticated (see <a href="#mutual_auth" class="auto internal xref">Section 3.3</a>).<a href="#section-3.2-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.2-5">The use of the 0-RTT feature of (D)TLS is <span class="bcp14">NOT RECOMMENDED</span>.
 RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
-If 0-RTT is used, implementations <span class="bcp14">MUST</span> also implement protection mechanisms against replay attacks.
-See <span>[<a href="#I-D.ietf-tls-rfc8446bis-14" class="cite xref">I-D.ietf-tls-rfc8446bis-14</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-rfc8446bis-14#section-8" class="relref">Section 8</a></span> for more detail.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+If 0-RTT is used, implementations <span class="bcp14">MUST</span> also implement protection mechanisms against replay attacks.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual_auth">
@@ -1605,58 +1606,58 @@ See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://r
 Instead, the endpoints <span class="bcp14">SHOULD</span> start off with an empty CA set as the trust base.
 The addition of a CA <span class="bcp14">SHOULD</span> be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.<a href="#section-3.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.3.1-5">RadSec endpoints <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating peer identities.
-Specific details are provided below:<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-5">RadSec endpoints <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating server identities.<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-6">Specific details are provided below:<a href="#section-3.3.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.1">
-              <p id="section-3.3.1-6.1.1">Certificates <span class="bcp14">MAY</span> use wildcards in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-3.3.1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.1">
+              <p id="section-3.3.1-7.1.1">Certificates <span class="bcp14">MAY</span> include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-3.3.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.3.1-6.2">
-              <p id="section-3.3.1-6.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-3.3.1-6.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.2">
+              <p id="section-3.3.1-7.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-3.3.1-7.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.2.2.1">
-                  <p id="section-3.3.1-6.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-3.3.1-6.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.2.2.1">
+                  <p id="section-3.3.1-7.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g. by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-3.3.1-7.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.2">
-                  <p id="section-3.3.1-6.2.2.2.1">If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.  Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-3.3.1-6.2.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.2">
+                  <p id="section-3.3.1-7.2.2.2.1">If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.  Since a dynamic discovery might by itself not be secured, implementations <span class="bcp14">MAY</span> require the use of DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span> to ensure the authenticity of the DNS result before considering this identity as valid.<a href="#section-3.3.1-7.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.3">
-                  <p id="section-3.3.1-6.2.2.3.1">If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.2.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.3">
+                  <p id="section-3.3.1-7.2.2.3.1">If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.4">
-                  <p id="section-3.3.1-6.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-3.3.1-6.2.2.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.4">
+                  <p id="section-3.3.1-7.2.2.4.1">The Common Name RDN <span class="bcp14">MUST NOT</span> be used to identify a server.<a href="#section-3.3.1-7.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.5">
-                  <p id="section-3.3.1-6.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but they <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-3.3.1-6.2.2.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.5">
+                  <p id="section-3.3.1-7.2.2.5.1">Clients <span class="bcp14">MAY</span> use other attributes of the certificate to validate the server's identity, but they <span class="bcp14">MUST NOT</span> accept any certificate without validation.<a href="#section-3.3.1-7.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.2.2.6">
-                  <p id="section-3.3.1-6.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-3.3.1-6.2.2.6.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.2.2.6">
+                  <p id="section-3.3.1-7.2.2.6.1">Clients which also act as servers (i.e. proxies) may be susceptible to security issues when a ClientHello is mirrored back to themselves.  More details on this issue are discussed in <a href="#security_considerations" class="auto internal xref">Section 7</a>.<a href="#section-3.3.1-7.2.2.6.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
-            <li class="normal" id="section-3.3.1-6.3">
-              <p id="section-3.3.1-6.3.1">RadSec servers validate the certificate of the RadSec client against a local database of acceptable clients.
-The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-3.3.1-6.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.3">
+              <p id="section-3.3.1-7.3.1">RadSec servers validate the certificate of the RadSec client against a local database of acceptable clients.
+The database may enumerate acceptable clients either by IP address or by a name component in the certificate.<a href="#section-3.3.1-7.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1-6.3.2.1">
-                  <p id="section-3.3.1-6.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1-7.3.2.1">
+                  <p id="section-3.3.1-7.3.2.1.1">For clients configured by DNS name, the configured name is matched against the presented identifiers of any subjectAltName entry of type dNSName <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.2">
-                  <p id="section-3.3.1-6.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.2">
+                  <p id="section-3.3.1-7.3.2.2.1">For clients configured by their source IP address, the configured IP address is matched against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.3">
-                  <p id="section-3.3.1-6.3.2.3.1">Some servers <span class="bcp14">MAY</span> be configured to accept a client coming from a range or set of IP addresses.  In this case, the server <span class="bcp14">MUST</span> verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server <span class="bcp14">MUST</span> match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-6.3.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.3">
+                  <p id="section-3.3.1-7.3.2.3.1">Some servers <span class="bcp14">MAY</span> be configured to accept a client coming from a range or set of IP addresses.  In this case, the server <span class="bcp14">MUST</span> verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server <span class="bcp14">MUST</span> match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-7.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.4">
-                  <p id="section-3.3.1-6.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-3.3.1-6.3.2.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.4">
+                  <p id="section-3.3.1-7.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-3.3.1-7.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1-6.3.2.5">
-                  <p id="section-3.3.1-6.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both endpoints are part of a trusted network.<a href="#section-3.3.1-6.3.2.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1-7.3.2.5">
+                  <p id="section-3.3.1-7.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both endpoints are part of a trusted network.<a href="#section-3.3.1-7.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
-            <li class="normal" id="section-3.3.1-6.4">
-              <p id="section-3.3.1-6.4.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-3.3.1-6.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.3.1-7.4">
+              <p id="section-3.3.1-7.4.1">Implementations <span class="bcp14">MAY</span> allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g. a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> or a set of allowed X.509v3 Certificate Policies).<a href="#section-3.3.1-7.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -1704,7 +1705,7 @@ To reduce server load and to prevent probing the validity of stolen credentials,
 This is especially helpful when using short idle timeouts.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 <p id="section-3.5-2">RadSec clients and servers <span class="bcp14">SHOULD</span> implement session resumption.
 Implementations supporting session resumption <span class="bcp14">MUST</span> cache data during the initial full handshake, sufficient to allow authorization decisions to be made during resumption.
-For RadSec servers, this should preferably be done using stateless session resumption as specified in <span>[<a href="#RFC5077" class="cite xref">RFC5077</a>]</span>, to reduce the resource usage for cached data.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
+For RadSec servers, this should preferably be done using stateless session resumption as specified in <span>[<a href="#RFC5077" class="cite xref">RFC5077</a>]</span> for TLS 1.2 or <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> for TLS 1.3, to reduce the resource usage for cached data.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
 <p id="section-3.5-3">When establishing a (D)TLS connection with session resumption, both client and server <span class="bcp14">MUST</span> re-authorize the connection by using the original, cached data.
 In particular, this includes the X.509 certificate (when using a PKIX trust model) as well as any policies associated with that identity such as restrictions on source IP address.
 The re-authorization <span class="bcp14">MUST</span> give the same result as if a full handshake was performed at the time of resumption.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
@@ -1767,7 +1768,7 @@ Since RADIUS has a limitation of 256 simultaneous "in flight" packets due to the
 This value was picked arbitrarily, as there is no reason to choose any other value over another for this use.<a href="#section-3.7-6" class="pilcrow">¶</a></p>
 <p id="section-3.7-7">For RADIUS/TLS, the endpoints <span class="bcp14">MAY</span> send TCP keepalives as described in <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>], <a href="https://rfc-editor.org/rfc/rfc9293#section-3.8.4" class="relref">Section 3.8.4</a></span>.
 For RADIUS/DTLS connections, the endpoints <span class="bcp14">MAY</span> send periodic keepalives as defined in <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span>.
-This is a way of proactively and rapidly triggering a connection DOWN notification from the network stack.
+This is a way of proactively and rapidly triggering a 'Connection DOWN' notification from the network stack.
 These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.<a href="#section-3.7-7" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2194,10 +2195,10 @@ Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to
 </div>
 </section>
 </div>
-<div id="pkix-trust-models">
+<div id="additional-verification-of-peers">
 <section id="section-6.3">
-        <h3 id="name-pkix-trust-models">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-pkix-trust-models" class="section-name selfRef">PKIX Trust Models</a>
+        <h3 id="name-additional-verification-of-">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-additional-verification-of-" class="section-name selfRef">Additional Verification of Peers</a>
         </h3>
 <p id="section-6.3-1">There are numerous trust models in PKIX environments, and it is beyond the scope of this document to define how a particular deployment determines whether a client is trustworthy.
 Implementations that want to support a wide variety of trust models should expose as many details of the presented certificate to the administrator as possible so that the trust model can be implemented by the administrator.
@@ -2314,7 +2315,7 @@ This variable may be empty or nonexistent.<a href="#section-6.5.1-5.4.1" class="
 <a href="#section-6.5.1.1" class="section-number selfRef">6.5.1.1. </a><a href="#name-session-opening-and-closing" class="section-name selfRef">Session Opening and Closing</a>
             </h5>
 <p id="section-6.5.1.1-1">Session tracking is subject to Denial-of-Service (DoS) attacks due to the ability of an attacker to forge UDP traffic.
-RADIUS/DTLS servers <span class="bcp14">SHOULD</span> use the stateless cookie tracking technique described in <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>], <a href="https://rfc-editor.org/rfc/rfc6347#section-4.2.1" class="relref">Section 4.2.1</a></span>.
+RADIUS/DTLS servers <span class="bcp14">SHOULD</span> use the stateless cookie tracking technique described in <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>], <a href="https://rfc-editor.org/rfc/rfc6347#section-4.2.1" class="relref">Section 4.2.1</a></span> for DTLS 1.2 and <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>], <a href="https://rfc-editor.org/rfc/rfc9147#section-5.1" class="relref">Section 5.1</a></span> for DTLS 1.3.
 DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHello packet has been received with an appropriate Cookie value.
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
 Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.5.1.1-1" class="pilcrow">¶</a></p>
@@ -2377,7 +2378,7 @@ Where intermediate proxies are untrusted, it is desirable to use other RADIUS me
 One common method to protect user credentials is the use of the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.2-2">Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
 There is no technical solution to this problem with the current specification.
-Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+However, if the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
 <p id="section-7.2-3">One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
 For this, dynamic discovery as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> can be used.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
 <div id="loopback-attack-on-endpoints-acting-as-server-and-client">
@@ -2417,9 +2418,9 @@ However, these methods are not capable of reliably detecting and suppressing the
 <div id="usage-of-null-encryption-cipher-suites-for-debugging">
 <section id="section-7.3">
         <h3 id="name-usage-of-null-encryption-ci">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-usage-of-null-encryption-ci" class="section-name selfRef">Usage of null encryption cipher suites for debugging</a>
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-usage-of-null-encryption-ci" class="section-name selfRef">Usage of NULL encryption cipher suites for debugging</a>
         </h3>
-<p id="section-7.3-1">For debugging purposes, some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
+<p id="section-7.3-1">Some TLS 1.2 implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>], <a href="https://rfc-editor.org/rfc/rfc9325#section-4.1" class="relref">Section 4.1</a></span>, this specification forbids the usage of NULL encryption cipher suites for RadSec.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
@@ -2476,11 +2477,6 @@ The reason is that the connection is expected to be used for transport of RADIUS
 <p id="section-7.6-2">Any non-RADIUS traffic on that connection means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
-<p id="section-7.6-3">We wish to avoid the situation where a third party can send well-formed RADIUS packets to a RADIUS proxy that cause a (D)TLS connection to close.
-Therefore, in other situations, the connection <span class="bcp14">SHOULD</span> remain open in the face of non-conforming packets.
-Any malformed RADIUS packets sent by a third party will go through the security checks of the RADIUS proxy upon reception and will not be forwarded.
-Well-formed RADIUS packets with portions that the proxy does not understand do not pose a security risk to the security properties of the RadSec connection and can be forwarded.
-This ensures forward compatibility with future RADIUS extensions.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="migrating-from-radiusudp-to-radsec">
@@ -2615,16 +2611,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="BCP195">[BCP195]</dt>
-        <dd>
-<div class="refInstance">Best Current Practice 195, <span>&lt;<a href="https://www.rfc-editor.org/info/bcp195">https://www.rfc-editor.org/info/bcp195</a>&gt;</span>.<br><span>At the time of writing, this BCP comprises the following:</span>
-</div>
-<div class="refInstance" id="RFC8996">
-            <span class="refAuthor">Moriarty, K.</span> and <span class="refAuthor">S. Farrell</span>, <span class="refTitle">"Deprecating TLS 1.0 and TLS 1.1"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 8996</span>, <span class="seriesInfo">DOI 10.17487/RFC8996</span>, <time datetime="2021-03" class="refDate">March 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8996">https://www.rfc-editor.org/info/rfc8996</a>&gt;</span>. </div>
-<div class="refInstance" id="RFC9325">
-            <span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Saint-Andre, P.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 9325</span>, <span class="seriesInfo">DOI 10.17487/RFC9325</span>, <time datetime="2022-11" class="refDate">November 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9325">https://www.rfc-editor.org/info/rfc9325</a>&gt;</span>. </div>
-</dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2645,14 +2631,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Aboba, B.</span> and <span class="refAuthor">P. Calhoun</span>, <span class="refTitle">"RADIUS (Remote Authentication Dial In User Service) Support For Extensible Authentication Protocol (EAP)"</span>, <span class="seriesInfo">RFC 3579</span>, <span class="seriesInfo">DOI 10.17487/RFC3579</span>, <time datetime="2003-09" class="refDate">September 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3579">https://www.rfc-editor.org/rfc/rfc3579</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC4033">[RFC4033]</dt>
-        <dd>
-<span class="refAuthor">Arends, R.</span>, <span class="refAuthor">Austein, R.</span>, <span class="refAuthor">Larson, M.</span>, <span class="refAuthor">Massey, D.</span>, and <span class="refAuthor">S. Rose</span>, <span class="refTitle">"DNS Security Introduction and Requirements"</span>, <span class="seriesInfo">RFC 4033</span>, <span class="seriesInfo">DOI 10.17487/RFC4033</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4033">https://www.rfc-editor.org/rfc/rfc4033</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5077">[RFC5077]</dt>
-        <dd>
-<span class="refAuthor">Salowey, J.</span>, <span class="refAuthor">Zhou, H.</span>, <span class="refAuthor">Eronen, P.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Transport Layer Security (TLS) Session Resumption without Server-Side State"</span>, <span class="seriesInfo">RFC 5077</span>, <span class="seriesInfo">DOI 10.17487/RFC5077</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5077">https://www.rfc-editor.org/rfc/rfc5077</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC5080">[RFC5080]</dt>
         <dd>
 <span class="refAuthor">Nelson, D.</span> and <span class="refAuthor">A. DeKok</span>, <span class="refTitle">"Common Remote Authentication Dial In User Service (RADIUS) Implementation Issues and Suggested Fixes"</span>, <span class="seriesInfo">RFC 5080</span>, <span class="seriesInfo">DOI 10.17487/RFC5080</span>, <time datetime="2007-12" class="refDate">December 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5080">https://www.rfc-editor.org/rfc/rfc5080</a>&gt;</span>. </dd>
@@ -2669,6 +2647,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC5446">[RFC5446]</dt>
+        <dd>
+<span class="refAuthor">Korhonen, J.</span> and <span class="refAuthor">U. Nilsson</span>, <span class="refTitle">"Service Selection for Mobile IPv4"</span>, <span class="seriesInfo">RFC 5446</span>, <span class="seriesInfo">DOI 10.17487/RFC5446</span>, <time datetime="2009-02" class="refDate">February 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5446">https://www.rfc-editor.org/rfc/rfc5446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5997">[RFC5997]</dt>
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Use of Status-Server Packets in the Remote Authentication Dial In User Service (RADIUS) Protocol"</span>, <span class="seriesInfo">RFC 5997</span>, <span class="seriesInfo">DOI 10.17487/RFC5997</span>, <time datetime="2010-08" class="refDate">August 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5997">https://www.rfc-editor.org/rfc/rfc5997</a>&gt;</span>. </dd>
@@ -2680,10 +2662,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC6347">[RFC6347]</dt>
         <dd>
 <span class="refAuthor">Rescorla, E.</span> and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"Datagram Transport Layer Security Version 1.2"</span>, <span class="seriesInfo">RFC 6347</span>, <span class="seriesInfo">DOI 10.17487/RFC6347</span>, <time datetime="2012-01" class="refDate">January 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6347">https://www.rfc-editor.org/rfc/rfc6347</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6520">[RFC6520]</dt>
-        <dd>
-<span class="refAuthor">Seggelmann, R.</span>, <span class="refAuthor">Tuexen, M.</span>, and <span class="refAuthor">M. Williams</span>, <span class="refTitle">"Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS) Heartbeat Extension"</span>, <span class="seriesInfo">RFC 6520</span>, <span class="seriesInfo">DOI 10.17487/RFC6520</span>, <time datetime="2012-02" class="refDate">February 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6520">https://www.rfc-editor.org/rfc/rfc6520</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7585">[RFC7585]</dt>
         <dd>
@@ -2705,25 +2683,13 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 9147</span>, <span class="seriesInfo">DOI 10.17487/RFC9147</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9147">https://www.rfc-editor.org/rfc/rfc9147</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9325">[RFC9325]</dt>
+        <dd>
+<span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Saint-Andre, P.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 9325</span>, <span class="seriesInfo">DOI 10.17487/RFC9325</span>, <time datetime="2022-11" class="refDate">November 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9325">https://www.rfc-editor.org/rfc/rfc9325</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9525">[RFC9525]</dt>
-        <dd>
-<span class="refAuthor">Saint-Andre, P.</span> and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"Service Identity in TLS"</span>, <span class="seriesInfo">RFC 9525</span>, <span class="seriesInfo">DOI 10.17487/RFC9525</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9525">https://www.rfc-editor.org/rfc/rfc9525</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="STD6">[STD6]</dt>
-        <dd>
-<div class="refInstance">Internet Standard 6, <span>&lt;<a href="https://www.rfc-editor.org/info/std6">https://www.rfc-editor.org/info/std6</a>&gt;</span>.<br><span>At the time of writing, this STD comprises the following:</span>
-</div>
-<div class="refInstance" id="RFC0768">
-            <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"User Datagram Protocol"</span>, <span class="seriesInfo">STD 6</span>, <span class="seriesInfo">RFC 768</span>, <span class="seriesInfo">DOI 10.17487/RFC0768</span>, <time datetime="1980-08" class="refDate">August 1980</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc768">https://www.rfc-editor.org/info/rfc768</a>&gt;</span>. </div>
-</dd>
-<dd class="break"></dd>
-<dt id="STD7">[STD7]</dt>
       <dd>
-<div class="refInstance">Internet Standard 7, <span>&lt;<a href="https://www.rfc-editor.org/info/std7">https://www.rfc-editor.org/info/std7</a>&gt;</span>.<br><span>At the time of writing, this STD comprises the following:</span>
-</div>
-<div class="refInstance" id="RFC9293">
-            <span class="refAuthor">Eddy, W., Ed.</span>, <span class="refTitle">"Transmission Control Protocol (TCP)"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 9293</span>, <span class="seriesInfo">DOI 10.17487/RFC9293</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9293">https://www.rfc-editor.org/info/rfc9293</a>&gt;</span>. </div>
-</dd>
+<span class="refAuthor">Saint-Andre, P.</span> and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"Service Identity in TLS"</span>, <span class="seriesInfo">RFC 9525</span>, <span class="seriesInfo">DOI 10.17487/RFC9525</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9525">https://www.rfc-editor.org/rfc/rfc9525</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2742,10 +2708,6 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
         <dd>
 <span class="refAuthor">Thomson, M.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"The SSLKEYLOGFILE Format for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-keylogfile-05</span>, <time datetime="2025-06-09" class="refDate">9 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05">https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-tls-rfc8446bis-14">[I-D.ietf-tls-rfc8446bis-14]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-rfc8446bis-14</span>, <time datetime="2025-09-13" class="refDate">13 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-rfc8446bis-14">https://datatracker.ietf.org/doc/html/draft-ietf-tls-rfc8446bis-14</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-aead-limits">[I-D.irtf-cfrg-aead-limits]</dt>
         <dd>
 <span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-11</span>, <time datetime="2025-12-04" class="refDate">4 December 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-11">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-11</a>&gt;</span>. </dd>
@@ -2757,6 +2719,18 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC2869">[RFC2869]</dt>
         <dd>
 <span class="refAuthor">Rigney, C.</span>, <span class="refAuthor">Willats, W.</span>, and <span class="refAuthor">P. Calhoun</span>, <span class="refTitle">"RADIUS Extensions"</span>, <span class="seriesInfo">RFC 2869</span>, <span class="seriesInfo">DOI 10.17487/RFC2869</span>, <time datetime="2000-06" class="refDate">June 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2869">https://www.rfc-editor.org/rfc/rfc2869</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4033">[RFC4033]</dt>
+        <dd>
+<span class="refAuthor">Arends, R.</span>, <span class="refAuthor">Austein, R.</span>, <span class="refAuthor">Larson, M.</span>, <span class="refAuthor">Massey, D.</span>, and <span class="refAuthor">S. Rose</span>, <span class="refTitle">"DNS Security Introduction and Requirements"</span>, <span class="seriesInfo">RFC 4033</span>, <span class="seriesInfo">DOI 10.17487/RFC4033</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4033">https://www.rfc-editor.org/rfc/rfc4033</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5077">[RFC5077]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J.</span>, <span class="refAuthor">Zhou, H.</span>, <span class="refAuthor">Eronen, P.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Transport Layer Security (TLS) Session Resumption without Server-Side State"</span>, <span class="seriesInfo">RFC 5077</span>, <span class="seriesInfo">DOI 10.17487/RFC5077</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5077">https://www.rfc-editor.org/rfc/rfc5077</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6520">[RFC6520]</dt>
+        <dd>
+<span class="refAuthor">Seggelmann, R.</span>, <span class="refAuthor">Tuexen, M.</span>, and <span class="refAuthor">M. Williams</span>, <span class="refTitle">"Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS) Heartbeat Extension"</span>, <span class="seriesInfo">RFC 6520</span>, <span class="seriesInfo">DOI 10.17487/RFC6520</span>, <time datetime="2012-02" class="refDate">February 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6520">https://www.rfc-editor.org/rfc/rfc6520</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6613">[RFC6613]</dt>
         <dd>
@@ -2777,6 +2751,10 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 <dt id="RFC9257">[RFC9257]</dt>
         <dd>
 <span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Hoyland, J.</span>, <span class="refAuthor">Sethi, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Guidance for External Pre-Shared Key (PSK) Usage in TLS"</span>, <span class="seriesInfo">RFC 9257</span>, <span class="seriesInfo">DOI 10.17487/RFC9257</span>, <time datetime="2022-07" class="refDate">July 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9257">https://www.rfc-editor.org/rfc/rfc9257</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9293">[RFC9293]</dt>
+        <dd>
+<span class="refAuthor">Eddy, W., Ed.</span>, <span class="refTitle">"Transmission Control Protocol (TCP)"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 9293</span>, <span class="seriesInfo">DOI 10.17487/RFC9293</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9293">https://www.rfc-editor.org/rfc/rfc9293</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9765">[RFC9765]</dt>
         <dd>
