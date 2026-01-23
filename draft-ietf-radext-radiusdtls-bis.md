@@ -892,7 +892,7 @@ Similarly, any RADIUS traffic failing authentication vector or Message-Authentic
 Since the shared secret is static, this again means the other party is misbehaving.
 
 On the other hand, we want to avoid situations in which a third party can trigger such a connection closure, e.g. by sending a RADIUS packet with attributes the RadSec server does not understand.
-If a RadSec server would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
+If a RadSec endpoint would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
 Leaving the connection open and ignoring unknown attributes also ensures forward compatibility.
 
 ## Migrating from RADIUS/UDP to RadSec
