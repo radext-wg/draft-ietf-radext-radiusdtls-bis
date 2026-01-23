@@ -801,8 +801,9 @@ Administrators of a client can place servers into a load-balance or fail-over po
 
 RadSec provides authentication, integrity and confidentiality protection for RADIUS traffic for a single hop between two RADIUS endpoints.
 In the presence of proxies, intermediate proxies can still inspect the individual RADIUS packets, i.e., "end-to-end" encryption on the RADIUS layer is not provided.
-Where intermediate proxies are untrusted, it is desirable to use other RADIUS mechanisms to prevent RADIUS packet payload from inspection by such proxies.
-One common method to protect user credentials is the use of the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.
+Where intermediate proxies are untrusted, it is desirable to use other RADIUS mechanisms to prevent critical RADIUS attributes from inspection by such proxies.
+One common method ies to protect user credentials by using the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.
+However in typical use cases there still remain attributes potentially containing personally identifiable information which cannot be protected from inspection by proxies.
 
 Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
 There is no technical solution to this problem with the current specification.
