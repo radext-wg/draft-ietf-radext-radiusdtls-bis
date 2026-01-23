@@ -201,7 +201,7 @@ Alternative methods, such as post-handshake certificate-based client authenticat
 {: #tlsx509pkix }
 
 All RadSec server implementations MUST implement this model.
-RadSec client implementations SHOULD implement this model, but MUST implement either this model or TLS-PSK ({{?RFC9813}}.
+RadSec client implementations SHOULD implement this model, but MUST implement either this model or TLS-PSK.
 
 If implemented, the following rules apply:
 
@@ -837,7 +837,7 @@ However, these methods are not capable of reliably detecting and suppressing the
 
 ## Usage of NULL encryption cipher suites for debugging
 
-Some TLS 1.2 implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
+Some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.
 
@@ -882,7 +882,7 @@ See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more informa
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
 If the underlying TLS library does not perform the rotation automatically, RadSec implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
 
-## Connection Closing
+## Connection Closing On Malformed Packets
 
 If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS connection be closed.
 The reason is that the connection is expected to be used for transport of RADIUS packets only.
@@ -890,6 +890,10 @@ The reason is that the connection is expected to be used for transport of RADIUS
 Any non-RADIUS traffic on that connection means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.
+
+On the other hand, we want to avoid situations in which a third party can trigger such a connection closure, e.g. by sending a RADIUS packet with attributes the RadSec server does not understand.
+If a RadSec server would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
+Leaving the connection open and ignoring unknown attributes also ensures forward compatibility.
 
 ## Migrating from RADIUS/UDP to RadSec
 
