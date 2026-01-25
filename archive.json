@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-22T01:01:57.374355+00:00",
+  "timestamp": "2026-01-25T01:07:28.279439+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -872,6 +872,313 @@
       "updatedAt": "2025-11-07T16:19:21Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 109,
+      "id": "I_kwDOLrzygc7lMQcw",
+      "title": "Validating \"peer identities\" vs. \"server\" Identities?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/109",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Valery's Shepherd review:\n> 14. Section 3.3.1.  The sentence \"RadSec endpoints MUST follow [RFC9525] when validating peer identities.\" is not formally \n> correct,   since RFC 9525 only defines deals with service identities. Formally it cannot be used for validating client identities.  \n> Perhaps clarify this or move it to the bullet discussing verifying server identities.\n\nI am not sure how/if to make this change,  Can you suggest specific text?  There are a number of places where servers are mentioned in the subsequent bullets.  Do you think we need to have separate sections on how to validate clients vs. servers?\n",
+      "createdAt": "2026-01-22T23:36:44Z",
+      "updatedAt": "2026-01-23T18:59:33Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "I suggested to use the text \"RadSec clients MUST follow [RFC9525] when validating RadSec server identities.\" The problem is that this sentence is placet at the top of the Section, so it is treated for both server identity validation and client identity validation. Perhaps not a big deal, otherwise it can be moved to the bullet below concerned with the server identity validation.",
+          "createdAt": "2026-01-23T07:55:26Z",
+          "updatedAt": "2026-01-23T07:55:26Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I guess the question is if the text about how servers validate client identities is detailed enough.\n\nIf yes, I would move the \"RadSec clients MUST follow [RFC9525]...\" to the client paragraph.\nOtherwise, I guess we need more text... I would be a bit hesitant to say that servers should still follow RFC9525 in spirit, even if not directly applicable.",
+          "createdAt": "2026-01-23T18:59:33Z",
+          "updatedAt": "2026-01-23T18:59:33Z"
+        }
+      ]
+    },
+    {
+      "number": 110,
+      "id": "I_kwDOLrzygc7lMS_c",
+      "title": "Can RadSec use TCP Keepalives?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/110",
+      "state": "CLOSED",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "alandekok",
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Valery's Shepherd review:\n\n>Section 3.7, last para.\n>   I'm a bit skeptical that RadSec can actually use TCP keep-alives. There is a TLS layer between RADIUS and TCP\n>   and I'm not sure RADIUS can control TCP keep-alives. Sure it can make use of it, but only indirectly, when \n>  TLS API informs that connection is closed (perhaps due to TCP time-out).\n\nAlan commented:\n\n> The application can ask the OS to use TCP keepalives.\n> \n> $ git grep SO_KEEPALIVE\n> ...#ifdef SO_KEEPALIVE\n> ...  if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)) < 0) {\n\nNot sure whether the document needs clarification?\n",
+      "createdAt": "2026-01-22T23:40:12Z",
+      "updatedAt": "2026-01-23T17:28:29Z",
+      "closedAt": "2026-01-23T17:28:29Z",
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "My point was that whether an application has direct access to sockets (to be able to set socket options) depends on the API of the TLS library. In my understanding, with OpenSSL applications usually do not use sockets dirtectly, although they are able to access them. I'm not sure this is true for other TLS APIs. This was my point.\n\nAnyway, this was only a concern, if you feel stronly the text must be there, I don't mind.",
+          "createdAt": "2026-01-23T08:48:12Z",
+          "updatedAt": "2026-01-23T08:48:12Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think it's OK to keep the text there.  Most SSL libraries provide a way to get at the underlying file descriptor.",
+          "createdAt": "2026-01-23T17:28:29Z",
+          "updatedAt": "2026-01-23T17:28:29Z"
+        }
+      ]
+    },
+    {
+      "number": 111,
+      "id": "I_kwDOLrzygc7lMUzU",
+      "title": "Remove text on receipt of non DTLS packets?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/111",
+      "state": "CLOSED",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "alandekok",
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Valery's shepherd review:\n\n> Section 5.2.\n>   I believe the following text is not needed:\n>  \n> When a RADIUS/DTLS server receives packets on the configured RADIUS/\n>  DTLS port, all packets MUST be treated as being DTLS.  RADIUS/UDP\n>  packets MUST NOT be accepted on this port.\n>\n> It is a DTLS code that would receive all the incoming packets on a configured port and as it implements DTLS,\n>   this code will always treat all incoming packets as DTLS packets and discard all others.\n>   Thus I believe this recommendation is redundant.\n\nAlan responded with a preference to keep the text.  Needs to be resolved.",
+      "createdAt": "2026-01-22T23:43:06Z",
+      "updatedAt": "2026-01-23T17:29:03Z",
+      "closedAt": "2026-01-23T17:29:03Z",
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "I don't mind, let it be.",
+          "createdAt": "2026-01-23T08:49:55Z",
+          "updatedAt": "2026-01-23T08:49:55Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "OK, let's leave it.",
+          "createdAt": "2026-01-23T17:29:03Z",
+          "updatedAt": "2026-01-23T17:29:03Z"
+        }
+      ]
+    },
+    {
+      "number": 112,
+      "id": "I_kwDOLrzygc7lMW-E",
+      "title": "Clarify meaning of certificate OID",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/112",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Valery's shepherd review:\n\n> Section 7.1.1.\n>   In the sentence \"the trust is based on the certificate issuer or certificate OID\" I wonder what \"certificate OID\" is.\n>    I belive more accurate text should be crafted.\n\nI don\u2019t know what more accurate text would look like here.  Valery, could you suggest some?  ",
+      "createdAt": "2026-01-22T23:46:12Z",
+      "updatedAt": "2026-01-23T19:01:46Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "My point was that \"certificate OID\" is a vague term. Certificates contain many of OIDs of different types. I'd be happy to suggest a better wording, but first I try to understand what the text is trying to say by referring to \"certificate OID\". Can you please give an example when the trust is based on OID?",
+          "createdAt": "2026-01-23T07:39:51Z",
+          "updatedAt": "2026-01-23T07:39:51Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In eduroam we use the policy OID in the dynamic discovery to verify that the certificate is for an eduroam IDP or eduroam SP\nExample in the eduroam technical wiki [here](https://wiki.geant.org/spaces/H2eduroam/pages/121346319/radsecproxy-flr), in radsecproxy this is the configuration option \"policyOID\".",
+          "createdAt": "2026-01-23T11:28:01Z",
+          "updatedAt": "2026-01-23T11:28:01Z"
+        },
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "OK, then I suggest the text: \"the trust is based on the certificate issuer and/or on the content of the certificate policies extension (Section 4.2.1.4 of {{RFC5280}})\"",
+          "createdAt": "2026-01-23T11:54:49Z",
+          "updatedAt": "2026-01-23T11:54:49Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This refers to the same thing as section 3.3.1\n> The client's authorization MUST then be\n> validated using a certificate policy OID unless both endpoints\n> are part of a trusted network.\n\nEither use the same terminology of refer to it. Or if 3.3.1 isn't put in the reference to RFC5280 there.",
+          "createdAt": "2026-01-23T19:01:46Z",
+          "updatedAt": "2026-01-23T19:01:46Z"
+        }
+      ]
+    },
+    {
+      "number": 113,
+      "id": "I_kwDOLrzygc7lMYCm",
+      "title": "Questions on duplication of certificates for multiple servers (section 7.1.1.)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/113",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "\nFrom Valery's shepherd review.\n\n> Section 7.1.1, the last bullet.\n>   Actually, I wonder in what situations you may need to duplicate a certificate to multiple servers\n>   so that they need to legitimately communicate to each other using this certificate. I understand that there are some\n>   LB or HA scenarios, but in this case the cluster of servers having the same credentials\n>   (certificate) is seen and is acting as a single entity (server) for others. And in this case these servers would hardly\n>   communicate to each other using this certificate. At least this is my understanding, perhaps I'm missing something.\n\nI am not sure what changes you would like to see here\u2026. I do think that people sometimes use the same certificate or secret on a set of redundant servers with load balancers or anycast in use.  I don\u2019t think it would ever make sense for them to open RadSec connections to each other, though.\n",
+      "createdAt": "2026-01-22T23:48:06Z",
+      "updatedAt": "2026-01-22T23:48:06Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 114,
+      "id": "I_kwDOLrzygc7lMZqv",
+      "title": "IANA notes may need UDP, case may be incorrect?  (Section 9)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/114",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Valery's shepherd review:\n\n> Section 9.\n>   It seems that the assignment note for UDP must be slightly different.\n>   The provided note is for TCP only. IANA registry has two different notes\n>   for TCP and for UDP.\n>\n>   I also wonder whether is OK that the service name in IANA registry is \"radsec\" while the \n> assignment note uses \"RadSec\" (I don't remember whether service names are case-sensitive, hope not).\n\nNeed to look into this further, but case-sensitivity and need for DTLS/UDP wording.",
+      "createdAt": "2026-01-22T23:51:10Z",
+      "updatedAt": "2026-01-22T23:51:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 115,
+      "id": "I_kwDOLrzygc7lMa-4",
+      "title": "Do we need a downref for RFC 7930 and 7585",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/115",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "From Valery's shepherd review:\n\n>  RFC 7585 and 7930 are Experimental and are not present in the Downref registry. Does each of \n>  them need to be normatively referenced?\n\n7585 is only referenced in an example and a \u201ccan be used\u201d.  I have moved it to informative.\n\n7930 is used to reference Protocol-Error.  We say that clients MUST accept Protocol-Error, so we may need a downref here.\n\n\n",
+      "createdAt": "2026-01-22T23:53:34Z",
+      "updatedAt": "2026-01-23T17:30:03Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It turns out that RFC 7585 is where we get the specification for NAIRealm, so it also needs to be normative.\n\nIt seems odd that we are the first people who have ever needed a normative reference to these things.  Are we over-specifying how to validate the cert?  What have other people done here?",
+          "createdAt": "2026-01-23T16:11:51Z",
+          "updatedAt": "2026-01-23T16:11:51Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think it's OK to have a downref for both things here.",
+          "createdAt": "2026-01-23T17:30:03Z",
+          "updatedAt": "2026-01-23T17:30:03Z"
+        }
+      ]
+    },
+    {
+      "number": 117,
+      "id": "I_kwDOLrzygc7lMknT",
+      "title": "Do we need normative references for RADIUS packet types vs. referring to IANA registry?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/117",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "From Valery's shepherd review:\n\n> RFC 2866, 5176, 5997 are Informational and are not present in the Downref registry. Does each of them \n> need to be normatively referenced?\n > If yes this may require permission from the IETF.\n\n2866 (RADIUS Accounting) and RFC 5176 (COA) and 5997 (Status-Server) are only used to refer to the types of Accounting, COA and Status-Server packets\u2026. I think we could work around that by referring to the IANA registry for the packet types and making those references inforamational.  This document doesn\u2019t actually talk about how to do accounting, COA or status checks.\n",
+      "createdAt": "2026-01-23T00:11:17Z",
+      "updatedAt": "2026-01-23T18:20:28Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Status-Server is relevant, because the server must respond to them, so the client must know how to interpret these packets.\n\nAs for 2866, I think it's a bug that this is an informational document, and it should go into the downref registry.\n\nFor 5176 I would have to look through the document, but since we changed the reply for unwanted packets, i think 5176 might ok to be changed to informational",
+          "createdAt": "2026-01-23T18:20:28Z",
+          "updatedAt": "2026-01-23T18:20:28Z"
+        }
+      ]
+    },
+    {
+      "number": 118,
+      "id": "I_kwDOLrzygc7lZEO5",
+      "title": "\"MUST NOT\" text about Event-Timestamp and Acct-Delay-Time",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/118",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "Alan suggested the following text:\n\n> The Event-Timestamp is then interpreted as the time at which the event occured.  Where Acct-Delay-Time exists, it \n> is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the \n> Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured; that time is exactly Event-Timestamp.  \n> The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.\n\nJanfred prefers a different version of the text that removes the \"MUST NOT\":\n\n> The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it \n> is then interpreted as the delay between the event and when the packet was sent. Event-Timestamp and \n> Acct-Delay-Time are conveying differing information and should not be processed together (e.g. by subtracting the\n> indicated delay time from the time stamp to determine when an event has occurred). The existence of Acct-Delay-Time\n> serves only as an additional indication of delays in sending the packet.\n\nWe will need to decide which version is preferred by the WG.\n\n\n\n",
+      "createdAt": "2026-01-23T18:01:36Z",
+      "updatedAt": "2026-01-23T18:01:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 119,
+      "id": "I_kwDOLrzygc7lZTRL",
+      "title": "Solution to Problem of Downgrade to RADIUS/UDP",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/119",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "In Valery's AD review, he commented that the following issue had the same potential solution as the previous one:\n\n> Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the \n> RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, \n> after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using \n> the RADIUS/UDP transport profile. There is no technical solution to this problem with the current specification.\n> Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational \n> solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS\n> packets using RadSec as transport.\n\nMargaret suggested that the line \"There is no technical solution to this problem with the current specification\" could be replaced with:\n\n> The use of EAP methods that utilize TLS can also protect user credentials in this case.\n\nJanfred disagreed preferring the original text.\n\nThis will need to be decided by the WG.\n\nSee further discussion in the pull request here:\nhttps://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/116",
+      "createdAt": "2026-01-23T18:17:34Z",
+      "updatedAt": "2026-01-23T18:17:42Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 120,
+      "id": "I_kwDOLrzygc7lZcEV",
+      "title": "Check-in on which TLS versions need to be supported",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/120",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "In his shepherd review, Valery suggested that we defer to RFC9325 regarding supported versions of TLS, and that we remove the explicit recommendation from our document:\n\n- * Support for TLS 1.2 {{!RFC5248}} / DTLS 1.2 {{!RFC6347}} is REQUIRED, support for TLS 1.3 {{!RFC8446}} / DTLS 1.3\n- * {{!RFC9147}} or higher is RECOMMENDED.\n\nJanfred objected stating that this text was agreed by the WG in the early stages of this document.\n\nTime has elapsed, RFC 9325 has come along, and we may want to revist the decision to make our own list of supported versions?  The WG will need to decide.",
+      "createdAt": "2026-01-23T18:28:08Z",
+      "updatedAt": "2026-01-23T18:38:13Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "More discussion can be found in the pull request here:\nhttps://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/116\n",
+          "createdAt": "2026-01-23T18:38:13Z",
+          "updatedAt": "2026-01-23T18:38:13Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -8713,24 +9020,26 @@
       "id": "PR_kwDOLrzygc6-SF1n",
       "title": "Nits and more explanations",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/108",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I've added two commits:\r\n\r\n* one of largely nits and tweaks\r\n* one which adds more explanations of cross-protocol issues\r\n\r\nThe cross-protocol issues were alluded to via 1-2 sentences way down in the document.  I've moved them here, and added more text.",
       "createdAt": "2026-01-20T18:58:27Z",
-      "updatedAt": "2026-01-21T21:46:14Z",
+      "updatedAt": "2026-01-23T18:03:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "aa6ae5fe49769d49375c3a64e195bdd59112830c",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "alandekok",
       "headRefOid": "695484ce325f65d903c5e9bf840cfada022f9b63",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-23T18:03:14Z",
+      "mergedAt": "2026-01-23T18:03:13Z",
+      "mergedBy": "mrw42",
+      "mergeCommit": {
+        "oid": "a3b769145bfe7e2ec30a1f991c81184294fc596a"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -9411,6 +9720,890 @@
               "body": "I'm worried about removing the `MUST NOT`, as I've run into products which completely misunderstand Event-Timestamp.\r\n\r\nThere are reasons to just remove all of the discussion of `Event-Timestamp` and `Acct-Delay-Time` from this document.  If this document is limited to just one topic of \"how to encode RADIUS over TLS\", then any content in RADIUS packets is out of scope.\r\n\r\nHowever, if this document is defining how RADIUS works in the year 2026, then \"how to do RADIUS properly\" is entirely within scope.  Specifically, how to avoid congestive collapse due to multi-decade misunderstanding of the previous RFCs.\r\n\r\nI think if we don't discuss Event-Timestamp and Acct-Delay-Time, then we _will_ have congestive collapse, due ot vendors doing the most ridiculous things.\r\n\r\ne.g. see https://github.com/WayFi-Wireless/passpoint-implementation-issues\r\n\r\nThere are _multiple_ vendors who have implemented RadSec on a client, and then haven't allowed for client certificates to be configured.  So those vendors presumably still require a unique shared secret per client?\r\n\r\nSo I'd like to understand why it's necessary to remove the `MUST NOT` here.  How does removing it help to prevent congestive collapse, when some implementations will ignore everything that isn't a `MUST NOT`?",
               "createdAt": "2026-01-21T21:46:14Z",
               "updatedAt": "2026-01-21T21:46:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7b_PAd",
+          "commit": {
+            "abbreviatedOid": "695484c"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-22T06:24:43Z",
+          "updatedAt": "2026-01-22T06:24:43Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "The point is: This is a document about RadSec, not about how to do RADIUS. The \"how to interpret attributes\" should go into a best-practices document, same as all the recommendations about how to handle proxying RADIUS packets.",
+              "createdAt": "2026-01-22T06:24:43Z",
+              "updatedAt": "2026-01-22T06:24:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cDGUp",
+          "commit": {
+            "abbreviatedOid": "695484c"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-22T10:46:12Z",
+          "updatedAt": "2026-01-22T10:46:12Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "My message explained in detail why I thought TLSbis is substantially more than just encoding RADIUS packets in TLS.  The comment above doesn't address my points, and doesn't address my question about how the proposed change affects congestive collapse.\r\n\r\nThe argument appears to be that the TLSbis document defines how to encode RADIUS packets in TLS, and then needs to avoid every other topic as being out of scope.\r\n\r\nI disagree.  That's what I was trying to get at above.  Since the intention is to officially deprecate RADIUS/UDP, we are moving to the situation where RadSec *is* RADIUS.  So we might as well admit this, and create the RadSec document under those assumptions.\r\n\r\nIf we push off solving congestive collapse because \"how to interpret attributes\" goes into another document, then we will have congestive collapse.  People have spent decades fighting bad implementations, because the specifications are unclear.  I do not look forward to spending more decades doing the same, simply because TLSbis is being defined in an extremely narrow manner.\r\n\r\nWe could argue that if the \"how to intepret attributes\" text doesn't belong here, then it doesn't belong in a \"best practices\" document either.   RFC2866 defines Acct-Delay-Time, and RFC2869 defines Event-Timestamp.  Those are the RFCs which define \"how to interpret\" those attributes.  So any text re-defining or clarifying those issues shouldn't go into a \"best practices\" document, because a \"best practices\" document should not define \"how to interpret attributes\".  Which then logically means that we can only correct any misinterpretation of Event-Timestamp when we issue 2869bis.\r\n\r\nBased on a similar argument, TLSbis shouldn't contain any text on Protocol-Error.  This subject is unrelated to the narrow scope of \"encoding RADIUS in TLS\", and should therefore be removed.\r\n\r\nI disagree rather fundamentally with that approach.  Again, it's 2026.  RadSec *is* RADIUS. The RadSec document can contain pretty much whatever text we need it to contain.\r\n\r\nI'm not proposing to re-define RADIUS.  I'm proposing that the document should contain text which is entirely within the scope of \"RadSec is RADIUS\", and also avoiding congestive collapse.",
+              "createdAt": "2026-01-22T10:46:12Z",
+              "updatedAt": "2026-01-22T14:02:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ceE8o",
+          "commit": {
+            "abbreviatedOid": "695484c"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:02:48Z",
+          "updatedAt": "2026-01-23T18:02:49Z",
+          "comments": [
+            {
+              "originalPosition": 311,
+              "body": "I moved this discussion to GitHub issue #118, and I will now merge this PR.  We can then try to resolve this particular issue with a larger group.  Personally, I think the MUST NOT is valuable to avoid situations where these attributes are misused.  However the WG will need to decide.  ",
+              "createdAt": "2026-01-23T18:02:48Z",
+              "updatedAt": "2026-01-23T18:02:49Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 116,
+      "id": "PR_kwDOLrzygc6-0YPp",
+      "title": "Initial updates to address Valery's shepherd reivew, indludes many re\u2026",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/116",
+      "state": "MERGED",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "\u2026ference corrections.",
+      "createdAt": "2026-01-23T00:00:39Z",
+      "updatedAt": "2026-01-23T18:37:36Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "7102f1f049ff5d41860979634ec842305a05feba",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/valery-shep-rev",
+      "headRefOid": "0e08e65fb5f28645a48e785ccc78d2f637bd844c",
+      "closedAt": "2026-01-23T18:37:36Z",
+      "mergedAt": "2026-01-23T18:37:36Z",
+      "mergedBy": "mrw42",
+      "mergeCommit": {
+        "oid": "f267bafcdaaa57a56fed450c05e09998b7028b44"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7cTV6F",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T07:25:57Z",
+          "updatedAt": "2026-01-23T07:28:18Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "Perhaps \"RadSec clients MUST follow {{!RFC9525}} when validating server identities.\" since RFC 9525 is for \"service identities\".",
+              "createdAt": "2026-01-23T07:25:57Z",
+              "updatedAt": "2026-01-23T07:28:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cWVVn",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T10:27:16Z",
+          "updatedAt": "2026-01-23T10:27:17Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "As per my comment on the ML: This needs to be left in.",
+              "createdAt": "2026-01-23T10:27:16Z",
+              "updatedAt": "2026-01-23T10:27:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cXruE",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T12:06:30Z",
+          "updatedAt": "2026-01-23T12:06:30Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "I didn't see the comment on the list, perhaps I missed it. My point is that RFC 8446, Section 8 is for TLS implementers. It describes how TLS implementation should protect 0-RTT TLS handshake from replay attacks. This document is for RADIUS implementers, not for TLS implementers. TLS layer in general does not try to protect application traffic in case of 0-RTT against replays. In particular Appendix E.5 of RFC 8446 says:\r\n\r\n   The mechanisms\r\n   described in Section 8 are intended to prevent replay at the TLS\r\n   layer but do not provide complete protection against receiving\r\n   multiple copies of client data. \r\n\r\nThus, I believe it is wrong to reference section 8 of RFC 8446 here. That said, I completely agree that replay protection in RADIUS is needed in case it uses 0-RTT feature of TLS. My understanding is that as RADIUS is (initially) UDP-based, it must cope with receiving multiple copies of its packets. So, it has an immanent replay protection, right?",
+              "createdAt": "2026-01-23T12:06:30Z",
+              "updatedAt": "2026-01-23T12:07:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cYC5G",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T12:35:48Z",
+          "updatedAt": "2026-01-23T12:35:48Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Since we mandate the behavior and NAIRealm is defined in 7585, this is a normative reference.",
+              "createdAt": "2026-01-23T12:35:48Z",
+              "updatedAt": "2026-01-23T12:35:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cYTdH",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T12:56:40Z",
+          "updatedAt": "2026-01-23T12:56:41Z",
+          "comments": [
+            {
+              "originalPosition": 99,
+              "body": "It's better to rephrase the previous section title than insert this section title here, for a section with only very few words.\r\n\r\nThis came from the \"Connecting Client Identity\" section, so maybe change \"PKIX Trust Models\" to \"Additional Verification of Peers\"",
+              "createdAt": "2026-01-23T12:56:41Z",
+              "updatedAt": "2026-01-23T12:57:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cYfzO",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T13:11:08Z",
+          "updatedAt": "2026-01-23T13:11:08Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "See my comment on the ML on this, the text should stay as-is, maybe with a few tweaks.\r\n\r\n```suggestion\r\nThere is no technical solution to this problem with the current specification.\r\n```\r\n\r\nAnd EAP-Methods that utilize TLS are mentioned one paragraph prior already.",
+              "createdAt": "2026-01-23T13:11:08Z",
+              "updatedAt": "2026-01-23T13:11:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cYkwm",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T13:16:24Z",
+          "updatedAt": "2026-01-23T13:16:25Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "I don't see why we need to explicitly mention TLS 1.2 here.\r\nEven though it is forbidden with TLS1.3 it doesn't mean that every implementation follow this.\r\nThere is no harm in leaving this as-is, it is still true, and if changed it could potentially mislead readers into thinking \"I use TLS1.3, so I'm completely safe from this\" (although very unlikely, but still, if its still true without explicitly mentioning the TLS version, why restrict this to TLS1.2?)",
+              "createdAt": "2026-01-23T13:16:25Z",
+              "updatedAt": "2026-01-23T13:16:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cY2zi",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T13:35:09Z",
+          "updatedAt": "2026-01-23T13:35:10Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "This should not just be thrown out, only the reference should be adjusted.",
+              "createdAt": "2026-01-23T13:35:10Z",
+              "updatedAt": "2026-01-23T13:35:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cY-mT",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T13:42:23Z",
+          "updatedAt": "2026-01-23T13:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "As mentioned on the ML, I think this text should be left in. It is an explanation of why we deal with unknown packets the way we do.",
+              "createdAt": "2026-01-23T13:42:23Z",
+              "updatedAt": "2026-01-23T13:42:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbnhU",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:47:58Z",
+          "updatedAt": "2026-01-23T15:47:58Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Okay, reverted.  I will add this to the downref Github issue.\r\n\r\nIf it is necessary to have normative references to these things to discuss how to validate a cert, how can it be that we are the first people who need these downrefs?  Are we missing something?  Or over-specifying something?",
+              "createdAt": "2026-01-23T15:47:58Z",
+              "updatedAt": "2026-01-23T16:07:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cboz_",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:49:15Z",
+          "updatedAt": "2026-01-23T15:49:15Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "Does it make sense to just remove the \"See... for more detail\" line, then, and leave the previous sentence in?",
+              "createdAt": "2026-01-23T15:49:15Z",
+              "updatedAt": "2026-01-23T15:49:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbpNr",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:49:40Z",
+          "updatedAt": "2026-01-23T15:49:40Z",
+          "comments": [
+            {
+              "originalPosition": 99,
+              "body": "Works for me. Valery?",
+              "createdAt": "2026-01-23T15:49:40Z",
+              "updatedAt": "2026-01-23T15:54:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbsGj",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:52:32Z",
+          "updatedAt": "2026-01-23T15:52:32Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "I think you need to define \"this problem\".  There are secure ways to use RADIUS today over UDP when a tunnel-based EAP method is used and PII is omitted from the outer headers.  How is this case worse than the previous case where we say that a tunneled EAP method could protect the credentials? I will open an GitHub issue for this.",
+              "createdAt": "2026-01-23T15:52:32Z",
+              "updatedAt": "2026-01-23T15:53:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbtft",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:53:55Z",
+          "updatedAt": "2026-01-23T15:53:56Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "Done.\r\n",
+              "createdAt": "2026-01-23T15:53:55Z",
+              "updatedAt": "2026-01-23T16:01:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbwHJ",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:56:42Z",
+          "updatedAt": "2026-01-23T15:56:43Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "I will open a GitHub issue for this.  Valery was specifically asking that we not reference only the two versions, so we wouldn't have to update our document in the event that a newer version (1.4) is added later.  ",
+              "createdAt": "2026-01-23T15:56:42Z",
+              "updatedAt": "2026-01-23T15:56:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cbzNR",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T15:59:22Z",
+          "updatedAt": "2026-01-23T15:59:22Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "Please make a suggestion for how to reword this section so that it resolves Valery's concern, then.  It doesn't really make sense as written.",
+              "createdAt": "2026-01-23T15:59:22Z",
+              "updatedAt": "2026-01-23T15:59:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cb7uc",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T16:06:11Z",
+          "updatedAt": "2026-01-23T16:06:11Z",
+          "comments": [
+            {
+              "originalPosition": 99,
+              "body": "Done.  Valery, please reopen if this is not acceptable.",
+              "createdAt": "2026-01-23T16:06:11Z",
+              "updatedAt": "2026-01-23T16:06:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ccCv6",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T16:10:57Z",
+          "updatedAt": "2026-01-23T16:10:57Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "As far as I remember we asked the working group in the early process, and the consensus then was to have a as-far-as-possible backward-compatible specification. Since the old specification required \"TLSv1.1 or later\", and was \"externally updated\" by BCP195 to \"TLSv1.2\", this ensures backward compatibility. If we want to change this, then this should be a call on the Mailing list.\r\n\r\nAs for the versions: I'm a bit torn, because we had the \"fun\" with EAP-TLS, where TLS1.3 changed some things and the key derivations had to be adjusted.\r\nIf a new TLS version changes the way mutual authentication with client certificates works, then it would be bad to have a document that says \"do TLSv1.2 or later\", but the new TLS version does not allow for everything we specify.\r\nBut of course, if a new TLS version doesn't require any changes, it would be quite annoying to have a document that just says \"Oh, by the way, you can also use the new version with RadSec\"",
+              "createdAt": "2026-01-23T16:10:57Z",
+              "updatedAt": "2026-01-23T16:10:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ccGGr",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T16:13:59Z",
+          "updatedAt": "2026-01-23T16:13:59Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "I would leave it in, but maybe extend it: \"for more detail on possible mitigations\"\r\n\r\nMaybe even add a sentence before the \"If 0-RTT is used\" sentence:\r\n\r\n```\r\nAttackers could also use 0-RTT to insert packets that seem to be from valid clients, and servers may take action based on those injected packets.\r\n```\r\n\r\nIt addresses Valery's remark that it is not clear why this is so important. (which is completely understandable if you come from the RADIUS/UDP world)",
+              "createdAt": "2026-01-23T16:13:59Z",
+              "updatedAt": "2026-01-23T16:13:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ccJ08",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T16:17:31Z",
+          "updatedAt": "2026-01-23T16:17:31Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "We already had this discussion, I'll look for references.\r\nWhile the rules are for \"server identities\", the validation rules still apply for clients.\r\nWe do mutual authentication, so we have to make sure that client certificates are also validated the right way.",
+              "createdAt": "2026-01-23T16:17:31Z",
+              "updatedAt": "2026-01-23T16:17:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ccOSW",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T16:21:14Z",
+          "updatedAt": "2026-01-23T16:21:15Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "The end of the sentence is a reference to NAIRealm.\r\n\r\nAnd we're the first people to reference it, because we're the only people using it. NAIRealm is RADIUS specific, so I would be very surprised to see anyone else referencing it.\r\n\r\nWe can discuss whether or not NAIRealm is useful and we need 7585bis to push that one to proposed standard as well, but the response I got at the time I proposed this was (as far as I remember) \"we can just downref it here, it'll be fine\"",
+              "createdAt": "2026-01-23T16:21:14Z",
+              "updatedAt": "2026-01-23T16:21:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdjyl",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:31:03Z",
+          "updatedAt": "2026-01-23T17:31:03Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "I've looked through a mail thread, here are some references to the discussion:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/radext/NKXBqz2NkE783L4sSLW3AxiBgvs/\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/radext/2cLS624e37dPjnvoJIYIJoq2H7g\r\n\r\nWe might have had a discussion on this in madrid, I'm not exactly sure.\r\nThe point is: There are some hints in 9525 that are also helpful for validating client certificates, as long as the validation is based on the information provided in the configuration, and then the client certificate should be validated in the same way as specified in RFC9525",
+              "createdAt": "2026-01-23T17:31:03Z",
+              "updatedAt": "2026-01-23T17:31:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdmoe",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:33:39Z",
+          "updatedAt": "2026-01-23T17:33:39Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "I think it's clear. The previous sentence ends with \"forward this packet to a different endpoint using the RADIUS/UDP transport profile.\"\r\nMaybe, to make it more clear, we could adjust it to say \"using the unencrypted RADIUS/UDP transport profile\"",
+              "createdAt": "2026-01-23T17:33:39Z",
+              "updatedAt": "2026-01-23T17:33:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdmum",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:33:44Z",
+          "updatedAt": "2026-01-23T17:33:44Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "Even the original text can be unclear:\r\n\r\n```\r\nAdditionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected\r\n```\r\n\r\nprotected from what?\r\n\r\nPerhaps just remove most of the text, and replace it with something that says every RADIUS proxy has full access to all of the contents of each packet.  This data can include PII such as names, locations, MAC addresses, et.",
+              "createdAt": "2026-01-23T17:33:44Z",
+              "updatedAt": "2026-01-23T17:33:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdnU7",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:34:25Z",
+          "updatedAt": "2026-01-23T17:34:26Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "IIRC, TLS 1.3 doesn't allow NULL encryption, so any discussion of NULL encryption is limited to TLS 1.2 and earlier.",
+              "createdAt": "2026-01-23T17:34:25Z",
+              "updatedAt": "2026-01-23T17:34:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdqZB",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:37:49Z",
+          "updatedAt": "2026-01-23T17:37:49Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "The problem we address here is not just that every RADIUS proxy has full access, but also that every proxy may just send this packet to the next hop via RADIUS/UDP and we can't do anything about this.",
+              "createdAt": "2026-01-23T17:37:49Z",
+              "updatedAt": "2026-01-23T17:37:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cdxX2",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:44:32Z",
+          "updatedAt": "2026-01-23T17:44:32Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "I like the suggestion @fmauchle  made in his [mail](https://mailarchive.ietf.org/arch/msg/radext/6oR4dhfEmMZkd63CbQ83CpVOc9Y/)\r\n\r\nMaybe add a sentence between the first and second sentence of Fabian's suggestion, to make it clear what our attack vector is, alternatively a bit reworded at the end, because the reason is forward compatibility as well as protection against malicious actors.\r\n\r\n\"A malicious or rogue client could otherwise use this to disrupt existing connections.\"\r\n\r\nI think the point of the \"malformed radius packets will get thrown out  before forwarding\" was to make it clear. that if a packet has made it this far, the basic RADIUS checks have already been passed, so we know that the packet itself is not completely bogus. It only has some weird attributes or something in it that the proxy doesn't understand.",
+              "createdAt": "2026-01-23T17:44:32Z",
+              "updatedAt": "2026-01-23T17:44:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cd63U",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:54:23Z",
+          "updatedAt": "2026-01-23T17:54:23Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "TBH I'd be OK with mandating TLS 1.3.  But I don't have strong feelings about this topic or the above comments.",
+              "createdAt": "2026-01-23T17:54:23Z",
+              "updatedAt": "2026-01-23T17:54:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cd9XG",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T17:56:41Z",
+          "updatedAt": "2026-01-23T17:56:41Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "I'm not sure how a valid client can send well-formed packets to a proxy that are (a) fine on the client -> proxy link, but (b) malformed on the proxy -> next hop link.  Perhaps the intention is to deal with unknown attributes?\r\n\r\nRFC 2865 already says that systems MAY ignore unknown attributes.  The \"deprecating\" document clarifies this to say MUST NOT discard packets simply because they contain an unknown attribute.\r\n\r\nI think it's best to just delete the above text.",
+              "createdAt": "2026-01-23T17:56:41Z",
+              "updatedAt": "2026-01-23T17:56:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cePGb",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:10:47Z",
+          "updatedAt": "2026-01-23T18:10:47Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "This is only a problem if it is not expected...  For instance, a RadSec proxy could be used to send encrypted RADIUS requests when leaving a secure site (as described elsewhere in this document) with RADIUS traffic within the site being downgraded to RADIUS/UDP by the proxy.  The issue is that a client that sends a packet over RadSec needs to understand that the same packet may be sent via RADIUS/UDP later in the path, and take precautions to protect the most sensitive information across the whole paths, such as using a tunneled EAP method and anonymous outer identities to avoid credentials being transmitted in clear text if that traffic is later sent over RADIUS/EAP.\r\n",
+              "createdAt": "2026-01-23T18:10:47Z",
+              "updatedAt": "2026-01-23T18:10:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ceP8G",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:11:26Z",
+          "updatedAt": "2026-01-23T18:11:26Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "GitHub issue #119 was created for this issue.",
+              "createdAt": "2026-01-23T18:11:26Z",
+              "updatedAt": "2026-01-23T18:18:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7ceZ53",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:20:30Z",
+          "updatedAt": "2026-01-23T18:20:30Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "I agree with Alan and Valery, so I am going to leave the mention of TLS 1.2 in.  Janfred, if you feel strongly about this, please open a Github issue.",
+              "createdAt": "2026-01-23T18:20:30Z",
+              "updatedAt": "2026-01-23T18:20:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cel3p",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:29:56Z",
+          "updatedAt": "2026-01-23T18:29:56Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Issue #120 was added for this topic.  I will add back the bullet until this issue is decided by the WG.",
+              "createdAt": "2026-01-23T18:29:56Z",
+              "updatedAt": "2026-01-23T18:29:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cenIS",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:31:18Z",
+          "updatedAt": "2026-01-23T18:31:18Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "I will open issue #121 to capture this topic.  In the meantime, I will delete the text as Valery, Alan and I all are all in favor of that.",
+              "createdAt": "2026-01-23T18:31:18Z",
+              "updatedAt": "2026-01-23T18:31:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cenfX",
+          "commit": {
+            "abbreviatedOid": "9064db0"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T18:31:42Z",
+          "updatedAt": "2026-01-23T18:31:43Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "(small hint: I've fixed the typo (5248->5246) in the reference in the main branch already, so be sure to fix the typo in your update as well)",
+              "createdAt": "2026-01-23T18:31:43Z",
+              "updatedAt": "2026-01-23T18:31:43Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 121,
+      "id": "PR_kwDOLrzygc6_ABti",
+      "title": "Fixes, additions, wordsmithing",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/121",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-23T18:57:17Z",
+      "updatedAt": "2026-01-23T19:05:14Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "f267bafcdaaa57a56fed450c05e09998b7028b44",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/assorted-fixes",
+      "headRefOid": "cf90143abef3e1514afaec624cf389b0d7704dd8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 122,
+      "id": "PR_kwDOLrzygc6_AWAw",
+      "title": "reword attribute inspection by proxies",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/122",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The wording regading what radius proxies can inspect and prevent it from doing so is slightly confusing to me, bectause it can't be fully done. Reword to clarify that expecially user credentials can be protected by using EAP.\r\n\r\nMaybe this also clarifies #119 ",
+      "createdAt": "2026-01-23T19:25:21Z",
+      "updatedAt": "2026-01-23T19:33:10Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "f267bafcdaaa57a56fed450c05e09998b7028b44",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-proxy-inxpection",
+      "headRefOid": "6980b86d6c0779518765c8b6cce73a29d96b11c2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7cffBh",
+          "commit": {
+            "abbreviatedOid": "69b9237"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T19:30:29Z",
+          "updatedAt": "2026-01-23T19:30:29Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nHowever, in typical use cases there still remain attributes potentially containing confidential data (such as personally identifiable information or cryptographic keys) which cannot be protected from inspection by proxies.\r\n```\r\n\r\nPII is a big, but not our only concern.",
+              "createdAt": "2026-01-23T19:30:29Z",
+              "updatedAt": "2026-01-23T19:30:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7cffdu",
+          "commit": {
+            "abbreviatedOid": "69b9237"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T19:30:46Z",
+          "updatedAt": "2026-01-23T19:30:46Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nOne common method is to protect user credentials by using the Extensible Authentication Protocol (EAP) and EAP methods that utilize TLS.\r\n```",
+              "createdAt": "2026-01-23T19:30:46Z",
+              "updatedAt": "2026-01-23T19:30:47Z"
             }
           ]
         }
