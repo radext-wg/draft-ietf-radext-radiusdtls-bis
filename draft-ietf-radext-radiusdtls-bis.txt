@@ -121,7 +121,7 @@ Table of Contents
      7.3.  Usage of NULL encryption cipher suites for debugging
      7.4.  Possibility of Denial-of-Service attacks
      7.5.  TLS Connection Lifetime and Key Rotation
-     7.6.  Connection Closing
+     7.6.  Connection Closing On Malformed Packets
      7.7.  Migrating from RADIUS/UDP to RadSec
      7.8.  Client Subsystems
    8.  Design Decisions
@@ -324,7 +324,7 @@ Table of Contents
 
    All RadSec server implementations MUST implement this model.  RadSec
    client implementations SHOULD implement this model, but MUST
-   implement either this model or TLS-PSK ([RFC9813].
+   implement either this model or TLS-PSK.
 
    If implemented, the following rules apply:
 
@@ -1543,12 +1543,12 @@ Table of Contents
 
 7.3.  Usage of NULL encryption cipher suites for debugging
 
-   Some TLS 1.2 implementations offer cipher suites with NULL
-   encryption, to allow inspection of the plaintext with packet sniffing
-   tools.  Since with RadSec the RADIUS shared secret is set to a static
-   string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS),
-   using a NULL encryption cipher suite will also result in complete
-   disclosure of the whole RADIUS packet, including the encrypted RADIUS
+   Some TLS implementations offer cipher suites with NULL encryption, to
+   allow inspection of the plaintext with packet sniffing tools.  Since
+   with RadSec the RADIUS shared secret is set to a static string
+   ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a
+   NULL encryption cipher suite will also result in complete disclosure
+   of the whole RADIUS packet, including the encrypted RADIUS
    attributes, to any party eavesdropping on the conversation.
    Following the recommendations in [RFC9325], Section 4.1, this
    specification forbids the usage of NULL encryption cipher suites for
@@ -1630,7 +1630,7 @@ Table of Contents
    manually, either by a key update of the existing TLS connection or by
    closing the TLS connection and opening a new one.
 
-7.6.  Connection Closing
+7.6.  Connection Closing On Malformed Packets
 
    If malformed RADIUS packets are received or the packets fail the
    authenticator checks, this specification requires that the (D)TLS
@@ -1643,6 +1643,14 @@ Table of Contents
    validation means that two parties do not have a common shared secret.
    Since the shared secret is static, this again means the other party
    is misbehaving.
+
+   On the other hand, we want to avoid situations in which a third party
+   can trigger such a connection closure, e.g. by sending a RADIUS
+   packet with attributes the RadSec server does not understand.  If a
+   RadSec endpoint would close the connection when receiving such
+   packets, an attacker could repeatedly send such packets to disrupt
+   the RadSec connection.  Leaving the connection open and ignoring
+   unknown attributes also ensures forward compatibility.
 
 7.7.  Migrating from RADIUS/UDP to RadSec
 

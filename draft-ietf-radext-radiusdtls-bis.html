@@ -1317,7 +1317,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-tls-connection-lifetime-and" class="internal xref">TLS Connection Lifetime and Key Rotation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
-                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-connection-closing" class="internal xref">Connection Closing</a></p>
+                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-connection-closing-on-malfo" class="internal xref">Connection Closing On Malformed Packets</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
                 <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-migrating-from-radius-udp-t" class="internal xref">Migrating from RADIUS/UDP to RadSec</a></p>
@@ -1582,7 +1582,7 @@ Alternative methods, such as post-handshake certificate-based client authenticat
 <a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-authentication-using-x509-c" class="section-name selfRef">Authentication using X.509 certificates with PKIX trust model (TLS-X.509-PKIX)</a>
           </h4>
 <p id="section-3.3.1-1">All RadSec server implementations <span class="bcp14">MUST</span> implement this model.
-RadSec client implementations <span class="bcp14">SHOULD</span> implement this model, but <span class="bcp14">MUST</span> implement either this model or TLS-PSK (<span>[<a href="#RFC9813" class="cite xref">RFC9813</a>]</span>.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+RadSec client implementations <span class="bcp14">SHOULD</span> implement this model, but <span class="bcp14">MUST</span> implement either this model or TLS-PSK.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.1-2">If implemented, the following rules apply:<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-3.1">
@@ -2421,7 +2421,7 @@ However, these methods are not capable of reliably detecting and suppressing the
         <h3 id="name-usage-of-null-encryption-ci">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-usage-of-null-encryption-ci" class="section-name selfRef">Usage of NULL encryption cipher suites for debugging</a>
         </h3>
-<p id="section-7.3-1">Some TLS 1.2 implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
+<p id="section-7.3-1">Some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>], <a href="https://rfc-editor.org/rfc/rfc9325#section-4.1" class="relref">Section 4.1</a></span>, this specification forbids the usage of NULL encryption cipher suites for RadSec.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
@@ -2468,16 +2468,19 @@ See <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://r
 If the underlying TLS library does not perform the rotation automatically, RadSec implementations <span class="bcp14">SHOULD</span> perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="connection-closing">
+<div id="connection-closing-on-malformed-packets">
 <section id="section-7.6">
-        <h3 id="name-connection-closing">
-<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-connection-closing" class="section-name selfRef">Connection Closing</a>
+        <h3 id="name-connection-closing-on-malfo">
+<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-connection-closing-on-malfo" class="section-name selfRef">Connection Closing On Malformed Packets</a>
         </h3>
 <p id="section-7.6-1">If malformed RADIUS packets are received or the packets fail the authenticator checks, this specification requires that the (D)TLS connection be closed.
 The reason is that the connection is expected to be used for transport of RADIUS packets only.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
 <p id="section-7.6-2">Any non-RADIUS traffic on that connection means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">On the other hand, we want to avoid situations in which a third party can trigger such a connection closure, e.g. by sending a RADIUS packet with attributes the RadSec server does not understand.
+If a RadSec endpoint would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
+Leaving the connection open and ignoring unknown attributes also ensures forward compatibility.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="migrating-from-radiusudp-to-radsec">
