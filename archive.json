@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-25T01:07:28.279439+00:00",
+  "timestamp": "2026-01-27T01:04:42.890731+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -5210,7 +5210,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2026-01-20T20:13:39Z",
+      "updatedAt": "2026-01-26T18:28:52Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
@@ -5270,6 +5270,13 @@
           "body": "Have these changes been included in other commits, or do they still need to be processed?",
           "createdAt": "2026-01-20T20:13:39Z",
           "updatedAt": "2026-01-20T20:13:39Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@h-vn It looks like these fixes may have been incorporated in a later version without merging or closing this pull request.  Would it be okay to just close this, or are there changes here that you think are still needed?",
+          "createdAt": "2026-01-26T18:28:52Z",
+          "updatedAt": "2026-01-26T18:28:52Z"
         }
       ],
       "reviews": [
@@ -6448,21 +6455,21 @@
       "id": "PR_kwDOLrzygc6xgjqY",
       "title": "WIP: Apply terminology throughout, remove most discussion of Protocol-Erro\u2026",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/89",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026r, editorial changes, move \"Changes to RADIUS\" session after protocol specification, etc.",
       "createdAt": "2025-11-04T22:00:25Z",
-      "updatedAt": "2025-11-05T19:36:25Z",
+      "updatedAt": "2026-01-26T18:12:20Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "573edd80f9008dd4f73aac3adb2952e1d0302ab3",
       "headRepository": "mrw42/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fix-conflicts",
       "headRefOid": "a173515903a697af89ca9013532fb1c22bfff7c9",
-      "closedAt": null,
+      "closedAt": "2026-01-26T18:12:20Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -10521,51 +10528,84 @@
       "id": "PR_kwDOLrzygc6_ABti",
       "title": "Fixes, additions, wordsmithing",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/121",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-23T18:57:17Z",
-      "updatedAt": "2026-01-23T19:05:14Z",
+      "updatedAt": "2026-01-26T18:27:22Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "f267bafcdaaa57a56fed450c05e09998b7028b44",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "janfred/assorted-fixes",
       "headRefOid": "cf90143abef3e1514afaec624cf389b0d7704dd8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-26T18:27:22Z",
+      "mergedAt": "2026-01-26T18:27:22Z",
+      "mergedBy": "mrw42",
+      "mergeCommit": {
+        "oid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7c-k3t",
+          "commit": {
+            "abbreviatedOid": "cf90143"
+          },
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T18:25:39Z",
+          "updatedAt": "2026-01-26T18:25:39Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Valery had specifically requested adding the mention of TLS 1.2.   However, I don't think it is especially important to mention version 1.2 specifically, so I will accept this change.",
+              "createdAt": "2026-01-26T18:25:39Z",
+              "updatedAt": "2026-01-26T18:26:57Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 122,
       "id": "PR_kwDOLrzygc6_AWAw",
       "title": "reword attribute inspection by proxies",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/122",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The wording regading what radius proxies can inspect and prevent it from doing so is slightly confusing to me, bectause it can't be fully done. Reword to clarify that expecially user credentials can be protected by using EAP.\r\n\r\nMaybe this also clarifies #119 ",
       "createdAt": "2026-01-23T19:25:21Z",
-      "updatedAt": "2026-01-23T19:33:10Z",
+      "updatedAt": "2026-01-26T18:24:12Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "f267bafcdaaa57a56fed450c05e09998b7028b44",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-proxy-inxpection",
       "headRefOid": "6980b86d6c0779518765c8b6cce73a29d96b11c2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2026-01-26T18:24:12Z",
+      "mergedAt": "2026-01-26T18:24:12Z",
+      "mergedBy": "mrw42",
+      "mergeCommit": {
+        "oid": "69395d61d3bda551147724531760895ca219edae"
+      },
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This change seems reasonable to me, and I agree with Janfred's edits...  merging.",
+          "createdAt": "2026-01-26T18:24:08Z",
+          "updatedAt": "2026-01-26T18:24:08Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7cffBh",
