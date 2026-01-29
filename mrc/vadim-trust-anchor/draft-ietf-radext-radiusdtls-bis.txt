@@ -604,8 +604,8 @@ Table of Contents
    servers that uses different credential backends for each realm they
    service.
 
-   To avoid these issues, RadSec clients MUST mark a connection 'DOWN'
-   (as labelled by [RFC3539], Section 3.4) if one or more of the
+   To avoid these issues, RadSec clients MUST only mark a connection
+   'DOWN' (as labelled by [RFC3539], Section 3.4) if one or more of the
    following conditions are met:
 
    *  The network stack indicates that the connection is no longer
@@ -675,12 +675,12 @@ Table of Contents
    time between retries, a configurable timeout after which the client
    gives up reconnecting, and a jitter.
 
-   Where the connection to a RadSec server is established only when
-   there is a RADIUS packet to be sent, adding subsequent RADIUS packets
-   to be sent SHOULD NOT trigger an immediate reconnection attempt.
-   Instead, the algorithm SHOULD continue as it would have without the
-   new packet, but the client MAY reset the timeout for giving up
-   reconnecting.
+   When a reconnection attempt is queued on a reconnection timer, adding
+   subsequent RADIUS packets to be sent SHOULD NOT trigger an immediate
+   reconnection attempt or reset the reconnection timer.  Instead, the
+   algorithm SHOULD continue as it would have without the new RADIUS
+   packet.  However, a client MAY reset the timeout for giving up
+   reconnecting when a new RADIUS packet is queued.
 
    Where the connection to a RadSec server is configured to be static
    and always kept open, the reconnect algorithm SHOULD have an upper
@@ -805,9 +805,9 @@ Table of Contents
 
    With DTLS, the "next" packet does not depend on proper decoding of
    the previous packet, since the RADIUS packets are sent in independent
-   DTLS records.  However, since both TLS and DTLS provide integrity
-   protection and ensure that the packet was sent by the peer, a
-   protocol violation at this stage implies that the peer is
+   DTLS records (see Section 5.1).  However, since both TLS and DTLS
+   provide integrity protection and ensure that the packet was sent by
+   the peer, a protocol violation at this stage implies that the peer is
    misbehaving.
 
    Subject to the discussion below, implementations of this
@@ -930,11 +930,11 @@ Table of Contents
    length is invalid solely based on the currently available data in the
    stream.  More data may come at a later time.
 
-   As an implementation note, it is RECOMMENDED that RADIUS/TLS
-   implementations pass a RADIUS packet to the TLS library as one unit,
-   instead of in multiple fragments.  This behavior avoids unnecessary
-   overhead when sending or receiving (especially if every new write
-   generates a new TLS record) and wait times on the other endpoint.
+   It is RECOMMENDED that RADIUS/TLS implementations pass a RADIUS
+   packet to the TLS library as one unit, instead of in multiple
+   fragments.  This behavior avoids unnecessary overhead when sending or
+   receiving (especially if every new write generates a new TLS record)
+   and wait times on the other endpoint.
 
 4.2.  Duplicates and Retransmissions
 
@@ -1230,7 +1230,7 @@ Table of Contents
    transmission time of the RADIUS packet, on which the value of Acct-
    Delay-Time is based.  While a single UDP packet may have a negligible
    transmission time, application data sent via TLS could arrive at the
-   sender with a significant delay due to the underlying TCP
+   server with a significant delay due to the underlying TCP
    retransmission mechanism.  If the packet is proxied from RADIUS/TLS
    to RADIUS/DTLS or RADIUS/UDP, the proxy has to retransmit on its own
    without changing the value of Acct-Delay-Time, which again introduces
