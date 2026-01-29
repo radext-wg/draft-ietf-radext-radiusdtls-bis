@@ -326,7 +326,7 @@ While the client may be able to deduce the operational state of the next-hop (i.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
 A similar effect may also be seen on home servers that uses different credential backends for each realm they service.
 
-To avoid these issues, RadSec clients MUST mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
+To avoid these issues, RadSec clients MUST only mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
 * The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.
 * The transport layer, D(TLS), provides no usable connection
@@ -365,8 +365,9 @@ RadSec clients MUST implement an algorithm for handling the timing of such recon
 Using an algorithm similar to the retransmission algorithm defined in {{RFC5080, Section 2.2.1}} is RECOMMENDED.
 If a different algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.
 
-Where the connection to a RadSec server is established only when there is a RADIUS packet to be sent, adding subsequent RADIUS packets to be sent SHOULD NOT trigger an immediate reconnection attempt.
-Instead, the algorithm SHOULD continue as it would have without the new packet, but the client MAY reset the timeout for giving up reconnecting.
+When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent SHOULD NOT trigger an immediate reconnection attempt or reset the reconnection timer.
+Instead, the algorithm SHOULD continue as it would have without the new RADIUS packet.
+However, a client MAY reset the timeout for giving up reconnecting when a new RADIUS packet is queued.
 
 Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm SHOULD have an upper limit for the time between retries (e.g. 60 seconds) and not give up trying to reconnect.
 
@@ -431,7 +432,7 @@ This action has no further consequences for UDP based transports, as the "next" 
 When TLS is used as transport, decoding the "next" packet on a connection depends on the proper decoding of the previous packet.
 As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.
 
-With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.
+With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records (see {{radius_packet_handling}}).
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
 Subject to the discussion below, implementations of this specification SHOULD treat the text on "silently discard" packets in the RADIUS specification referenced above as "silently discard the packet and close the connection".
@@ -491,7 +492,7 @@ When receiving RADIUS packets, a RADIUS/TLS endpoint MUST determine the borders 
 Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first received only partially, and the remainder of the packet is contained in following fragments.
 Therefore, RADIUS/TLS endpoints MUST NOT assume that the packet length is invalid solely based on the currently available data in the stream.  More data may come at a later time.
 
-As an implementation note, it is RECOMMENDED that RADIUS/TLS implementations pass a RADIUS packet to the TLS library as one unit, instead of in multiple fragments.  This behavior avoids unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.
+It is RECOMMENDED that RADIUS/TLS implementations pass a RADIUS packet to the TLS library as one unit, instead of in multiple fragments.  This behavior avoids unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.
 
 ## Duplicates and Retransmissions
 {:#duplicates_retransmissions}
@@ -669,7 +670,7 @@ This process can occur repeatedly, which leads to multiple different packets con
 This duplication contributes to congestive collapse of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
 
 Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
-While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the sender with a significant delay due to the underlying TCP retransmission mechanism.
+While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
 If the packet is proxied from RADIUS/TLS to RADIUS/DTLS or RADIUS/UDP, the proxy has to retransmit on its own without changing the value of Acct-Delay-Time, which again introduces non-negligible transmission delays.
 
 Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity around retransmitted packets for RADIUS/TLS.
