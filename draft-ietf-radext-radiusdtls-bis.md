@@ -173,7 +173,6 @@ This action has to be taken by the administrators of the two systems.
 Implementations MUST follow the recommendations given in {{!RFC9325}}, especially in regards to TLS versions, recommended cipher suites, and TLS session resumption.
 Additionally, the following requirements have to be met for the (D)TLS connection:
 
-* Support for TLS 1.2 {{!RFC5246}} / DTLS 1.2 {{!RFC6347}} is REQUIRED, support for TLS 1.3 {{!RFC8446}} / DTLS 1.3 {{!RFC9147}} or higher is RECOMMENDED.
 * Negotiation of a cipher suite providing for confidentiality as well as integrity protection is REQUIRED.
 * The endpoints MUST NOT negotiate compression.
 * The connection MUST be mutually authenticated (see {{mutual_auth}}).
