@@ -387,7 +387,7 @@ These requirements apply to both RADIUS/DTLS and RADIUS/TLS.
 
 As UDP is not a reliable transport, RADIUS/DTLS clients MUST retransmit packets when indicated by the timers.
 
-As TLS is a reliable transport, RADIUS/TLS clients MUST NOT retransmit packets when indicated by the timers, but they MUST still run the full timer algorithm.  RADIUS/TLS clients will then use MRC or MRD to determine that a packet has not received a response.  
+As TLS is a reliable transport, RADIUS/TLS clients MUST NOT retransmit packets when indicated by the timers, but they MUST still run the full timer algorithm.  RADIUS/TLS clients will then use MRC or MRD to determine that a packet has not received a response.
 
 See {{duplicates_retransmissions}} for more discussion on retransmission behavior.
 
