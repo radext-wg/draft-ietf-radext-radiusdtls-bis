@@ -775,10 +775,10 @@ Non-compliant, or unexpected packets will be ignored by the DTLS layer.
 RADIUS/DTLS clients SHOULD NOT send both RADIUS/UDP and RADIUS/DTLS packets to different servers from the same source socket.
 This practice causes increased complexity in the client application and increases the potential for security breaches due to implementation issues.
 
-RADIUS/DTLS clients MAY use PMTU discovery {{RFC6520}} to determine the PMTU between the client and server, prior to sending any RADIUS traffic.
-While a RADIUS client has limited to no possibilities to reduce the size of an outgoing RADIUS packet without unwanted side effects, it gives the RADIUS client the possibility to determine whether or not the RADIUS packet can even be sent over the connection.
-IP fragmentation may not be functioning, so by determining the PMTU, the RADIUS client can preemptively select a different RADIUS server to send the RADIUS packet to.
-Further discussion of this problem is deemed outside of the scope of this document.
+RADIUS/DTLS proxies have no control over the size of the RADIUS/DTLS packets they receive, and there is no way for them to reduce the size of the packets they forward without unwanted side effects.
+Sending a RADIUS packet that exceeds the PMTU between the client and the server will result in IP fragmentation, which may lead to packets being dropped before they reach the server, depending on the policies of the IP routers and middleboxes on the path regarding IP fragments.
+When a client is aware of more than one server that could service a given EAP session, it is possible that PMTU Discovery {{RFC6520}} could be used to determine the PMTU to each server, and that a client could preemptively select a server that can be reached without the need for IP fragmentation.
+Further discussion of this topic is  outside of the scope of this document.
 
 # Security Considerations
 {: #security_considerations}
