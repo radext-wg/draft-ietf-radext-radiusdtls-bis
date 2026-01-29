@@ -992,7 +992,7 @@ For UDP:
 * Port Number: 2083
 * Transport Protocol: udp
 * Description: Secure RADIUS Service
-* Assignment notes: The UDP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/DTLS, prior to issuance of the experimental RFC 7360. {{&SELF}} updates RFC 7360 (RADIUS/TLS).
+* Assignment notes: The UDP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/DTLS, prior to issuance of the experimental RFC 7360. {{&SELF}} updates RFC 7360 (RADIUS/DTLS).
 * Reference: {{&SELF}} (this document)
 
 
