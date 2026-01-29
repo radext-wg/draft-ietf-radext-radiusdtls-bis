@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-27T01:04:42.890731+00:00",
+  "timestamp": "2026-01-29T01:10:32.751824+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -10648,6 +10648,54 @@
           ]
         }
       ]
+    },
+    {
+      "number": 123,
+      "id": "PR_kwDOLrzygc6_n7AR",
+      "title": "Clarify retransmission text",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/123",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Especially in the paragraph for RADIUS/TLS I've moved the last sentence to the front which hopefully makes the paragraph more readable.\r\n\r\nThis addresses [comments on the Mailing list](https://mailarchive.ietf.org/arch/msg/radext/AihI-HB1QfC5IO00uq9WPvfutiA/)",
+      "createdAt": "2026-01-27T14:47:58Z",
+      "updatedAt": "2026-01-28T17:56:59Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/retransmission",
+      "headRefOid": "1f4b6bbed87a9147dac1744ec5a6a93d7b29e808",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think that the text Alan proposed to fix this problem was clearer.  @Janfred do you have any objection to going with the text from @alandekok?  Alan, are you going to submit a PR, or should I transpose your text from the mailing list?  I am going to work through the list comments and hopefully put a version out today to address as much as possible.  I will then try to bring forward any remaining issues on the list.",
+          "createdAt": "2026-01-27T16:38:14Z",
+          "updatedAt": "2026-01-27T16:38:14Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "from the mailing list:\r\n\r\n```\r\nThe following descriptions use \"retry\" to mean sending of a particular packet on a different connection, and \"retransmission\" to mean the sending of a particular packet over the same connection.  When a packet is retried, it is allocated a new RADIUS ID and is re-encoded and re-signed.  When a packet is retransmitted, no new ID is allocated, and instead the previously encoded packet contents are sent without change.\r\n\r\nRadSec clients MUST implement timers for managing packet retransmissions and timeouts, such as the ones defined in [RFC5080], Section 2.2.1.  Other algorithms than the one defined in [RFC5080] are possible, but any timer implementations MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) or maximum retransmission duration (MRD).\r\n\r\nWhen a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection.  In order to keep the timers consistent, the timers associated with a packet MUT NOT be changed when a packet is moved from one connection to another.  This requirement applies to both RADIUS/DTLS and RADIUS/TLS.\r\n\r\nA RadSec client MUST associate a packet with one connection, and only one connection until either the connection is closed, or the timers reach MRC or MRD.\r\n\r\nAs UDP is not a reliable transport, RADIUS/DTLS clients MUST retransmit packets when indicated by the timers.\r\n\r\nAs TLS is a reliable transport, RADIUS/TLS clients MUST NOT retransmit packets when indicated by the timers, but they MUST still run the full timer algorithm.  RADIUS/TLS clients will then use MRC or MRD to determine that a packet has not received a response.  \r\n```",
+          "createdAt": "2026-01-27T17:40:07Z",
+          "updatedAt": "2026-01-27T17:40:07Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@Janfred Do you object to me closing this pull request and integrating Alan's text (included in a comment above) instead?",
+          "createdAt": "2026-01-28T17:56:59Z",
+          "updatedAt": "2026-01-28T17:56:59Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
