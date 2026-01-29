@@ -217,7 +217,7 @@ Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.
 
-RadSec endpoints MUST follow {{!RFC9525}} when validating server identities.
+RadSec clients MUST follow {{!RFC9525}} when validating RadSec server identities. RadSec servers also follow {{!RFC9525}} when validating RadSec clients identities with some additional rules.
 
 Specific details are provided below:
 
