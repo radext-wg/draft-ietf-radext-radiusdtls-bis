@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-29T01:10:32.751824+00:00",
+  "timestamp": "2026-02-01T01:22:10.256392+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -569,7 +569,7 @@
       "id": "I_kwDOLrzygc7VRLhb",
       "title": "Move Section \"Detecting Live Servers\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/64",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -578,16 +578,24 @@
       ],
       "body": "The section \"Detecting Live Servers\" should be moved somewhere else.\n\nAdditionally, the section should be more clear on whether it only applies to proxies or also to simple one-hop client-server setups.\n\nSuggestion was to add a \"Proxy Considerations\" section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/uOv_eU_Zo1m0D96UP4TkfRAIaak/)",
       "createdAt": "2025-11-01T14:12:32Z",
-      "updatedAt": "2025-11-01T14:12:32Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:54:53Z",
+      "closedAt": "2026-01-29T10:54:53Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "OBE",
+          "createdAt": "2026-01-29T10:54:53Z",
+          "updatedAt": "2026-01-29T10:54:53Z"
+        }
+      ]
     },
     {
       "number": 65,
       "id": "I_kwDOLrzygc7VROKq",
       "title": "RFC 2119 language in Security Considerations sections",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/65",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -596,9 +604,17 @@
       ],
       "body": "Section 7.6 \"Migrating from RADIUS/UDP to RADIUS/(D)TLS\" contains some RFC 2119 language. We need to check if some of this should be moved to other sections, to not have normative specifications in the Security Considerations section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/g5fCq-_3yXRW2gHfnsdgkJWk3ME/)",
       "createdAt": "2025-11-01T14:21:27Z",
-      "updatedAt": "2025-11-01T14:21:27Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:54:27Z",
+      "closedAt": "2026-01-29T10:54:27Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Resolved, more or less, in current document",
+          "createdAt": "2026-01-29T10:54:27Z",
+          "updatedAt": "2026-01-29T10:54:27Z"
+        }
+      ]
     },
     {
       "number": 66,
@@ -631,7 +647,7 @@
       "id": "I_kwDOLrzygc7VRP8j",
       "title": "Change section title \"Changes to RADIUS\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -640,16 +656,24 @@
       ],
       "body": "Section 3 has the title \"Changes to RADIUS\"\nThis title might be misleading, since we don't change RADIUS/UDP.\n\nSuggestion from Margaret: \"RADIUS differences between RADIUS/TLS and RADIUS/UDP\"\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/VVMzZXdELn1k0qbkwexLrRvhRfM/)",
       "createdAt": "2025-11-01T14:30:20Z",
-      "updatedAt": "2025-11-01T14:30:20Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:54:02Z",
+      "closedAt": "2026-01-29T10:54:02Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Resolved in current document.",
+          "createdAt": "2026-01-29T10:54:02Z",
+          "updatedAt": "2026-01-29T10:54:02Z"
+        }
+      ]
     },
     {
       "number": 68,
       "id": "I_kwDOLrzygc7VRR78",
       "title": "Clarify section \"Duplicates and Retransmissions\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/68",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -658,34 +682,59 @@
       ],
       "body": "The last paragraph of section 5.2 \"Duplicates and Retransmissions\" is not clear enough.\nWe need to revise it to make it more clear what we mean.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/yERxr_ZmkCeTMxBBpt-R4p5Q-TY/)",
       "createdAt": "2025-11-01T14:40:53Z",
-      "updatedAt": "2025-11-01T14:40:53Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:53:31Z",
+      "closedAt": "2026-01-29T10:53:31Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is resolved in PR #123 ",
+          "createdAt": "2026-01-29T10:53:31Z",
+          "updatedAt": "2026-01-29T10:53:31Z"
+        }
+      ]
     },
     {
       "number": 69,
       "id": "I_kwDOLrzygc7VRS_M",
       "title": "Clarify Head of Line Blocking and TCP delays",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "mrw42"
+      ],
       "labels": [
         "Shepherd Comment"
       ],
       "body": "In Section 5.3 \"TCP Applications Are Not UDP Applications\", we talk about Head-of-Line blocking and possible transmission delays in TCP.\nThis text should maybe be reworded to make it more clear what we mean.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/t6wnjMLE2uKGjSR3dlglstzx9ts/)",
       "createdAt": "2025-11-01T14:46:31Z",
-      "updatedAt": "2025-11-01T14:46:31Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T12:33:54Z",
+      "closedAt": "2026-01-29T12:33:44Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggested text:\n\n\"Unlike UDP, TCP is subject to issues related to head-of-line blocking.\nThis occurs when multiple EAP sessions are being transmitted over a single TCP connection at the same time and a TCP segment for one EAP sessi\\\non is lost.\nDue to the semantics of TCP, subsequent messages for other EAP sessions cannot be processed until the lost segment is retransmitted and proces\\\nsed.\nIn contrast, RADIUS/UDP endpoints can process RADIUS packets out of order, so only the EAP session with the lost packet will be affected.\nOther EAP sessions will continue without delay while the lost segment is retransmitted.\nThis limitation can lower the maximum packet processing rate of RADIUS/TLS.\"\n\nAlso, remove misleading text of retransmissions.\n",
+          "createdAt": "2026-01-29T12:30:34Z",
+          "updatedAt": "2026-01-29T12:30:34Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Fixed in PR #129",
+          "createdAt": "2026-01-29T12:33:44Z",
+          "updatedAt": "2026-01-29T12:33:44Z"
+        }
+      ]
     },
     {
       "number": 70,
       "id": "I_kwDOLrzygc7VRTVE",
       "title": "New section \"Implementation Considerations\" ?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/70",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -694,16 +743,24 @@
       ],
       "body": "The document has some text that talks about implementation details.\nMaybe it is worth consolidating all these texts in a new \"Implementation Considerations\" section.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/2FBd89X0-eI0BFm8OJi4_FgL2Vs/)",
       "createdAt": "2025-11-01T14:48:25Z",
-      "updatedAt": "2025-11-01T14:48:25Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:49:07Z",
+      "closedAt": "2026-01-29T10:49:07Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Completed",
+          "createdAt": "2026-01-29T10:49:07Z",
+          "updatedAt": "2026-01-29T10:49:07Z"
+        }
+      ]
     },
     {
       "number": 71,
       "id": "I_kwDOLrzygc7VRTo2",
       "title": "Revisit Path-MTU Discovery",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/71",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -712,8 +769,8 @@
       ],
       "body": "Section 6.4.2 \"Client Session Management\" in the DTLS-specific section talks about PMTU discovery.\nThere may be some issues with this, we should revisit it.\n\n[Post on radext ML](https://mailarchive.ietf.org/arch/msg/radext/DeaIod0aX4FSlP1lIDGoPIgiUeA/)",
       "createdAt": "2025-11-01T14:50:11Z",
-      "updatedAt": "2026-01-19T14:01:00Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T13:25:03Z",
+      "closedAt": "2026-01-29T13:25:03Z",
       "comments": [
         {
           "author": "Janfred",
@@ -721,6 +778,27 @@
           "body": "To follow up on this (see Discussion on ML for other comments): As far as I understand PMTU discovery in DTLS it works with keep-alive packets, so it is possible to make PMTU discovery without sending payload data.\n\nI'm not 100% sure about this, I have only briefly read over the RFCs and haven't looked at implementations, so if anyone has more knowledge about this please correct me.",
           "createdAt": "2026-01-19T14:01:00Z",
           "updatedAt": "2026-01-19T14:01:00Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Unless keepalive packets are the maximum size that will ever be sent (e.g. a length corresponding to a 4K RADIUS packet) they will not necessary detect the PMTU, and later RADIUS packets may trigger ICMP \"Packet Too Big\" errors, resulting in UDP fragmentation...  I know about all there is to know about PMTU in both IPv6 and IPv4, so I will work on some clarified text.",
+          "createdAt": "2026-01-29T12:44:13Z",
+          "updatedAt": "2026-01-29T12:44:13Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggested wording:\n\n\"RADIUS/DTLS proxies have no control over the size of the RADIUS/DTLS packets they receive, and there is no way for them to reduce the size of \\\nthe packets they forward without unwanted side effects.\nSending a RADIUS packet that exceeds the PMTU between the client and the server will result in IP fragmentation, which may lead to packets bei\\\nng dropped before they reach the server, depending on the policies of the IP routers and middleboxes on the path regarding IP fragments.\nWhen a client is aware of more than one server that could service a given EAP session, it is possible that PMTU Discovery {{RFC6520}} could be\\\n used to determine the PMTU to each server, and that a client could preemptively select a server that can be reached without the need for IP f\\\nragmentation.\t\nFurther discussion of this topic is  outside of the scope of this document.\"",
+          "createdAt": "2026-01-29T13:22:28Z",
+          "updatedAt": "2026-01-29T13:22:28Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Proposed fix in PR #131 ",
+          "createdAt": "2026-01-29T13:25:03Z",
+          "updatedAt": "2026-01-29T13:25:03Z"
         }
       ]
     },
@@ -800,29 +878,54 @@
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/85",
       "state": "OPEN",
       "author": "meadmaker",
-      "authorAssociation": "NONE",
-      "assignees": [],
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
       "labels": [],
       "body": "The draft says:\n\n> If a resumed session is closed immediately after being established, the RADIUS/(D)TLS client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.\n\nWhat does it mean to be \"closed immediately\"?  Is that counted by a certain amount of time?  Is that counted by the number of messages exchanged after the session establishment?",
       "createdAt": "2025-11-03T21:14:23Z",
-      "updatedAt": "2025-11-03T21:14:23Z",
+      "updatedAt": "2026-01-29T14:01:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@smyslov, Could we say \"closed before the resumed DTLS session can be established\"? I will defer to Valery on this, as he knows more about (D)TLS than I do.",
+          "createdAt": "2026-01-29T13:30:05Z",
+          "updatedAt": "2026-01-29T13:30:05Z"
+        },
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "Well, I'm less an expert in DTLS than in TLS and less in TLS 1.2 than in 1.3. In 1.3 if the server doesn't want to proceed with resumption it can revert the resumption to a full handshake. In my understanding, the same is true for TLS 1.2 (but I'm less an expert in 1.2). Perhaps Janfred can clarify what situations were meant.",
+          "createdAt": "2026-01-29T14:00:28Z",
+          "updatedAt": "2026-01-29T14:00:28Z"
+        },
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "In any case, I believe that the text should clarify: \"If a resumed session is closed **by the serve**r immediately after being established\".",
+          "createdAt": "2026-01-29T14:01:36Z",
+          "updatedAt": "2026-01-29T14:01:48Z"
+        }
+      ]
     },
     {
       "number": 87,
       "id": "I_kwDOLrzygc7Vz7C7",
       "title": "Absolute lower and upper bounds for reconnection backoff?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/87",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Section 4.7.1 holds:\n\n> If a different algorithm is used, it SHOULD include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting and a jitter.\n\nWould it be good to specify an absolute lower and upper bound for the delay?",
       "createdAt": "2025-11-04T15:46:48Z",
-      "updatedAt": "2026-01-19T12:46:32Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T10:48:51Z",
+      "closedAt": "2026-01-29T10:48:51Z",
       "comments": [
         {
           "author": "mrw42",
@@ -830,6 +933,13 @@
           "body": "I don't think we want to define an absolute upper bound.  Without one, I think it would be possible to configure RADIUS for a high-delay network because of the lock-step nature of of RADIUS authentication. \n\n I don't think we would want to rule that out.  I don't have any strong thoughts on a useful lower bound or whether it would be good to define one.",
           "createdAt": "2026-01-19T12:46:32Z",
           "updatedAt": "2026-01-19T12:46:32Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I am closing this issue, because no text changes are needed.  @janfred, please reopen if you disagree.",
+          "createdAt": "2026-01-29T10:48:51Z",
+          "updatedAt": "2026-01-29T10:48:51Z"
         }
       ]
     },
@@ -862,23 +972,38 @@
       "id": "I_kwDOLrzygc7Wo4Ak",
       "title": "Cleanup after Protocol-Error change to MAY",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/100",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In the \"Differences from 6614 handling\" there should maybe be a paragraph explaining why the 6614 behavior is not breaking stuff and why we make protocol error optional.\n\nTo summarize quickly:\n* 6614 behavior bad, synthesize responses when not authoritative\n* Protocol-Error still in development as of time writing, we expect this to change\n* Doing nothing for now is better than reverting to 6614 behavior",
       "createdAt": "2025-11-07T16:19:21Z",
-      "updatedAt": "2025-11-07T16:19:21Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T12:39:46Z",
+      "closedAt": "2026-01-29T12:39:46Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@Janfred, is there still an unresolved issue on this topic?  If so, what text is needed to resolve it?  I think the Protocol-Error text has been reviewed and modified since November, so was this resolved and/or eliminated by those changes?",
+          "createdAt": "2026-01-29T10:47:51Z",
+          "updatedAt": "2026-01-29T10:47:51Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closing. @Janfred, please reopen if you think text is needed here.",
+          "createdAt": "2026-01-29T12:39:46Z",
+          "updatedAt": "2026-01-29T12:39:46Z"
+        }
+      ]
     },
     {
       "number": 109,
       "id": "I_kwDOLrzygc7lMQcw",
       "title": "Validating \"peer identities\" vs. \"server\" Identities?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/109",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -887,8 +1012,8 @@
       "labels": [],
       "body": "From Valery's Shepherd review:\n> 14. Section 3.3.1.  The sentence \"RadSec endpoints MUST follow [RFC9525] when validating peer identities.\" is not formally \n> correct,   since RFC 9525 only defines deals with service identities. Formally it cannot be used for validating client identities.  \n> Perhaps clarify this or move it to the bullet discussing verifying server identities.\n\nI am not sure how/if to make this change,  Can you suggest specific text?  There are a number of places where servers are mentioned in the subsequent bullets.  Do you think we need to have separate sections on how to validate clients vs. servers?\n",
       "createdAt": "2026-01-22T23:36:44Z",
-      "updatedAt": "2026-01-23T18:59:33Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T12:37:19Z",
+      "closedAt": "2026-01-29T12:37:19Z",
       "comments": [
         {
           "author": "smyslov",
@@ -903,6 +1028,27 @@
           "body": "I guess the question is if the text about how servers validate client identities is detailed enough.\n\nIf yes, I would move the \"RadSec clients MUST follow [RFC9525]...\" to the client paragraph.\nOtherwise, I guess we need more text... I would be a bit hesitant to say that servers should still follow RFC9525 in spirit, even if not directly applicable.",
           "createdAt": "2026-01-23T18:59:33Z",
           "updatedAt": "2026-01-23T18:59:33Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@smyslov @fmauchle If there are changes needed here beyond what is currently in the document, can one of you suggest specific text?",
+          "createdAt": "2026-01-29T10:50:31Z",
+          "updatedAt": "2026-01-29T10:50:31Z"
+        },
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "Created a PR with suggested text: https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/128",
+          "createdAt": "2026-01-29T11:50:57Z",
+          "updatedAt": "2026-01-29T11:50:57Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closing issue subject to Valery's PR.",
+          "createdAt": "2026-01-29T12:37:19Z",
+          "updatedAt": "2026-01-29T12:37:19Z"
         }
       ]
     },
@@ -979,7 +1125,7 @@
       "id": "I_kwDOLrzygc7lMW-E",
       "title": "Clarify meaning of certificate OID",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/112",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -988,8 +1134,8 @@
       "labels": [],
       "body": "From Valery's shepherd review:\n\n> Section 7.1.1.\n>   In the sentence \"the trust is based on the certificate issuer or certificate OID\" I wonder what \"certificate OID\" is.\n>    I belive more accurate text should be crafted.\n\nI don\u2019t know what more accurate text would look like here.  Valery, could you suggest some?  ",
       "createdAt": "2026-01-22T23:46:12Z",
-      "updatedAt": "2026-01-23T19:01:46Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T10:45:04Z",
+      "closedAt": "2026-01-29T10:45:04Z",
       "comments": [
         {
           "author": "smyslov",
@@ -1018,6 +1164,13 @@
           "body": "This refers to the same thing as section 3.3.1\n> The client's authorization MUST then be\n> validated using a certificate policy OID unless both endpoints\n> are part of a trusted network.\n\nEither use the same terminology of refer to it. Or if 3.3.1 isn't put in the reference to RFC5280 there.",
           "createdAt": "2026-01-23T19:01:46Z",
           "updatedAt": "2026-01-23T19:01:46Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Resolved in PR #127.  Used Valery's wording and made consistent as suggested by Fabian.",
+          "createdAt": "2026-01-29T10:45:04Z",
+          "updatedAt": "2026-01-29T10:45:04Z"
         }
       ]
     },
@@ -1026,7 +1179,7 @@
       "id": "I_kwDOLrzygc7lMYCm",
       "title": "Questions on duplication of certificates for multiple servers (section 7.1.1.)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/113",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1035,9 +1188,17 @@
       "labels": [],
       "body": "\nFrom Valery's shepherd review.\n\n> Section 7.1.1, the last bullet.\n>   Actually, I wonder in what situations you may need to duplicate a certificate to multiple servers\n>   so that they need to legitimately communicate to each other using this certificate. I understand that there are some\n>   LB or HA scenarios, but in this case the cluster of servers having the same credentials\n>   (certificate) is seen and is acting as a single entity (server) for others. And in this case these servers would hardly\n>   communicate to each other using this certificate. At least this is my understanding, perhaps I'm missing something.\n\nI am not sure what changes you would like to see here\u2026. I do think that people sometimes use the same certificate or secret on a set of redundant servers with load balancers or anycast in use.  I don\u2019t think it would ever make sense for them to open RadSec connections to each other, though.\n",
       "createdAt": "2026-01-22T23:48:06Z",
-      "updatedAt": "2026-01-22T23:48:06Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:32:28Z",
+      "closedAt": "2026-01-29T10:32:28Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Are there any document changes that need to be made for this?  If so, please reopen and suggest changes. For now, I am closing as non-actionable.",
+          "createdAt": "2026-01-29T10:32:28Z",
+          "updatedAt": "2026-01-29T10:32:28Z"
+        }
+      ]
     },
     {
       "number": 114,
@@ -1060,7 +1221,7 @@
     {
       "number": 115,
       "id": "I_kwDOLrzygc7lMa-4",
-      "title": "Do we need a downref for RFC 7930 and 7585",
+      "title": "What downrefs are needed for publication",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/115",
       "state": "OPEN",
       "author": "mrw42",
@@ -1072,7 +1233,7 @@
       "labels": [],
       "body": "From Valery's shepherd review:\n\n>  RFC 7585 and 7930 are Experimental and are not present in the Downref registry. Does each of \n>  them need to be normatively referenced?\n\n7585 is only referenced in an example and a \u201ccan be used\u201d.  I have moved it to informative.\n\n7930 is used to reference Protocol-Error.  We say that clients MUST accept Protocol-Error, so we may need a downref here.\n\n\n",
       "createdAt": "2026-01-22T23:53:34Z",
-      "updatedAt": "2026-01-23T17:30:03Z",
+      "updatedAt": "2026-01-29T13:28:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -1088,6 +1249,13 @@
           "body": "I think it's OK to have a downref for both things here.",
           "createdAt": "2026-01-23T17:30:03Z",
           "updatedAt": "2026-01-23T17:30:03Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "We probably also need downrefs for RADIUS Accounting, COA and Status-Server, unless we can come up with a way to only need informative references?",
+          "createdAt": "2026-01-29T13:27:22Z",
+          "updatedAt": "2026-01-29T13:27:22Z"
         }
       ]
     },
@@ -1096,7 +1264,7 @@
       "id": "I_kwDOLrzygc7lMknT",
       "title": "Do we need normative references for RADIUS packet types vs. referring to IANA registry?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/117",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1106,8 +1274,8 @@
       "labels": [],
       "body": "From Valery's shepherd review:\n\n> RFC 2866, 5176, 5997 are Informational and are not present in the Downref registry. Does each of them \n> need to be normatively referenced?\n > If yes this may require permission from the IETF.\n\n2866 (RADIUS Accounting) and RFC 5176 (COA) and 5997 (Status-Server) are only used to refer to the types of Accounting, COA and Status-Server packets\u2026. I think we could work around that by referring to the IANA registry for the packet types and making those references inforamational.  This document doesn\u2019t actually talk about how to do accounting, COA or status checks.\n",
       "createdAt": "2026-01-23T00:11:17Z",
-      "updatedAt": "2026-01-23T18:20:28Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T12:35:46Z",
+      "closedAt": "2026-01-29T12:35:46Z",
       "comments": [
         {
           "author": "Janfred",
@@ -1115,6 +1283,13 @@
           "body": "Status-Server is relevant, because the server must respond to them, so the client must know how to interpret these packets.\n\nAs for 2866, I think it's a bug that this is an informational document, and it should go into the downref registry.\n\nFor 5176 I would have to look through the document, but since we changed the reply for unwanted packets, i think 5176 might ok to be changed to informational",
           "createdAt": "2026-01-23T18:20:28Z",
           "updatedAt": "2026-01-23T18:20:28Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "A preference has been stated by multiple people to just request downrefs instead.",
+          "createdAt": "2026-01-29T12:35:46Z",
+          "updatedAt": "2026-01-29T12:35:46Z"
         }
       ]
     },
@@ -1123,7 +1298,7 @@
       "id": "I_kwDOLrzygc7lZEO5",
       "title": "\"MUST NOT\" text about Event-Timestamp and Acct-Delay-Time",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/118",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1132,34 +1307,65 @@
       "labels": [],
       "body": "Alan suggested the following text:\n\n> The Event-Timestamp is then interpreted as the time at which the event occured.  Where Acct-Delay-Time exists, it \n> is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the \n> Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured; that time is exactly Event-Timestamp.  \n> The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.\n\nJanfred prefers a different version of the text that removes the \"MUST NOT\":\n\n> The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it \n> is then interpreted as the delay between the event and when the packet was sent. Event-Timestamp and \n> Acct-Delay-Time are conveying differing information and should not be processed together (e.g. by subtracting the\n> indicated delay time from the time stamp to determine when an event has occurred). The existence of Acct-Delay-Time\n> serves only as an additional indication of delays in sending the packet.\n\nWe will need to decide which version is preferred by the WG.\n\n\n\n",
       "createdAt": "2026-01-23T18:01:36Z",
-      "updatedAt": "2026-01-23T18:01:36Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T10:31:12Z",
+      "closedAt": "2026-01-29T10:31:12Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I prefer Alan's MUST NOT text, so in the absence of other input on this topic, I will be the tie-breaker.  The current text in the document reflects Alan's text and is fine with me.  Janfred, please reopen if you cannot accept that decision or have other input that I may not be aware of.",
+          "createdAt": "2026-01-29T10:31:12Z",
+          "updatedAt": "2026-01-29T10:31:12Z"
+        }
+      ]
     },
     {
       "number": 119,
       "id": "I_kwDOLrzygc7lZTRL",
       "title": "Solution to Problem of Downgrade to RADIUS/UDP",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/119",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
-        "mrw42"
+        "mrw42",
+        "Janfred"
       ],
       "labels": [],
       "body": "In Valery's AD review, he commented that the following issue had the same potential solution as the previous one:\n\n> Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the \n> RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, \n> after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using \n> the RADIUS/UDP transport profile. There is no technical solution to this problem with the current specification.\n> Where the confidentiality of the contents of the RADIUS packet across the whole path is required, organizational \n> solutions need to be in place, that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS\n> packets using RadSec as transport.\n\nMargaret suggested that the line \"There is no technical solution to this problem with the current specification\" could be replaced with:\n\n> The use of EAP methods that utilize TLS can also protect user credentials in this case.\n\nJanfred disagreed preferring the original text.\n\nThis will need to be decided by the WG.\n\nSee further discussion in the pull request here:\nhttps://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/116",
       "createdAt": "2026-01-23T18:17:34Z",
-      "updatedAt": "2026-01-23T18:17:42Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-29T12:38:30Z",
+      "closedAt": "2026-01-29T12:38:30Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "How about \"Although EAP methods that utilize a secure tunnel can be used to protect user credentials across both RadSec and RADIUS/UDP hops, there is no technical solution that ensures confidentiality of the full RADIUS packet across multiple hops.  When the confidentiality...\"",
+          "createdAt": "2026-01-29T10:20:38Z",
+          "updatedAt": "2026-01-29T10:20:38Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Potentially fixed in PR #126, our for review,",
+          "createdAt": "2026-01-29T10:29:10Z",
+          "updatedAt": "2026-01-29T10:29:10Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closing subject to PR #126 ",
+          "createdAt": "2026-01-29T12:38:30Z",
+          "updatedAt": "2026-01-29T12:38:30Z"
+        }
+      ]
     },
     {
       "number": 120,
       "id": "I_kwDOLrzygc7lZcEV",
       "title": "Check-in on which TLS versions need to be supported",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/120",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1168,8 +1374,8 @@
       "labels": [],
       "body": "In his shepherd review, Valery suggested that we defer to RFC9325 regarding supported versions of TLS, and that we remove the explicit recommendation from our document:\n\n- * Support for TLS 1.2 {{!RFC5248}} / DTLS 1.2 {{!RFC6347}} is REQUIRED, support for TLS 1.3 {{!RFC8446}} / DTLS 1.3\n- * {{!RFC9147}} or higher is RECOMMENDED.\n\nJanfred objected stating that this text was agreed by the WG in the early stages of this document.\n\nTime has elapsed, RFC 9325 has come along, and we may want to revist the decision to make our own list of supported versions?  The WG will need to decide.",
       "createdAt": "2026-01-23T18:28:08Z",
-      "updatedAt": "2026-01-23T18:38:13Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T10:13:12Z",
+      "closedAt": "2026-01-29T10:13:12Z",
       "comments": [
         {
           "author": "mrw42",
@@ -1177,6 +1383,119 @@
           "body": "More discussion can be found in the pull request here:\nhttps://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/116\n",
           "createdAt": "2026-01-23T18:38:13Z",
           "updatedAt": "2026-01-23T18:38:13Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "There has been further agreement on the list to remove the first bullet and rely on RFC 9325 for TLS version requirements.  Resolved in PR #125.",
+          "createdAt": "2026-01-29T10:13:12Z",
+          "updatedAt": "2026-01-29T10:13:12Z"
+        }
+      ]
+    },
+    {
+      "number": 132,
+      "id": "I_kwDOLrzygc7mtnhm",
+      "title": "MAY or SHOULD for indicating trust anchors",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/132",
+      "state": "CLOSED",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42"
+      ],
+      "labels": [],
+      "body": "From Vadim's review:\n\n> Section 3.1.1\n> Implementations SHOULD indicate their trust anchors when opening or accepting TLS connections. See \n> [RFC5246], Section 7.4.4 and [RFC6066], Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for TLS 1.3.\n\nTLS 1.3 specifies this capability using MAY for both client and server. What is the rationale for strengthening this to SHOULD here? In addition, this behavior may introduce security or privacy concerns. For example, a multi-tenant RADIUS server may not wish to disclose information about other configured tenants by advertising all supported CAs. At a minimum, I think the use of 'SHOULD' here deserves reconsideration.",
+      "createdAt": "2026-01-29T13:34:21Z",
+      "updatedAt": "2026-01-29T13:39:21Z",
+      "closedAt": "2026-01-29T13:39:20Z",
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "There seemed to be general agreement that a MAY is fine here.  ",
+          "createdAt": "2026-01-29T13:34:53Z",
+          "updatedAt": "2026-01-29T13:34:53Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Fixed in PR #133",
+          "createdAt": "2026-01-29T13:39:20Z",
+          "updatedAt": "2026-01-29T13:39:20Z"
+        }
+      ]
+    },
+    {
+      "number": 134,
+      "id": "I_kwDOLrzygc7mt1gM",
+      "title": "Minor issues from Fabian",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/134",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "Here my review of draft-ietf-radext-radiusdtls-bis-12\n(topics already raised in other reviews are not repeated)\n\n1. Section 3.7 paragraph 3:\n> To avoid these issues, RadSec clients MUST mark a connection 'DOWN'\n> (as labelled by [RFC3539], Section 3.4) if one or more of the\n> following conditions are met:\n\nI think the intention here was that the lack of a response should not trigger a connection being declared 'DOWN', but only the application layer watchdog or underlying transport status. However, the current text does not say this. I would thus suggest this change:\n\nRadSec clients MUST mark a connection 'DOWN' ([...]) **only** if one or more of the following conditions are met:\n\n\n2. Section 3.8.1 paragraph 4:\n> Where the connection to a RadSec server is established only when there\n> is a RADIUS packet to be sent, adding subsequent RADIUS packets to be\n> sent SHOULD NOT trigger an immediate reconnection attempt. Instead,\n> the algorithm SHOULD continue as it would have without the new packet,\n> but the client MAY reset the timeout for giving up reconnecting.\n\nI'm struggling a bit understanding this. From context, this covers the situation of adding packets to the send queue, before a connection is established (e.g. while waiting for the next connection attempt). If so, I would suggest a slight addition:\n\n[...], adding subsequent RADIUS packets **to the send queue before the connection is successfully established ** SHOULD NOT trigger an immediate reconnection attempt.\n\n\n3. Section 3.11 paragraph 3:\n> With DTLS, the \"next\" packet does not depend on proper decoding of the\n> previous packet, since the RADIUS packets are sent in independent DTLS\n> records.\n\nThis is the first mention of RADIUS packets to DTLS records relationship in the document. Should we add a reference to section 5.1?\n\n\n4. Section 3.11 paragraph 4:\n> [...] in the RADIUS specification referenced above [...]\n\nThe preceding sections don't (or no longer do) reference a specific RADIUS specification, just generally 'the RADIUS specifications'\n\n\n5. Section 4.1 paragraph 5 (last):\n> As an implementation note, it is RECOMMENDED that [...]\n\nThis paragraph talks about implementation. Maybe consider move this to somewhere in Section 6?\n(no strong feelings really, just a consideration since we now have an Implementation Considerations section)\n\n\n6. Section 6.2.3 paragraph 3:\n> While a single UDP packet may have a negligible transmission time,\n> application data sent via TLS could arrive at the sender with a\n> significant delay\n\ncould arrive at the **receiver**, not the sender?\n\n\n7. Section 6.2.3 paragraph 5:\n> Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the\n> client SHOULD use timers to detect packet loss, as described in\n> Section 3.8.2. Where RadSec clients do include Acct-Delay-Time in\n> RADIUS packets, the client can rely on the Event-Timestamp to signal\n> delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the\n> timer has determined that the original packet has been completely\n> lost, the client SHOULD then create a new RADIUS packet with the same\n> information, but and MAY update Acct-Delay-Time.\n\nI have a really hard time understanding what we mean with the first part of this paragraph. I feels like snippets of two versions of this paragraph have been mangled together.\n\n\n8. Section 7.8\nThis is (mostly) about implementing complex systems, and not really about security. Maybe this would better fit in the implementation considerations (section 6)?\n\n",
+      "createdAt": "2026-01-29T13:45:40Z",
+      "updatedAt": "2026-01-29T14:41:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> 1. I think the intention here was that the lack of a response should not trigger a connection being declared 'DOWN', but only the application layer watchdog or underlying transport status. However, the current text does not say this. I would thus suggest this change:\n\n+1 for the change\n\n> 2. Section 3.8.1 paragraph 4:\n\nI think that's covered elsewhere, so no comment\n\n> 3. This is the first mention of RADIUS packets to DTLS records relationship in the document. Should we add a reference to section 5.1?\n\nyes.\n\n> 4. Section 3.11 paragraph 4:\n\nMaybe just make it \"the RADIUS specifications\"\n\n> 5.  Section 4.1 paragraph 5 (last):\n\nIt's OK to either move it or leave it as-is.\n\n> 6. Section 6.2.3 paragraph 3:\n\nYes, *receiver* is correct.\n\n> 7. Section 6.2.3 paragraph 5:\n\nAddressed elsewhere, #124 \n\n> 8. Section 7.8\n\nIt's OK to move it.",
+          "createdAt": "2026-01-29T14:41:27Z",
+          "updatedAt": "2026-01-29T14:41:27Z"
+        }
+      ]
+    },
+    {
+      "number": 135,
+      "id": "I_kwDOLrzygc7muTxQ",
+      "title": "Move section 7.8 to Implementation Considerations?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/135",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "From Fabian's review:\n\n8. Section 7.8\nThis is (mostly) about implementing complex systems, and not really about security. Maybe this would better fit in the implementation considerations (section 6)?\n",
+      "createdAt": "2026-01-29T14:08:51Z",
+      "updatedAt": "2026-01-29T14:08:51Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 136,
+      "id": "I_kwDOLrzygc7muU26",
+      "title": "Unclear text on Acct-Delay-Time",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/136",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mrw42",
+        "Janfred"
+      ],
+      "labels": [],
+      "body": "From Fabian's review:\n\n7. Section 6.2.3 paragraph 5:\n> Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the\n> client SHOULD use timers to detect packet loss, as described in\n> Section 3.8.2. Where RadSec clients do include Acct-Delay-Time in\n> RADIUS packets, the client can rely on the Event-Timestamp to signal\n> delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the\n> timer has determined that the original packet has been completely\n> lost, the client SHOULD then create a new RADIUS packet with the same\n> information, but and MAY update Acct-Delay-Time.\n\nI have a really hard time understanding what we mean with the first part of this paragraph. I feels like snippets of two versions of this paragraph have been mangled together.\n",
+      "createdAt": "2026-01-29T14:09:44Z",
+      "updatedAt": "2026-01-29T14:33:53Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think this is a duplicate of #124 ",
+          "createdAt": "2026-01-29T14:33:53Z",
+          "updatedAt": "2026-01-29T14:33:53Z"
         }
       ]
     }
@@ -5203,21 +5522,21 @@
       "id": "PR_kwDOLrzygc6tWY3B",
       "title": "radiusdtls-bis-09 - Assorted fixes and other commits",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/62",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2026-01-26T18:28:52Z",
+      "updatedAt": "2026-01-29T09:21:48Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "assorted-commits",
       "headRefOid": "defa7edf5fda5c1f33584ed54008d5bb44b4c96d",
-      "closedAt": null,
+      "closedAt": "2026-01-29T09:21:48Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -10661,7 +10980,7 @@
       "labels": [],
       "body": "Especially in the paragraph for RADIUS/TLS I've moved the last sentence to the front which hopefully makes the paragraph more readable.\r\n\r\nThis addresses [comments on the Mailing list](https://mailarchive.ietf.org/arch/msg/radext/AihI-HB1QfC5IO00uq9WPvfutiA/)",
       "createdAt": "2026-01-27T14:47:58Z",
-      "updatedAt": "2026-01-28T17:56:59Z",
+      "updatedAt": "2026-01-29T14:28:45Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
@@ -10695,7 +11014,496 @@
           "updatedAt": "2026-01-28T17:56:59Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6dnV",
+          "commit": {
+            "abbreviatedOid": "1f4b6bb"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:28:45Z",
+          "updatedAt": "2026-01-29T14:28:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 124,
+      "id": "PR_kwDOLrzygc7AFaMg",
+      "title": "Updated retransmission text (from Alan's email to the radext list)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/124",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-29T09:54:21Z",
+      "updatedAt": "2026-01-31T21:31:18Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/alan-retransmission",
+      "headRefOid": "059a30f4025e222e99fc6eff6828ea1efe4d99aa",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6bjF",
+          "commit": {
+            "abbreviatedOid": "059a30f"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:27:30Z",
+          "updatedAt": "2026-01-29T14:27:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiRrP",
+          "commit": {
+            "abbreviatedOid": "059a30f"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:31:18Z",
+          "updatedAt": "2026-01-31T21:31:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 125,
+      "id": "PR_kwDOLrzygc7AFpDO",
+      "title": "Remove redundant text about which TLS versions are supported.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/125",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves issue #120 based on email discussion.",
+      "createdAt": "2026-01-29T10:11:50Z",
+      "updatedAt": "2026-01-31T21:30:45Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/remove-tls-version-bullet",
+      "headRefOid": "7be714c5da51c721bd07b23ecdeaa580113c95f5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me",
+          "createdAt": "2026-01-29T14:26:02Z",
+          "updatedAt": "2026-01-29T14:26:02Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7eiRd7",
+          "commit": {
+            "abbreviatedOid": "7be714c"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:30:45Z",
+          "updatedAt": "2026-01-31T21:30:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 126,
+      "id": "PR_kwDOLrzygc7AF4cS",
+      "title": "Clarify text around RADIUS/UDP downgrade situation (issue #119)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/126",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Proposed compromise for resolution of issue #119.",
+      "createdAt": "2026-01-29T10:28:33Z",
+      "updatedAt": "2026-01-31T21:30:23Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/udp-downgrade",
+      "headRefOid": "91bb6006adf8bc51a7af8bbe32a50f0616656c65",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6cS0",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:27:56Z",
+          "updatedAt": "2026-01-29T14:27:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiRPa",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:30:23Z",
+          "updatedAt": "2026-01-31T21:30:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 127,
+      "id": "PR_kwDOLrzygc7AGHtd",
+      "title": "Clarify wording around Certificate policy extensions/OIDs.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/127",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Used Valery's wording and made text consistent in both locations.  Resolves issue #112 ",
+      "createdAt": "2026-01-29T10:44:16Z",
+      "updatedAt": "2026-01-31T21:29:43Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/cert-OID",
+      "headRefOid": "7913f3cfdad5bb16de362d3d5166607681495b6c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "NONE",
+          "body": "Looks good.",
+          "createdAt": "2026-01-29T11:27:17Z",
+          "updatedAt": "2026-01-29T11:27:17Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6dDh",
+          "commit": {
+            "abbreviatedOid": "7913f3c"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:28:23Z",
+          "updatedAt": "2026-01-29T14:28:23Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiQxE",
+          "commit": {
+            "abbreviatedOid": "7913f3c"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:29:43Z",
+          "updatedAt": "2026-01-31T21:29:43Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 128,
+      "id": "PR_kwDOLrzygc7AG-eL",
+      "title": "Text regarding validating identities",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/128",
+      "state": "OPEN",
+      "author": "smyslov",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-29T11:48:27Z",
+      "updatedAt": "2026-01-31T21:29:08Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "Validating-identities",
+      "headRefOid": "1f400ccbeff69b1894f7ebe92c581a3e6a54877a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6eDC",
+          "commit": {
+            "abbreviatedOid": "1f400cc"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:29:01Z",
+          "updatedAt": "2026-01-29T14:29:01Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiQXp",
+          "commit": {
+            "abbreviatedOid": "1f400cc"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:29:08Z",
+          "updatedAt": "2026-01-31T21:29:08Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 129,
+      "id": "PR_kwDOLrzygc7AHj7C",
+      "title": "Fix text on TCP head-of-line blocking, remove misleading text on retr\u2026",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/129",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026ansmissions.\r\n\r\nFixes issue #69 ",
+      "createdAt": "2026-01-29T12:33:18Z",
+      "updatedAt": "2026-01-31T21:28:47Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/tcp-head-of-line",
+      "headRefOid": "d398079fb5435ccc6e219398f9a5922977517aa0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6fB3",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:29:37Z",
+          "updatedAt": "2026-01-29T14:29:37Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiQHR",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:28:47Z",
+          "updatedAt": "2026-01-31T21:28:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 130,
+      "id": "PR_kwDOLrzygc7AHvu2",
+      "title": "Update IANA considerations",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/130",
+      "state": "OPEN",
+      "author": "smyslov",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Also accidentally includes the text about identity verification",
+      "createdAt": "2026-01-29T12:45:13Z",
+      "updatedAt": "2026-01-31T21:27:51Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "main",
+      "headRefOid": "e125290852766046d1263e3cb02ef5922db662d5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7eiPj_",
+          "commit": {
+            "abbreviatedOid": "e125290"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:27:51Z",
+          "updatedAt": "2026-01-31T21:27:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 131,
+      "id": "PR_kwDOLrzygc7AIX5F",
+      "title": "Fix discussion of PMTU Discovery in implementation considerations.",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/131",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Proposed fix to issue #71 ",
+      "createdAt": "2026-01-29T13:24:36Z",
+      "updatedAt": "2026-01-31T21:27:01Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/pmtu",
+      "headRefOid": "b7fd5158e9b7d164f388532a589207b88a8e0969",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6jyx",
+          "commit": {
+            "abbreviatedOid": "b7fd515"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:32:27Z",
+          "updatedAt": "2026-01-29T14:32:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiPJw",
+          "commit": {
+            "abbreviatedOid": "b7fd515"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:27:01Z",
+          "updatedAt": "2026-01-31T21:27:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 133,
+      "id": "PR_kwDOLrzygc7AIpLt",
+      "title": "Change from SHOULD to MAY indicate trust anchors",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/133",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses issue #132 ",
+      "createdAt": "2026-01-29T13:38:56Z",
+      "updatedAt": "2026-01-31T21:26:12Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "mrc/vadim-trust-anchor",
+      "headRefOid": "961a7481ba2dbf2d41439ed3da95ee11e16d4770",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I accidentally added the editorial stuff from Fabian's review here, instead of in a separate PR.  I don't know how to fix that and need to go to a medical procedure now.  @Janfred if you care about fixing this, can you tell me how?  If not, I am okay just merging these together.",
+          "createdAt": "2026-01-29T14:14:51Z",
+          "updatedAt": "2026-01-29T14:14:51Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7d6kEu",
+          "commit": {
+            "abbreviatedOid": "961a748"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T14:32:42Z",
+          "updatedAt": "2026-01-29T14:32:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7eiO3y",
+          "commit": {
+            "abbreviatedOid": "961a748"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-31T21:26:12Z",
+          "updatedAt": "2026-01-31T21:26:12Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
