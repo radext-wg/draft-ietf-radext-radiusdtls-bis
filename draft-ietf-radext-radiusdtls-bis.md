@@ -216,7 +216,7 @@ Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.
 
-RadSec endpoints MUST follow {{!RFC9525}} when validating server identities.
+RadSec clients MUST follow {{!RFC9525}} when validating RadSec server identities. RadSec servers also follow {{!RFC9525}} when validating RadSec client identities with some additional rules.
 
 Specific details are provided below:
 
@@ -975,15 +975,25 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 
 # IANA Considerations
 
-Upon approval, IANA should update the Reference to radsec in the Service Name and Transport Protocol Port Number Registry:
+Upon approval, IANA should update the Reference and the Assignemnt Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
 
+For TCP:
 * Service Name: radsec
 * Port Number: 2083
-* Transport Protocol: tcp/udp
+* Transport Protocol: tcp
 * Description: Secure RADIUS Service
 * Assignment notes: The TCP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/TLS, prior to issuance of the experimental RFC 6614.
-  {{&SELF}} updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS).
+  {{&SELF}} updates RFC 6614 (RADIUS/TLS).
 * Reference: {{&SELF}} (this document)
+
+For UDP:
+* Service Name: radsec
+* Port Number: 2083
+* Transport Protocol: udp
+* Description: Secure RADIUS Service
+* Assignment notes: The UDP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/DTLS, prior to issuance of the experimental RFC 7360. {{&SELF}} updates RFC 7360 (RADIUS/DTLS).
+* Reference: {{&SELF}} (this document)
+
 
 --- back
 
