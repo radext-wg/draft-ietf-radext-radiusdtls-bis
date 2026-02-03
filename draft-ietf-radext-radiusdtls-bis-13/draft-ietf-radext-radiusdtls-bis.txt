@@ -1040,7 +1040,7 @@ Table of Contents
 6.  Implementation Considerations
 
    This section discusses topics related to the internal behavior of
-   RadSec implemneations that should be considered by RadSec
+   RadSec implementations that should be considered by RadSec
    implementers.
 
 6.1.  RADIUS Implementation Changes
@@ -1252,10 +1252,10 @@ Table of Contents
    ensures that there is no congestive collapse, since a new packet is
    only created if following hops have also given up on retransmission.
    The Event-Timestamp is then interpreted as the time at which the
-   event occured.  Where Acct-Delay-Time exists, it is then interpreted
+   event occurred.  Where Acct-Delay-Time exists, it is then interpreted
    as the delay between the event and when the packet was sent.  Systems
    MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive
-   a time at which the event occured; that time is exactly Event-
+   a time at which the event occurred; that time is exactly Event-
    Timestamp.  The existence of Acct-Delay-Time instead serves as an
    additional indication of delays in sending the packet.  Leaving the
    Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to
@@ -1790,7 +1790,7 @@ Table of Contents
 
 9.  IANA Considerations
 
-   Upon approval, IANA should update the Reference and the Assignemnt
+   Upon approval, IANA should update the Reference and the Assignment
    Notes to radsec in the Service Name and Transport Protocol Port
    Number Registry:
 
