@@ -2096,7 +2096,7 @@ This is discussed further in <a href="#dtls_spec" class="auto internal xref">Sec
           <h4 id="name-differences-from-rfc-6614-u">
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-differences-from-rfc-6614-u" class="section-name selfRef">Differences from RFC 6614 unwanted RADIUS packet handling</a>
           </h4>
-<p id="section-6.1.1-1">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommends to send a reply that depends on the request type:<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.1-1">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommends to send a reply to unwanted RADIUS packets that depends on the request type:<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1.1-2.1">
               <p id="section-6.1.1-2.1.1">For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.<a href="#section-6.1.1-2.1.1" class="pilcrow">¶</a></p>
@@ -2224,7 +2224,8 @@ As a suggestion, at least the following information from the TLS connection and 
             <p id="section-6.3-2.7.1">all X.509v3 Certificate Policy<a href="#section-6.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.3-3">In TLS-PSK <span>[<a href="#RFC9813" class="cite xref">RFC9813</a>]</span> operation, at least the following information from the TLS connection should be exposed:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Similar to the PKIX trust model, clients using TLS-PSK may have additional policies to determine whether a client should be allowed to connect.
+Therefore, In TLS-PSK operation, at least the following information from the TLS connection should be exposed:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-4.1">
             <p id="section-6.3-4.1.1">Originating IP address<a href="#section-6.3-4.1.1" class="pilcrow">¶</a></p>
