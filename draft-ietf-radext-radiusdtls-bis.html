@@ -1603,7 +1603,7 @@ See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://r
 Instead, the endpoints <span class="bcp14">SHOULD</span> start off with an empty CA set as the trust base.
 The addition of a CA <span class="bcp14">SHOULD</span> be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.<a href="#section-3.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.3.1-5">RadSec endpoints <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating server identities.<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-5">RadSec clients <span class="bcp14">MUST</span> follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating RadSec server identities. RadSec servers also follow <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span> when validating RadSec client identities with some additional rules.<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
 <p id="section-3.3.1-6">Specific details are provided below:<a href="#section-3.3.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-7.1">
@@ -2577,28 +2577,22 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">Upon approval, IANA should update the Reference to radsec in the Service Name and Transport Protocol Port Number Registry:<a href="#section-9-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-9-2.1">
-          <p id="section-9-2.1.1">Service Name: radsec<a href="#section-9-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-2.2">
-          <p id="section-9-2.2.1">Port Number: 2083<a href="#section-9-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-2.3">
-          <p id="section-9-2.3.1">Transport Protocol: tcp/udp<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-2.4">
-          <p id="section-9-2.4.1">Description: Secure RADIUS Service<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-2.5">
-          <p id="section-9-2.5.1">Assignment notes: The TCP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/TLS, prior to issuance of the experimental RFC 6614.
-[RFCXXXX] updates RFC 6614 (RADIUS/TLS) and RFC 7360 (RADIUS/DTLS).<a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-2.6">
-          <p id="section-9-2.6.1">Reference: [RFCXXXX] (this document)<a href="#section-9-2.6.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
+<p id="section-9-1">Upon approval, IANA should update the Reference and the Assignemnt Notes to radsec in the Service Name and Transport Protocol Port Number Registry:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">For TCP:
+* Service Name: radsec
+* Port Number: 2083
+* Transport Protocol: tcp
+* Description: Secure RADIUS Service
+* Assignment notes: The TCP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/TLS, prior to issuance of the experimental RFC 6614.
+  [RFCXXXX] updates RFC 6614 (RADIUS/TLS).
+* Reference: [RFCXXXX] (this document)<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-3">For UDP:
+* Service Name: radsec
+* Port Number: 2083
+* Transport Protocol: udp
+* Description: Secure RADIUS Service
+* Assignment notes: The UDP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/DTLS, prior to issuance of the experimental RFC 7360. [RFCXXXX] updates RFC 7360 (RADIUS/DTLS).
+* Reference: [RFCXXXX] (this document)<a href="#section-9-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
