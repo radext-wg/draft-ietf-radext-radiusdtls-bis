@@ -563,11 +563,11 @@ Instead, clients SHOULD use DTLS as a transport layer only when administratively
 
 # Implementation Considerations
 
-This section discusses topics related to the internal behavior of RadSec implemneations that should be considered by RadSec implementers.
+This section discusses topics related to the internal behavior of RadSec implementations that should be considered by RadSec implementers.
 
 ## RADIUS Implementation Changes
 
-The RADIUS packet format is unchanged from [RFC2865], [RFC2866] and [RFC5176].
+The RADIUS packet format is unchanged from {{RFC2865}}, {{RFC2866}} and {{RFC5176}}.
 Specifically, all of the following portions of RADIUS remain unchanged when using RadSec:
 
 * Packet format
@@ -678,7 +678,7 @@ Since there is no change to the packet contents when a retransmission timer expi
 Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client SHOULD use timers to detect packet loss, as described in {{client_retransmission_timers}}.
 Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client SHOULD then create a new RADIUS packet with the same information, but and MAY update Acct-Delay-Time.
 This behavior ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission.
-The Event-Timestamp is then interpreted as the time at which the event occured.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
+The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occurred; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
 Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
 
 
@@ -977,7 +977,7 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 
 # IANA Considerations
 
-Upon approval, IANA should update the Reference and the Assignemnt Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
+Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
 
 For TCP:
 * Service Name: radsec
