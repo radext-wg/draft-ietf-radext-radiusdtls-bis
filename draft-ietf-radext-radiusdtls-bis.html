@@ -1589,7 +1589,7 @@ RadSec client implementations <span class="bcp14">SHOULD</span> implement this m
               <p id="section-3.3.1-3.2.1">Certificate validation <span class="bcp14">MUST</span> include the verification rules as per <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-3.3.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.3">
-              <p id="section-3.3.1-3.3.1">Implementations <span class="bcp14">SHOULD</span> indicate their trust anchors when opening or accepting TLS connections.
+              <p id="section-3.3.1-3.3.1">Implementations <span class="bcp14">MAY</span> indicate their trust anchors when opening or accepting TLS connections.
 See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.4.4" class="relref">Section 7.4.4</a></span> and <span>[<a href="#RFC6066" class="cite xref">RFC6066</a>], <a href="https://rfc-editor.org/rfc/rfc6066#section-6" class="relref">Section 6</a></span> for TLS 1.2 and <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.2.4" class="relref">Section 4.2.4</a></span> for TLS 1.3.<a href="#section-3.3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.4">
@@ -1745,7 +1745,7 @@ See further details in <a href="#unwanted_packet_handling" class="auto internal 
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
 A similar effect may also be seen on home servers that uses different credential backends for each realm they service.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
-<p id="section-3.7-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.7-3" class="pilcrow">¶</a></p>
+<p id="section-3.7-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> only mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.7-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.7-4.1">
             <p id="section-3.7-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.<a href="#section-3.7-4.1.1" class="pilcrow">¶</a></p>
@@ -1791,8 +1791,9 @@ In cases where the server closes the connection on an attempted TLS session resu
 <p id="section-3.8.1-3">RadSec clients <span class="bcp14">MUST</span> implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
 Using an algorithm similar to the retransmission algorithm defined in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span> is <span class="bcp14">RECOMMENDED</span>.
 If a different algorithm is used, it <span class="bcp14">SHOULD</span> include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.<a href="#section-3.8.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.8.1-4">Where the connection to a RadSec server is established only when there is a RADIUS packet to be sent, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt.
-Instead, the algorithm <span class="bcp14">SHOULD</span> continue as it would have without the new packet, but the client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting.<a href="#section-3.8.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.8.1-4">When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt or reset the reconnection timer.
+Instead, the algorithm <span class="bcp14">SHOULD</span> continue as it would have without the new RADIUS packet.
+However, a client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting when a new RADIUS packet is queued.<a href="#section-3.8.1-4" class="pilcrow">¶</a></p>
 <p id="section-3.8.1-5">Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm <span class="bcp14">SHOULD</span> have an upper limit for the time between retries (e.g. 60 seconds) and not give up trying to reconnect.<a href="#section-3.8.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1862,7 +1863,7 @@ This behavior ensures that the desired action is still taken, even if the home s
 This action has no further consequences for UDP based transports, as the "next" packet is completely independent of the previous one.<a href="#section-3.11-1" class="pilcrow">¶</a></p>
 <p id="section-3.11-2">When TLS is used as transport, decoding the "next" packet on a connection depends on the proper decoding of the previous packet.
 As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.<a href="#section-3.11-2" class="pilcrow">¶</a></p>
-<p id="section-3.11-3">With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records.
+<p id="section-3.11-3">With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records (see <a href="#radius_packet_handling" class="auto internal xref">Section 5.1</a>).
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.<a href="#section-3.11-3" class="pilcrow">¶</a></p>
 <p id="section-3.11-4">Subject to the discussion below, implementations of this specification <span class="bcp14">SHOULD</span> treat the text on "silently discard" packets in the RADIUS specification referenced above as "silently discard the packet and close the connection".
 That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection <span class="bcp14">MUST</span> be closed if any of the following circumstances are seen:<a href="#section-3.11-4" class="pilcrow">¶</a></p>
@@ -1953,7 +1954,7 @@ The next RADIUS packet <span class="bcp14">MUST</span> be sent directly after th
 <p id="section-4.1-4">When receiving RADIUS packets, a RADIUS/TLS endpoint <span class="bcp14">MUST</span> determine the borders of RADIUS packet based on the <code>Length</code> field in the RADIUS header.
 Note that, due to the stream architecture of TLS, it is possible that a RADIUS packet is first received only partially, and the remainder of the packet is contained in following fragments.
 Therefore, RADIUS/TLS endpoints <span class="bcp14">MUST NOT</span> assume that the packet length is invalid solely based on the currently available data in the stream.  More data may come at a later time.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
-<p id="section-4.1-5">As an implementation note, it is <span class="bcp14">RECOMMENDED</span> that RADIUS/TLS implementations pass a RADIUS packet to the TLS library as one unit, instead of in multiple fragments.  This behavior avoids unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.1-5">It is <span class="bcp14">RECOMMENDED</span> that RADIUS/TLS implementations pass a RADIUS packet to the TLS library as one unit, instead of in multiple fragments.  This behavior avoids unnecessary overhead when sending or receiving (especially if every new write generates a new TLS record) and wait times on the other endpoint.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="duplicates_retransmissions">
@@ -2179,7 +2180,7 @@ In contrast, updating Acct-Delay-Time would require that the client create and s
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
 This duplication contributes to congestive collapse of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-3">Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
-While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the sender with a significant delay due to the underlying TCP retransmission mechanism.
+While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
 If the packet is proxied from RADIUS/TLS to RADIUS/DTLS or RADIUS/UDP, the proxy has to retransmit on its own without changing the value of Acct-Delay-Time, which again introduces non-negligible transmission delays.<a href="#section-6.2.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-4">Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity around retransmitted packets for RADIUS/TLS.
 Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.<a href="#section-6.2.3-4" class="pilcrow">¶</a></p>
