@@ -2040,7 +2040,7 @@ Instead, clients <span class="bcp14">SHOULD</span> use DTLS as a transport layer
       <h2 id="name-implementation-consideratio">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
       </h2>
-<p id="section-6-1">This section discusses topics related to the internal behavior of RadSec implemneations that should be considered by RadSec implementers.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">This section discusses topics related to the internal behavior of RadSec implementations that should be considered by RadSec implementers.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="radius-implementation-changes">
 <section id="section-6.1">
         <h3 id="name-radius-implementation-chang">
@@ -2187,7 +2187,7 @@ Since there is no change to the packet contents when a retransmission timer expi
 <p id="section-6.2.3-5">Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client <span class="bcp14">SHOULD</span> use timers to detect packet loss, as described in <a href="#client_retransmission_timers" class="auto internal xref">Section 3.8.2</a>.
 Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore <span class="bcp14">SHOULD NOT</span> update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client <span class="bcp14">SHOULD</span> then create a new RADIUS packet with the same information, but and <span class="bcp14">MAY</span> update Acct-Delay-Time.
 This behavior ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission.
-The Event-Timestamp is then interpreted as the time at which the event occured.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems <span class="bcp14">MUST NOT</span> subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occured; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
+The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems <span class="bcp14">MUST NOT</span> subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occurred; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
 Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.<a href="#section-6.2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2579,7 +2579,7 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">Upon approval, IANA should update the Reference and the Assignemnt Notes to radsec in the Service Name and Transport Protocol Port Number Registry:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">For TCP:
 * Service Name: radsec
 * Port Number: 2083
