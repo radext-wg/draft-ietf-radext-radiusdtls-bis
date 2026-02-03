@@ -596,7 +596,7 @@ This is discussed further in {{dtls_spec}}.
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 {: #unwanted_packet_handling }
 
-The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a reply that depends on the request type:
+The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a reply to unwanted RADIUS packets that depends on the request type:
 
 * For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.
 
@@ -696,7 +696,8 @@ As a suggestion, at least the following information from the TLS connection and 
 * all X.509v3 Subject Alternative Name
 * all X.509v3 Certificate Policy
 
-In TLS-PSK {{?RFC9813}} operation, at least the following information from the TLS connection should be exposed:
+Similar to the PKIX trust model, clients using TLS-PSK may have additional policies to determine whether a client should be allowed to connect.
+Therefore, In TLS-PSK operation, at least the following information from the TLS connection should be exposed:
 
 * Originating IP address
 * TLS-PSK Identifier
