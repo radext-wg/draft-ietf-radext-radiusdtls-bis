@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-01T01:22:10.256392+00:00",
+  "timestamp": "2026-02-03T01:14:40.459792+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -5529,7 +5529,7 @@
       "labels": [],
       "body": "Move two paragraphs to the enclosing section because they describe changes to RADIUS in general. The other commits fix typos, unify US vs UK spelling and fix some RADIUS messages types in an example.",
       "createdAt": "2025-10-12T21:26:40Z",
-      "updatedAt": "2026-01-29T09:21:48Z",
+      "updatedAt": "2026-02-02T10:52:22Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6c9b0f67f23913899fce54dfda92e028895da0d",
@@ -5596,6 +5596,13 @@
           "body": "@h-vn It looks like these fixes may have been incorporated in a later version without merging or closing this pull request.  Would it be okay to just close this, or are there changes here that you think are still needed?",
           "createdAt": "2026-01-26T18:28:52Z",
           "updatedAt": "2026-01-26T18:28:52Z"
+        },
+        {
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Confirming, a bit late, that this can be closed. I'll go through the latest version next. Thanks for checking on this!",
+          "createdAt": "2026-02-02T10:52:22Z",
+          "updatedAt": "2026-02-02T10:52:22Z"
         }
       ],
       "reviews": [
