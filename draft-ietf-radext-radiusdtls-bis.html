@@ -1649,7 +1649,7 @@ The database may enumerate acceptable clients either by IP address or by a name 
                   <p id="section-3.3.1-7.3.2.4.1">Implementations <span class="bcp14">MAY</span> consider additional subjectAltName extensions to identify a client.<a href="#section-3.3.1-7.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-3.3.1-7.3.2.5">
-                  <p id="section-3.3.1-7.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy OID unless both endpoints are part of a trusted network.<a href="#section-3.3.1-7.3.2.5.1" class="pilcrow">¶</a></p>
+                  <p id="section-3.3.1-7.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> trust chain check, e.g. if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy extension <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>], <a href="https://rfc-editor.org/rfc/rfc5280#section-4.2.1.4" class="relref">Section 4.2.1.4</a></span> unless both endpoints are part of a trusted network.<a href="#section-3.3.1-7.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -2387,7 +2387,7 @@ For this, dynamic discovery as defined in <span>[<a href="#RFC7585" class="cite 
 <p id="section-7.2.1-1">RadSec endpoints that are configured to act both as client and server, typically in a proxy configuration, may be vulnerable to attacks where an attacker mirrors back all traffic to the endpoint.
 Therefore, endpoints that are capable of acting as both client and server <span class="bcp14">SHOULD</span> implement mitigations to avoid accepting connections from itself.
 One example of a potentially vulnerable configuration is a setup where the RadSec server is accepting incoming connections from any address (or a wide address range).
-Since the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer or certificate OID.
+Since the server may not be able to verify the certificate subject or subject alternate names, the trust is based on the certificate issuer and/or on the contents of the certificate policies extension <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>], <a href="https://rfc-editor.org/rfc/rfc5280#section-4.2.1.4" class="relref">Section 4.2.1.4</a></span>.
 However, in this case, the client certificate which the RadSec endpoint uses for outgoing connections on the client side might also satisfy the trust check of the server side.
 Other scenarios where the identification of an outgoing connection satisfies the trust check of an incoming one are possible, but are not enumerated here.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-2">Either through misconfiguration, erroneous or spoofed dynamic discovery, or an attacker rerouting TLS packets, a proxy might thus open a connection to itself, creating a loop.

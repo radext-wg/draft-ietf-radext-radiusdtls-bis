@@ -433,8 +433,9 @@ Table of Contents
          omitted after a successful [RFC5280] trust chain check, e.g. if
          the client used dynamic lookup there is no configured client
          identity to verify.  The client's authorization MUST then be
-         validated using a certificate policy OID unless both endpoints
-         are part of a trusted network.
+         validated using a certificate policy extension [RFC5280],
+         Section 4.2.1.4 unless both endpoints are part of a trusted
+         network.
 
    *  Implementations MAY allow configuration of a set of additional
       properties of the certificate to check for a peer's authorization
@@ -1498,7 +1499,8 @@ Table of Contents
    is a setup where the RadSec server is accepting incoming connections
    from any address (or a wide address range).  Since the server may not
    be able to verify the certificate subject or subject alternate names,
-   the trust is based on the certificate issuer or certificate OID.
+   the trust is based on the certificate issuer and/or on the contents
+   of the certificate policies extension [RFC5280], Section 4.2.1.4.
    However, in this case, the client certificate which the RadSec
    endpoint uses for outgoing connections on the client side might also
    satisfy the trust check of the server side.  Other scenarios where
