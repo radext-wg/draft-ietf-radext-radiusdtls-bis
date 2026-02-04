@@ -65,7 +65,7 @@ This document obsoletes RFC6614 and RFC7360, which specified experimental versio
 
 # Introduction
 
-This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) {{!RFC8446}} {{!RFC5446}} over TCP, and Datagram Transport Layer Security (DTLS) {{!RFC9147}} {{!RFC6347}} over UDP, allowing secure and reliable transport of RADIUS messages.
+This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) {{!RFC8446}} {{!RFC5246}} over TCP, and Datagram Transport Layer Security (DTLS) {{!RFC9147}} {{!RFC6347}} over UDP, allowing secure and reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.  This document obsoletes {{?RFC6614}} and {{?RFC7360}}, which specified experimental versions of RADIUS over TLS and DTLS.
 
 RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in {{!RFC2865}}, {{!RFC2866}}, and {{!RFC5176}}, among others.
