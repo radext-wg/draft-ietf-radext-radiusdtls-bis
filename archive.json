@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-03T01:14:40.459792+00:00",
+  "timestamp": "2026-02-05T01:10:55.368800+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1214,9 +1214,17 @@
       "labels": [],
       "body": "From Valery's shepherd review:\n\n> Section 9.\n>   It seems that the assignment note for UDP must be slightly different.\n>   The provided note is for TCP only. IANA registry has two different notes\n>   for TCP and for UDP.\n>\n>   I also wonder whether is OK that the service name in IANA registry is \"radsec\" while the \n> assignment note uses \"RadSec\" (I don't remember whether service names are case-sensitive, hope not).\n\nNeed to look into this further, but case-sensitivity and need for DTLS/UDP wording.",
       "createdAt": "2026-01-22T23:51:10Z",
-      "updatedAt": "2026-01-22T23:51:10Z",
+      "updatedAt": "2026-02-04T12:22:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "smyslov",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This issue can be closed - the IANA Considerations text is updated in -13 version as per https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/130, and the service names are case-insensitive as per RFC 6335 Section 5.1 (https://datatracker.ietf.org/doc/html/rfc6335#section-5.1)",
+          "createdAt": "2026-02-04T12:22:56Z",
+          "updatedAt": "2026-02-04T12:22:56Z"
+        }
+      ]
     },
     {
       "number": 115,
@@ -1468,9 +1476,17 @@
       "labels": [],
       "body": "From Fabian's review:\n\n8. Section 7.8\nThis is (mostly) about implementing complex systems, and not really about security. Maybe this would better fit in the implementation considerations (section 6)?\n",
       "createdAt": "2026-01-29T14:08:51Z",
-      "updatedAt": "2026-01-29T14:08:51Z",
+      "updatedAt": "2026-02-03T14:47:02Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't think this should be in implementation considerations, since it doesn't talk about individual implementations but about operational considerations, and those should stay in security considerations.",
+          "createdAt": "2026-02-03T14:47:02Z",
+          "updatedAt": "2026-02-03T14:47:02Z"
+        }
+      ]
     },
     {
       "number": 136,
@@ -10980,21 +10996,21 @@
       "id": "PR_kwDOLrzygc6_n7AR",
       "title": "Clarify retransmission text",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/123",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Especially in the paragraph for RADIUS/TLS I've moved the last sentence to the front which hopefully makes the paragraph more readable.\r\n\r\nThis addresses [comments on the Mailing list](https://mailarchive.ietf.org/arch/msg/radext/AihI-HB1QfC5IO00uq9WPvfutiA/)",
       "createdAt": "2026-01-27T14:47:58Z",
-      "updatedAt": "2026-01-29T14:28:45Z",
+      "updatedAt": "2026-02-03T14:43:56Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "janfred/retransmission",
       "headRefOid": "1f4b6bbed87a9147dac1744ec5a6a93d7b29e808",
-      "closedAt": null,
+      "closedAt": "2026-02-03T14:43:56Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -11049,10 +11065,10 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-29T09:54:21Z",
-      "updatedAt": "2026-01-31T21:31:18Z",
+      "updatedAt": "2026-02-03T15:23:43Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/alan-retransmission",
       "headRefOid": "059a30f4025e222e99fc6eff6828ea1efe4d99aa",
@@ -11060,7 +11076,29 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm not sure about this text.\r\nI find it hard to read (especially the definition at the beginning without any introduction into the section feels off)\r\n\r\nI'm not sure about the \"MUST NOT be changed when retried over a new connection\".\r\n\r\nIn order to have a new draft version out, I'll leave this PR open for discussion and push a new document without the adjustments.",
+          "createdAt": "2026-02-03T14:28:58Z",
+          "updatedAt": "2026-02-03T14:28:58Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To add to my previous comment: Section 4.2 (\"Duplicates and Retransmissions\" in the TLS-specific part) also talks about retries, so it might be good to reference the definition for retries there, or at least align the wording in that section.",
+          "createdAt": "2026-02-03T14:39:01Z",
+          "updatedAt": "2026-02-03T14:39:01Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To have this link here: my initial suggestion is in #123 , I'll close my PR for better overview. This is just to have this link in this PR somewhere.",
+          "createdAt": "2026-02-03T14:43:50Z",
+          "updatedAt": "2026-02-03T14:43:50Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7d6bjF",
@@ -11095,24 +11133,26 @@
       "id": "PR_kwDOLrzygc7AFpDO",
       "title": "Remove redundant text about which TLS versions are supported.",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/125",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolves issue #120 based on email discussion.",
       "createdAt": "2026-01-29T10:11:50Z",
-      "updatedAt": "2026-01-31T21:30:45Z",
+      "updatedAt": "2026-02-03T13:24:22Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/remove-tls-version-bullet",
       "headRefOid": "7be714c5da51c721bd07b23ecdeaa580113c95f5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-03T13:24:22Z",
+      "mergedAt": "2026-02-03T13:24:22Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "790f1b19bd48d178c1458746e2fa82433e9b78f3"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -11150,10 +11190,10 @@
       "labels": [],
       "body": "Proposed compromise for resolution of issue #119.",
       "createdAt": "2026-01-29T10:28:33Z",
-      "updatedAt": "2026-01-31T21:30:23Z",
+      "updatedAt": "2026-02-04T02:33:28Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/udp-downgrade",
       "headRefOid": "91bb6006adf8bc51a7af8bbe32a50f0616656c65",
@@ -11188,6 +11228,99 @@
           "createdAt": "2026-01-31T21:30:23Z",
           "updatedAt": "2026-01-31T21:30:23Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fQIzX",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T14:17:21Z",
+          "updatedAt": "2026-02-03T14:17:21Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Again, EAP is mentioned when it is not necessary.\nThe previous paragraph already talks about how to protect user credentials, so there is really no use in repeating this.\nAnd this paragraph does not talk about user credentials, so EAP should not be mentioned.",
+              "createdAt": "2026-02-03T14:17:21Z",
+              "updatedAt": "2026-02-03T14:17:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fRkGM",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T15:23:25Z",
+          "updatedAt": "2026-02-03T15:23:26Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "please suggest replacement text then",
+              "createdAt": "2026-02-03T15:23:25Z",
+              "updatedAt": "2026-02-03T15:23:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fRuZN",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T15:31:43Z",
+          "updatedAt": "2026-02-03T15:31:44Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I am still in favor of leaving this text exactly as-is, because it says it exactly as it is.\r\n\r\nValerys original comment in [his review](https://mailarchive.ietf.org/arch/msg/radext/PwfgjTIIVWfnXqKXHL7UMH6rBsw/) says \"Currently it reads like for the second para problem there is no technical solution.\" And that's right. There is no technical solution. Anything with EAP solves just parts of the problem (as listed in the paragraph before).",
+              "createdAt": "2026-02-03T15:31:43Z",
+              "updatedAt": "2026-02-03T15:31:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fb4ZW",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-04T02:32:51Z",
+          "updatedAt": "2026-02-04T02:32:51Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Ok, since that is the only part of this PR, I suggest we close this without merging",
+              "createdAt": "2026-02-04T02:32:51Z",
+              "updatedAt": "2026-02-04T02:32:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fb4oh",
+          "commit": {
+            "abbreviatedOid": "91bb600"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "based on Janfred's comments, I suggest we close this PR and not merge it",
+          "createdAt": "2026-02-04T02:33:28Z",
+          "updatedAt": "2026-02-04T02:33:28Z",
+          "comments": []
         }
       ]
     },
@@ -11196,28 +11329,30 @@
       "id": "PR_kwDOLrzygc7AGHtd",
       "title": "Clarify wording around Certificate policy extensions/OIDs.",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/127",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Used Valery's wording and made text consistent in both locations.  Resolves issue #112 ",
       "createdAt": "2026-01-29T10:44:16Z",
-      "updatedAt": "2026-01-31T21:29:43Z",
+      "updatedAt": "2026-02-03T13:30:45Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/cert-OID",
       "headRefOid": "7913f3cfdad5bb16de362d3d5166607681495b6c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-03T13:30:45Z",
+      "mergedAt": "2026-02-03T13:30:45Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "7ce27ffc805cd60879d54455669da62baa1d27ab"
+      },
       "comments": [
         {
           "author": "smyslov",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Looks good.",
           "createdAt": "2026-01-29T11:27:17Z",
           "updatedAt": "2026-01-29T11:27:17Z"
@@ -11257,25 +11392,33 @@
       "id": "PR_kwDOLrzygc7AG-eL",
       "title": "Text regarding validating identities",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/128",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "smyslov",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-29T11:48:27Z",
-      "updatedAt": "2026-01-31T21:29:08Z",
+      "updatedAt": "2026-02-03T14:10:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "Validating-identities",
       "headRefOid": "1f400ccbeff69b1894f7ebe92c581a3e6a54877a",
-      "closedAt": null,
+      "closedAt": "2026-02-03T14:10:54Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This change was already included in another PR, so I'll close this PR, but the contents are merged.",
+          "createdAt": "2026-02-03T14:10:54Z",
+          "updatedAt": "2026-02-03T14:10:54Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7d6eDC",
@@ -11317,10 +11460,10 @@
       "labels": [],
       "body": "\u2026ansmissions.\r\n\r\nFixes issue #69 ",
       "createdAt": "2026-01-29T12:33:18Z",
-      "updatedAt": "2026-01-31T21:28:47Z",
+      "updatedAt": "2026-02-04T02:30:36Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/tcp-head-of-line",
       "headRefOid": "d398079fb5435ccc6e219398f9a5922977517aa0",
@@ -11355,6 +11498,86 @@
           "createdAt": "2026-01-31T21:28:47Z",
           "updatedAt": "2026-01-31T21:28:47Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fP861",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T14:09:26Z",
+          "updatedAt": "2026-02-03T14:09:26Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Why this obsession with EAP? This is not an EAP-specific problem, it could also happen with non-EAP authentication, e.g. a VPN gateway with a RADIUS Password (non-EAP) backend.",
+              "createdAt": "2026-02-03T14:09:26Z",
+              "updatedAt": "2026-02-03T14:09:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fQIKB",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T14:16:58Z",
+          "updatedAt": "2026-02-03T14:16:58Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I think the \"lost TCP segment\" issue is unrelated to EAP.    If one TCP segment is lost, all subsequent traffic on that connection will be blocked.  This applies not just to EAP, but all Access-Request, and even Accounting-Request on that connection.\r\n\r\nThe \"lost TCP segment\" issue is much worse for EAP, but _only_ if the packets for one EAP session are sent across multiple TCP connections.  In the worst case, if any one TCP connection blocks, then _all_ ongoing EAP sessions will be affected.",
+              "createdAt": "2026-02-03T14:16:58Z",
+              "updatedAt": "2026-02-03T14:16:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fSlwv",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T16:13:15Z",
+          "updatedAt": "2026-02-03T16:13:15Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "This was added as caution for Acct-Delay-Time. While in RADIUS/UDP Acct-Delay-Time only represents the actual transmission delay of the IP packet, with TCP, it also includes any TCP-related delays.\nWe didn't want to include this in the original text AFAIR, so we added this here.",
+              "createdAt": "2026-02-03T16:13:15Z",
+              "updatedAt": "2026-02-03T16:13:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fb3Z0",
+          "commit": {
+            "abbreviatedOid": "d398079"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-04T02:30:36Z",
+          "updatedAt": "2026-02-04T02:30:36Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "I have no problem of leaving this sentence in. please update / merge the sentence so this PR can be merged in its entirely",
+              "createdAt": "2026-02-04T02:30:36Z",
+              "updatedAt": "2026-02-04T02:30:36Z"
+            }
+          ]
         }
       ]
     },
@@ -11363,24 +11586,26 @@
       "id": "PR_kwDOLrzygc7AHvu2",
       "title": "Update IANA considerations",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/130",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "smyslov",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Also accidentally includes the text about identity verification",
       "createdAt": "2026-01-29T12:45:13Z",
-      "updatedAt": "2026-01-31T21:27:51Z",
+      "updatedAt": "2026-02-03T13:40:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "main",
       "headRefOid": "e125290852766046d1263e3cb02ef5922db662d5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-03T13:40:49Z",
+      "mergedAt": "2026-02-03T13:40:49Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "8290948c17c88e51b273063a97dbadc13e1a7593"
+      },
       "comments": [],
       "reviews": [
         {
@@ -11410,10 +11635,10 @@
       "labels": [],
       "body": "Proposed fix to issue #71 ",
       "createdAt": "2026-01-29T13:24:36Z",
-      "updatedAt": "2026-01-31T21:27:01Z",
+      "updatedAt": "2026-02-03T15:28:09Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/pmtu",
       "headRefOid": "b7fd5158e9b7d164f388532a589207b88a8e0969",
@@ -11421,7 +11646,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PMTU is not only relevant for EAP and not only for proxies.\r\nThis text is IMHO too narrow and only covers few use cases, not all that we need.",
+          "createdAt": "2026-02-03T13:50:28Z",
+          "updatedAt": "2026-02-03T13:50:28Z"
+        },
+        {
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "body": "please provide a specific suggestion for improved text or merge this one ",
+          "createdAt": "2026-02-03T15:28:09Z",
+          "updatedAt": "2026-02-03T15:28:09Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7d6jyx",
@@ -11456,24 +11696,26 @@
       "id": "PR_kwDOLrzygc7AIpLt",
       "title": "Change from SHOULD to MAY indicate trust anchors",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/133",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses issue #132 ",
       "createdAt": "2026-01-29T13:38:56Z",
-      "updatedAt": "2026-01-31T21:26:12Z",
+      "updatedAt": "2026-02-03T16:09:46Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "2a1358d62450dc98cec80e4f0430afd0c48aec1a",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/vadim-trust-anchor",
       "headRefOid": "961a7481ba2dbf2d41439ed3da95ee11e16d4770",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-03T14:07:59Z",
+      "mergedAt": "2026-02-03T14:07:59Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "cca23c75e49fbe624050bb12bc5b43de565d6cb7"
+      },
       "comments": [
         {
           "author": "mrw42",
@@ -11509,8 +11751,120 @@
           "createdAt": "2026-01-31T21:26:12Z",
           "updatedAt": "2026-01-31T21:26:12Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fPms4",
+          "commit": {
+            "abbreviatedOid": "961a748"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T13:52:45Z",
+          "updatedAt": "2026-02-03T13:52:45Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "I'll approve this PR, but this \"only\" should be looked at, because there are other cases where the connection should be marked down.\n\nMaybe the fix is to add \"due to unresponsive servers\".",
+              "createdAt": "2026-02-03T13:52:45Z",
+              "updatedAt": "2026-02-03T13:52:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fRnN-",
+          "commit": {
+            "abbreviatedOid": "961a748"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T15:25:57Z",
+          "updatedAt": "2026-02-03T15:25:58Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "file  new PR so we won't forget with the exact text you'd like to see?",
+              "createdAt": "2026-02-03T15:25:57Z",
+              "updatedAt": "2026-02-03T15:25:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7fShMa",
+          "commit": {
+            "abbreviatedOid": "961a748"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-03T16:09:45Z",
+          "updatedAt": "2026-02-03T16:09:46Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Will do.",
+              "createdAt": "2026-02-03T16:09:45Z",
+              "updatedAt": "2026-02-03T16:09:46Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 137,
+      "id": "PR_kwDOLrzygc7BZlaB",
+      "title": "Incorrect reference",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/137",
+      "state": "OPEN",
+      "author": "smyslov",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "typo s/RFC5446/RFC5246",
+      "createdAt": "2026-02-04T08:14:06Z",
+      "updatedAt": "2026-02-04T08:14:06Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
+      "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "patch-1",
+      "headRefOid": "21725d42a4dbb96eccb9ce53c7b0afb0f6d79052",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 138,
+      "id": "PR_kwDOLrzygc7BaEBj",
+      "title": "Make reference to RFC 7930 Informative",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/138",
+      "state": "OPEN",
+      "author": "smyslov",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "RFC 7930 is only mentioned once in the draft with \"MAY\" clause. I believe it should be made informative.",
+      "createdAt": "2026-02-04T08:53:39Z",
+      "updatedAt": "2026-02-04T08:53:39Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
+      "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "patch-2",
+      "headRefOid": "06a0f5c3dd74777da35aafb5e1db10d1356cc66a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
