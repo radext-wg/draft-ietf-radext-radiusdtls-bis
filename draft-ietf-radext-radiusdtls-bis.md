@@ -807,8 +807,9 @@ One common method is to protect user credentials by using the Extensible Authent
 However, in typical use cases there still remain attributes potentially containing confidential data (such as personally identifiable information or cryptographic keys) which cannot be protected from inspection by proxies.
 
 Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
-There is no technical solution to this problem with the current specification.
-However, if the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.
+Since with RADIUS/UDP, the packet is sent in cleartext, an eavesdropper can observe the packet over the RADIUS/UDP hops.
+There is no technical solution that enforces that a RADIUS packet is transported only via secure RADIUS transports over the whole path with the current specification.
+If the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.
 
 One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
 For this, dynamic discovery as defined in {{RFC7585}} can be used.
