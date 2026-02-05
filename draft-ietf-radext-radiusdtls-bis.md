@@ -1006,14 +1006,14 @@ The following list contains the most important changes from the previous specifi
 * The protocols RADIUS/TLS and RADIUS/DTLS are now collectively referred to as RadSec.
 * {{?RFC6614}} referenced {{?RFC6613}} for TCP-related specification, RFC6613 on the other hand had some specification for RADIUS/TLS.
   These specifications have been merged into this document, and therefore removes {{RFC6613}} as normative reference.
-* RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
+* RFC6614 marked TLSv1.1 or later as mandatory, this specification now references {{RFC9325}} for recommended TLS versions, which mandates TLS 1.2 and recommends TLS 1.3
 * RFC6614 allowed use of TLS compression, this document forbids it.
 * RFC6614 only requires support for the trust model "certificates with PKIX" ({{?RFC6614, Section 2.3}}).  This document changes this.  For servers, TLS-X.509-PKIX ({{tlsx509pkix}}, equivalent to "certificates with PKIX" in RFC6614) and TLS-PSK ({{tlspsk}}) is now mandated and clients must implement at least one of the two.
 * The recommendation for TLS-X509-FINGERPRINT ({{RFC6614, Section 2.3}}) is removed since the model has not been implemented by any known implementation of the experimental RADIUS/(D)TLS specifications.
-* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.
+* The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to {{RFC9325}}.
 * The specification regarding steps for certificate verification has been updated.
 * {{RFC6613}} mandated the use of Status-Server as watchdog algorithm, {{?RFC7360}} only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
-* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.
+* {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions and retries, especially across different transports.
 * The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}.  Using the Common Name RDN for validation of server certificates is now forbidden.
 * The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
