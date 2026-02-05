@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 7 August 2026                                         S. Winter
+Expires: 9 August 2026                                         S. Winter
                                                                  RESTENA
-                                                         3 February 2026
+                                                         5 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 August 2026.
+   This Internet-Draft will expire on 9 August 2026.
 
 Copyright Notice
 
@@ -140,7 +140,7 @@ Table of Contents
 1.  Introduction
 
    This document defines transport profiles for running RADIUS over
-   Transport Layer Security (TLS) [RFC8446] [RFC5446] over TCP, and
+   Transport Layer Security (TLS) [RFC8446] [RFC5246] over TCP, and
    Datagram Transport Layer Security (DTLS) [RFC9147] [RFC6347] over
    UDP, allowing secure and reliable transport of RADIUS messages.
    RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
@@ -1858,10 +1858,6 @@ Table of Contents
               Infrastructure Certificate and Certificate Revocation List
               (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
               <https://www.rfc-editor.org/rfc/rfc5280>.
-
-   [RFC5446]  Korhonen, J. and U. Nilsson, "Service Selection for Mobile
-              IPv4", RFC 5446, DOI 10.17487/RFC5446, February 2009,
-              <https://www.rfc-editor.org/rfc/rfc5446>.
 
    [RFC5997]  DeKok, A., "Use of Status-Server Packets in the Remote
               Authentication Dial In User Service (RADIUS) Protocol",
