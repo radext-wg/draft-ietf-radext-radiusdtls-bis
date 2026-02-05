@@ -1281,7 +1281,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
                 <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-tcp-applications-are-not-ud" class="internal xref">TCP Applications Are Not UDP Applications</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
-                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-session-management" class="internal xref">Session Management</a></p>
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-dtls-session-management" class="internal xref">DTLS Session Management</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5.2.1">
                     <p id="section-toc.1-1.6.2.5.2.1.1"><a href="#section-6.5.1" class="auto internal xref">6.5.1</a>.  <a href="#name-server-session-management" class="internal xref">Server Session Management</a></p>
@@ -2253,10 +2253,10 @@ Additionally, due to the architecture of TCP as reliable stream transport, TCP r
 In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="session-management">
+<div id="dtls-session-management">
 <section id="section-6.5">
-        <h3 id="name-session-management">
-<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-session-management" class="section-name selfRef">Session Management</a>
+        <h3 id="name-dtls-session-management">
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-dtls-session-management" class="section-name selfRef">DTLS Session Management</a>
         </h3>
 <p id="section-6.5-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.

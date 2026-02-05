@@ -110,7 +110,7 @@ Table of Contents
        6.2.3.  Acct-Delay-Time and Event-Timestamp
      6.3.  Additional Verification of Peers
      6.4.  TCP Applications Are Not UDP Applications
-     6.5.  Session Management
+     6.5.  DTLS Session Management
        6.5.1.  Server Session Management
        6.5.2.  Client Session Management
    7.  Security Considerations
@@ -1324,7 +1324,7 @@ Table of Contents
    all, in which case the RADIUS/UDP stack triggers a retransmission of
    the packet on the application layer.
 
-6.5.  Session Management
+6.5.  DTLS Session Management
 
    Where RADIUS/TLS can rely on the TCP state machine to perform session
    tracking, RADIUS/DTLS cannot.  As a result, implementations of
