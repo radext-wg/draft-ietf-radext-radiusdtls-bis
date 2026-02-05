@@ -2777,7 +2777,7 @@ To circumvent this attack, this specification forbids the usage of TLS compressi
 These specifications have been merged into this document, and therefore removes <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> as normative reference.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification requires TLSv1.2 as minimum and recommends usage of TLSv1.3.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">RFC6614 marked TLSv1.1 or later as mandatory, this specification now references <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>]</span> for recommended TLS versions, which mandates TLS 1.2 and recommends TLS 1.3<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
           <p id="appendix-A-2.4.1">RFC6614 allowed use of TLS compression, this document forbids it.<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
@@ -2789,7 +2789,7 @@ These specifications have been merged into this document, and therefore removes 
           <p id="appendix-A-2.6.1">The recommendation for TLS-X509-FINGERPRINT (<span>[<a href="#RFC6614" class="cite xref">RFC6614</a>], <a href="https://rfc-editor.org/rfc/rfc6614#section-2.3" class="relref">Section 2.3</a></span>) is removed since the model has not been implemented by any known implementation of the experimental RADIUS/(D)TLS specifications.<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to the TLS BCP.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1">The mandatory-to-implement cipher suites are not referenced directly, this is replaced by a pointer to <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>]</span>.<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.8">
           <p id="appendix-A-2.8.1">The specification regarding steps for certificate verification has been updated.<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
@@ -2798,7 +2798,7 @@ These specifications have been merged into this document, and therefore removes 
           <p id="appendix-A-2.9.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandated the use of Status-Server as watchdog algorithm, <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span> only recommended it.  This specification mandates the use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.10">
-          <p id="appendix-A-2.10.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions, especially across different transports.<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.10.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions and retries, especially across different transports.<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.11">
           <p id="appendix-A-2.11.1">The rules for verifying the peer certificate have been updated to follow guidance provided in <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>]</span>.  Using the Common Name RDN for validation of server certificates is now forbidden.<a href="#appendix-A-2.11.1" class="pilcrow">¶</a></p>

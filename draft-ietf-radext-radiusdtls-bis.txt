@@ -2004,7 +2004,8 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
       therefore removes [RFC6613] as normative reference.
 
    *  RFC6614 marked TLSv1.1 or later as mandatory, this specification
-      requires TLSv1.2 as minimum and recommends usage of TLSv1.3.
+      now references [RFC9325] for recommended TLS versions, which
+      mandates TLS 1.2 and recommends TLS 1.3
 
    *  RFC6614 allowed use of TLS compression, this document forbids it.
 
@@ -2021,7 +2022,7 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
       specifications.
 
    *  The mandatory-to-implement cipher suites are not referenced
-      directly, this is replaced by a pointer to the TLS BCP.
+      directly, this is replaced by a pointer to [RFC9325].
 
    *  The specification regarding steps for certificate verification has
       been updated.
@@ -2031,8 +2032,8 @@ Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
       use of Status-Server for both RADIUS/TLS and RADIUS/DTLS.
 
    *  [RFC6613] only included limited text around retransmissions, this
-      document now gives more guidance on how to handle retransmissions,
-      especially across different transports.
+      document now gives more guidance on how to handle retransmissions
+      and retries, especially across different transports.
 
    *  The rules for verifying the peer certificate have been updated to
       follow guidance provided in [RFC9525].  Using the Common Name RDN
