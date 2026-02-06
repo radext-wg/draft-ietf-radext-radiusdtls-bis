@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 9 August 2026</td>
+<td class="center">Expires 10 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-05" class="published">5 February 2026</time>
+<time datetime="2026-02-06" class="published">6 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-09">9 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-10">10 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1132,7 +1132,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1865,7 +1865,7 @@ This action has no further consequences for UDP based transports, as the "next" 
 As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.<a href="#section-3.11-2" class="pilcrow">¶</a></p>
 <p id="section-3.11-3">With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records (see <a href="#radius_packet_handling" class="auto internal xref">Section 5.1</a>).
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.<a href="#section-3.11-3" class="pilcrow">¶</a></p>
-<p id="section-3.11-4">Subject to the discussion below, implementations of this specification <span class="bcp14">SHOULD</span> treat the text on "silently discard" packets in the RADIUS specification referenced above as "silently discard the packet and close the connection".
+<p id="section-3.11-4">Subject to the discussion below, implementations of this specification <span class="bcp14">SHOULD</span> treat the text on "silently discard" packets in the RADIUS specifications as "silently discard the packet and close the connection".
 That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection <span class="bcp14">MUST</span> be closed if any of the following circumstances are seen:<a href="#section-3.11-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.11-5.1">
