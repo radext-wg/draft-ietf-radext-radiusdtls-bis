@@ -380,7 +380,7 @@ For the following description, we use "retransmission" to mean the sending of th
 When a packet is retransmitted, the previously encoded packet contents are sent without change.
 When a packet is retried, it goes through the usual RADIUS processing (e.g. allocation of a new RADIUS ID, new Authenticator) and is re-encoded and re-signed.
 
-When a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection.
+When a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.
 In order to keep the timers consistent, the timers associated with a packet SHOULD NOT be changed when a packet is moved from one connection to another.
 A RadSec client MUST associate a packet with exactly one connection until either the connection is closed, in which case the association moves to a new connection, or the timers reach MRC or MRD, in which case the packet is discarded.
 
