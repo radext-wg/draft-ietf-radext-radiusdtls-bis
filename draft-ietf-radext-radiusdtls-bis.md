@@ -286,7 +286,7 @@ In particular, this includes the X.509 certificate (when using a PKIX trust mode
 The re-authorization MUST give the same result as if a full handshake was performed at the time of resumption.
 
 If cached data cannot be retrieved securely, resumption MUST NOT be done, by either immediately closing the connection or reverting to a full handshake.
-If a connection that used session resumption is closed immediately after being established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
+If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
 
 ## RADIUS packets
 {:#radius_packets}
