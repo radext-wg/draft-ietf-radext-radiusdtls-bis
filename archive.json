@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-05T01:10:55.368800+00:00",
+  "timestamp": "2026-02-08T01:45:34.788169+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -67,6 +67,21 @@
       "name": "Shepherd Comment",
       "description": "",
       "color": "5ee476"
+    },
+    {
+      "name": "conflicting-A",
+      "description": "",
+      "color": "2EC2C6"
+    },
+    {
+      "name": "conflicting-B",
+      "description": "",
+      "color": "F2B42B"
+    },
+    {
+      "name": "conflicting-C",
+      "description": "",
+      "color": "1C4FFF"
     }
   ],
   "issues": [
@@ -1205,7 +1220,7 @@
       "id": "I_kwDOLrzygc7lMZqv",
       "title": "IANA notes may need UDP, case may be incorrect?  (Section 9)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/114",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1214,8 +1229,8 @@
       "labels": [],
       "body": "From Valery's shepherd review:\n\n> Section 9.\n>   It seems that the assignment note for UDP must be slightly different.\n>   The provided note is for TCP only. IANA registry has two different notes\n>   for TCP and for UDP.\n>\n>   I also wonder whether is OK that the service name in IANA registry is \"radsec\" while the \n> assignment note uses \"RadSec\" (I don't remember whether service names are case-sensitive, hope not).\n\nNeed to look into this further, but case-sensitivity and need for DTLS/UDP wording.",
       "createdAt": "2026-01-22T23:51:10Z",
-      "updatedAt": "2026-02-04T12:22:56Z",
-      "closedAt": null,
+      "updatedAt": "2026-02-05T15:39:53Z",
+      "closedAt": "2026-02-05T15:39:53Z",
       "comments": [
         {
           "author": "smyslov",
@@ -11062,10 +11077,12 @@
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "conflicting-A"
+      ],
       "body": "",
       "createdAt": "2026-01-29T09:54:21Z",
-      "updatedAt": "2026-02-03T15:23:43Z",
+      "updatedAt": "2026-02-06T15:20:31Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
@@ -11097,6 +11114,20 @@
           "body": "To have this link here: my initial suggestion is in #123 , I'll close my PR for better overview. This is just to have this link in this PR somewhere.",
           "createdAt": "2026-02-03T14:43:50Z",
           "updatedAt": "2026-02-03T14:43:50Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I have updated the wording in #141 , I'll leave this PR open until we decide on either of those two.",
+          "createdAt": "2026-02-05T16:31:36Z",
+          "updatedAt": "2026-02-05T16:31:36Z"
+        },
+        {
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 for using #141 over this PR",
+          "createdAt": "2026-02-06T15:20:31Z",
+          "updatedAt": "2026-02-06T15:20:31Z"
         }
       ],
       "reviews": [
@@ -11183,25 +11214,33 @@
       "id": "PR_kwDOLrzygc7AF4cS",
       "title": "Clarify text around RADIUS/UDP downgrade situation (issue #119)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/126",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Proposed compromise for resolution of issue #119.",
       "createdAt": "2026-01-29T10:28:33Z",
-      "updatedAt": "2026-02-04T02:33:28Z",
+      "updatedAt": "2026-02-05T15:39:09Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "mrc/udp-downgrade",
       "headRefOid": "91bb6006adf8bc51a7af8bbe32a50f0616656c65",
-      "closedAt": null,
+      "closedAt": "2026-02-05T15:39:08Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After reading the text over, I think the text can still be improved, and I've put a suggestion in #139 \r\nI'll close this PR, since it focuses on EAP,  which is not what we want here.",
+          "createdAt": "2026-02-05T15:39:08Z",
+          "updatedAt": "2026-02-05T15:39:08Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7d6cS0",
@@ -11457,10 +11496,12 @@
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "conflicting-B"
+      ],
       "body": "\u2026ansmissions.\r\n\r\nFixes issue #69 ",
       "createdAt": "2026-01-29T12:33:18Z",
-      "updatedAt": "2026-02-04T02:30:36Z",
+      "updatedAt": "2026-02-05T16:33:31Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
@@ -11471,7 +11512,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I've put a different suggestion in #140 that doesn't focus on EAP for the core point, but mentions EAP as one use case that could be affected more than others.\r\n\r\nThe other PR also keeps the network-delay sentences, but gives an explanation why this is important.\r\n\r\nI'll leave this PR open for now, if the other PR is accepted, I'll close this one.",
+          "createdAt": "2026-02-05T15:55:43Z",
+          "updatedAt": "2026-02-05T15:55:43Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLrzygc7d6fB3",
@@ -11632,10 +11681,12 @@
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "conflicting-C"
+      ],
       "body": "Proposed fix to issue #71 ",
       "createdAt": "2026-01-29T13:24:36Z",
-      "updatedAt": "2026-02-03T15:28:09Z",
+      "updatedAt": "2026-02-05T17:11:37Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
@@ -11660,6 +11711,13 @@
           "body": "please provide a specific suggestion for improved text or merge this one ",
           "createdAt": "2026-02-03T15:28:09Z",
           "updatedAt": "2026-02-03T15:28:09Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After reading through the original paragraph, the proposed change and the ML posts again, I don't understand what the problem with the original paragraph is.\r\n\r\nFor this text, I have a problem with the wording.\r\n\r\nThe problem does not exist only for proxies, but also for \"true clients\". They have a set of attributes and they can't just remove attributes if the RADIUS packet is too big. (For proxies it's more difficult and pressing, since every proxy may add some attributes (proxy-state) and they really don't have much leeway to remove attributes, but it's not only proxies).\r\n\r\nAnd again, EAP is mentioned as only case in which this should be done, when EAP is only one use case in which this helps.\r\n\r\nI've put an alternative update that includes some changes, but leaves the rest of the paragraph as-is: #142 ",
+          "createdAt": "2026-02-05T17:10:32Z",
+          "updatedAt": "2026-02-05T17:10:32Z"
         }
       ],
       "reviews": [
@@ -11819,25 +11877,35 @@
       "id": "PR_kwDOLrzygc7BZlaB",
       "title": "Incorrect reference",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/137",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "smyslov",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "typo s/RFC5446/RFC5246",
       "createdAt": "2026-02-04T08:14:06Z",
-      "updatedAt": "2026-02-04T08:14:06Z",
+      "updatedAt": "2026-02-05T15:28:06Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "patch-1",
       "headRefOid": "21725d42a4dbb96eccb9ce53c7b0afb0f6d79052",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2026-02-05T15:27:56Z",
+      "mergedAt": "2026-02-05T15:27:55Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0"
+      },
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks!",
+          "createdAt": "2026-02-05T15:28:06Z",
+          "updatedAt": "2026-02-05T15:28:06Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -11845,24 +11913,459 @@
       "id": "PR_kwDOLrzygc7BaEBj",
       "title": "Make reference to RFC 7930 Informative",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/138",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "smyslov",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "RFC 7930 is only mentioned once in the draft with \"MAY\" clause. I believe it should be made informative.",
       "createdAt": "2026-02-04T08:53:39Z",
-      "updatedAt": "2026-02-04T08:53:39Z",
+      "updatedAt": "2026-02-06T07:01:39Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1828c1e459f7d94472c557690ba7eb4c8e3584b0",
       "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "patch-2",
       "headRefOid": "06a0f5c3dd74777da35aafb5e1db10d1356cc66a",
+      "closedAt": "2026-02-06T07:01:39Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Later in the document, we say \"RadSec clients MUST accept Protocol-Error as valid response\". So implementations must at least know that Protocol-Error exists and that it is a link-local response that must not be forwarded.\r\n\r\nSo I would argue that we still need this normative reference.",
+          "createdAt": "2026-02-05T15:42:09Z",
+          "updatedAt": "2026-02-05T15:42:09Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See also #115 for this.",
+          "createdAt": "2026-02-05T17:31:15Z",
+          "updatedAt": "2026-02-05T17:31:15Z"
+        },
+        {
+          "author": "smyslov",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "OK, then close this PR.",
+          "createdAt": "2026-02-06T07:01:28Z",
+          "updatedAt": "2026-02-06T07:01:28Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 139,
+      "id": "PR_kwDOLrzygc7BwsGJ",
+      "title": "Alternative for clarifying text for RADIUS/UDP downgrade",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/139",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Alternative to #126, adresses #119\r\n\r\nThis text makes the attack vector clear (hopefully) and gives more context than \"there is no solution\"",
+      "createdAt": "2026-02-05T15:38:00Z",
+      "updatedAt": "2026-02-05T18:16:33Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/alternative-radiusudp-downgrade",
+      "headRefOid": "4ed44353bb339094822bf427dd6535eacab4679d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me.  Apparently I can add myself as a reviewer, but I can't approve my review. :(",
+          "createdAt": "2026-02-05T16:21:31Z",
+          "updatedAt": "2026-02-05T16:21:31Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7gBTp7",
+          "commit": {
+            "abbreviatedOid": "4ed4435"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T17:27:54Z",
+          "updatedAt": "2026-02-05T17:27:54Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\nThere is no technical solution with the current specification, that enforces that a RADIUS packet is transported only via secure RADIUS transports over the whole path.\n```\n\nI think this makes it more clear, but I'd like to have other people look at this if it makes sense.",
+              "createdAt": "2026-02-05T17:27:54Z",
+              "updatedAt": "2026-02-05T17:27:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gCKwB",
+          "commit": {
+            "abbreviatedOid": "4ed4435"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T18:16:33Z",
+          "updatedAt": "2026-02-05T18:16:33Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Looks good to me.  Let's see if others have opinions.",
+              "createdAt": "2026-02-05T18:16:33Z",
+              "updatedAt": "2026-02-05T18:16:33Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 140,
+      "id": "PR_kwDOLrzygc7Bw75C",
+      "title": "Updated text on TCP Head-of-line blocking",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/140",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "conflicting-B"
+      ],
+      "body": "Alternative to #129 that doesn't focus on EAP and adds an explanation why the transmit-receive-delay is important.\r\n\r\nKept from #129: Giving a comparison to UDP/DTLS for out-of-order-processing.",
+      "createdAt": "2026-02-05T15:53:59Z",
+      "updatedAt": "2026-02-05T18:38:35Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/alternative-tcp-hol-blocking",
+      "headRefOid": "d6e9b252f22fcddfcdc33cee7c0866313f783542",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7gAElN",
+          "commit": {
+            "abbreviatedOid": "d6e9b25"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T16:19:46Z",
+          "updatedAt": "2026-02-05T16:19:46Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "`noticeable effect` means... ?  perhaps \"all authentications are blocked\"\n\nPerhaps also note that a naive load balancing of EAP sessions could cause each EAP session to have packets sent across multiple connections.  So if one connection blocks, then all EAP sessions will be blocking.\n\nInstead, if sessions are load balanced carefully (ref proxy BCP doc), then when one connection is blocked, only a small number of EAP sessions are affected.",
+              "createdAt": "2026-02-05T16:19:46Z",
+              "updatedAt": "2026-02-05T16:19:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gBOxs",
+          "commit": {
+            "abbreviatedOid": "d6e9b25"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T17:22:56Z",
+          "updatedAt": "2026-02-05T17:22:56Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I think everything with load balancing should not be included here, that's really topic of the proxy-BCP.\r\n\r\nMaybe this is better. It doesn't mention EAP, the core message is still true, and implicitly includes badly-round-robin'd EAP sessions.\r\n\r\n```suggestion\r\nIn severe cases, this may block all authentications that run over the congested connection.\r\n```\r\n\r\nTo be realistic: The head-of-line blocking is only relevant if we have a congested network, and in that case the connection will run out of RADIUS IDs quickly anyway (or the problem is not that bad).\r\nIt's important to have this in mind when designing RADIUS systems, but I don't think we need to put too much information in here.",
+              "createdAt": "2026-02-05T17:22:56Z",
+              "updatedAt": "2026-02-05T17:22:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gCg2z",
+          "commit": {
+            "abbreviatedOid": "d6e9b25"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T18:38:34Z",
+          "updatedAt": "2026-02-05T18:38:35Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Sure, that's fine.",
+              "createdAt": "2026-02-05T18:38:34Z",
+              "updatedAt": "2026-02-05T18:38:35Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 141,
+      "id": "PR_kwDOLrzygc7BxjcY",
+      "title": "Updated wording for retries and retransmission behavior",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/141",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "conflicting-A"
+      ],
+      "body": "This is an alternative to #124, I've kept most of the text from that PR, changed the oder of the paragraphs and added some explanations.\r\n\r\nSome discussion points:\r\n* #124 suggested that the timers MUST NOT change when moving to a new connection. I'm not sure about this. The timers are local anyway, so at best this reduces the amount of time a proxy retries when the original client has long given up on the packet. I agree that this is usually useful, I'm just not sure if a MUST is right here, so I've changed it to a SHOULD NOT.\r\n* #124 says that RADIUS/TLS clients MUST run the full timer algorithm, I don't agree. If MRC (maximum retransmission count) is set to 0/infinity, then only MRD is relevant, and MRD does not have a jitter. Therefore, the algorithm only needs to run if MRC is set, because then the jitter is included. I suspect that most clients that only run RADIUS/TLS will use MRD with a default value and just time out every packet after a fixed time (e.g. 30 seconds)\r\n* The text says \"SHOULD retry packets over a different connections\" if a connection fails. Maybe add a sentence \"if configured by the administrator\" I've tried to come up with a good sentence, but I haven't found something good. Because it's either in the same load balancing/failover pool or a different connection to the same server.",
+      "createdAt": "2026-02-05T16:30:33Z",
+      "updatedAt": "2026-02-06T15:53:44Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/retransmission-updates",
+      "headRefOid": "77887da10b8480878632e1874298495ab0bbdeda",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> suggested that the timers MUST NOT change when moving to a new connection.\r\n\r\nIf the timers are changed when a packet is moved to a new connection, then packets could just bounce between connections forever.  This seems wrong.\r\n\r\n> MRD does not have a jitter\r\n\r\n?  I'm not sure where that comes from.  The algorithm in RFC 5080 defines jitter as:\r\n\r\n```\r\nRT = 2*RTprev + RAND*RTprev\r\n```\r\n\r\nSo the algorithm needs to be run even if MRC isn't set.\r\n\r\n> I suspect that most clients that only run RADIUS/TLS will use MRD with a default value and just time out every packet after a fixed time (e.g. 30 seconds)\r\n\r\nWhile the full timer algorithm is less relevant for TCP, I'm not sure that it's better to just use a fixed timeout.  If we decide that it is, then the document should explain why a fixed timeout is relevant.\r\n\r\n> Maybe add a sentence \"if configured by the administrator\" \r\n\r\nthat seems fine.",
+          "createdAt": "2026-02-05T18:15:37Z",
+          "updatedAt": "2026-02-05T18:15:37Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding MRC and timers: If the MRC is not set, with TCP there is no benefit in running the timeout algorithm completely, because the 'ticks' from the retransmissions don't do anything and if we don't have a MRC, then the packet will never be timed out due to too many \"retransmission tries\" (which don't happen with TCP).\r\nTherefore, the only thing that is relevant is MRD.\r\n\r\nAnd at least according to the algorithm in RFC5080, the MRD stands alone as absolute timeout, and it does not include any jitter, the jitter is only added for the actual retransmissions (and therefore MRC needs the jitter, but MRD does not).",
+          "createdAt": "2026-02-05T21:07:23Z",
+          "updatedAt": "2026-02-05T21:07:23Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7gDKMh",
+          "commit": {
+            "abbreviatedOid": "be28b7d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T19:13:42Z",
+          "updatedAt": "2026-02-05T19:13:42Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\nIn order to keep the timers consistent, the timers associated with a packet SHOULD NOT be changed when a packet is moved from one connection to another.\nAt least the MRD timer SHOULD be preserved to prevent packets staying in the queue due to regular connection closure.\n```\n\nThis adds a hint for connection bounces. I'm still not in favor of making this mandatory, hopefully adding this explanation will make it clear though why this is a SHOULD and not a suggestion.",
+              "createdAt": "2026-02-05T19:13:42Z",
+              "updatedAt": "2026-02-05T19:15:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gDV3v",
+          "commit": {
+            "abbreviatedOid": "be28b7d"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T19:23:12Z",
+          "updatedAt": "2026-02-05T19:23:13Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Note that the timers apply also to UDP, and not just to TCP.  As such _all_ of the timers should be kept for UDP.\r\n",
+              "createdAt": "2026-02-05T19:23:13Z",
+              "updatedAt": "2026-02-05T19:23:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gEtyU",
+          "commit": {
+            "abbreviatedOid": "be28b7d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T20:38:44Z",
+          "updatedAt": "2026-02-05T20:38:44Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "So your suggestion would be `[...], all timers associated with [...]` instead of the current just `the timers` ?",
+              "createdAt": "2026-02-05T20:38:44Z",
+              "updatedAt": "2026-02-05T20:38:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gFcgI",
+          "commit": {
+            "abbreviatedOid": "be28b7d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T21:21:02Z",
+          "updatedAt": "2026-02-05T21:21:02Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\nWhen a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.\n```\n\nThis is a suggestion for my last point I made regarding \"only forward to other server if configured\"",
+              "createdAt": "2026-02-05T21:21:02Z",
+              "updatedAt": "2026-02-05T21:21:02Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 142,
+      "id": "PR_kwDOLrzygc7ByG5P",
+      "title": "Updated text for PMTU with a little bit more explanation",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/142",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "conflicting-C"
+      ],
+      "body": "Alternative to #131",
+      "createdAt": "2026-02-05T17:09:56Z",
+      "updatedAt": "2026-02-05T19:04:35Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "janfred/pmtu-alternative",
+      "headRefOid": "6ff57b500f705416f16d49c38d8de31efb6aebdf",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 for me.  I'm OK with adding a bit more text as per my comment, or leaving the current text alone.",
+          "createdAt": "2026-02-05T18:19:15Z",
+          "updatedAt": "2026-02-05T18:19:15Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7gCMmd",
+          "commit": {
+            "abbreviatedOid": "6ff57b5"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T18:18:41Z",
+          "updatedAt": "2026-02-05T18:18:42Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Is it worth mentioning that PMTU applies only to the network between the client and server?  Later proxies may have differing MTU, and this is not discoverable by the client.",
+              "createdAt": "2026-02-05T18:18:42Z",
+              "updatedAt": "2026-02-05T18:18:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gC6mC",
+          "commit": {
+            "abbreviatedOid": "6ff57b5"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T19:02:28Z",
+          "updatedAt": "2026-02-05T19:02:29Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\nNote that PMTU discovery can only discover the PMTU of the current RADIUS hop and a RADIUS client has no reliable way to discover the PMTU across the whole RADIUS proxy chain.\nFurther discussion of this topic is outside of the scope of this document.\n```\n\nThis is a suggestion to include a comment regarding PMTU across proxy chains.",
+              "createdAt": "2026-02-05T19:02:28Z",
+              "updatedAt": "2026-02-05T19:02:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7gC9lb",
+          "commit": {
+            "abbreviatedOid": "6ff57b5"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T19:04:35Z",
+          "updatedAt": "2026-02-05T19:04:35Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "+1 from me.",
+              "createdAt": "2026-02-05T19:04:35Z",
+              "updatedAt": "2026-02-05T19:04:35Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 143,
+      "id": "PR_kwDOLrzygc7CCPwe",
+      "title": "Minor Fix on general 'RADIUS specifications'",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/143",
+      "state": "MERGED",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Minor fix regarding item 4 of #134 not yet addressed and undisputed:\r\n\r\nFix reference to general RADIUS specifications",
+      "createdAt": "2026-02-06T16:26:10Z",
+      "updatedAt": "2026-02-06T16:30:33Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "6d9ba28bebb73bc59aaec0229f3410005b469098",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-minor-fix-1",
+      "headRefOid": "f7942368ab9d31c4a2a657396d7a6e9d1c4d1ee0",
+      "closedAt": "2026-02-06T16:30:33Z",
+      "mergedAt": "2026-02-06T16:30:33Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "c8b17da35012d0286e3e87a606a046459912aa1e"
+      },
       "comments": [],
       "reviews": []
     }
