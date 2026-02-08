@@ -1449,16 +1449,16 @@ Table of Contents
    issues.
 
    RADIUS/DTLS clients MAY use PMTU discovery [RFC6520] to determine the
-   PMTU between the client and server, prior to sending any RADIUS
-   traffic.  While a RADIUS client has limited to no possibilities to
-   reduce the size of an outgoing RADIUS packet without unwanted side
-   effects, it gives the RADIUS client the possibility to determine
-   whether or not the RADIUS packet can even be sent over the
-   connection.  IP fragmentation may not be functioning, so by
+   PMTU between the client and server.  While a RADIUS client has
+   limited to no possibilities to reduce the size of an outgoing RADIUS
+   packet without unwanted side effects, it gives the RADIUS client the
+   possibility to determine whether or not the RADIUS packet can even be
+   sent over the connection.  Sending RADIUS packets that exceed the
+   PMTU between the client and the server will result in IP
+   fragmentation.  IP fragmentation may not be functioning, so by
    determining the PMTU, the RADIUS client can preemptively select a
    different RADIUS server to send the RADIUS packet to.  Further
-   discussion of this problem is deemed outside of the scope of this
-   document.
+   discussion of this topic is outside of the scope of this document.
 
 7.  Security Considerations
 
