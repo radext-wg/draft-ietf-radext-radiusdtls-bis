@@ -286,7 +286,7 @@ In particular, this includes the X.509 certificate (when using a PKIX trust mode
 The re-authorization MUST give the same result as if a full handshake was performed at the time of resumption.
 
 If cached data cannot be retrieved securely, resumption MUST NOT be done, by either immediately closing the connection or reverting to a full handshake.
-If a connection that used session resumption is closed immediately after being established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
+If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
 
 ## RADIUS packets
 {:#radius_packets}
@@ -295,7 +295,7 @@ The use of (D)TLS transport does not change the calculation of security-related 
 Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
 
 The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
-
+p
 The RadSec specification does not change the client/server architecture of RADIUS.
 RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
 As noted in {{portusage}}, RadSec uses the same port for Authentication and Accounting packets.
