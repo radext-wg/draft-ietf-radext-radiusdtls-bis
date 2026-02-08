@@ -295,7 +295,7 @@ The use of (D)TLS transport does not change the calculation of security-related 
 Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
 
 The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
-p
+
 The RadSec specification does not change the client/server architecture of RADIUS.
 RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
 As noted in {{portusage}}, RadSec uses the same port for Authentication and Accounting packets.
