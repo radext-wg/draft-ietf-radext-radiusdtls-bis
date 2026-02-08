@@ -538,17 +538,19 @@ Table of Contents
    The changes to RADIUS implementations required to implement this
    specification are largely limited to the portions that send and
    receive packets on the network and the establishment of the (D)TLS
-   connection. p The RadSec specification does not change the client/
-   server architecture of RADIUS.  RadSec clients transmit the same
-   packet types on the connection they initiated as a RADIUS/UDP client
-   would, and RadSec servers transmit the same packet types on the
-   connections the server has accepted as a RADIUS/UDP server would.  As
-   noted in Section 3.1, RadSec uses the same port for Authentication
-   and Accounting packets.  As non-exhaustive example, a RadSec client
-   can transmit packets of type Access-Request, Accounting-Request,
-   Status-Server, Disconnect-ACK over the same connection, and a RadSec
-   server can transmit packets of type Access-Accept, Access-Reject,
-   Access-Challenge, Accounting-Response, Disconnect-Request.
+   connection.
+
+   The RadSec specification does not change the client/server
+   architecture of RADIUS.  RadSec clients transmit the same packet
+   types on the connection they initiated as a RADIUS/UDP client would,
+   and RadSec servers transmit the same packet types on the connections
+   the server has accepted as a RADIUS/UDP server would.  As noted in
+   Section 3.1, RadSec uses the same port for Authentication and
+   Accounting packets.  As non-exhaustive example, a RadSec client can
+   transmit packets of type Access-Request, Accounting-Request, Status-
+   Server, Disconnect-ACK over the same connection, and a RadSec server
+   can transmit packets of type Access-Accept, Access-Reject, Access-
+   Challenge, Accounting-Response, Disconnect-Request.
 
    However, special considerations apply for mixing Authentication and
    Accounting packets over the same connection.  Traditional RADIUS/UDP

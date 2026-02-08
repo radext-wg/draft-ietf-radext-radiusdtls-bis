@@ -1717,23 +1717,22 @@ If a connection that used session resumption is closed by the server before the 
         </h3>
 <p id="section-3.6-1">The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or RADIUS Dynamic Authorization <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.
 Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or Message-Authenticator <span>[<a href="#RFC3579" class="cite xref">RFC3579</a>]</span> also does not change.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
-<p id="section-3.6-2">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.
-p
-The RadSec specification does not change the client/server architecture of RADIUS.
+<p id="section-3.6-2">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network and the establishment of the (D)TLS connection.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-3">The RadSec specification does not change the client/server architecture of RADIUS.
 RadSec clients transmit the same packet types on the connection they initiated as a RADIUS/UDP client would, and RadSec servers transmit the same packet types on the connections the server has accepted as a RADIUS/UDP server would.
 As noted in <a href="#portusage" class="auto internal xref">Section 3.1</a>, RadSec uses the same port for Authentication and Accounting packets.
-As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
-<p id="section-3.6-3">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
+As non-exhaustive example, a RadSec client can transmit packets of type Access-Request, Accounting-Request, Status-Server, Disconnect-ACK over the same connection, and a RadSec server can transmit packets of type Access-Accept, Access-Reject, Access-Challenge, Accounting-Response, Disconnect-Request.<a href="#section-3.6-3" class="pilcrow">¶</a></p>
+<p id="section-3.6-4">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
 Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
-Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-3.6-3" class="pilcrow">¶</a></p>
-<p id="section-3.6-4">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-3.6-4" class="pilcrow">¶</a></p>
+<p id="section-3.6-5">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
-Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.6-4" class="pilcrow">¶</a></p>
-<p id="section-3.6-5">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
-Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description of Protocol-Error.<a href="#section-3.6-5" class="pilcrow">¶</a></p>
-<p id="section-3.6-6">Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>.
-See further details in <a href="#unwanted_packet_handling" class="auto internal xref">Section 6.1.1</a> below.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
+Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.6-5" class="pilcrow">¶</a></p>
+<p id="section-3.6-6">RadSec clients <span class="bcp14">MUST</span> accept Protocol-Error as a valid response and thus stop any retransmission of the original packet over the current connection.
+Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description of Protocol-Error.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
+<p id="section-3.6-7">Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>.
+See further details in <a href="#unwanted_packet_handling" class="auto internal xref">Section 6.1.1</a> below.<a href="#section-3.6-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="detecting-live-servers">
