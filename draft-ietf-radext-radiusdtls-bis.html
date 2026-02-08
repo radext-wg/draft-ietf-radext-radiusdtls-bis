@@ -1707,7 +1707,7 @@ For RadSec servers, this should preferably be done using stateless session resum
 In particular, this includes the X.509 certificate (when using a PKIX trust model) as well as any policies associated with that identity such as restrictions on source IP address.
 The re-authorization <span class="bcp14">MUST</span> give the same result as if a full handshake was performed at the time of resumption.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 <p id="section-3.5-4">If cached data cannot be retrieved securely, resumption <span class="bcp14">MUST NOT</span> be done, by either immediately closing the connection or reverting to a full handshake.
-If a connection that used session resumption is closed immediately after being established, the RadSec client <span class="bcp14">MUST NOT</span> re-attempt session resumption but perform a full TLS handshake instead.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
+If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client <span class="bcp14">MUST NOT</span> re-attempt session resumption but perform a full TLS handshake instead.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="radius_packets">
