@@ -687,23 +687,48 @@ Table of Contents
 
 3.8.2.  RADIUS packet retransmission
 
-   RadSec clients MUST implement retransmission timers for
-   retransmitting RADIUS packets such as the ones defined in [RFC5080],
+   RadSec clients MUST implement timers for managing packet
+   retransmissions and timeouts, such as the ones defined in [RFC5080],
    Section 2.2.1.  Other algorithms than the one defined in [RFC5080]
-   are possible, but any timer implementations MUST have similar
+   are possible, but any timer implementation MUST have similar
    properties of including jitter, exponential backoff and a maximum
-   retransmission count (MRC) or maximum retransmission duration (MRD).
+   retransmission count (MRC) and/or maximum retransmission duration
+   (MRD).
 
-   As TLS is a reliable transport, RADIUS/TLS clients can only retry a
-   packet if a connection closes without that packet receiving a reply,
-   therefore the timers MUST NOT result in retransmission of any packet.
-   A retry is the re-sending of the same content in a newly constructed
-   RADIUS packet, where a retransmission is the re-sending of the exact
-   same packet over the same connection to deal with packet loss on
-   transport.  Instead, the timers, MRC or MRD specifically, can be used
-   to determine that a packet will most likely not receive an answer
-   ever, for example because a packet loss has occurred in a later
-   RADIUS hop or the home server ignores the RADIUS packet.
+   For the following description, we use "retransmission" to mean the
+   sending of the exact same packet over the same connection and "retry"
+   to mean the sending of a new RADIUS packet with the same logical
+   contents, but over a different connection or with other details
+   changed.  When a packet is retransmitted, the previously encoded
+   packet contents are sent without change.  When a packet is retried,
+   it goes through the usual RADIUS processing (e.g. allocation of a new
+   RADIUS ID, new Authenticator) and is re-encoded and re-signed.
+
+   When a connection fails or is closed, a RadSec client SHOULD retry
+   packets over a different connection, either a different connection to
+   the same server or a different configured server in the same load-
+   balancing/failover pool.  In order to keep the timers consistent, the
+   timers associated with a packet SHOULD NOT be changed when a packet
+   is moved from one connection to another.  A RadSec client MUST
+   associate a packet with exactly one connection until either the
+   connection is closed, in which case the association moves to a new
+   connection, or the timers reach MRC or MRD, in which case the packet
+   is discarded.
+
+   The requirements for actions from timers differ for RADIUS/TLS and
+   RADIUS/DTLS.
+
+   As UDP is not a reliable transport, RADIUS/DTLS clients MUST
+   retransmit packets when indicated by the timers to deal with packets
+   dropped by the network.  When the timers reach MRC or MRD, the packet
+   is discarded.
+
+   Since TCP is a reliable transport, RADIUS/TLS clients MUST NOT
+   retransmit packets when indicated by the timers.  They SHOULD still
+   run the full timer algorithm to determine if the maximum
+   retransmission count (MRC) has been reached.  RADIUS/TLS clients will
+   then use MRC or MRD to determine that a packet has not received a
+   response and the ID of this packet can be re-used for new packets.
 
    See Section 4.2 for more discussion on retransmission behavior.
 
