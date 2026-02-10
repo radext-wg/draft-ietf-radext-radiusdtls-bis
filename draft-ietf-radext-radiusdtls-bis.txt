@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 12 August 2026                                        S. Winter
+Expires: 14 August 2026                                        S. Winter
                                                                  RESTENA
-                                                         8 February 2026
+                                                        10 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 August 2026.
+   This Internet-Draft will expire on 14 August 2026.
 
 Copyright Notice
 
@@ -1457,8 +1457,11 @@ Table of Contents
    PMTU between the client and the server will result in IP
    fragmentation.  IP fragmentation may not be functioning, so by
    determining the PMTU, the RADIUS client can preemptively select a
-   different RADIUS server to send the RADIUS packet to.  Further
-   discussion of this topic is outside of the scope of this document.
+   different RADIUS server to send the RADIUS packet to.  Note that PMTU
+   discovery can only discover the PMTU of the current RADIUS hop and a
+   RADIUS client has no reliable way to discover the PMTU across the
+   whole RADIUS proxy chain.  Further discussion of this topic is
+   outside of the scope of this document.
 
 7.  Security Considerations
 
@@ -1514,13 +1517,13 @@ Table of Contents
    via RadSec from one endpoint, to forward this packet to a different
    endpoint using the RADIUS/UDP transport profile.  Since with RADIUS/
    UDP, the packet is sent in cleartext, an eavesdropper can observe the
-   packet over the RADIUS/UDP hops.  There is no technical solution that
-   enforces that a RADIUS packet is transported only via secure RADIUS
-   transports over the whole path with the current specification.  If
-   the confidentiality of the full contents of the RADIUS packet across
-   the whole path is required, organizational solutions need to be in
-   place that ensure that every intermediate RADIUS proxy is configured
-   to forward the RADIUS packets using RadSec as transport.
+   packet over the RADIUS/UDP hops.  There is no technical solution with
+   the current specification that enforces that a RADIUS packet is
+   transported only via secure RADIUS transports over the whole path.
+   If the confidentiality of the full contents of the RADIUS packet
+   across the whole path is required, organizational solutions need to
+   be in place that ensure that every intermediate RADIUS proxy is
+   configured to forward the RADIUS packets using RadSec as transport.
 
    One possible way to reduce the attack surface is to reduce the number
    of proxies in the overall proxy chain.  For this, dynamic discovery
