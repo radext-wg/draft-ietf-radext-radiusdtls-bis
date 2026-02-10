@@ -796,6 +796,7 @@ RADIUS/DTLS clients MAY use PMTU discovery {{RFC6520}} to determine the PMTU bet
 While a RADIUS client has limited to no possibilities to reduce the size of an outgoing RADIUS packet without unwanted side effects, it gives the RADIUS client the possibility to determine whether or not the RADIUS packet can even be sent over the connection.
 Sending RADIUS packets that exceed the PMTU between the client and the server will result in IP fragmentation.
 IP fragmentation may not be functioning, so by determining the PMTU, the RADIUS client can preemptively select a different RADIUS server to send the RADIUS packet to.
+Note that PMTU discovery can only discover the PMTU of the current RADIUS hop and a RADIUS client has no reliable way to discover the PMTU across the whole RADIUS proxy chain.
 Further discussion of this topic is outside of the scope of this document.
 
 # Security Considerations
@@ -825,7 +826,7 @@ However, in typical use cases there still remain attributes potentially containi
 
 Additionally, when RADIUS proxies are used, the RADIUS client has no way of ensuring that the complete path of the RADIUS packet is protected, since RADIUS routing is done hop-by-hop and any intermediate proxy may be configured, after receiving a RADIUS packet via RadSec from one endpoint, to forward this packet to a different endpoint using the RADIUS/UDP transport profile.
 Since with RADIUS/UDP, the packet is sent in cleartext, an eavesdropper can observe the packet over the RADIUS/UDP hops.
-There is no technical solution that enforces that a RADIUS packet is transported only via secure RADIUS transports over the whole path with the current specification.
+There is no technical solution with the current specification that enforces that a RADIUS packet is transported only via secure RADIUS transports over the whole path.
 If the confidentiality of the full contents of the RADIUS packet across the whole path is required, organizational solutions need to be in place that ensure that every intermediate RADIUS proxy is configured to forward the RADIUS packets using RadSec as transport.
 
 One possible way to reduce the attack surface is to reduce the number of proxies in the overall proxy chain.
