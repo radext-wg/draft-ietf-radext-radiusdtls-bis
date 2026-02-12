@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-10T01:24:44.539254+00:00",
+  "timestamp": "2026-02-12T01:15:24.806295+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -12145,7 +12145,7 @@
       ],
       "body": "This is an alternative to #124, I've kept most of the text from that PR, changed the oder of the paragraphs and added some explanations.\r\n\r\nSome discussion points:\r\n* #124 suggested that the timers MUST NOT change when moving to a new connection. I'm not sure about this. The timers are local anyway, so at best this reduces the amount of time a proxy retries when the original client has long given up on the packet. I agree that this is usually useful, I'm just not sure if a MUST is right here, so I've changed it to a SHOULD NOT.\r\n* #124 says that RADIUS/TLS clients MUST run the full timer algorithm, I don't agree. If MRC (maximum retransmission count) is set to 0/infinity, then only MRD is relevant, and MRD does not have a jitter. Therefore, the algorithm only needs to run if MRC is set, because then the jitter is included. I suspect that most clients that only run RADIUS/TLS will use MRD with a default value and just time out every packet after a fixed time (e.g. 30 seconds)\r\n* The text says \"SHOULD retry packets over a different connections\" if a connection fails. Maybe add a sentence \"if configured by the administrator\" I've tried to come up with a good sentence, but I haven't found something good. Because it's either in the same load balancing/failover pool or a different connection to the same server.",
       "createdAt": "2026-02-05T16:30:33Z",
-      "updatedAt": "2026-02-08T18:43:56Z",
+      "updatedAt": "2026-02-10T15:17:46Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "0b46fe53ed32f48e63e2aca13a7f24ed7a1438d0",
@@ -12252,6 +12252,26 @@
               "body": "```suggestion\nWhen a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.\n```\n\nThis is a suggestion for my last point I made regarding \"only forward to other server if configured\"",
               "createdAt": "2026-02-05T21:21:02Z",
               "updatedAt": "2026-02-05T21:21:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7hSQis",
+          "commit": {
+            "abbreviatedOid": "be28b7d"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-10T15:17:46Z",
+          "updatedAt": "2026-02-10T15:17:46Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "@alandekok \r\nThis was still open when Margaret merged the PR.\r\nShould this be added in your opinion?",
+              "createdAt": "2026-02-10T15:17:46Z",
+              "updatedAt": "2026-02-10T15:17:46Z"
             }
           ]
         }
