@@ -153,7 +153,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 | RADIUS/DTLS | 2083/udp | "radius/dtls" |
 
 RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
-The client source port used for a RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
+The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
 RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
@@ -165,7 +165,7 @@ All data received over a TCP or UDP port assigned for RadSec is opaque for the R
 Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.
 
 RadSec does not provide for negotiation of (D)TLS in ongoing RADIUS communication.
- Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
+Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
 Servers and clients therefore need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.
 This action has to be taken by the administrators of the two systems.
@@ -342,7 +342,7 @@ This value was picked arbitrarily, as there is no reason to choose any other val
 For RADIUS/TLS, the endpoints MAY send TCP keepalives as described in {{?RFC9293, Section 3.8.4}}.
 For RADIUS/DTLS connections, the endpoints MAY send periodic keepalives as defined in {{?RFC6520}}.
 This is a way of proactively and rapidly triggering a 'Connection DOWN' notification from the network stack.
-These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
+These liveness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.
 
 ## Client Timers
 
@@ -412,7 +412,7 @@ For clients, proactively closing connections can also help mitigate situations w
 Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients MAY immediately re-open the connection.
 These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.
 
-The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections.
+The value of the idle timeout to use depends on the exact deployment and is a trade-off between resource usage on clients/servers and the overhead of opening new connections.
 Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.
 In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
@@ -599,7 +599,7 @@ The use of (D)TLS transport does not change the calculation of security-related 
 Calculation of attributes such as User-Password {{RFC2865}} or Message-Authenticator {{!RFC3579}} also does not change.
 
 The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network, and to the establishment of the (D)TLS connection.
-The fact that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
+The fact that RADIUS remains largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This reuse includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 The use of MD5 here is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See {{security_considerations}} of this document or {{RFC9765}} for more details.  See also {{RFC9765, Section 1}} for a discussion of issues related to the continued use of MD5, even in situations where its use is known to be safe.
 
@@ -689,7 +689,7 @@ Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity aroun
 Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.
 
 Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client SHOULD use timers to detect packet loss, as described in {{client_retransmission_timers}}.
-Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client SHOULD then create a new RADIUS packet with the same information, but and MAY update Acct-Delay-Time.
+Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore SHOULD NOT update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client SHOULD then create a new RADIUS packet with the same information, and MAY update Acct-Delay-Time.
 This behavior ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission.
 The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occurred; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
 Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.
@@ -710,7 +710,7 @@ As a suggestion, at least the following information from the TLS connection and 
 * all X.509v3 Certificate Policy
 
 Similar to the PKIX trust model, clients using TLS-PSK may have additional policies to determine whether a client should be allowed to connect.
-Therefore, In TLS-PSK operation, at least the following information from the TLS connection should be exposed:
+Therefore, in TLS-PSK operation, at least the following information from the TLS connection should be exposed:
 
 * Originating IP address
 * TLS-PSK Identifier
@@ -728,7 +728,7 @@ Unlike UDP, TCP is subject to issues related to head-of-line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS endpoints can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
-In severe cases, this may have a noticeable effect on all authentications that run over the congested connection, especially authentications with multiple round trips such as EAP-based autentications.
+In severe cases, this may have a noticeable effect on all authentications that run over the congested connection, especially authentications with multiple round trips such as EAP-based authentications.
 In contrast, when a RADIUS/UDP or RADIUS/DTLS packet is lost, only this authentication session is affected.
 Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
 In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.
@@ -869,7 +869,7 @@ For cases where administrators need access to the decrypted RadSec traffic, we s
 Both RADIUS/TLS and RADIUS/DTLS have a considerable higher amount of data that the server needs to store in comparison to RADIUS/UDP.
 Therefore, an attacker could try to exhaust server resources.
 
-With RADIUS/UDP, any invalid RADIUS packet would fail the cryptographic checks and the server would silently discard the that packet.
+With RADIUS/UDP, any invalid RADIUS packet would fail the cryptographic checks and the server would silently discard that packet.
 For RadSec, the server needs to perform at least a partial TLS handshake to determine whether or not the client is authorized.
 Performing a (D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
 An attacker could try to trigger a high number of (D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
@@ -1041,7 +1041,7 @@ The rationales behind some of these changes are outlined in {{design_decisions}}
 # Acknowledgments
 {:numbered="false"}
 
-Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.
+Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.
 
 Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.
 
