@@ -325,7 +325,7 @@ While the client may be able to deduce the operational state of the next-hop (i.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
 A similar effect may also be seen on home servers that uses different credential backends for each realm they service.
 
-To avoid these issues, RadSec clients MUST only mark a connection 'DOWN' (as labelled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
+To avoid these issues, RadSec clients MUST only mark a connection 'DOWN' (as labeled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
 * The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.
 * The transport layer, D(TLS), provides no usable connection
@@ -1047,5 +1047,5 @@ Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server w
 
 Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.
 
-Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.
+Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.
 
