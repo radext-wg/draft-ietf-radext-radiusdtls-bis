@@ -1727,7 +1727,7 @@ Table of Contents
 
    Special considerations apply for clients behind a NAT, where some
    clients use RADIUS/UDP and others use RadSec.  A RADIUS server might
-   not be able to detect if a RadSec client falls back to RADIUS/UDP,
+   not be able to detect if a RadSec client falls back to RADIUS/UDP;
    they will appear with the same source IP address to the server and
    use the same shared secret.  It is therefore NOT RECOMMENDED to use
    both RADIUS/UDP and RadSec clients behind a NAT at the same time.

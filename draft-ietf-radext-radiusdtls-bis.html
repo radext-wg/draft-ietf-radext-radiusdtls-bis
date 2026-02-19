@@ -2517,7 +2517,7 @@ If the old RADIUS/UDP configuration is left configured, but not used in normal o
 To prevent this it is <span class="bcp14">RECOMMENDED</span> that, when the migration to RadSec is completed, the RADIUS/UDP configuration is removed.
 RadSec clients <span class="bcp14">MUST NOT</span> fall back to RADIUS/UDP if the RadSec communication fails, unless explicitly configured this way.<a href="#section-7.7-3" class="pilcrow">¶</a></p>
 <p id="section-7.7-4">Special considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RadSec.
-A RADIUS server might not be able to detect if a RadSec client falls back to RADIUS/UDP, they will appear with the same source IP address to the server and use the same shared secret.
+A RADIUS server might not be able to detect if a RadSec client falls back to RADIUS/UDP; they will appear with the same source IP address to the server and use the same shared secret.
 It is therefore <span class="bcp14">NOT RECOMMENDED</span> to use both RADIUS/UDP and RadSec clients behind a NAT at the same time.<a href="#section-7.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
