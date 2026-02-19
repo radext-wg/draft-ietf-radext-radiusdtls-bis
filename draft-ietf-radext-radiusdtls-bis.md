@@ -935,7 +935,7 @@ To prevent this it is RECOMMENDED that, when the migration to RadSec is complete
 RadSec clients MUST NOT fall back to RADIUS/UDP if the RadSec communication fails, unless explicitly configured this way.
 
 Special considerations apply for clients behind a NAT, where some clients use RADIUS/UDP and others use RadSec.
-A RADIUS server might not be able to detect if a RadSec client falls back to RADIUS/UDP, they will appear with the same source IP address to the server and use the same shared secret.
+A RADIUS server might not be able to detect if a RadSec client falls back to RADIUS/UDP; they will appear with the same source IP address to the server and use the same shared secret.
 It is therefore NOT RECOMMENDED to use both RADIUS/UDP and RadSec clients behind a NAT at the same time.
 
 ## Client Subsystems
