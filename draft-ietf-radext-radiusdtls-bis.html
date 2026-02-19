@@ -170,7 +170,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -178,7 +178,8 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -1053,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 14 August 2026</td>
+<td class="center">Expires 23 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-10" class="published">10 February 2026</time>
+<time datetime="2026-02-19" class="published">19 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-14">14 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-23">23 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1132,7 +1133,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1518,7 +1519,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
           </tbody>
         </table>
 <p id="section-3.1-4">RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
-The client source port used for a RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
+The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.6</a>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 <p id="section-3.1-5">RadSec endpoints <span class="bcp14">MUST NOT</span> use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
 </section>
@@ -1532,7 +1533,7 @@ For considerations regarding the multi-purpose use of one port for authenticatio
 All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
 Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2">RadSec does not provide for negotiation of (D)TLS in ongoing RADIUS communication.
- Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
+Instead, a server port is configured to always require (D)TLS.  Connection attempts to a (D)TLS port which do not use (D)TLS are not accepted by the server.
 As RADIUS has no provisions for capability signaling, there is also no way for a server to indicate to a client that it should transition to using TLS or DTLS.
 Servers and clients therefore need to be preconfigured to use RADIUS/(D)TLS for a given endpoint.
 This action has to be taken by the administrators of the two systems.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
@@ -1766,7 +1767,7 @@ This value was picked arbitrarily, as there is no reason to choose any other val
 <p id="section-3.7-7">For RADIUS/TLS, the endpoints <span class="bcp14">MAY</span> send TCP keepalives as described in <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>], <a href="https://rfc-editor.org/rfc/rfc9293#section-3.8.4" class="relref">Section 3.8.4</a></span>.
 For RADIUS/DTLS connections, the endpoints <span class="bcp14">MAY</span> send periodic keepalives as defined in <span>[<a href="#RFC6520" class="cite xref">RFC6520</a>]</span>.
 This is a way of proactively and rapidly triggering a 'Connection DOWN' notification from the network stack.
-These liveliness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.<a href="#section-3.7-7" class="pilcrow">¶</a></p>
+These liveness checks are essentially redundant in the presence of an application-layer watchdog, but may provide more rapid notifications of connectivity issues.<a href="#section-3.7-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-timers">
@@ -1837,7 +1838,7 @@ This idle timeout <span class="bcp14">SHOULD</span> be configurable within reaso
 For clients, proactively closing connections can also help mitigate situations where watchdog mechanisms are unavailable or fail to detect non-functional connections.
 Some scenarios or RADIUS protocol extensions could also require that a connection be kept open at all times, so clients <span class="bcp14">MAY</span> immediately re-open the connection.
 These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.<a href="#section-3.9-4" class="pilcrow">¶</a></p>
-<p id="section-3.9-5">The value of the idle timeout to use depends on the exact deployment and is a trade-of between resource usage on clients/servers and the overhead of opening new connections.
+<p id="section-3.9-5">The value of the idle timeout to use depends on the exact deployment and is a trade-off between resource usage on clients/servers and the overhead of opening new connections.
 Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.
 In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.<a href="#section-3.9-5" class="pilcrow">¶</a></p>
 </section>
@@ -2095,7 +2096,7 @@ Specifically, all of the following portions of RADIUS remain unchanged when usin
 <p id="section-6.1-3">The use of (D)TLS transport does not change the calculation of security-related fields (such as the Response-Authenticator) in RADIUS <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or RADIUS Dynamic Authorization <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.
 Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span> or Message-Authenticator <span>[<a href="#RFC3579" class="cite xref">RFC3579</a>]</span> also does not change.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1-4">The changes to RADIUS implementations required to implement this specification are largely limited to the portions that send and receive packets on the network, and to the establishment of the (D)TLS connection.
-The fact that RADIUS remain largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
+The fact that RADIUS remains largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This reuse includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 The use of MD5 here is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.  See also <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>], <a href="https://rfc-editor.org/rfc/rfc9765#section-1" class="relref">Section 1</a></span> for a discussion of issues related to the continued use of MD5, even in situations where its use is known to be safe.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.1-5">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
@@ -2194,7 +2195,7 @@ If the packet is proxied from RADIUS/TLS to RADIUS/DTLS or RADIUS/UDP, the proxy
 <p id="section-6.2.3-4">Using Event-Timestamp instead of Acct-Delay-Time also removes an ambiguity around retransmitted packets for RADIUS/TLS.
 Since there is no change to the packet contents when a retransmission timer expires, no new packet ID is allocated, and therefore no new packet is created.<a href="#section-6.2.3-4" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-5">Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client <span class="bcp14">SHOULD</span> use timers to detect packet loss, as described in <a href="#client_retransmission_timers" class="auto internal xref">Section 3.8.2</a>.
-Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore <span class="bcp14">SHOULD NOT</span> update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client <span class="bcp14">SHOULD</span> then create a new RADIUS packet with the same information, but and <span class="bcp14">MAY</span> update Acct-Delay-Time.
+Where RadSec clients do include Acct-Delay-Time in RADIUS packets, the client can rely on the Event-Timestamp to signal delays, and therefore <span class="bcp14">SHOULD NOT</span> update the Acct-Delay-Time. If the timer has determined that the original packet has been completely lost, the client <span class="bcp14">SHOULD</span> then create a new RADIUS packet with the same information, and <span class="bcp14">MAY</span> update Acct-Delay-Time.
 This behavior ensures that there is no congestive collapse, since a new packet is only created if following hops have also given up on retransmission.
 The Event-Timestamp is then interpreted as the time at which the event occurred.  Where Acct-Delay-Time exists, it is then interpreted as the delay between the event and when the packet was sent. Systems <span class="bcp14">MUST NOT</span> subtract the Acct-Delay-Time from Event-Timestamp to derive a time at which the event occurred; that time is exactly Event-Timestamp.  The existence of Acct-Delay-Time instead serves as an additional indication of delays in sending the packet.
 Leaving the Acct-Delay-Time static reduces the granularity of Acct-Delay-Time to the retransmission timeout, compared to the different approach of updating the Acct-Delay-Time on each retransmission.<a href="#section-6.2.3-5" class="pilcrow">¶</a></p>
@@ -2234,7 +2235,7 @@ As a suggestion, at least the following information from the TLS connection and 
 </li>
         </ul>
 <p id="section-6.3-3">Similar to the PKIX trust model, clients using TLS-PSK may have additional policies to determine whether a client should be allowed to connect.
-Therefore, In TLS-PSK operation, at least the following information from the TLS connection should be exposed:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+Therefore, in TLS-PSK operation, at least the following information from the TLS connection should be exposed:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-4.1">
             <p id="section-6.3-4.1.1">Originating IP address<a href="#section-6.3-4.1.1" class="pilcrow">¶</a></p>
@@ -2258,7 +2259,7 @@ If a packet sent by a endpoint is lost, that loss has no effect on subsequent pa
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS endpoints can process RADIUS packets out of order, the semantics of TCP makes this impossible.
 This limitation can lower the maximum packet processing rate of RADIUS/TLS.
-In severe cases, this may have a noticeable effect on all authentications that run over the congested connection, especially authentications with multiple round trips such as EAP-based autentications.
+In severe cases, this may have a noticeable effect on all authentications that run over the congested connection, especially authentications with multiple round trips such as EAP-based authentications.
 In contrast, when a RADIUS/UDP or RADIUS/DTLS packet is lost, only this authentication session is affected.
 Additionally, due to the architecture of TCP as reliable stream transport, TCP retransmissions can occur significantly later, even multiple seconds, after the original data was passed to the network stack by the application.
 In contrast, RADIUS/UDP packets are usually received either quickly, or not at all, in which case the RADIUS/UDP stack triggers a retransmission of the packet on the application layer.
@@ -2448,7 +2449,7 @@ Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC
         </h3>
 <p id="section-7.4-1">Both RADIUS/TLS and RADIUS/DTLS have a considerable higher amount of data that the server needs to store in comparison to RADIUS/UDP.
 Therefore, an attacker could try to exhaust server resources.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">With RADIUS/UDP, any invalid RADIUS packet would fail the cryptographic checks and the server would silently discard the that packet.
+<p id="section-7.4-2">With RADIUS/UDP, any invalid RADIUS packet would fail the cryptographic checks and the server would silently discard that packet.
 For RadSec, the server needs to perform at least a partial TLS handshake to determine whether or not the client is authorized.
 Performing a (D)TLS handshake is more complex than the cryptographic check of a RADIUS packet.
 An attacker could try to trigger a high number of (D)TLS handshakes at the same time, resulting in a high server load and potentially a Denial-of-Service.
@@ -2830,7 +2831,7 @@ These specifications have been merged into this document, and therefore removes 
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Vierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
 <p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>

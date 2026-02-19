@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 14 August 2026                                        S. Winter
+Expires: 23 August 2026                                        S. Winter
                                                                  RESTENA
-                                                        10 February 2026
+                                                        19 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 August 2026.
+   This Internet-Draft will expire on 23 August 2026.
 
 Copyright Notice
 
@@ -246,7 +246,7 @@ Table of Contents
                                   Table 1
 
    RadSec does not use separate ports for authentication, accounting and
-   dynamic authorization changes.  The client source port used for a
+   dynamic authorization changes.  The client source port used for
    RadSec connections is not fixed -- it is typically an ephemeral port
    picked by the client Operating System.  For considerations regarding
    the multi-purpose use of one port for authentication and accounting
@@ -636,7 +636,7 @@ Table of Contents
    [RFC9293], Section 3.8.4.  For RADIUS/DTLS connections, the endpoints
    MAY send periodic keepalives as defined in [RFC6520].  This is a way
    of proactively and rapidly triggering a 'Connection DOWN'
-   notification from the network stack.  These liveliness checks are
+   notification from the network stack.  These liveness checks are
    essentially redundant in the presence of an application-layer
    watchdog, but may provide more rapid notifications of connectivity
    issues.
@@ -766,7 +766,7 @@ Table of Contents
    preceding request.
 
    The value of the idle timeout to use depends on the exact deployment
-   and is a trade-of between resource usage on clients/servers and the
+   and is a trade-off between resource usage on clients/servers and the
    overhead of opening new connections.  Very short timeouts that are at
    or below the timeouts used for application layer watchdogs, typically
    in the range of 30-60s can be considered unreasonable.  In contrast,
@@ -1106,7 +1106,7 @@ Table of Contents
    The changes to RADIUS implementations required to implement this
    specification are largely limited to the portions that send and
    receive packets on the network, and to the establishment of the
-   (D)TLS connection.  The fact that RADIUS remain largely unchanged
+   (D)TLS connection.  The fact that RADIUS remains largely unchanged
    ensures the simplest possible implementation and widest
    interoperability of the specification.  This reuse includes the usage
    of the outdated security mechanisms in RADIUS that are based on
@@ -1273,12 +1273,12 @@ Table of Contents
    delays, and therefore SHOULD NOT update the Acct-Delay-Time.  If the
    timer has determined that the original packet has been completely
    lost, the client SHOULD then create a new RADIUS packet with the same
-   information, but and MAY update Acct-Delay-Time.  This behavior
-   ensures that there is no congestive collapse, since a new packet is
-   only created if following hops have also given up on retransmission.
-   The Event-Timestamp is then interpreted as the time at which the
-   event occurred.  Where Acct-Delay-Time exists, it is then interpreted
-   as the delay between the event and when the packet was sent.  Systems
+   information, and MAY update Acct-Delay-Time.  This behavior ensures
+   that there is no congestive collapse, since a new packet is only
+   created if following hops have also given up on retransmission.  The
+   Event-Timestamp is then interpreted as the time at which the event
+   occurred.  Where Acct-Delay-Time exists, it is then interpreted as
+   the delay between the event and when the packet was sent.  Systems
    MUST NOT subtract the Acct-Delay-Time from Event-Timestamp to derive
    a time at which the event occurred; that time is exactly Event-
    Timestamp.  The existence of Acct-Delay-Time instead serves as an
@@ -1315,7 +1315,7 @@ Table of Contents
 
    Similar to the PKIX trust model, clients using TLS-PSK may have
    additional policies to determine whether a client should be allowed
-   to connect.  Therefore, In TLS-PSK operation, at least the following
+   to connect.  Therefore, in TLS-PSK operation, at least the following
    information from the TLS connection should be exposed:
 
    *  Originating IP address
@@ -1344,7 +1344,7 @@ Table of Contents
    rate of RADIUS/TLS.  In severe cases, this may have a noticeable
    effect on all authentications that run over the congested connection,
    especially authentications with multiple round trips such as EAP-
-   based autentications.  In contrast, when a RADIUS/UDP or RADIUS/DTLS
+   based authentications.  In contrast, when a RADIUS/UDP or RADIUS/DTLS
    packet is lost, only this authentication session is affected.
    Additionally, due to the architecture of TCP as reliable stream
    transport, TCP retransmissions can occur significantly later, even
@@ -1605,7 +1605,7 @@ Table of Contents
    Therefore, an attacker could try to exhaust server resources.
 
    With RADIUS/UDP, any invalid RADIUS packet would fail the
-   cryptographic checks and the server would silently discard the that
+   cryptographic checks and the server would silently discard that
    packet.  For RadSec, the server needs to perform at least a partial
    TLS handshake to determine whether or not the client is authorized.
    Performing a (D)TLS handshake is more complex than the cryptographic
@@ -2087,7 +2087,7 @@ Acknowledgments
 
    Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360:
    Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas
-   Vierenga.
+   Wierenga.
 
    Thanks to Arran Curdbard-Bell for text around keepalives and the
    Status-Server watchdog algorithm.
