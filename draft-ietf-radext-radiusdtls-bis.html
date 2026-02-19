@@ -1746,7 +1746,7 @@ See further details in <a href="#unwanted_packet_handling" class="auto internal 
 While the client may be able to deduce the operational state of the next-hop (i.e. proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
 A similar effect may also be seen on home servers that uses different credential backends for each realm they service.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
-<p id="section-3.7-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> only mark a connection 'DOWN' (as labelled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.7-3" class="pilcrow">¶</a></p>
+<p id="section-3.7-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> only mark a connection 'DOWN' (as labeled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.7-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.7-4.1">
             <p id="section-3.7-4.1.1">The network stack indicates that the connection is no longer viable; such as the destination being no longer routable or the underlying TCP connection being closed by the peer.<a href="#section-3.7-4.1.1" class="pilcrow">¶</a></p>
@@ -2834,7 +2834,7 @@ These specifications have been merged into this document, and therefore removes 
 <p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
-<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

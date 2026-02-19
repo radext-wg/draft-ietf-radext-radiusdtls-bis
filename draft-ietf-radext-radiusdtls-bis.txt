@@ -603,7 +603,7 @@ Table of Contents
    service.
 
    To avoid these issues, RadSec clients MUST only mark a connection
-   'DOWN' (as labelled by [RFC3539], Section 3.4) if one or more of the
+   'DOWN' (as labeled by [RFC3539], Section 3.4) if one or more of the
    following conditions are met:
 
    *  The network stack indicates that the connection is no longer
@@ -2097,8 +2097,8 @@ Acknowledgments
    forwarding issues between TCP and UDP based transports.
 
    Thanks to the following people for their feedback and suggested text
-   changes: Alex Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov,
-   Heikki Vatiainen, Paul Wouters.
+   changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery
+   Smyslov, Heikki Vatiainen, Paul Wouters.
 
 Authors' Addresses
 
