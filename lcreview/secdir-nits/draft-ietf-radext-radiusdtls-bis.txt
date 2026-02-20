@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 21 August 2026                                        S. Winter
+Expires: 24 August 2026                                        S. Winter
                                                                  RESTENA
-                                                        17 February 2026
+                                                        20 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 August 2026.
+   This Internet-Draft will expire on 24 August 2026.
 
 Copyright Notice
 
@@ -347,7 +347,7 @@ Table of Contents
       directly or by opening a new (D)TLS connection and closing the old
       one.
 
-   *  Implementations SHOULD NOT keep a connection open beyon the
+   *  Implementations SHOULD NOT keep a connection open beyond the
       validity period of the peer certificate.  At the time the peer
       certificate expires, the connection SHOULD be closed and then
       possibly re-opened with updated credentials.

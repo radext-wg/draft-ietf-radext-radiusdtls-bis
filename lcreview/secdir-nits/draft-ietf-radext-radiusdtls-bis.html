@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 21 August 2026</td>
+<td class="center">Expires 24 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-17" class="published">17 February 2026</time>
+<time datetime="2026-02-20" class="published">20 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-21">21 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-24">24 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1597,7 +1597,7 @@ See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://r
               <p id="section-3.3.1-3.4.1">When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations <span class="bcp14">SHOULD</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.5">
-              <p id="section-3.3.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open beyon the validity period of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and then possibly re-opened with updated credentials.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and then possibly re-opened with updated credentials.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-3.3.1-4">RadSec endpoints <span class="bcp14">SHOULD NOT</span> be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
