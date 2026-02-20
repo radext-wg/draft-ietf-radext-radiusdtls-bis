@@ -209,7 +209,7 @@ If implemented, the following rules apply:
 * Implementations MAY indicate their trust anchors when opening or accepting TLS connections.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
 * When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations SHOULD reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
-* Implementations SHOULD NOT keep a connection open beyon the validity period of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and then possibly re-opened with updated credentials.
+* Implementations SHOULD NOT keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and then possibly re-opened with updated credentials.
 
 RadSec endpoints SHOULD NOT be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
 Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
