@@ -180,6 +180,8 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
 The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.
 RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
 If 0-RTT is used, implementations MUST also implement protection mechanisms against replay attacks.
+RadSec clients using 0-RTT MUST re-send the data contained in the 0-RTT early_data if the server does not accept the 0-RTT data.
+See {{zerortt_considerations}} for more considerations.
 
 ## Mutual authentication
 {: #mutual_auth }
@@ -903,6 +905,24 @@ See {{RFC8446, Section 5.5}} and {{?I-D.irtf-cfrg-aead-limits}} for more informa
 
 Implementers SHOULD be aware of this issue and determine whether the underlying TLS library automatically rotates encryption keys or not.
 If the underlying TLS library does not perform the rotation automatically, RadSec implementations SHOULD perform this rotation manually, either by a key update of the existing TLS connection or by closing the TLS connection and opening a new one.
+
+## Usage of 0-RTT features of TLS
+{:#zerortt_considerations}
+
+In situations where connections do not see much RADIUS traffic, or where a RadSec client communicates with many different RadSec servers, session resumption can be used to reduce the number of open connections.
+To keep the delay of the handshake for the session resumption small, a RadSec client could transmit the RADIUS request in the early_data.
+As detailed in {{RFC8446, Appendix E.5}}, this introduces the possibility of replay attacks.
+
+In the context of RADIUS, this allows an attacker to re-send a RADIUS request to the same RadSec server again.
+In order benefit from 0-RTT, the RadSec server must immedialy process the 0-RTT data, otherwise the client could have sent the data after the handshake has completed.
+Since the resumed connection might be treated as as new connection by the RadSec server and the RADIUS packet ID might also have been reused, the deduplication mechanism will not recognize this packet as a duplicate and process it as new packet.
+
+Due to the small benefit, it is recommended to disable 0-RTT data completely.
+RadSec clients that sent 0-RTT data in their initial handshake will re-send it.
+
+If 0-RTT is used, implementations must ensure that it cannot be replayed, for example by enforcing single-use tickets for session resumption, as suggested in {{RFC8446, Section 8.1}}.
+
+The RADIUS packet deduplication cannot mitigate 0-RTT replays, even if the deduplication cache is shared across all resumptions, since there is no guarantee that the RADIUS packet ID has not been reused in the time between the legitimate resumption and the attack.
 
 ## Connection Closing On Malformed Packets
 
