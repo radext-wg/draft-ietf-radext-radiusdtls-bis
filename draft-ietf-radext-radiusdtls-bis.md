@@ -177,9 +177,8 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
 * The endpoints MUST NOT negotiate compression.
 * The connection MUST be mutually authenticated (see {{mutual_auth}}).
 
-The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.
-RADIUS packets may contain confidential data that should be protected by forward secrecy, which 0-RTT cannot provide.
-If 0-RTT is used, implementations MUST also implement protection mechanisms against replay attacks.
+RadSec endpoints MUST NOT use the 0-RTT feature of (D)TLS.
+
 
 ## Mutual authentication
 {: #mutual_auth }
@@ -994,6 +993,10 @@ The original specification of RADIUS/TLS does not forbid the usage of compressio
 As per {{RFC9325, Section 3.3}}, compression should not be used due to the possibility of compression-related attacks, unless the application protocol is proven to be not open to such attacks.
 Since some attributes of the RADIUS packets within the TLS tunnel contain values that an attacker could at least partially choose (i.e., username, MAC address or EAP message), there is a possibility for compression-related attacks, that could potentially reveal data in other RADIUS attributes through length of the TLS record.
 To circumvent this attack, this specification forbids the usage of TLS compression.
+
+Since usage of 0-RTT may have implications on forward secrecy and replay protection, this specification prohibits its use.
+Protection against replay attacks is necessary, since a replayed RADIUS packet in the early data would be processed as new packet.
+The additional effort that is needed to protect 0-RTT data against replays outweighs the benefit of the reduced processing time.
 
 # IANA Considerations
 
