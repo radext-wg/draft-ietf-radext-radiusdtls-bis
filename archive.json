@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-19T01:15:53.874706+00:00",
+  "timestamp": "2026-02-22T01:14:58.594101+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1534,6 +1534,67 @@
           "body": "I think this is a duplicate of #124 ",
           "createdAt": "2026-01-29T14:33:53Z",
           "updatedAt": "2026-01-29T14:33:53Z"
+        }
+      ]
+    },
+    {
+      "number": 150,
+      "id": "I_kwDOLrzygc7sonAb",
+      "title": "state clients are allowed to open multple connections",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/150",
+      "state": "OPEN",
+      "author": "paulwouters",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\nAs per discussion in https://mailarchive.ietf.org/arch/msg/radext/7uU7kDijZq0NAprN-2M9hErCahE/",
+      "createdAt": "2026-02-20T19:37:12Z",
+      "updatedAt": "2026-02-20T19:37:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 151,
+      "id": "I_kwDOLrzygc7soogw",
+      "title": "Add text on 0-RTT in Security Considerations",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/151",
+      "state": "OPEN",
+      "author": "paulwouters",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "As per SecDir review: https://mailarchive.ietf.org/arch/msg/radext/8RS1v7PYuBE4ONK7wXyo1TaFuo0/",
+      "createdAt": "2026-02-20T19:38:51Z",
+      "updatedAt": "2026-02-21T21:17:49Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After reading up a little bit about 0-RTT in RFC8446:\n\nI don't really understand fully how implementations behave when the server doesn't accept 0-RTT.\n\nAs far as I can see, the server sends an `early_data` extension itself, and this indicates that the server has accepted 0-RTT.\nIf this is missing, the server will not process 0-RTT, and client must re-send the data in its first 1-RTT message, but this is not handled automatically by the TLS library.\n\nAs far as I can see, we have to add some text that mandates that RadSec clients MUST re-send the 0-RTT data in the 1-RTT handshake message if the server didn't accept the 0-RTT data.\n\nI'll write something up and hopefully push a suggestion in the next 12 hours.",
+          "createdAt": "2026-02-21T16:15:03Z",
+          "updatedAt": "2026-02-21T16:15:03Z"
+        },
+        {
+          "author": "mrw42",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Is it an option, instead, to forbid clients from trying to use 0-RTT?\r\n\r\nIf so, the WG should decide which is better.\r\n\r\nMargaret\r\n\r\nOn Sat, Feb 21, 2026 at 11:15\u202fAM Jan-Frederik Rieckers <\r\n***@***.***> wrote:\r\n\r\n> *Janfred* left a comment (radext-wg/draft-ietf-radext-radiusdtls-bis#151)\r\n> <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/151#issuecomment-3939034526>\r\n>\r\n> After reading up a little bit about 0-RTT in RFC8446:\r\n>\r\n> I don't really understand fully how implementations behave when the server\r\n> doesn't accept 0-RTT.\r\n>\r\n> As far as I can see, the server sends an early_data extension itself, and\r\n> this indicates that the server has accepted 0-RTT.\r\n> If this is missing, the server will not process 0-RTT, and client must\r\n> re-send the data in its first 1-RTT message, but this is not handled\r\n> automatically by the TLS library.\r\n>\r\n> As far as I can see, we have to add some text that mandates that RadSec\r\n> clients MUST re-send the 0-RTT data in the 1-RTT handshake message if the\r\n> server didn't accept the 0-RTT data.\r\n>\r\n> I'll write something up and hopefully push a suggestion in the next 12\r\n> hours.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/151#issuecomment-3939034526>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/ABO6Z5GCLY3VEFA6UAA5Q534NCAB3AVCNFSM6AAAAACV227D4SVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTSMZZGAZTINJSGY>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: <radext-wg/draft-ietf-radext-radiusdtls-bis/issues/151/3939034526@\r\n> github.com>\r\n>\r\n",
+          "createdAt": "2026-02-21T16:18:07Z",
+          "updatedAt": "2026-02-21T16:18:07Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "\r\n> On Feb 21, 2026, at 11:15\u202fAM, Jan-Frederik Rieckers ***@***.***> wrote:\r\n> After reading up a little bit about 0-RTT in RFC8446:\r\n> I don't really understand fully how implementations behave when the server doesn't accept 0-RTT.\r\n> As far as I can see, the server sends an early_data extension itself, and this indicates that the server has accepted 0-RTT.\r\n> If this is missing, the server will not process 0-RTT, and client must re-send the data in its first 1-RTT message, but this is not handled automatically by the TLS library.\r\n> As far as I can see, we have to add some text that mandates that RadSec clients MUST re-send the 0-RTT data in the 1-RTT handshake message if the server didn't accept the 0-RTT data.\r\n> I'll write something up and hopefully push a suggestion in the next 12 hours.\r\n\r\n  EAP-TLS 1.3 just forbids early-data, for all of these issues:\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc9190#name-overview-of-the-eap-tls-con\r\n\r\n    \u2022 Early Data MUST NOT be used in EAP-TLS. EAP-TLS servers MUST NOT send an early_data extension and clients MUST NOT send an EndOfEarlyData message.\r\n\r\n  I can't find the full discussions around this topic, but IIRC the conclusion was that allowing early data wasn't a good idea.  And it should therefore be forbidden.\r\n\r\n  Further discussion on early data:\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc8470\r\n\r\n  The primary risk of using early data is that an attacker might\r\ncapture and replay the request(s) it contains. TLS [TLS13] describes\r\ntechniques that can be used to reduce the likelihood that an attacker\r\ncan successfully replay a request, but these techniques can be\r\ndifficult to deploy and still leave some possibility of a successful\r\nattack.\r\n...\r\n The model that this document assumes is that once the TLS handshake\r\ncompletes, the early data received on that TLS connection is known to\r\nnot be a replayed copy of that data. However, it is important to\r\nnote that this does not mean that early data will not be or has not\r\nbeen replayed on another connection.\r\n\r\n  If we're not sure what the impact is of early data, it should just be forbidden.",
+          "createdAt": "2026-02-21T16:59:29Z",
+          "updatedAt": "2026-02-21T16:59:29Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I have pushed two conflicting PRs, I will send a mail out to the MLs as well.",
+          "createdAt": "2026-02-21T21:17:49Z",
+          "updatedAt": "2026-02-21T21:17:49Z"
         }
       ]
     }
@@ -12444,24 +12505,26 @@
       "id": "PR_kwDOLrzygc7CV8gJ",
       "title": "Fix typos and grammatical errors in draft-radiusdtls-bis-14",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/145",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "These aim to be simple fixes without any functional changes. A check also noted that Klaas's last name starts with 'W'.",
       "createdAt": "2026-02-08T22:09:10Z",
-      "updatedAt": "2026-02-08T22:09:10Z",
+      "updatedAt": "2026-02-19T16:55:43Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "49f5d1fd257ff54984ebd147cfb1852610bbba8d",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "draft-14-typos",
       "headRefOid": "98a94b50e36cc38cc6e043f67007e826a2da8d5b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-19T16:55:43Z",
+      "mergedAt": "2026-02-19T16:55:43Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "4e174006bbe1edb347b964eace23a8eb3ce07a2f"
+      },
       "comments": [],
       "reviews": []
     },
@@ -12470,24 +12533,26 @@
       "id": "PR_kwDOLrzygc7CV_qV",
       "title": "Fix for a comma splice in radiustls-bis-14",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/146",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "h-vn",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "draft-ietf-radext-radiusdtls-bis-14 seems to have a 'comma splice' where a semicolon or separate sentences might be clearer. This suggested commit replaces a comma with a semicolon.\r\n\r\nhttps://en.wikipedia.org/wiki/Comma_splice",
       "createdAt": "2026-02-08T22:18:20Z",
-      "updatedAt": "2026-02-08T22:18:20Z",
+      "updatedAt": "2026-02-19T17:05:55Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "49f5d1fd257ff54984ebd147cfb1852610bbba8d",
       "headRepository": "h-vn/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "draft-14-comma-splice",
       "headRefOid": "6413a24f146c3910fbe740391b91e8107659d100",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-19T17:05:55Z",
+      "mergedAt": "2026-02-19T17:05:55Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "1d6b029f84e2055cbb869dc8f1a0f9a8e3a3b074"
+      },
       "comments": [],
       "reviews": []
     },
@@ -12496,20 +12561,165 @@
       "id": "PR_kwDOLrzygc7EYK-v",
       "title": "Fixes nits as suggested in the secdir review",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/147",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "* `Certificate Authority` -> `Certification Authority`\r\n* `for longer than the validity span` -> `beyond the validity period`\r\n* `trust chain check` -> `certification path validation`\r\n* Add comma after each `i.e.`\r\n* Add comma after each `e.g.`\r\n\r\nI would welcome input from people who are better at English than I am.",
       "createdAt": "2026-02-17T14:45:00Z",
-      "updatedAt": "2026-02-17T14:45:00Z",
+      "updatedAt": "2026-02-21T15:33:47Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c6531805035cf375f8ce9681952f13fc4f39803e",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "lcreview/secdir-nits",
-      "headRefOid": "61707ff69086780dc9d6c541bb897c5adcb00fef",
+      "headRefOid": "1006eb3fce44a1b5170bf692ef8d4294a67cf577",
+      "closedAt": "2026-02-21T15:33:47Z",
+      "mergedAt": "2026-02-21T15:33:47Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "3dc1345b9229b9138a3ffd71fd906b47d244ac63"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7khG1m",
+          "commit": {
+            "abbreviatedOid": "61707ff"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "looks good - typo can be fixed now or by RFC Editor later",
+          "createdAt": "2026-02-20T19:34:48Z",
+          "updatedAt": "2026-02-20T19:36:21Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "typo: beyon -> beyond",
+              "createdAt": "2026-02-20T19:34:48Z",
+              "updatedAt": "2026-02-20T19:36:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7kjuu3",
+          "commit": {
+            "abbreviatedOid": "61707ff"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-20T23:14:13Z",
+          "updatedAt": "2026-02-20T23:14:14Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\n* Implementations SHOULD NOT keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and then possibly re-opened with updated credentials.\r\n```",
+              "createdAt": "2026-02-20T23:14:13Z",
+              "updatedAt": "2026-02-20T23:14:14Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 148,
+      "id": "PR_kwDOLrzygc7Ej_19",
+      "title": "Minor changes as well as accounting suggestion",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/148",
+      "state": "CLOSED",
+      "author": "jimdigriz",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Whilst reading the draft I thought another way other than Protocol-Error is to recommend a RadSec client uses separate connection pools for authentication and accounting requests. If the accounting requests cause trouble (silently dropped, congestion, or otherwise) they will not affect the authentication flows. It is a suggestion, I think a minor change and optional for a client, though maybe SHOULD->RECOMMENDED, or ignore this completely?\r\n\r\nThe two other commits are Alex->Alexander and two spelling mistakes.",
+      "createdAt": "2026-02-18T09:08:08Z",
+      "updatedAt": "2026-02-19T17:09:53Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1d6b029f84e2055cbb869dc8f1a0f9a8e3a3b074",
+      "headRepository": "corememltd/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "main",
+      "headRefOid": "1d6b029f84e2055cbb869dc8f1a0f9a8e3a3b074",
+      "closedAt": "2026-02-19T17:09:53Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@jimdigriz I've applied your typos directly on the main branch, can you rebase your pull request so that it only contains the added paragraph?\r\n\r\nTo comment on the content: I don't think it is good, to make this behavior a recommendation, maybe it would be better to make it an optional suggestion?",
+          "createdAt": "2026-02-19T17:04:45Z",
+          "updatedAt": "2026-02-19T17:04:45Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 149,
+      "id": "PR_kwDOLrzygc7E8Eng",
+      "title": "one option is to partition out the accounting and authentication requests",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/149",
+      "state": "OPEN",
+      "author": "jimdigriz",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resubmission of #148 as requested in https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/148#issuecomment-3928570242 (...well GitHub autoclosed the original PR so opening a new one).\r\n\r\nRecommendation text that clients should open a separate connection pool for authentication and accounting requests.\r\n\r\nSuggested alternative text from [Peter Deacon on the mailing list](https://mailarchive.ietf.org/arch/msg/radext/zMDqOJWFrYF3LmUIcBm9OfSdODs/):\r\n> RADIUS/TLS clients SHOULD open connections to servers for authentication on separate connections from accounting.  By separating authentication and accounting streams latency and availability concerns specific to authentication or accounting may be isolated from delaying or blocking the other.\r\n\r\nAs for the [comment](https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/148#issuecomment-3928570242):\r\n\r\n> I don't think it is good, to make this behavior a recommendation, maybe it would be better to make it an optional suggestion?\r\n\r\nI think making a 'MUST' for Protocol-Error which its-self is experimental and not widely deployed is fraught with danger.\r\n\r\nProviding an implementer with an alternative that is clearly understood and really has the effect of re-establishing the separation that having separate ports provided for plain RADIUS/{TCP,UDP} is a bit of a win at a low cost. This works right now on existing RadSec deployments to provide the effect we are trying to get through Protocol-Error.\r\n\r\nThat said, I really am not that concerned, hopefully by the time it becomes an issue, https://datatracker.ietf.org/doc/html/draft-dekok-protocol-error will be out the door.",
+      "createdAt": "2026-02-19T17:22:59Z",
+      "updatedAt": "2026-02-20T19:33:03Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1d6b029f84e2055cbb869dc8f1a0f9a8e3a3b074",
+      "headRepository": "corememltd/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "wip",
+      "headRefOid": "0222d75b260d764f28f261a92157ee507d29849d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7khEtW",
+          "commit": {
+            "abbreviatedOid": "0222d75"
+          },
+          "author": "paulwouters",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-20T19:33:03Z",
+          "updatedAt": "2026-02-20T19:33:03Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 152,
+      "id": "PR_kwDOLrzygc7FYPEO",
+      "title": "Suggestion for 0-RTT if we leave it in",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/152",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "conflicting-A"
+      ],
+      "body": "Related to #151 ",
+      "createdAt": "2026-02-21T21:15:44Z",
+      "updatedAt": "2026-02-21T21:15:44Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "3dc1345b9229b9138a3ffd71fd906b47d244ac63",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "lcreview/0rtt-considerations",
+      "headRefOid": "224c011304944323575c4ae530f9c9914df6b71e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12518,24 +12728,26 @@
       "reviews": []
     },
     {
-      "number": 148,
-      "id": "PR_kwDOLrzygc7Ej_19",
-      "title": "Minor changes as well as accounting suggestion",
-      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/148",
+      "number": 153,
+      "id": "PR_kwDOLrzygc7FYPZ3",
+      "title": "Suggestion for 0-RTT if we remove it",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/153",
       "state": "OPEN",
-      "author": "jimdigriz",
-      "authorAssociation": "CONTRIBUTOR",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
-      "body": "Whilst reading the draft I thought another way other than Protocol-Error is to recommend a RadSec client uses separate connection pools for authentication and accounting requests. If the accounting requests cause trouble (silently dropped, congestion, or otherwise) they will not affect the authentication flows. It is a suggestion, I think a minor change and optional for a client, though maybe SHOULD->RECOMMENDED, or ignore this completely?\r\n\r\nThe two other commits are Alex->Alexander and two spelling mistakes.",
-      "createdAt": "2026-02-18T09:08:08Z",
-      "updatedAt": "2026-02-18T09:08:08Z",
+      "labels": [
+        "conflicting-A"
+      ],
+      "body": "Related to #151 \r\n\r\nWhat is important to me: We shouldn't just say \"Don't use 0-RTT\", we should explain why it is bad.",
+      "createdAt": "2026-02-21T21:16:41Z",
+      "updatedAt": "2026-02-21T21:16:52Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "c6531805035cf375f8ce9681952f13fc4f39803e",
-      "headRepository": "corememltd/draft-ietf-radext-radiusdtls-bis",
-      "headRefName": "main",
-      "headRefOid": "17b1d9a0d347edb42c03120a39b3b709c49cae13",
+      "baseRefOid": "3dc1345b9229b9138a3ffd71fd906b47d244ac63",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "lcreview/0rtt-removed",
+      "headRefOid": "da3ed24df4d6554445d26b5584e4184b6803e3de",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
