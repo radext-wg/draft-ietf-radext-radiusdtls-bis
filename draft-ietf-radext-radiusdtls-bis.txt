@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 25 August 2026                                        S. Winter
+Expires: 26 August 2026                                        S. Winter
                                                                  RESTENA
-                                                        21 February 2026
+                                                        22 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 August 2026.
+   This Internet-Draft will expire on 26 August 2026.
 
 Copyright Notice
 
@@ -286,11 +286,7 @@ Table of Contents
 
    *  The connection MUST be mutually authenticated (see Section 3.3).
 
-   The use of the 0-RTT feature of (D)TLS is NOT RECOMMENDED.  RADIUS
-   packets may contain confidential data that should be protected by
-   forward secrecy, which 0-RTT cannot provide.  If 0-RTT is used,
-   implementations MUST also implement protection mechanisms against
-   replay attacks.
+   RadSec endpoints MUST NOT use the 0-RTT feature of (D)TLS.
 
 3.3.  Mutual authentication
 
@@ -1826,6 +1822,13 @@ Table of Contents
    potentially reveal data in other RADIUS attributes through length of
    the TLS record.  To circumvent this attack, this specification
    forbids the usage of TLS compression.
+
+   Since usage of 0-RTT may have implications on forward secrecy and
+   replay protection, this specification prohibits its use.  Protection
+   against replay attacks is necessary, since a replayed RADIUS packet
+   in the early data would be processed as new packet.  The additional
+   effort that is needed to protect 0-RTT data against replays outweighs
+   the benefit of the reduced processing time.
 
 9.  IANA Considerations
 
