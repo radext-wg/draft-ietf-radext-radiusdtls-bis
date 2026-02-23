@@ -1521,7 +1521,8 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 <p id="section-3.1-4">RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.6</a>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.1-5">RadSec endpoints <span class="bcp14">MUST NOT</span> use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-5">RadSec clients <span class="bcp14">MAY</span> open multiple connections to the same RadSec server and RadSec servers <span class="bcp14">MUST</span> be able to accept multiple connections from a single client.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">RadSec endpoints <span class="bcp14">MUST NOT</span> use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dtls-requirements">

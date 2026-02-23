@@ -252,6 +252,10 @@ Table of Contents
    the multi-purpose use of one port for authentication and accounting
    see Section 3.6.
 
+   RadSec clients MAY open multiple connections to the same RadSec
+   server and RadSec servers MUST be able to accept multiple connections
+   from a single client.
+
    RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports
    for RADIUS/DTLS or RADIUS/TLS.
 
