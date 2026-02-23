@@ -315,6 +315,8 @@ Further details of handling the Protocol-Error reply on the client side are outs
 Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in {{RFC6614}}.
 See further details in {{unwanted_packet_handling}} below.
 
+RadSec clients, for both reliability and compatibility reasons, SHOULD not mix authentication and accounting requests within the same connection. RadSec clients SHOULD use a separate pool of connections on which to send accounting packets in the event the RadSec server does not support sending Protocol-Error.
+
 ## Detecting Live Servers
 
 RadSec implementations MUST utilize the existence of a TCP, TLS or DTLS connection where applicable in addition to the application-layer watchdog defined in {{!RFC3539, Section 3.4}} when determining the liveness of each connection.
