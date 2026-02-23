@@ -584,7 +584,7 @@ Table of Contents
    in Section 6.1.1 below.
 
    RadSec clients, for both reliability and compatibility reasons,
-   SHOULD not mix authentication and accounting requests within the same
+   SHOULD NOT mix authentication and accounting requests within the same
    connection.  RadSec clients SHOULD use a separate pool of connections
    on which to send accounting packets in the event the RadSec server
    does not support sending Protocol-Error.

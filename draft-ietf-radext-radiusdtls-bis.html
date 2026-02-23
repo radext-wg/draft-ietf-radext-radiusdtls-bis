@@ -1733,7 +1733,7 @@ Future specifications may recommend other Error-Cause attribute values for speci
 Further details of handling the Protocol-Error reply on the client side are outside of the scope of this document, see <span>[<a href="#I-D.dekok-protocol-error" class="cite xref">I-D.dekok-protocol-error</a>]</span> for a more detailed description of Protocol-Error.<a href="#section-3.6-6" class="pilcrow">¶</a></p>
 <p id="section-3.6-7">Note that sending Protocol-Error in response to unwanted packets replaces the use of CoA-NAK, Disconnect-NAK and Accounting-Response in these situations as specified in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span>.
 See further details in <a href="#unwanted_packet_handling" class="auto internal xref">Section 6.1.1</a> below.<a href="#section-3.6-7" class="pilcrow">¶</a></p>
-<p id="section-3.6-8">RadSec clients, for both reliability and compatibility reasons, <span class="bcp14">SHOULD</span> not mix authentication and accounting requests within the same connection. RadSec clients <span class="bcp14">SHOULD</span> use a separate pool of connections on which to send accounting packets in the event the RadSec server does not support sending Protocol-Error.<a href="#section-3.6-8" class="pilcrow">¶</a></p>
+<p id="section-3.6-8">RadSec clients, for both reliability and compatibility reasons, <span class="bcp14">SHOULD NOT</span> mix authentication and accounting requests within the same connection. RadSec clients <span class="bcp14">SHOULD</span> use a separate pool of connections on which to send accounting packets in the event the RadSec server does not support sending Protocol-Error.<a href="#section-3.6-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="detecting-live-servers">
