@@ -156,6 +156,8 @@ RadSec does not use separate ports for authentication, accounting and dynamic au
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
 
+RadSec clients MAY open multiple connections to the same RadSec server and RadSec servers MUST be able to accept multiple connections from a single client.
+
 RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.
 
 ## (D)TLS requirements
