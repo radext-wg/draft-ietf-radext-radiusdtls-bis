@@ -1007,6 +1007,7 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
 
 For TCP:
+
 * Service Name: radsec
 * Port Number: 2083
 * Transport Protocol: tcp
@@ -1016,6 +1017,7 @@ For TCP:
 * Reference: {{&SELF}} (this document)
 
 For UDP:
+
 * Service Name: radsec
 * Port Number: 2083
 * Transport Protocol: udp
