@@ -650,7 +650,7 @@ Perhaps the network characteristics on the two links are different, or perhaps t
 In both situations, the proxy may be left with a difficult choice about what to do with the incoming packets, if the rate of incoming packets exceeds throughput on the outgoing link.
 
 As RADIUS does not provide for connection-based congestion control, there is no way for the proxy to signal on the incoming link that the client should slow its rate of sending packets.
-As a result, the proxy generally will accept the packets, buffer them, and hope that they can be be sent outbound before the client gives up on the request.  Other courses of action are possible, but are implementation specific.  See {{?I-D.dekok-protocol-error}} for more discussion on this topic.
+As a result, the proxy generally will accept the packets, buffer them, and hope that they can be sent outbound before the client gives up on the request.  Other courses of action are possible, but are implementation specific.  See {{?I-D.dekok-protocol-error}} for more discussion on this topic.
 
 ### Differing Retransmission Requirements
 
