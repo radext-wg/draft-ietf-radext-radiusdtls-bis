@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 27 August 2026                                        S. Winter
+Expires: 28 August 2026                                        S. Winter
                                                                  RESTENA
-                                                        23 February 2026
+                                                        24 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 August 2026.
+   This Internet-Draft will expire on 28 August 2026.
 
 Copyright Notice
 
@@ -1191,10 +1191,10 @@ Table of Contents
    there is no way for the proxy to signal on the incoming link that the
    client should slow its rate of sending packets.  As a result, the
    proxy generally will accept the packets, buffer them, and hope that
-   they can be be sent outbound before the client gives up on the
-   request.  Other courses of action are possible, but are
-   implementation specific.  See [I-D.dekok-protocol-error] for more
-   discussion on this topic.
+   they can be sent outbound before the client gives up on the request.
+   Other courses of action are possible, but are implementation
+   specific.  See [I-D.dekok-protocol-error] for more discussion on this
+   topic.
 
 6.2.2.  Differing Retransmission Requirements
 
