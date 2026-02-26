@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 28 August 2026                                        S. Winter
+Expires: 30 August 2026                                        S. Winter
                                                                  RESTENA
-                                                        24 February 2026
+                                                        26 February 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 August 2026.
+   This Internet-Draft will expire on 30 August 2026.
 
 Copyright Notice
 
@@ -1846,19 +1846,39 @@ Table of Contents
    Notes to radsec in the Service Name and Transport Protocol Port
    Number Registry:
 
-   For TCP: * Service Name: radsec * Port Number: 2083 * Transport
-   Protocol: tcp * Description: Secure RADIUS Service * Assignment
-   notes: The TCP port 2083 was already previously assigned by IANA for
-   "RadSec", an early implementation of RADIUS/TLS, prior to issuance of
-   the experimental RFC 6614.  [RFCXXXX] updates RFC 6614 (RADIUS/TLS).
-   * Reference: [RFCXXXX] (this document)
+   For TCP:
 
-   For UDP: * Service Name: radsec * Port Number: 2083 * Transport
-   Protocol: udp * Description: Secure RADIUS Service * Assignment
-   notes: The UDP port 2083 was already previously assigned by IANA for
-   "RadSec", an early implementation of RADIUS/DTLS, prior to issuance
-   of the experimental RFC 7360.  [RFCXXXX] updates RFC 7360 (RADIUS/
-   DTLS). * Reference: [RFCXXXX] (this document)
+   *  Service Name: radsec
+
+   *  Port Number: 2083
+
+   *  Transport Protocol: tcp
+
+   *  Description: Secure RADIUS Service
+
+   *  Assignment notes: The TCP port 2083 was already previously
+      assigned by IANA for "RadSec", an early implementation of RADIUS/
+      TLS, prior to issuance of the experimental RFC 6614.  [RFCXXXX]
+      updates RFC 6614 (RADIUS/TLS).
+
+   *  Reference: [RFCXXXX] (this document)
+
+   For UDP:
+
+   *  Service Name: radsec
+
+   *  Port Number: 2083
+
+   *  Transport Protocol: udp
+
+   *  Description: Secure RADIUS Service
+
+   *  Assignment notes: The UDP port 2083 was already previously
+      assigned by IANA for "RadSec", an early implementation of RADIUS/
+      DTLS, prior to issuance of the experimental RFC 7360.  [RFCXXXX]
+      updates RFC 7360 (RADIUS/DTLS).
+
+   *  Reference: [RFCXXXX] (this document)
 
 10.  References
 
