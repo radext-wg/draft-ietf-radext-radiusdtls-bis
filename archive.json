@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T01:11:33.977703+00:00",
+  "timestamp": "2026-03-01T01:20:38.867110+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1732,6 +1732,22 @@
       "body": "Question about whether to mandate logging for RadSec to UDP fallback.  This document doesn't actually mandate any logging.\n\nThere was consensus in the interim meeting not to include logging about fallback.",
       "createdAt": "2026-02-25T14:45:15Z",
       "updatedAt": "2026-02-25T14:45:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 161,
+      "id": "I_kwDOLrzygc7usgQF",
+      "title": "Editorial comments from Deb Cooley",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/161",
+      "state": "OPEN",
+      "author": "mrw42",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Deb Cooley sent editorial comments with her \u201cno objection\u201d:\n\nSection 7.3:  This appears to be an ideal place for a MUST NOT vs 'forbids'. \nBoth are normative, but one is more visible in the text.\n\nNits:\nSection 7.1, para 1:  s/downbidding/downgrade",
+      "createdAt": "2026-02-28T13:14:33Z",
+      "updatedAt": "2026-02-28T13:14:33Z",
       "closedAt": null,
       "comments": []
     }
@@ -12999,24 +13015,26 @@
       "id": "PR_kwDOLrzygc7F1sUH",
       "title": "Fix format of IANA considerations section",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/155",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "smyslov",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Format of IANA consideration section was mangled at some point, this is the fix",
       "createdAt": "2026-02-24T06:55:44Z",
-      "updatedAt": "2026-02-24T06:55:44Z",
+      "updatedAt": "2026-02-26T20:56:31Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "c028d0aa8eaaab3f810ca9cab1191bccbba149d8",
       "headRepository": "smyslov/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "patch-3",
       "headRefOid": "5dbc5708cd319dfa8fa85ac118be8dd39f05600c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-26T20:56:30Z",
+      "mergedAt": "2026-02-26T20:56:30Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "c8aad9fb1b1c8b447b33abb3392f234636b205b8"
+      },
       "comments": [],
       "reviews": []
     }
