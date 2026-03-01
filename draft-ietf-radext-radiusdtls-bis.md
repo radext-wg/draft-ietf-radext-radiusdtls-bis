@@ -181,7 +181,6 @@ Additionally, the following requirements have to be met for the (D)TLS connectio
 
 RadSec endpoints MUST NOT use the 0-RTT feature of (D)TLS.
 
-
 ## Mutual authentication
 {: #mutual_auth }
 
@@ -288,6 +287,18 @@ The re-authorization MUST give the same result as if a full handshake was perfor
 
 If cached data cannot be retrieved securely, resumption MUST NOT be done, by either immediately closing the connection or reverting to a full handshake.
 If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
+
+## Application-Layer Protocol Negotiation
+
+RadSec clients SHOULD use Application-Layer Protocol Negotiation (ALPN) to signal RadSec support.  The ALPN name assigned to RadSec is "radius/1.0", and clients implementing ALPN for RadSec MUST use that name.  A client which signals RadSec support via the ALPN name "radius/1.0" but which does not receive any ALPN response from the server MUST treat the (D)TLS connection as RadSec.
+
+RadSec servers SHOULD implement support for ALPN.  RadSec servers which support ALPN MUST accept the ALPN name "radius/1.0" as RadSec, and as being equivalent to no ALPN name being sent.  If the client does not send any ALPN string. RadSec servers which support ALPN MUST treat the incoming (D)TLS connection as RadSec.
+
+RadSec servers which do not support ALPN MUST treat incoming (D)TLS connection as RadSec.
+
+That is, the presence (or not) of the ALPN name "radius/1.0" does not change the behavior of RadSec clients or servers.  However, using ALPN will assist with future changes to RADIUS, and as such, its use is RECOMMENDED.
+
+Other ALPN names are possible, such as "radius/1.1" {{?RFC9765}}.  RadSec implementations are not required to support {{?RFC9765}}, though doing so may have benefits.  The rules in this section are compatible with {{?RFC9765}}.
 
 ## RADIUS packets
 {:#radius_packets}
@@ -1004,6 +1015,8 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 
 # IANA Considerations
 
+##  Service Name and Transport Protocol Port Number Registry
+
 Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
 
 For TCP:
@@ -1025,6 +1038,16 @@ For UDP:
 * Assignment notes: The UDP port 2083 was already previously assigned by IANA for "RadSec", an early implementation of RADIUS/DTLS, prior to issuance of the experimental RFC 7360. {{&SELF}} updates RFC 7360 (RADIUS/DTLS).
 * Reference: {{&SELF}} (this document)
 
+## TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs
+
+IANA is requested to update the "TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.
+
+~~~~
+Protocol: RADIUS/1.0
+Id. Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
+    ("radius/1.0")
+Reference:  This document
+~~~~
 
 --- back
 
