@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 30 August 2026                                        S. Winter
+Expires: 3 September 2026                                      S. Winter
                                                                  RESTENA
-                                                        26 February 2026
+                                                            2 March 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 August 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -1492,7 +1492,7 @@ Table of Contents
 
    It is RECOMMENDED that servers do not accept both secure and insecure
    traffic from the same source IP address.  Allowing RADIUS/UDP and
-   RADIUS/DTLS from the same client exposes the traffic to downbidding
+   RADIUS/DTLS from the same client exposes the traffic to downgrade
    attacks and is NOT RECOMMENDED.
 
    Administrators of a client can place servers into a load-balance or
