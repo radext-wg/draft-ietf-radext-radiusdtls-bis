@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 2 September 2026                                      S. Winter
+Expires: 3 September 2026                                      S. Winter
                                                                  RESTENA
-                                                            1 March 2026
+                                                            2 March 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -535,19 +535,24 @@ Table of Contents
 
    RadSec clients SHOULD use Application-Layer Protocol Negotiation
    (ALPN) to signal RadSec support.  The ALPN name assigned to RadSec is
-   "radius/1.0", and clients implementing ALPN for RadSec MUST use that
-   name.  A client which signals RadSec support via the ALPN name
-   "radius/1.0" but which does not receive any ALPN response from the
-   server MUST treat the (D)TLS connection as RadSec.
+   "radius/1.0".  Clients implementing ALPN for RadSec MUST use that
+   name.
 
-   RadSec servers SHOULD implement support for ALPN.  RadSec servers
-   which support ALPN MUST accept the ALPN name "radius/1.0" as RadSec,
-   and as being equivalent to no ALPN name being sent.  If the client
-   does not send any ALPN string.  RadSec servers which support ALPN
-   MUST treat the incoming (D)TLS connection as RadSec.
+   A client which signals RadSec support via the ALPN name "radius/1.0",
+   but which does not receive any ALPN response from the server, MUST
+   treat the connection as RadSec.  A client which signals RadSec
+   support via the ALPN name "radius/1.0" and receives an ALPN resonse
+   of "radius/1.0" MUST treat the connection as RadSec.
 
-   RadSec servers which do not support ALPN MUST treat incoming (D)TLS
-   connection as RadSec.
+   RadSec servers SHOULD implement support for ALPN.  A server which
+   does not receive an ALPN name from the client MUST treat that
+   connection as RadSec.  Servers which do not support ALPN will not
+   send any ALPN name in response.  Servers which support ALPN MUST echo
+   back an ALPN name which is compatible with both the ALPN list that
+   the client sent, and with the servers configuration.
+
+   Where both parties agree on the ALPN name "radius/1.0", the
+   connection MUST be treated as RadSec.
 
    That is, the presence (or not) of the ALPN name "radius/1.0" does not
    change the behavior of RadSec clients or servers.  However, using
@@ -555,9 +560,10 @@ Table of Contents
    is RECOMMENDED.
 
    Other ALPN names are possible, such as "radius/1.1" [RFC9765].
-   RadSec implementations are not required to support [RFC9765], though
-   doing so may have benefits.  The rules in this section are compatible
-   with [RFC9765].
+   RadSec implementations are not required to support [RFC9765], but
+   implementation of ALPN for RadSec MUST NOT prevent the use of future
+   ALPN names for RADIUS.  The ALPN negotiation requirements in this
+   section is compatible with the rules in [RFC9765], Section 3.
 
 3.7.  RADIUS packets
 
@@ -1923,7 +1929,7 @@ Table of Contents
    Protocol: RADIUS/1.0
    Id. Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
        ("radius/1.0")
-   Reference:  This document
+   Reference: {{&SELF}} (This document)
 
 10.  References
 
