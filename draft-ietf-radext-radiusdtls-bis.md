@@ -144,13 +144,14 @@ Client implementations SHOULD implement both, but MUST implement at least one of
 The format of RADIUS packets in RadSec is unchanged from the format specified in {{RFC2865}}, {{RFC2866}} and {{RFC5176}}.
 
 IANA has reserved server ports for RADIUS/TLS and RADIUS/DTLS.
-Since authentication of peers, confidentiality, and integrity protection are provided by the (D)TLS layer, the shared secret for the RADIUS packets is set to a static string, which is different for each of TLS and DTLS.
+Since authentication of peers, confidentiality, and integrity protection are provided by the (D)TLS layer, the shared secret for the RADIUS packets is set to a static string, which is different for each of TLS and DTLS (see {{shared_secrets}}).
 The calculation of security-related fields such as Response-Authenticator, Message-Authenticator or encrypted attributes MUST be performed using the static shared secret.
 
 |Protocol | Server Port | Shared Secret |
 |---------|------------|-----|
 | RADIUS/TLS | 2083/tcp | "radsec" |
 | RADIUS/DTLS | 2083/udp | "radius/dtls" |
+{: #shared_secrets title="RADIUS shared secrets for RadSec"}
 
 RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
