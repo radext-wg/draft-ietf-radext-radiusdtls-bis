@@ -1005,7 +1005,7 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 
 # IANA Considerations
 
-Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:
+Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry at [https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml):
 
 For TCP:
 
