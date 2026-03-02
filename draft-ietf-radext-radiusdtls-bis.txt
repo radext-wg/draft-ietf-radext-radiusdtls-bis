@@ -231,9 +231,9 @@ Table of Contents
    authentication of peers, confidentiality, and integrity protection
    are provided by the (D)TLS layer, the shared secret for the RADIUS
    packets is set to a static string, which is different for each of TLS
-   and DTLS.  The calculation of security-related fields such as
-   Response-Authenticator, Message-Authenticator or encrypted attributes
-   MUST be performed using the static shared secret.
+   and DTLS (see Table 1).  The calculation of security-related fields
+   such as Response-Authenticator, Message-Authenticator or encrypted
+   attributes MUST be performed using the static shared secret.
 
                +=============+=============+===============+
                | Protocol    | Server Port | Shared Secret |
@@ -243,7 +243,7 @@ Table of Contents
                | RADIUS/DTLS | 2083/udp    | "radius/dtls" |
                +-------------+-------------+---------------+
 
-                                  Table 1
+                 Table 1: RADIUS shared secrets for RadSec
 
    RadSec does not use separate ports for authentication, accounting and
    dynamic authorization changes.  The client source port used for
@@ -483,9 +483,9 @@ Table of Contents
    may decline to perform RADIUS transactions with this client.
 
    Additionally, a server MAY restrict individual or groups of clients
-   to certain IP addresses or ranges.  One example of this can be to
-   restrict clients configured by DNS name to only the IP address(es)
-   that this DNS name resolves to.
+   to certain IP addresses or address ranges.  One example of this can
+   be to restrict clients configured by DNS name to only the IP
+   address(es) that this DNS name resolves to.
 
    A client connecting from outside the allowed range would be rejected,
    even if the mutual authentication otherwise would have been
@@ -494,7 +494,7 @@ Table of Contents
    handshake immediately with a TLS alert access_denied(49) after the
    client transmitted identifying information, i.e., the client
    certificate or the PSK identifier, and the server recognizes that the
-   client connects from outside the allowed IP range.
+   client connects from outside the allowed IP address range.
 
    See [RFC9813], Section 6.2.1 for further discussion on this topic.
 
@@ -900,20 +900,20 @@ Table of Contents
 
    *  protocol (one of RADIUS/UDP, RADIUS/DTLS, or RADIUS/TLS)
 
-   *  server IP,
+   *  server IP address,
 
-   *  server port.
+   *  server port number.
 
    Implementations MUST NOT exchange both insecure and secure traffic on
    the same UDP or TCP port.  It is RECOMMENDED that implementations
    make it impossible for such a configuration to be created.
 
    Where a server accepts packets on multiple different 3-tuples
-   (protocol, server IP, server port), it MUST track clients
-   independently for each 3-tuple combination.  A RADIUS client has no
-   way of knowing if different 3-tuple combinations are all managed by
-   the same RADIUS server.  Therefore, the server behavior has to be
-   compatible with the clients expectations.
+   (protocol, server IP address, server port number), it MUST track
+   clients independently for each 3-tuple combination.  A RADIUS client
+   has no way of knowing if different 3-tuple combinations are all
+   managed by the same RADIUS server.  Therefore, the server behavior
+   has to be compatible with the clients expectations.
 
    When a server receives a packet from a source IP address on a
    3-tuple, it MUST process that packet according to the profile for
@@ -990,9 +990,9 @@ Table of Contents
    send packets associated with that connection over a different
    configured connection or server.  This requirement does not,
    therefore, forbid the practice of putting servers with the same IP
-   address and port but different protocols into a failover or load-
-   balancing pool.  In that situation, RADIUS requests MAY be sent to
-   another server that is known to be part of the same pool.
+   address and port number but different protocols into a failover or
+   load-balancing pool.  In that situation, RADIUS requests MAY be sent
+   to another server that is known to be part of the same pool.
 
 5.  RADIUS/DTLS-specific specifications
 
@@ -1389,15 +1389,15 @@ Table of Contents
 
    *  source IP address
 
-   *  source port
+   *  source port number
 
    *  destination IP address
 
-   *  destination port
+   *  destination port number
 
    *  protocol (fixed to UDP)
 
-   Note that this 5-tuple is independent of IP address version (IPv4 or
+   Note that this 5-tuple is independent of IP protocol version (IPv4 or
    IPv6).
 
    Each 5-tuple points to a unique session entry, which usually contains
@@ -1651,16 +1651,16 @@ Table of Contents
    mutually authenticated, leaving a connection available does not pose
    a problem other than the problems mentioned before.
 
-   A different means of prevention is IP filtering.  If the IP range
-   that the server expects clients to connect from is restricted, then
-   the server can simply reject or drop all connection attempts from
-   outside those ranges.  If every RadSec client is configured with an
-   IP range, then the server does not even have to perform a partial TLS
-   handshake if the connection attempt comes from outside every allowed
-   range, but can instead immediately drop the connection.  To perform
-   this lookup efficiently, RadSec servers SHOULD keep a list of the
-   accumulated permitted IP address ranges, individually for each
-   transport.
+   A different means of prevention is IP address filtering.  If the IP
+   address range that the server expects clients to connect from is
+   restricted, then the server can simply reject or drop all connection
+   attempts from outside those ranges.  If every RadSec client is
+   configured with an IP address range, then the server does not even
+   have to perform a partial TLS handshake if the connection attempt
+   comes from outside every allowed range, but can instead immediately
+   drop the connection.  To perform this lookup efficiently, RadSec
+   servers SHOULD keep a list of the accumulated permitted IP address
+   ranges, individually for each transport.
 
 7.5.  TLS Connection Lifetime and Key Rotation
 
@@ -1844,7 +1844,10 @@ Table of Contents
 
    Upon approval, IANA should update the Reference and the Assignment
    Notes to radsec in the Service Name and Transport Protocol Port
-   Number Registry:
+   Number Registry at https://www.iana.org/assignments/service-names-
+   port-numbers/service-names-port-numbers.xhtml
+   (https://www.iana.org/assignments/service-names-port-numbers/service-
+   names-port-numbers.xhtml):
 
    For TCP:
 

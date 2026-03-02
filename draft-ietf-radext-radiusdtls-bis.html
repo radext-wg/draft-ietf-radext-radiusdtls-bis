@@ -1494,10 +1494,14 @@ Client implementations <span class="bcp14">SHOULD</span> implement both, but <sp
         </h3>
 <p id="section-3.1-1">The format of RADIUS packets in RadSec is unchanged from the format specified in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span> and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">IANA has reserved server ports for RADIUS/TLS and RADIUS/DTLS.
-Since authentication of peers, confidentiality, and integrity protection are provided by the (D)TLS layer, the shared secret for the RADIUS packets is set to a static string, which is different for each of TLS and DTLS.
+Since authentication of peers, confidentiality, and integrity protection are provided by the (D)TLS layer, the shared secret for the RADIUS packets is set to a static string, which is different for each of TLS and DTLS (see <a href="#shared_secrets" class="auto internal xref">Table 1</a>).
 The calculation of security-related fields such as Response-Authenticator, Message-Authenticator or encrypted attributes <span class="bcp14">MUST</span> be performed using the static shared secret.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<span id="name-radius-shared-secrets-for-r"></span><div id="shared_secrets">
 <table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-radius-shared-secrets-for-r" class="selfRef">RADIUS shared secrets for RadSec</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Protocol</th>
@@ -1518,6 +1522,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
             </tr>
           </tbody>
         </table>
+</div>
 <p id="section-3.1-4">RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
 For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.6</a>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
@@ -1686,10 +1691,10 @@ This requires changing the method of identifying individual clients from RADIUS/
 While this identification technique could match multiple distinct certificates and therefore distinct clients, it is often sufficient, e.g., for the purpose of applying policies.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
 <p id="section-3.4-6">Note well: having identified a connecting entity does not mean the server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers, the server may decline to perform RADIUS transactions with this client.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
-<p id="section-3.4-7">Additionally, a server <span class="bcp14">MAY</span> restrict individual or groups of clients to certain IP addresses or ranges.
+<p id="section-3.4-7">Additionally, a server <span class="bcp14">MAY</span> restrict individual or groups of clients to certain IP addresses or address ranges.
 One example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 <p id="section-3.4-8">A client connecting from outside the allowed range would be rejected, even if the mutual authentication otherwise would have been successful.
-To reduce server load and to prevent probing the validity of stolen credentials, the server <span class="bcp14">SHOULD</span> abort the (D)TLS handshake immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e., the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP range.<a href="#section-3.4-8" class="pilcrow">¶</a></p>
+To reduce server load and to prevent probing the validity of stolen credentials, the server <span class="bcp14">SHOULD</span> abort the (D)TLS handshake immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e., the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP address range.<a href="#section-3.4-8" class="pilcrow">¶</a></p>
 <p id="section-3.4-9">See <span>[<a href="#RFC9813" class="cite xref">RFC9813</a>], <a href="https://rfc-editor.org/rfc/rfc9813#section-6.2.1" class="relref">Section 6.2.1</a></span> for further discussion on this topic.<a href="#section-3.4-9" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1931,14 +1936,14 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close n
             <p id="section-3.12-3.1.1">protocol (one of RADIUS/UDP, RADIUS/DTLS, or RADIUS/TLS)<a href="#section-3.12-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.12-3.2">
-            <p id="section-3.12-3.2.1">server IP,<a href="#section-3.12-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.12-3.2.1">server IP address,<a href="#section-3.12-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.12-3.3">
-            <p id="section-3.12-3.3.1">server port.<a href="#section-3.12-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.12-3.3.1">server port number.<a href="#section-3.12-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.12-4">Implementations <span class="bcp14">MUST NOT</span> exchange both insecure and secure traffic on the same UDP or TCP port.  It is <span class="bcp14">RECOMMENDED</span> that implementations make it impossible for such a configuration to be created.<a href="#section-3.12-4" class="pilcrow">¶</a></p>
-<p id="section-3.12-5">Where a server accepts packets on multiple different 3-tuples (protocol, server IP, server port), it <span class="bcp14">MUST</span> track clients independently for each 3-tuple combination.  A RADIUS client has no way of knowing if different 3-tuple combinations are all managed by the same RADIUS server.  Therefore, the server behavior has to be compatible with the clients expectations.<a href="#section-3.12-5" class="pilcrow">¶</a></p>
+<p id="section-3.12-5">Where a server accepts packets on multiple different 3-tuples (protocol, server IP address, server port number), it <span class="bcp14">MUST</span> track clients independently for each 3-tuple combination.  A RADIUS client has no way of knowing if different 3-tuple combinations are all managed by the same RADIUS server.  Therefore, the server behavior has to be compatible with the clients expectations.<a href="#section-3.12-5" class="pilcrow">¶</a></p>
 <p id="section-3.12-6">When a server receives a packet from a source IP address on a 3-tuple, it <span class="bcp14">MUST</span> process that packet according to the profile for that 3-tuple.  This requirement means that (for example), a server can be configured to accept RADIUS/UDP traffic on multiple UDP ports, and then have a completely different (and non-overlapping) set of clients configured for each port.<a href="#section-3.12-6" class="pilcrow">¶</a></p>
 <p id="section-3.12-7">While this behavior is not required by previous specifications, it codifies long-standing practices.  As such, existing server implementations likely do not need to do anything in order to support the requirements of this section.<a href="#section-3.12-7" class="pilcrow">¶</a></p>
 </section>
@@ -1981,7 +1986,7 @@ If the ID changes, any security attributes such as Message-Authenticator <span c
 <p id="section-4.2-2">Despite the above discussion, RADIUS/TLS servers <span class="bcp14">SHOULD</span> still perform duplicate detection on received packets, as described in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>.
 This detection can prevent duplicate processing of packets from non-conforming clients.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <p id="section-4.2-3">RADIUS clients <span class="bcp14">MUST NOT</span> perform retries by sending a packet on a different protocol or connection (i.e., switching from TLS to DTLS or vice versa).  However, when a connection fails, a RADIUS client <span class="bcp14">MAY</span> send packets associated with that connection over a different configured connection or server.
-This requirement does not, therefore, forbid the practice of putting servers with the same IP address and port but different protocols into a failover or load-balancing pool.
+This requirement does not, therefore, forbid the practice of putting servers with the same IP address and port number but different protocols into a failover or load-balancing pool.
 In that situation, RADIUS requests <span class="bcp14">MAY</span> be sent to another server that is known to be part of the same pool.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2290,19 +2295,19 @@ The session tracking described below can be seen as an extension of that cache, 
               <p id="section-6.5.1-2.1.1">source IP address<a href="#section-6.5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.5.1-2.2">
-              <p id="section-6.5.1-2.2.1">source port<a href="#section-6.5.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-6.5.1-2.2.1">source port number<a href="#section-6.5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.5.1-2.3">
               <p id="section-6.5.1-2.3.1">destination IP address<a href="#section-6.5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.5.1-2.4">
-              <p id="section-6.5.1-2.4.1">destination port<a href="#section-6.5.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-6.5.1-2.4.1">destination port number<a href="#section-6.5.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-6.5.1-2.5">
               <p id="section-6.5.1-2.5.1">protocol (fixed to <code>UDP</code>)<a href="#section-6.5.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-6.5.1-3">Note that this 5-tuple is independent of IP address version (IPv4 or IPv6).<a href="#section-6.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.5.1-3">Note that this 5-tuple is independent of IP protocol version (IPv4 or IPv6).<a href="#section-6.5.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.5.1-4">Each 5-tuple points to a unique session entry, which usually contains the following information:<a href="#section-6.5.1-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-6.5.1-5">
             <dt id="section-6.5.1-5.1">DTLS Session:</dt>
@@ -2466,9 +2471,9 @@ Doing so may free up idle resources that then allow the server to accept a new c
 We recommend a limit of a few seconds, implementations <span class="bcp14">SHOULD</span> expose this timeout as configurable option to the administrator.
 If a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.
 In contrast, an established connection might not send packets for longer periods of time, but since the endpoints are mutually authenticated, leaving a connection available does not pose a problem other than the problems mentioned before.<a href="#section-7.4-5" class="pilcrow">¶</a></p>
-<p id="section-7.4-6">A different means of prevention is IP filtering.
-If the IP range that the server expects clients to connect from is restricted, then the server can simply reject or drop all connection attempts from outside those ranges.
-If every RadSec client is configured with an IP range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
+<p id="section-7.4-6">A different means of prevention is IP address filtering.
+If the IP address range that the server expects clients to connect from is restricted, then the server can simply reject or drop all connection attempts from outside those ranges.
+If every RadSec client is configured with an IP address range, then the server does not even have to perform a partial TLS handshake if the connection attempt comes from outside every allowed range, but can instead immediately drop the connection.
 To perform this lookup efficiently, RadSec servers <span class="bcp14">SHOULD</span> keep a list of the accumulated permitted IP address ranges, individually for each transport.<a href="#section-7.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2599,7 +2604,7 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">Upon approval, IANA should update the Reference and the Assignment Notes to radsec in the Service Name and Transport Protocol Port Number Registry at <a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml">https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml</a>:<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">For TCP:<a href="#section-9-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9-3.1">
