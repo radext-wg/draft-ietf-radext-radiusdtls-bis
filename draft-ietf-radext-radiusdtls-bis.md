@@ -1045,12 +1045,10 @@ For UDP:
 
 IANA is requested to update the "TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry at [https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids) to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.
 
-~~~~
-Protocol: RADIUS/1.0
-Id. Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
+* Protocol: RADIUS/1.0
+* Identification Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
     ("radius/1.0")
-Reference: {{&SELF}} (This document)
-~~~~
+* Reference: {{&SELF}} (This document)
 
 --- back
 
