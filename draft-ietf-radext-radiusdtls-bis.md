@@ -301,7 +301,7 @@ Where both parties agree on the ALPN name "radius/1.0", the connection MUST be t
 
 That is, the presence (or not) of the ALPN name "radius/1.0" does not change the behavior of RadSec clients or servers.  However, using ALPN will assist with future changes to RADIUS, and as such, its use is RECOMMENDED.
 
-Other ALPN names are possible, such as "radius/1.1" {{?RFC9765}}.  RadSec implementations are not required to support {{?RFC9765}}, but implementation of ALPN for RadSec MUST NOT prevent the use of future ALPN names for RADIUS.  The ALPN negotiation requirements in this section is compatible with the rules in {{?RFC9765, Section 3}}.
+Other ALPN names are possible, such as "radius/1.1" {{?RFC9765}}.  RadSec implementations are not required to support {{?RFC9765}}, but implementation of ALPN for RadSec MUST NOT prevent the use of future ALPN names for RADIUS.  The ALPN negotiation requirements in this section are compatible with the rules in {{?RFC9765, Section 3}}.
 
 ## RADIUS packets
 {:#radius_packets}
@@ -1043,7 +1043,7 @@ For UDP:
 
 ## TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs
 
-IANA is requested to update the "TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.
+IANA is requested to update the "TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry at [https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids) to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.
 
 ~~~~
 Protocol: RADIUS/1.0
