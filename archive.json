@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-01T01:20:38.867110+00:00",
+  "timestamp": "2026-03-03T01:14:48.142068+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1634,7 +1634,7 @@
       "labels": [],
       "body": "Russ Housley's review pointed out that \"configured trust base\" is not defined.  We should figure out how to define it (in terms section) or use different words.\n",
       "createdAt": "2026-02-25T14:13:34Z",
-      "updatedAt": "2026-02-25T16:29:54Z",
+      "updatedAt": "2026-03-02T17:42:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -1643,6 +1643,13 @@
           "body": "Set of trust anchors?",
           "createdAt": "2026-02-25T16:29:54Z",
           "updatedAt": "2026-02-25T16:29:54Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\"Set of trust anchors\" is not complete, because what we mean is \"everything that is considered for determining trust\", and that includes CRLs as well.",
+          "createdAt": "2026-03-02T17:42:42Z",
+          "updatedAt": "2026-03-02T17:42:42Z"
         }
       ]
     },
@@ -13037,6 +13044,241 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 162,
+      "id": "PR_kwDOLrzygc7HJNMi",
+      "title": "add text for ALPN",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/162",
+      "state": "OPEN",
+      "author": "alandekok",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add text for ALPN, along with IANA updates.",
+      "createdAt": "2026-03-01T15:44:37Z",
+      "updatedAt": "2026-03-02T20:03:41Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "68793bbce3ea94eeebd3b1ceac9c4c169e3aba87",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "alpn",
+      "headRefOid": "94afcda059915af93e2c3e3b72e9eb57dba771f3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The changes in 94afcda look good to me.",
+          "createdAt": "2026-03-02T20:03:41Z",
+          "updatedAt": "2026-03-02T20:03:41Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc7m4IzC",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T22:32:18Z",
+          "updatedAt": "2026-03-01T22:32:18Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\nRadSec servers SHOULD implement support for ALPN.  RadSec servers which support ALPN MUST accept the ALPN name \"radius/1.0\" as RadSec.  In order to maintain backward compatibility, RadSec servers MUST treat the incoming (D)TLS connection without ALPN also as RadSec, even if the server supports ALPN.\n```\n\nI think we can divide this in two cases, and have this clear: Connections without ALPN have to be treated as RadSec, independent on whether the server supports ALPN, so the \"RadSec servers which support ALPN\" seems unnecessarily restrictive.",
+              "createdAt": "2026-03-01T22:32:18Z",
+              "updatedAt": "2026-03-01T22:32:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7m4J-G",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T22:37:59Z",
+          "updatedAt": "2026-03-01T22:37:59Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "\n```suggestion\nThe rules in this section are compatible with {{?RFC9765}}, which uses the ALPN name \"radius/1.1\" and defines a fallback mechanism to RadSec using either no ALPN or the ALPN name \"radius/1.0\".\n```\n\nI don't think this document is the right place to say \"Do Radius/1.1, it has benefits\".\nIt is important to state, that the rules are compatible.",
+              "createdAt": "2026-03-01T22:37:59Z",
+              "updatedAt": "2026-03-01T22:37:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7m4KL2",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T22:39:01Z",
+          "updatedAt": "2026-03-01T22:39:01Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "```suggestion\nReference:  {{&SELF}} (this document)\n```\n(For consistency with the other IANA entry)",
+              "createdAt": "2026-03-01T22:39:01Z",
+              "updatedAt": "2026-03-01T22:39:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nDMUt",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T13:52:52Z",
+          "updatedAt": "2026-03-02T13:52:52Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "I'd be fine with promotion of Radius/1.1. I'd even say it to more strongly: `though doing so **has** benefits.`.\n\nWith regard to Janfred's suggestion: isn't Radius/1.1 also RadSec? In other words, _fallback_ is a word I wouldn't use.",
+              "createdAt": "2026-03-02T13:52:52Z",
+              "updatedAt": "2026-03-02T13:52:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nDaaQ",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T14:03:01Z",
+          "updatedAt": "2026-03-02T14:03:01Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "this is fine.  I'll update the pull request shortly.",
+              "createdAt": "2026-03-02T14:03:01Z",
+              "updatedAt": "2026-03-02T14:03:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nDoeU",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T14:13:30Z",
+          "updatedAt": "2026-03-02T14:13:30Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Maybe \"backward-compatible negotiation of RadSec as defined in this document\"",
+              "createdAt": "2026-03-02T14:13:30Z",
+              "updatedAt": "2026-03-02T14:13:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nECkn",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T14:32:42Z",
+          "updatedAt": "2026-03-02T14:32:42Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Regarding the suggestion to implement RADIUS/1.1: We already reference RFC9765 in the introduction, as a pointer.\r\n\r\nI just feel that we haven't had enough experience with RADIUS/1.1 yet to say with confidence that it has benefits. I certainly hope it does, but there are some unknowns that we will only learn about after it has been deployed.\r\n\r\nWhat is probably good is to reference that there are already other ALPN names, so that it is clear that if an ALPN is sent that the RadSec server does not know, it is ok. (It should be clear anyway through definition of ALPN, but again, better be explicit about these things)",
+              "createdAt": "2026-03-02T14:32:42Z",
+              "updatedAt": "2026-03-02T14:32:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nHFOm",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T16:52:59Z",
+          "updatedAt": "2026-03-02T16:52:59Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I'll tweak the wording and push an update",
+              "createdAt": "2026-03-02T16:52:59Z",
+              "updatedAt": "2026-03-02T16:52:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nHrgl",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "h-vn",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T17:17:36Z",
+          "updatedAt": "2026-03-02T17:17:36Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "That's good, I'm fine with a mention of \"radius/1.1\" existing without any promotion. Starting to bring in ALPN is a good start already.",
+              "createdAt": "2026-03-02T17:17:36Z",
+              "updatedAt": "2026-03-02T17:17:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nIPtB",
+          "commit": {
+            "abbreviatedOid": "8bf1c30"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T17:41:14Z",
+          "updatedAt": "2026-03-02T17:41:14Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\nIANA is requested to update the \"TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs\" registry at [https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids) to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.\n```\n\nExplicitly linking IANA registry as per \u00c9ric's comment",
+              "createdAt": "2026-03-02T17:41:14Z",
+              "updatedAt": "2026-03-02T17:41:14Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
