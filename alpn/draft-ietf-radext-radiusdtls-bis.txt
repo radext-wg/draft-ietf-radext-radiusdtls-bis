@@ -563,7 +563,7 @@ Table of Contents
    RadSec implementations are not required to support [RFC9765], but
    implementation of ALPN for RadSec MUST NOT prevent the use of future
    ALPN names for RADIUS.  The ALPN negotiation requirements in this
-   section is compatible with the rules in [RFC9765], Section 3.
+   section are compatible with the rules in [RFC9765], Section 3.
 
 3.7.  RADIUS packets
 
@@ -1926,8 +1926,12 @@ Table of Contents
 9.2.  TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs
 
    IANA is requested to update the "TLS Application-Layer Protocol
-   Negotiation (ALPN) Protocol IDs" registry to update one entry, and
-   change the reference from [RFC9765] to THIS DOCUMENT.
+   Negotiation (ALPN) Protocol IDs" registry at
+   https://www.iana.org/assignments/tls-extensiontype-values/tls-
+   extensiontype-values.xhtml#alpn-protocol-ids
+   (https://www.iana.org/assignments/tls-extensiontype-values/tls-
+   extensiontype-values.xhtml#alpn-protocol-ids) to update one entry,
+   and change the reference from [RFC9765] to THIS DOCUMENT.
 
    Protocol: RADIUS/1.0
    Id. Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
