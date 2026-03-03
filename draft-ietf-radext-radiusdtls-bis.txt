@@ -1051,10 +1051,10 @@ Table of Contents
    record.  This ensures that the RADIUS packets do not get fragmented
    at a point where a re-ordering of UDP packets would result in
    decoding failures.  The DTLS specification mandates that a DTLS
-   record must not span multiple UDP datagrams.  We note that a single
-   UDP datagram may, however, contain multiple DTLS records.  RADIUS/
-   DTLS endpoints MAY use this behavior to send multiple RADIUS packets
-   in one UDP packet.
+   record must not span multiple UDP datagrams ([RFC9147], Section 4.3).
+   A single UDP datagram may, however, contain multiple DTLS records.
+   RADIUS/DTLS endpoints MAY use this behavior to send multiple RADIUS
+   packets in one UDP packet.
 
    For the receiving RADIUS/DTLS endpoint, the length checks defined in
    [RFC2865], Section 3 still apply.  That is, a receiving RADIUS/DTLS
