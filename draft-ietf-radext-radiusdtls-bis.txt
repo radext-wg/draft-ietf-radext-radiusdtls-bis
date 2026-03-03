@@ -82,16 +82,17 @@ Table of Contents
        3.3.2.  Authentication using TLS-PSK (TLS-PSK)
      3.4.  Connecting Client Identity
      3.5.  TLS Session Resumption
-     3.6.  RADIUS packets
-     3.7.  Detecting Live Servers
-     3.8.  Client Timers
-       3.8.1.  Reconnection attempts
-       3.8.2.  RADIUS packet retransmission
-     3.9.  (D)TLS connection limits and timeout
-     3.10. Behavior on (D)TLS connection closure of incoming
+     3.6.  Application-Layer Protocol Negotiation
+     3.7.  RADIUS packets
+     3.8.  Detecting Live Servers
+     3.9.  Client Timers
+       3.9.1.  Reconnection attempts
+       3.9.2.  RADIUS packet retransmission
+     3.10. (D)TLS connection limits and timeout
+     3.11. Behavior on (D)TLS connection closure of incoming
             connections
-     3.11. Malformed Packets and Unknown clients
-     3.12. Cross Protocol Considerations
+     3.12. Malformed Packets and Unknown clients
+     3.13. Cross Protocol Considerations
    4.  RADIUS/TLS-specific specifications
      4.1.  Sending and receiving RADIUS traffic
      4.2.  Duplicates and Retransmissions
@@ -129,6 +130,9 @@ Table of Contents
      8.2.  Mandatory-to-implement trust profiles
      8.3.  Changes in application of TLS
    9.  IANA Considerations
+     9.1.  Service Name and Transport Protocol Port Number Registry
+     9.2.  TLS Application-Layer Protocol Negotiation (ALPN) Protocol
+           IDs
    10. References
      10.1.  Normative References
      10.2.  Informative References
@@ -250,7 +254,7 @@ Table of Contents
    RadSec connections is not fixed -- it is typically an ephemeral port
    picked by the client Operating System.  For considerations regarding
    the multi-purpose use of one port for authentication and accounting
-   see Section 3.6.
+   see Section 3.7.
 
    RadSec clients MAY open multiple connections to the same RadSec
    server and RadSec servers MUST be able to accept multiple connections
@@ -526,7 +530,41 @@ Table of Contents
    established, the RadSec client MUST NOT re-attempt session resumption
    but perform a full TLS handshake instead.
 
-3.6.  RADIUS packets
+3.6.  Application-Layer Protocol Negotiation
+
+   RadSec clients SHOULD use Application-Layer Protocol Negotiation
+   (ALPN) to signal RadSec support.  The ALPN name assigned to RadSec is
+   "radius/1.0".  Clients implementing ALPN for RadSec MUST use that
+   name.
+
+   A client which signals RadSec support via the ALPN name "radius/1.0",
+   but which does not receive any ALPN response from the server, MUST
+   treat the connection as RadSec.  A client which signals RadSec
+   support via the ALPN name "radius/1.0" and receives an ALPN resonse
+   of "radius/1.0" MUST treat the connection as RadSec.
+
+   RadSec servers SHOULD implement support for ALPN.  A server which
+   does not receive an ALPN name from the client MUST treat that
+   connection as RadSec.  Servers which do not support ALPN will not
+   send any ALPN name in response.  Servers which support ALPN MUST echo
+   back an ALPN name which is compatible with both the ALPN list that
+   the client sent, and with the servers configuration.
+
+   Where both parties agree on the ALPN name "radius/1.0", the
+   connection MUST be treated as RadSec.
+
+   That is, the presence (or not) of the ALPN name "radius/1.0" does not
+   change the behavior of RadSec clients or servers.  However, using
+   ALPN will assist with future changes to RADIUS, and as such, its use
+   is RECOMMENDED.
+
+   Other ALPN names are possible, such as "radius/1.1" [RFC9765].
+   RadSec implementations are not required to support [RFC9765], but
+   implementation of ALPN for RadSec MUST NOT prevent the use of future
+   ALPN names for RADIUS.  The ALPN negotiation requirements in this
+   section are compatible with the rules in [RFC9765], Section 3.
+
+3.7.  RADIUS packets
 
    The use of (D)TLS transport does not change the calculation of
    security-related fields (such as the Response-Authenticator) in
@@ -588,7 +626,7 @@ Table of Contents
    on which to send accounting packets in the event the RadSec server
    does not support sending Protocol-Error.
 
-3.7.  Detecting Live Servers
+3.8.  Detecting Live Servers
 
    RadSec implementations MUST utilize the existence of a TCP, TLS or
    DTLS connection where applicable in addition to the application-layer
@@ -646,13 +684,13 @@ Table of Contents
    watchdog, but may provide more rapid notifications of connectivity
    issues.
 
-3.8.  Client Timers
+3.9.  Client Timers
 
    RadSec clients may need to reconnect to a server that rejected their
    connection attempt and retry RADIUS packets which did not get an
    answer.  The following sections define the client behavior.
 
-3.8.1.  Reconnection attempts
+3.9.1.  Reconnection attempts
 
    RadSec endpoints establish a (D)TLS connection before transmitting
    any RADIUS packets.  Therefore, in addition to retransmission of
@@ -690,7 +728,7 @@ Table of Contents
    limit for the time between retries (e.g., 60 seconds) and not give up
    trying to reconnect.
 
-3.8.2.  RADIUS packet retransmission
+3.9.2.  RADIUS packet retransmission
 
    RadSec clients MUST implement timers for managing packet
    retransmissions and timeouts, such as the ones defined in [RFC5080],
@@ -739,7 +777,7 @@ Table of Contents
 
    See Section 4.2 for more discussion on retransmission behavior.
 
-3.9.  (D)TLS connection limits and timeout
+3.10.  (D)TLS connection limits and timeout
 
    While RADIUS/UDP could be implemented mostly stateless (except for
    the requests in flight and possibly [RFC5080], Section 2.2.2
@@ -782,7 +820,7 @@ Table of Contents
    (disabling idle timeout) in scenarios where a permanently open
    connection is required.
 
-3.10.  Behavior on (D)TLS connection closure of incoming connections
+3.11.  Behavior on (D)TLS connection closure of incoming connections
 
    If an incoming (D)TLS connection or the underlying transport channel
    is closed or broken, then there is no way to send a RADIUS response
@@ -820,7 +858,7 @@ Table of Contents
    behavior ensures that the desired action is still taken, even if the
    home server cannot inform the client of the result of that action.
 
-3.11.  Malformed Packets and Unknown clients
+3.12.  Malformed Packets and Unknown clients
 
    The RADIUS specifications say that an implementation should "silently
    discard" a packet in a number of circumstances.  This action has no
@@ -875,7 +913,7 @@ Table of Contents
    upon receipt, but in which it is reasonable that a connection MAY
    remain open:
 
-   *  Packet with an invalid code field (see Section 3.6 for details)
+   *  Packet with an invalid code field (see Section 3.7 for details)
 
    *  Response packets that do not match any outstanding request
 
@@ -884,7 +922,7 @@ Table of Contents
    These requirements reduce the possibility for a misbehaving client or
    server to wreak havoc on the network.
 
-3.12.  Cross Protocol Considerations
+3.13.  Cross Protocol Considerations
 
    A client may be configured to use multiple servers, and therefore
    needs to be able to distinguish servers from one another.  Those
@@ -1275,7 +1313,7 @@ Table of Contents
 
    Where RadSec clients do include Acct-Delay-Time in RADIUS packets,
    the client SHOULD use timers to detect packet loss, as described in
-   Section 3.8.2.  Where RadSec clients do include Acct-Delay-Time in
+   Section 3.9.2.  Where RadSec clients do include Acct-Delay-Time in
    RADIUS packets, the client can rely on the Event-Timestamp to signal
    delays, and therefore SHOULD NOT update the Acct-Delay-Time.  If the
    timer has determined that the original packet has been completely
@@ -1841,6 +1879,8 @@ Table of Contents
 
 9.  IANA Considerations
 
+9.1.  Service Name and Transport Protocol Port Number Registry
+
    Upon approval, IANA should update the Reference and the Assignment
    Notes to radsec in the Service Name and Transport Protocol Port
    Number Registry at https://www.iana.org/assignments/service-names-
@@ -1881,6 +1921,21 @@ Table of Contents
       updates RFC 7360 (RADIUS/DTLS).
 
    *  Reference: [RFCXXXX] (this document)
+
+9.2.  TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs
+
+   IANA is requested to update the "TLS Application-Layer Protocol
+   Negotiation (ALPN) Protocol IDs" registry at
+   https://www.iana.org/assignments/tls-extensiontype-values/tls-
+   extensiontype-values.xhtml#alpn-protocol-ids
+   (https://www.iana.org/assignments/tls-extensiontype-values/tls-
+   extensiontype-values.xhtml#alpn-protocol-ids) to update one entry,
+   and change the reference from [RFC9765] to THIS DOCUMENT.
+
+   Protocol: RADIUS/1.0
+   Id. Sequence: 0x72 0x61 0x64 0x69 0x75 0x73 0x2f 0x31 0x2e 0x30
+       ("radius/1.0")
+   Reference: {{&SELF}} (This document)
 
 10.  References
 
