@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-03T01:14:48.142068+00:00",
+  "timestamp": "2026-03-05T01:13:22.194829+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1685,7 +1685,7 @@
       "id": "I_kwDOLrzygc7tz9tB",
       "title": "Should we mandate ALPN support?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/158",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1695,8 +1695,8 @@
       "labels": [],
       "body": "During WG interim there was consensus that we should include text about ALPN and the text should be a SHOULD, not a MUST.\n\nSubsequent discussion indicated that we should allow ALPN with 1.0 version, even if we do not implement radius 1.1. Requests that do not use ALPN MUST be supported.",
       "createdAt": "2026-02-25T14:31:07Z",
-      "updatedAt": "2026-02-25T14:35:21Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-03T18:18:27Z",
+      "closedAt": "2026-03-03T18:18:26Z",
       "comments": [
         {
           "author": "alandekok",
@@ -1704,6 +1704,13 @@
           "body": "Existing text in RFC 9765:\n\nhttps://www.rfc-editor.org/rfc/rfc9765#section-3.3\n\nIt would likely be easiest to reference that text.\n\nHowever, since RFC 9765 is experimental, it might be best to just copy the relevant text, and remove references to \"radius/1.1\"\n\nWe would then add an IANA section to update the ALPN reference for \"radius/1.0\" to be TLSbis.",
           "createdAt": "2026-02-25T14:35:21Z",
           "updatedAt": "2026-02-25T14:35:21Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done with #162 ",
+          "createdAt": "2026-03-03T18:18:27Z",
+          "updatedAt": "2026-03-03T18:18:27Z"
         }
       ]
     },
@@ -1719,9 +1726,17 @@
       "labels": [],
       "body": "Issue from Meir?\n\nWG already had discussion that SHOULD was sufficient?\n\nThis may depend on what part of the trust base changes?  \n\nWeak consensus for MUST reassess.  Need more feedback from the WG.",
       "createdAt": "2026-02-25T14:38:21Z",
-      "updatedAt": "2026-02-25T14:38:21Z",
+      "updatedAt": "2026-03-03T18:18:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "MUST reassess now included with 156d42e",
+          "createdAt": "2026-03-03T18:18:10Z",
+          "updatedAt": "2026-03-03T18:18:10Z"
+        }
+      ]
     },
     {
       "number": 160,
@@ -13050,24 +13065,26 @@
       "id": "PR_kwDOLrzygc7HJNMi",
       "title": "add text for ALPN",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/162",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Add text for ALPN, along with IANA updates.",
       "createdAt": "2026-03-01T15:44:37Z",
-      "updatedAt": "2026-03-02T20:03:41Z",
+      "updatedAt": "2026-03-03T18:17:03Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "68793bbce3ea94eeebd3b1ceac9c4c169e3aba87",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "alpn",
-      "headRefOid": "94afcda059915af93e2c3e3b72e9eb57dba771f3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f5ee47eb664c4ed566123cb866e5ae0e0f83f47a",
+      "closedAt": "2026-03-03T18:17:02Z",
+      "mergedAt": "2026-03-03T18:17:02Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "0c2be9309705f4d26e07af7b19f620a1e3c643cb"
+      },
       "comments": [
         {
           "author": "Janfred",
@@ -13275,6 +13292,46 @@
               "body": "```suggestion\nIANA is requested to update the \"TLS Application-Layer Protocol Negotiation (ALPN) Protocol IDs\" registry at [https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids) to update one entry, and change the reference from {{?RFC9765}} to THIS DOCUMENT.\n```\n\nExplicitly linking IANA registry as per \u00c9ric's comment",
               "createdAt": "2026-03-02T17:41:14Z",
               "updatedAt": "2026-03-02T17:41:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nhV3L",
+          "commit": {
+            "abbreviatedOid": "ab41b86"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-03T18:05:54Z",
+          "updatedAt": "2026-03-03T18:05:54Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\nRadSec clients SHOULD use Application-Layer Protocol Negotiation (ALPN) to signal RadSec support.  The ALPN name assigned to RadSec as defined in this document is \"radius/1.0\".  RadSec clients implementing ALPN MUST use that name.\n```\n\nSuggestion as per Heikki's comments, slightly changed.",
+              "createdAt": "2026-03-03T18:05:54Z",
+              "updatedAt": "2026-03-03T18:10:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc7nhWa9",
+          "commit": {
+            "abbreviatedOid": "ab41b86"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-03T18:06:24Z",
+          "updatedAt": "2026-03-03T18:06:24Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\nOther ALPN names are possible, such as \"radius/1.1\" {{?RFC9765}}.  RadSec implementations are not required to support {{?RFC9765}}, but implementation of ALPN for RadSec MUST NOT prevent the use of future ALPN names for RADIUS.  The ALPN negotiation requirements in this section are compatible with the rules in {{?RFC9765, Section 3}}.\n```\n\ngrammar fix.",
+              "createdAt": "2026-03-03T18:06:24Z",
+              "updatedAt": "2026-03-03T18:06:24Z"
             }
           ]
         }
