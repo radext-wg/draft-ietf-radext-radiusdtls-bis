@@ -13,23 +13,23 @@
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec. 
        This document obsoletes RFC6614 and RFC7360, which specified experimental versions of RADIUS over TLS and DTLS. 
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.32.0" name="generator">
 <meta content="RADIUS" name="keyword">
 <meta content="TLS" name="keyword">
 <meta content="draft-ietf-radext-radiusdtls-bis-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
+  xml2rfc 3.32.0
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.3.0
+    wcwidth 0.6.0
 -->
 <link href="draft-ietf-radext-radiusdtls-bis.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 4 September 2026</td>
+<td class="center">Expires 20 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-03" class="published">3 March 2026</time>
+<time datetime="2026-03-19" class="published">19 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-04">4 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-20">20 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1536,7 +1536,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 </div>
 <p id="section-3.1-4">RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
-For considerations regarding the multi-purpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.7</a>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+For considerations regarding the multipurpose use of one port for authentication and accounting see <a href="#radius_packets" class="auto internal xref">Section 3.7</a>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 <p id="section-3.1-5">RadSec clients <span class="bcp14">MAY</span> open multiple connections to the same RadSec server and RadSec servers <span class="bcp14">MUST</span> be able to accept multiple connections from a single client.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
 <p id="section-3.1-6">RadSec endpoints <span class="bcp14">MUST NOT</span> use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/DTLS or RADIUS/TLS.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 </section>
@@ -1615,7 +1615,7 @@ See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://r
               <p id="section-3.3.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and then possibly re-opened with updated credentials.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.3.1-4">RadSec endpoints <span class="bcp14">SHOULD NOT</span> be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
+<p id="section-3.3.1-4">RadSec endpoints <span class="bcp14">SHOULD NOT</span> be preconfigured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
 Instead, the endpoints <span class="bcp14">SHOULD</span> start off with an empty CA set as the trust base.
 The addition of a CA <span class="bcp14">SHOULD</span> be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.<a href="#section-3.3.1-4" class="pilcrow">¶</a></p>
@@ -1697,12 +1697,12 @@ With RadSec, the shared secret has a fixed value and multiple distinct RadSec cl
 This requires changing the method of identifying individual clients from RADIUS/UDP.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <p id="section-3.4-2">Depending on the trust model used, the RadSec client identity is determined as follows.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 <p id="section-3.4-3">With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier (<span>[<a href="#RFC9813" class="cite xref">RFC9813</a>], <a href="https://rfc-editor.org/rfc/rfc9813#section-6.2" class="relref">Section 6.2</a></span>).<a href="#section-3.4-3" class="pilcrow">¶</a></p>
-<p id="section-3.4-4">With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.4-4">With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the issuer and the serial number of the presented client certificate.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
 <p id="section-3.4-5">In practice, identification of unique clients is not always necessary and could be based on the subject of the presented certificate or a subjectAltName entry.
 While this identification technique could match multiple distinct certificates and therefore distinct clients, it is often sufficient, e.g., for the purpose of applying policies.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
 <p id="section-3.4-6">Note well: having identified a connecting entity does not mean the server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers, the server may decline to perform RADIUS transactions with this client.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
-<p id="section-3.4-7">Additionally, a server <span class="bcp14">MAY</span> restrict individual or groups of clients to certain IP addresses or address ranges.
+<p id="section-3.4-7">Additionally, a server <span class="bcp14">MAY</span> restrict individual clients or groups of clients to certain IP addresses or address ranges.
 One example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 <p id="section-3.4-8">A client connecting from outside the allowed range would be rejected, even if the mutual authentication otherwise would have been successful.
 To reduce server load and to prevent probing the validity of stolen credentials, the server <span class="bcp14">SHOULD</span> abort the (D)TLS handshake immediately with a TLS alert access_denied(49) after the client transmitted identifying information, i.e., the client certificate or the PSK identifier, and the server recognizes that the client connects from outside the allowed IP address range.<a href="#section-3.4-8" class="pilcrow">¶</a></p>
@@ -1754,7 +1754,7 @@ As non-exhaustive example, a RadSec client can transmit packets of type Access-R
 <p id="section-3.7-4">However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
 Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
-Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.<a href="#section-3.7-4" class="pilcrow">¶</a></p>
+Without a response from the server, the client has to wait for the requests to time out before reusing the request ID, leading to resource exhaustion of the limited ID space.<a href="#section-3.7-4" class="pilcrow">¶</a></p>
 <p id="section-3.7-5">A server <span class="bcp14">MAY</span> therefore respond with a Protocol-Error packet as defined in <span>[<a href="#RFC7930" class="cite xref">RFC7930</a>], <a href="https://rfc-editor.org/rfc/rfc7930#section-4" class="relref">Section 4</a></span>, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet <span class="bcp14">SHOULD</span> be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
 Future specifications may recommend other Error-Cause attribute values for specific scenarios.<a href="#section-3.7-5" class="pilcrow">¶</a></p>
@@ -1774,7 +1774,7 @@ See further details in <a href="#unwanted_packet_handling" class="auto internal 
 <p id="section-3.8-2">As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e., proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
-A similar effect may also be seen on home servers that uses different credential backends for each realm they service.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
+A similar effect may also be seen on home servers that use different credential backends for each realm they service.<a href="#section-3.8-2" class="pilcrow">¶</a></p>
 <p id="section-3.8-3">To avoid these issues, RadSec clients <span class="bcp14">MUST</span> only mark a connection 'DOWN' (as labeled by <span>[<a href="#RFC3539" class="cite xref">RFC3539</a>], <a href="https://rfc-editor.org/rfc/rfc3539#section-3.4" class="relref">Section 3.4</a></span>) if one or more of the following conditions are met:<a href="#section-3.8-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.8-4.1">
@@ -1834,7 +1834,7 @@ However, a client <span class="bcp14">MAY</span> reset the timeout for giving up
           </h4>
 <p id="section-3.9.2-1">RadSec clients <span class="bcp14">MUST</span> implement timers for managing packet retransmissions and timeouts, such as the ones defined in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span>.
 Other algorithms than the one defined in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>]</span> are possible, but any timer implementation <span class="bcp14">MUST</span> have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) and/or maximum retransmission duration (MRD).<a href="#section-3.9.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.9.2-2">For the following description, we use "retransmission" to mean the sending of the exact same packet over the same connection and "retry" to mean the sending of a new RADIUS packet with the same logical contents, but over a different connection or with other details changed.
+<p id="section-3.9.2-2">The following description uses "retransmission" to mean the sending of the exact same packet over the same connection and "retry" to mean the sending of a new RADIUS packet with the same logical contents, but over a different connection or with other details changed.
 When a packet is retransmitted, the previously encoded packet contents are sent without change.
 When a packet is retried, it goes through the usual RADIUS processing (e.g., allocation of a new RADIUS ID, new Authenticator) and is re-encoded and re-signed.<a href="#section-3.9.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.9.2-3">When a connection fails or is closed, a RadSec client <span class="bcp14">SHOULD</span> retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.
@@ -1857,7 +1857,7 @@ RADIUS/TLS clients will then use MRC or MRD to determine that a packet has not r
         <h3 id="name-dtls-connection-limits-and-">
 <a href="#section-3.10" class="section-number selfRef">3.10. </a><a href="#name-dtls-connection-limits-and-" class="section-name selfRef">(D)TLS connection limits and timeout</a>
         </h3>
-<p id="section-3.10-1">While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight and possibly <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span> deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
+<p id="section-3.10-1">While RADIUS/UDP could be implemented mostly statelessly (except for the requests in flight and possibly <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span> deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
 This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.<a href="#section-3.10-1" class="pilcrow">¶</a></p>
 <p id="section-3.10-2">Implementations <span class="bcp14">SHOULD</span> have configurable limits on the number of open connections.
 When this maximum is reached and a new (D)TLS connection is needed, the server <span class="bcp14">MUST</span> either drop an old connection in order to open the new one or else not create a new connection.<a href="#section-3.10-2" class="pilcrow">¶</a></p>
@@ -1870,7 +1870,7 @@ Some scenarios or RADIUS protocol extensions could also require that a connectio
 These scenarios could be related to monitoring the infrastructure or to allow the server to proactively send packets to the clients without a preceding request.<a href="#section-3.10-4" class="pilcrow">¶</a></p>
 <p id="section-3.10-5">The value of the idle timeout to use depends on the exact deployment and is a trade-off between resource usage on clients/servers and the overhead of opening new connections.
 Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.
-In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.<a href="#section-3.10-5" class="pilcrow">¶</a></p>
+In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15 min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.<a href="#section-3.10-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="behavior-on-dtls-connection-closure-of-incoming-connections">
@@ -1985,7 +1985,7 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a TLS close n
         <h3 id="name-sending-and-receiving-radiu">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-sending-and-receiving-radiu" class="section-name selfRef">Sending and receiving RADIUS traffic</a>
         </h3>
-<p id="section-4.1-1">The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the traditional packet-based communication as with RADIUS/UDP.
+<p id="section-4.1-1">The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the packet-based communication as with RADIUS/UDP.
 As a result, the way RADIUS packets are sent and received has to change.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">Instead of relying on the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS endpoints have to keep track of the packet borders by examining the header of the received RADIUS packets.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">After the TLS connection is established, a RADIUS/TLS endpoint <span class="bcp14">MUST NOT</span> send any data except for RADIUS packets over the connection.
@@ -2027,7 +2027,7 @@ In that situation, RADIUS requests <span class="bcp14">MAY</span> be sent to ano
         <h3 id="name-radius-packet-handling">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-radius-packet-handling" class="section-name selfRef">RADIUS packet handling</a>
         </h3>
-<p id="section-5.1-1">The DTLS encryption adds an additional overhead to each packet sent.
+<p id="section-5.1-1">The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations <span class="bcp14">MUST</span> support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
@@ -2129,14 +2129,14 @@ Calculation of attributes such as User-Password <span>[<a href="#RFC2865" class=
 The fact that RADIUS remains largely unchanged ensures the simplest possible implementation and widest interoperability of the specification.
 This reuse includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 The use of MD5 here is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See <a href="#security_considerations" class="auto internal xref">Section 7</a> of this document or <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span> for more details.  See also <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>], <a href="https://rfc-editor.org/rfc/rfc9765#section-1" class="relref">Section 1</a></span> for a discussion of issues related to the continued use of MD5, even in situations where its use is known to be safe.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.1-5">We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
+<p id="section-6.1-5">Note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in <a href="#dtls_spec" class="auto internal xref">Section 5</a>.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <div id="unwanted_packet_handling">
 <section id="section-6.1.1">
           <h4 id="name-differences-from-rfc-6614-u">
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-differences-from-rfc-6614-u" class="section-name selfRef">Differences from RFC 6614 unwanted RADIUS packet handling</a>
           </h4>
-<p id="section-6.1.1-1">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommends to send a reply to unwanted RADIUS packets that depends on the request type:<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.1-1">The previous specification of RADIUS/TLS in <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended sending a reply to unwanted RADIUS packets that depends on the request type:<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1.1-2.1">
               <p id="section-6.1.1-2.1.1">For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.<a href="#section-6.1.1-2.1.1" class="pilcrow">¶</a></p>
@@ -2145,11 +2145,11 @@ This is discussed further in <a href="#dtls_spec" class="auto internal xref">Sec
               <p id="section-6.1.1-2.2.1">For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").<a href="#section-6.1.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-6.1.1-3"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
+<p id="section-6.1.1-3"><span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> also recommended that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.<a href="#section-6.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1.1-4">Compared to the <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
-Therefore these <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended reply message types are now replaced with the Protocol-Error packet type.<a href="#section-6.1.1-4" class="pilcrow">¶</a></p>
+Therefore, these <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> recommended reply message types are now replaced with the Protocol-Error packet type.<a href="#section-6.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2284,7 +2284,7 @@ Therefore, in TLS-PSK operation, at least the following information from the TLS
 <p id="section-6.4-1">Implementers should be aware that programming a robust TCP-based application can be very different from programming a robust UDP-based application.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <p id="section-6.4-3">When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
-If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+If a packet sent by an endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
 <p id="section-6.4-4">Unlike UDP, TCP is subject to issues related to head-of-line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
 While the RADIUS endpoints can process RADIUS packets out of order, the semantics of TCP makes this impossible.
@@ -2306,7 +2306,7 @@ As a result, implementations of RADIUS/DTLS may need to perform session manageme
 This subsection describes logically how this tracking is done.
 Implementations <span class="bcp14">MAY</span> choose to use the method described here, or another, equivalent method.
 When implementations do not use the 5-tuple described below, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-<p id="section-6.5-2">We note that <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>, already mandates a duplicate detection cache.
+<p id="section-6.5-2"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span> already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <div id="server-session-management">
 <section id="section-6.5.1">
@@ -2469,7 +2469,7 @@ However, these methods are not capable of reliably detecting and suppressing the
 <p id="section-7.3-1">Some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>], <a href="https://rfc-editor.org/rfc/rfc9325#section-4.1" class="relref">Section 4.1</a></span>, this specification forbids the usage of NULL encryption cipher suites for RadSec.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="possibility-of-denial-of-service-attacks">
@@ -2492,7 +2492,7 @@ When the total number of connections tracked is going to exceed the configured l
 Doing so may free up idle resources that then allow the server to accept a new connection.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
 <p id="section-7.4-4">RadSec servers <span class="bcp14">MUST</span> limit the number of partially open (D)TLS connections and <span class="bcp14">SHOULD</span> expose this limit as configurable option to the administrator.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 <p id="section-7.4-5">To prevent resource exhaustion by partially opening a large number of (D)TLS connections, RadSec servers <span class="bcp14">SHOULD</span> have a timeout on partially open (D)TLS connections.
-We recommend a limit of a few seconds, implementations <span class="bcp14">SHOULD</span> expose this timeout as configurable option to the administrator.
+We recommend a limit of a few seconds, implementations <span class="bcp14">SHOULD</span> expose this timeout as a configurable option to the administrator.
 If a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.
 In contrast, an established connection might not send packets for longer periods of time, but since the endpoints are mutually authenticated, leaving a connection available does not pose a problem other than the problems mentioned before.<a href="#section-7.4-5" class="pilcrow">¶</a></p>
 <p id="section-7.4-6">A different means of prevention is IP address filtering.
@@ -2523,7 +2523,7 @@ The reason is that the connection is expected to be used for transport of RADIUS
 <p id="section-7.6-2">Any non-RADIUS traffic on that connection means the other party is misbehaving and is potentially a security risk.
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
-<p id="section-7.6-3">On the other hand, we want to avoid situations in which a third party can trigger such a connection closure, e.g., by sending a RADIUS packet with attributes the RadSec server does not understand.
+<p id="section-7.6-3">On the other hand, a third party should not be able to trigger such a connection closure, e.g., by sending a RADIUS packet with attributes the RadSec server does not understand.
 If a RadSec endpoint would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
 Leaving the connection open and ignoring unknown attributes also ensures forward compatibility.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
@@ -2534,7 +2534,7 @@ Leaving the connection open and ignoring unknown attributes also ensures forward
 <a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-migrating-from-radius-udp-t" class="section-name selfRef">Migrating from RADIUS/UDP to RadSec</a>
         </h3>
 <p id="section-7.7-1">Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
-We therefore recommend to migrate from RADIUS/UDP to RadSec.
+We therefore recommend migrating from RADIUS/UDP to RadSec.
 Within this migration process, however, there are a few items that need to be considered by administrators.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
 <p id="section-7.7-2">Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
 While this may seem like an easy way to upgrade RADIUS/UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
@@ -2560,7 +2560,7 @@ It is therefore <span class="bcp14">NOT RECOMMENDED</span> to use both RADIUS/UD
 That is, each subsystem on the client has its own RADIUS implementation and configuration.
 These independent implementations work for simple systems, but break down for RADIUS when multiple servers, fail-over and load-balancing are required.
 With (D)TLS enabled, these problems are expected to get worse.<a href="#section-7.8-1" class="pilcrow">¶</a></p>
-<p id="section-7.8-2">We therefore recommend in these situations the client use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
+<p id="section-7.8-2">In these situations, clients should use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
 This proxy will encapsulate all knowledge about servers, including security policies, fail-over and load-balancing.
 All client subsystems should communicate with this local proxy, perhaps via an internal API, or over a loopback address.<a href="#section-7.8-2" class="pilcrow">¶</a></p>
 <p id="section-7.8-3">The benefit of this configuration is that there is one place in the client that arbitrates all RADIUS traffic.
@@ -2587,7 +2587,7 @@ This section will discuss the rationale behind significant changes from the expe
         </h3>
 <p id="section-8.1-1">With the merging of RADIUS/TLS and RADIUS/DTLS the question of mandatory-to-implement transports arose.
 In order to avoid incompatibilities, there were two possibilities: Either mandate one of the transports for all implementations or mandate the implementation of both transports for either the server or the client.
-As of the time writing, RADIUS/TLS is widely adapted for some use cases.
+As of the time writing, RADIUS/TLS is widely adopted for some use cases.
 However, TLS has some serious drawbacks when used for RADIUS transport.
 Especially the sequential nature of the connection and the connected issues like head-of-line blocking could create problems.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">Therefore, the decision was made that RADIUS servers must implement both transports.
