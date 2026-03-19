@@ -155,7 +155,7 @@ The calculation of security-related fields such as Response-Authenticator, Messa
 
 RadSec does not use separate ports for authentication, accounting and dynamic authorization changes.
 The client source port used for RadSec connections is not fixed -- it is typically an ephemeral port picked by the client Operating System.
-For considerations regarding the multi-purpose use of one port for authentication and accounting see {{radius_packets}}.
+For considerations regarding the multipurpose use of one port for authentication and accounting see {{radius_packets}}.
 
 RadSec clients MAY open multiple connections to the same RadSec server and RadSec servers MUST be able to accept multiple connections from a single client.
 
@@ -212,7 +212,7 @@ If implemented, the following rules apply:
 * When the configured trust base changes (e.g., removal of a CA from the set of trust anchors; issuance of a new CRL for a CA in the set of trust anchors), implementations MUST reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
 * Implementations SHOULD NOT keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and then possibly re-opened with updated credentials.
 
-RadSec endpoints SHOULD NOT be pre-configured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
+RadSec endpoints SHOULD NOT be preconfigured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
 Instead, the endpoints SHOULD start off with an empty CA set as the trust base.
 The addition of a CA SHOULD be done only when manually configured by the administrator.
 This does not preclude vendors or manufacturers including their set of trusted CAs in their products, but the enabling of those lists should require an explicit act by an administrator.
@@ -256,7 +256,7 @@ Depending on the trust model used, the RadSec client identity is determined as f
 
 With TLS-PSK, a client is uniquely identified by its TLS-PSK identifier ({{?RFC9813, Section 6.2}}).
 
-With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the serial number of the presented client certificate and the issuer.
+With TLS-X.509-PKIX, a client is uniquely identified by the tuple of the issuer and the serial number of the presented client certificate.
 
 In practice, identification of unique clients is not always necessary and could be based on the subject of the presented certificate or a subjectAltName entry.
 While this identification technique could match multiple distinct certificates and therefore distinct clients, it is often sufficient, e.g., for the purpose of applying policies.
@@ -264,7 +264,7 @@ While this identification technique could match multiple distinct certificates a
 Note well: having identified a connecting entity does not mean the server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers, the server may decline to perform RADIUS transactions with this client.
 
-Additionally, a server MAY restrict individual or groups of clients to certain IP addresses or address ranges.
+Additionally, a server MAY restrict individual clients or groups of clients to certain IP addresses or address ranges.
 One example of this can be to restrict clients configured by DNS name to only the IP address(es) that this DNS name resolves to.
 
 A client connecting from outside the allowed range would be rejected, even if the mutual authentication otherwise would have been successful.
@@ -319,7 +319,7 @@ As non-exhaustive example, a RadSec client can transmit packets of type Access-R
 However, special considerations apply for mixing Authentication and Accounting packets over the same connection.
 Traditional RADIUS/UDP uses different ports for Authentication and Accounting, where RadSec uses the same connection for all RADIUS packets.
 Due to the use of one single port for all packet types, clients might send packets to the server which it cannot process.
-Without a response from the server, the client has to wait for the requests to time out before reusing the request id, leading to resource exhaustion of the limited id space.
+Without a response from the server, the client has to wait for the requests to time out before reusing the request ID, leading to resource exhaustion of the limited ID space.
 
 A server MAY therefore respond with a Protocol-Error packet as defined in {{!RFC7930, Section 4}}, to alleviate this situation and signal that it was unable to process a packet.
 The Error-Cause attribute of this packet SHOULD be set to the value 406 ("Unsupported Extension"), if the server does not support the packet type, or the value 502 ("Request Not Routable (Proxy)"), if the request cannot be routed.
@@ -340,7 +340,7 @@ RadSec implementations MUST utilize the existence of a TCP, TLS or DTLS connecti
 As RADIUS is a "hop-by-hop" protocol, proxies hide information about the topology downstream to the client.
 While the client may be able to deduce the operational state of the next-hop (i.e., proxy), it is unable to determine the operational state of any hops beyond it.
 This is particularly problematic for topologies that aggregate multiple routes for differing realms behind a proxy where the absence of a reply could lead to a client to incorrectly deduce that the proxy is unavailable when the cause was an unresponsive downstream hop for a single realm.
-A similar effect may also be seen on home servers that uses different credential backends for each realm they service.
+A similar effect may also be seen on home servers that use different credential backends for each realm they service.
 
 To avoid these issues, RadSec clients MUST only mark a connection 'DOWN' (as labeled by {{!RFC3539, Section 3.4}}) if one or more of the following conditions are met:
 
@@ -393,7 +393,7 @@ Where the connection to a RadSec server is configured to be static and always ke
 RadSec clients MUST implement timers for managing packet retransmissions and timeouts, such as the ones defined in {{RFC5080, Section 2.2.1}}.
 Other algorithms than the one defined in {{RFC5080}} are possible, but any timer implementation MUST have similar properties of including jitter, exponential backoff and a maximum retransmission count (MRC) and/or maximum retransmission duration (MRD).
 
-For the following description, we use "retransmission" to mean the sending of the exact same packet over the same connection and "retry" to mean the sending of a new RADIUS packet with the same logical contents, but over a different connection or with other details changed.
+The following description uses "retransmission" to mean the sending of the exact same packet over the same connection and "retry" to mean the sending of a new RADIUS packet with the same logical contents, but over a different connection or with other details changed.
 When a packet is retransmitted, the previously encoded packet contents are sent without change.
 When a packet is retried, it goes through the usual RADIUS processing (e.g., allocation of a new RADIUS ID, new Authenticator) and is re-encoded and re-signed.
 
@@ -415,7 +415,7 @@ See {{duplicates_retransmissions}} for more discussion on retransmission behavio
 
 ## (D)TLS connection limits and timeout
 
-While RADIUS/UDP could be implemented mostly stateless (except for the requests in flight and possibly {{?RFC5080, Section 2.2.2}} deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
+While RADIUS/UDP could be implemented mostly statelessly (except for the requests in flight and possibly {{?RFC5080, Section 2.2.2}} deduplication), both TCP/TLS as well as DTLS require additional state tracking of the underlying (D)TLS connection and are thus subject to potential resource exhaustion.
 This is aggravated by the fact that RADIUS client/servers are often statically configured and thus form long-running peer relationships with long-running connections.
 
 Implementations SHOULD have configurable limits on the number of open connections.
@@ -432,7 +432,7 @@ These scenarios could be related to monitoring the infrastructure or to allow th
 
 The value of the idle timeout to use depends on the exact deployment and is a trade-off between resource usage on clients/servers and the overhead of opening new connections.
 Very short timeouts that are at or below the timeouts used for application layer watchdogs, typically in the range of 30-60s can be considered unreasonable.
-In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
+In contrast, the upper limit is much more difficult to define but may be in the range of 10 to 15 min, depending on the available resources, or never (disabling idle timeout) in scenarios where a permanently open connection is required.
 
 ## Behavior on (D)TLS connection closure of incoming connections
 
@@ -509,7 +509,7 @@ This section discusses all specifications that are only relevant for RADIUS/TLS.
 
 ## Sending and receiving RADIUS traffic
 
-The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the traditional packet-based communication as with RADIUS/UDP.
+The TLS layer of RADIUS/TLS provides a stream-based communication between the two peers instead of the packet-based communication as with RADIUS/UDP.
 As a result, the way RADIUS packets are sent and received has to change.
 
 Instead of relying on the underlying transport protocol to indicate the start of a new packet, the RADIUS/TLS endpoints have to keep track of the packet borders by examining the header of the received RADIUS packets.
@@ -548,7 +548,7 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 ## RADIUS packet handling
 {: #radius_packet_handling }
 
-The DTLS encryption adds an additional overhead to each packet sent.
+The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
@@ -621,24 +621,24 @@ The fact that RADIUS remains largely unchanged ensures the simplest possible imp
 This reuse includes the usage of the outdated security mechanisms in RADIUS that are based on shared secrets and MD5.
 The use of MD5 here is not considered a security issue, since integrity and confidentiality are provided by the (D)TLS layer.  See {{security_considerations}} of this document or {{RFC9765}} for more details.  See also {{RFC9765, Section 1}} for a discussion of issues related to the continued use of MD5, even in situations where its use is known to be safe.
 
-We note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
+Note that for RADIUS/DTLS the DTLS encapsulation of RADIUS means that UDP datagrams include an additional overhead due to DTLS.
 This is discussed further in {{dtls_spec}}.
 
 ### Differences from RFC 6614 unwanted RADIUS packet handling
 {: #unwanted_packet_handling }
 
-The previous specification of RADIUS/TLS in {{RFC6614}} recommends to send a reply to unwanted RADIUS packets that depends on the request type:
+The previous specification of RADIUS/TLS in {{RFC6614}} recommended sending a reply to unwanted RADIUS packets that depends on the request type:
 
 * For unwanted CoA-Requests or Disconnect-Requests, the servers should respond with a CoA-NAK or Disconnect-NAK, respectively.
 
 * For unwanted Accounting-Requests, the servers should respond with an Accounting-Response containing an Error-Cause attribute with the value 406 ("Unsupported Extension").
 
-{{RFC6614}} also recommends that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
+{{RFC6614}} also recommended that a RADIUS/TLS client observing this Accounting-Response should stop sending Accounting-Request packets to this server.
 This behavior, however, could lead to problems, especially in proxy fabrics, since the RADIUS client cannot determine whether the reply came from the correct server or a RADIUS proxy along the way.
 
 Compared to the {{RFC6614}} recommended replies (CoA-NAK, Disconnect-NAK and Accounting-Response), the Protocol-Error packet is explicitly only applicable to one RADIUS hop and must not be forwarded, which gives the RADIUS client the opportunity to re-route the unwanted packet to a different RADIUS server.
 This also is backwards compatible with existing implementations, since RADIUS clients must ignore any incoming RADIUS packets with an unknown packet type.
-Therefore these {{RFC6614}} recommended reply message types are now replaced with the Protocol-Error packet type.
+Therefore, these {{RFC6614}} recommended reply message types are now replaced with the Protocol-Error packet type.
 
 ## Forwarding RADIUS packets between UDP and TCP based transports
 
@@ -740,7 +740,7 @@ Implementers should be aware that programming a robust TCP-based application can
 Additionally, differences in the transport like head-of-line blocking and the possibility of increased transmission times should be considered.
 
 When using RADIUS/UDP or RADIUS/DTLS, there is no ordering of packets.
-If a packet sent by a endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.
+If a packet sent by an endpoint is lost, that loss has no effect on subsequent packets sent by that endpoint.
 
 Unlike UDP, TCP is subject to issues related to head-of-line blocking.
 This occurs when a TCP segment is lost and a subsequent TCP segment arrives out of order.
@@ -760,7 +760,7 @@ This subsection describes logically how this tracking is done.
 Implementations MAY choose to use the method described here, or another, equivalent method.
 When implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
 
-We note that {{RFC5080, Section 2.2.2}}, already mandates a duplicate detection cache.
+{{RFC5080, Section 2.2.2}} already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
 
 ### Server Session Management
@@ -880,7 +880,7 @@ Some TLS implementations offer cipher suites with NULL encryption, to allow insp
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.
 
-For cases where administrators need access to the decrypted RadSec traffic, we suggest using different approaches, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.
+For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.
 
 ## Possibility of Denial-of-Service attacks
 
@@ -903,7 +903,7 @@ Doing so may free up idle resources that then allow the server to accept a new c
 RadSec servers MUST limit the number of partially open (D)TLS connections and SHOULD expose this limit as configurable option to the administrator.
 
 To prevent resource exhaustion by partially opening a large number of (D)TLS connections, RadSec servers SHOULD have a timeout on partially open (D)TLS connections.
-We recommend a limit of a few seconds, implementations SHOULD expose this timeout as configurable option to the administrator.
+We recommend a limit of a few seconds, implementations SHOULD expose this timeout as a configurable option to the administrator.
 If a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.
 In contrast, an established connection might not send packets for longer periods of time, but since the endpoints are mutually authenticated, leaving a connection available does not pose a problem other than the problems mentioned before.
 
@@ -930,14 +930,14 @@ Any non-RADIUS traffic on that connection means the other party is misbehaving a
 Similarly, any RADIUS traffic failing authentication vector or Message-Authenticator validation means that two parties do not have a common shared secret.
 Since the shared secret is static, this again means the other party is misbehaving.
 
-On the other hand, we want to avoid situations in which a third party can trigger such a connection closure, e.g., by sending a RADIUS packet with attributes the RadSec server does not understand.
+On the other hand, a third party should not be able to trigger such a connection closure, e.g., by sending a RADIUS packet with attributes the RadSec server does not understand.
 If a RadSec endpoint would close the connection when receiving such packets, an attacker could repeatedly send such packets to disrupt the RadSec connection.
 Leaving the connection open and ignoring unknown attributes also ensures forward compatibility.
 
 ## Migrating from RADIUS/UDP to RadSec
 
 Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
-We therefore recommend to migrate from RADIUS/UDP to RadSec.
+We therefore recommend migrating from RADIUS/UDP to RadSec.
 Within this migration process, however, there are a few items that need to be considered by administrators.
 
 Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
@@ -963,7 +963,7 @@ That is, each subsystem on the client has its own RADIUS implementation and conf
 These independent implementations work for simple systems, but break down for RADIUS when multiple servers, fail-over and load-balancing are required.
 With (D)TLS enabled, these problems are expected to get worse.
 
-We therefore recommend in these situations the client use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
+In these situations, clients should use a local proxy that arbitrates all RADIUS traffic between the client and all servers.
 This proxy will encapsulate all knowledge about servers, including security policies, fail-over and load-balancing.
 All client subsystems should communicate with this local proxy, perhaps via an internal API, or over a loopback address.
 
@@ -986,7 +986,7 @@ This section will discuss the rationale behind significant changes from the expe
 
 With the merging of RADIUS/TLS and RADIUS/DTLS the question of mandatory-to-implement transports arose.
 In order to avoid incompatibilities, there were two possibilities: Either mandate one of the transports for all implementations or mandate the implementation of both transports for either the server or the client.
-As of the time writing, RADIUS/TLS is widely adapted for some use cases.
+As of the time writing, RADIUS/TLS is widely adopted for some use cases.
 However, TLS has some serious drawbacks when used for RADIUS transport.
 Especially the sequential nature of the connection and the connected issues like head-of-line blocking could create problems.
 
