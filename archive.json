@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-08T01:14:12.147005+00:00",
+  "timestamp": "2026-03-22T01:17:21.809770+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1770,6 +1770,38 @@
       "body": "Deb Cooley sent editorial comments with her \u201cno objection\u201d:\n\nSection 7.3:  This appears to be an ideal place for a MUST NOT vs 'forbids'. \nBoth are normative, but one is more visible in the text.\n\nNits:\nSection 7.1, para 1:  s/downbidding/downgrade",
       "createdAt": "2026-02-28T13:14:33Z",
       "updatedAt": "2026-02-28T13:14:33Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 164,
+      "id": "I_kwDOLrzygc70ZNfu",
+      "title": "Remove PMTUD from document",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/164",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "A DISCUSS from Gorry Fairhurst was that the text on PMTU-Discovery is not clear.\n\nIn the radext Session in IETF 125 the suggestion was to remove PMTUD from this document and move it to the proxy BCP document.",
+      "createdAt": "2026-03-19T08:51:34Z",
+      "updatedAt": "2026-03-19T08:51:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 165,
+      "id": "I_kwDOLrzygc70i-Tq",
+      "title": "Editorial nits from Mike Bishop",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/165",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Some editorial comments from Mike Bishop are still open, I'll add those here to keep track:\n\n* [ ] Remove first person plural sentences (\"we recommend\")\n* [ ] Inclusive Language (`traditional`)\n  * Section 7.8 \"Many traditional clients treat RADIUS as subsystem-specific.\" I'm not sure with which word we can replace traditional\n* [ ] Section 3 \"for the handling of establishment of a (D)TLS connection\": Remove the \"handling of\"?\n",
+      "createdAt": "2026-03-19T16:23:46Z",
+      "updatedAt": "2026-03-19T16:23:46Z",
       "closedAt": null,
       "comments": []
     }
