@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 20 September 2026                                     S. Winter
+Expires: 9 October 2026                                        S. Winter
                                                                  RESTENA
-                                                           19 March 2026
+                                                            7 April 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 September 2026.
+   This Internet-Draft will expire on 9 October 2026.
 
 Copyright Notice
 
@@ -1235,8 +1235,8 @@ Table of Contents
 
 6.2.2.  Differing Retransmission Requirements
 
-   Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports
-   are required to perform retransmissions as per [RFC5080],
+   Since UDP datagrams can be lost, RADIUS/UDP and RADIUS/DTLS
+   transports are required to perform retransmissions as per [RFC5080],
    Section 2.2.1.  In contrast, RADIUS/TCP and RADIUS/TLS transports are
    reliable, and do not perform retransmissions.  These requirements
    lead to an issue for proxies when they send packets across protocol
