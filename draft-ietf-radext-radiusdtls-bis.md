@@ -668,7 +668,7 @@ As a result, the proxy generally will accept the packets, buffer them, and hope 
 
 ### Differing Retransmission Requirements
 
-Due to the lossy nature of UDP, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{!RFC5080, Section 2.2.1}}.
+Since UDP datagrams can be lost, RADIUS/UDP and RADIUS/DTLS transports are required to perform retransmissions as per {{!RFC5080, Section 2.2.1}}.
 In contrast, RADIUS/TCP and RADIUS/TLS transports are reliable, and do not perform retransmissions.
 These requirements lead to an issue for proxies when they send packets across protocol boundaries with differing retransmission behaviors.
 
