@@ -690,14 +690,15 @@ When the client cannot do anything with responses to a request, it MUST stop ret
 
 ### Acct-Delay-Time and Event-Timestamp
 
-In order to avoid congestive collapse, it is RECOMMENDED that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
+In order to avoid congestion, it is RECOMMENDED that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
 Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occurred.
 The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and create the same problem as with Acct-Delay-Time.
 
 Not using Acct-Delay-Time allows for RADIUS Accounting-Request packets to be retransmitted without change.
 In contrast, updating Acct-Delay-Time would require that the client create and send a new Accounting-Request packet without signaling the server that the previous packet is no longer considered active.
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
-This duplication contributes to congestive collapse of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
+This duplication contributes to congestion of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
+See {{proxy_rationale}} for a more detailed explanation of the problem and its implications.
 
 Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
 While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
@@ -1071,6 +1072,45 @@ The following list contains the most important changes from the previous specifi
 * The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
+
+# Rationale for Event-Timestamp vs. Acct-Delay-Time
+{: #proxy_rationale }
+
+This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.
+
+The Acct-Delay-Time attribute is intended to carry information about the delay between the time of the event (e.g., when the traffic was measured) and the time when the Accounting-Request was sent.
+If an Accounting-Request does not receive an answer, the client can resend the request with an updated Acct-Delay-Time.
+
+The example setup here consists of four RADIUS endpoints.
+Client A acts as a simple RADIUS client, Proxy B and Proxy C act as RADIUS proxy and Server D acts as RADIUS server.
+The connections A-B and C-D use RADIUS/UDP, the connection B-C uses RADIUS/TLS.
+
+In this scenario, Client A sends accounting updates that are proxied via the Proxies B and C to Server D, and Server D is not responding to these accounting updates (e.g., due to load issues).
+If a request does not receive an answer in time, Client A constructs new requests with the same accounting information and an updated Acct-Delay-Time attribute.
+Now, the following scenario might happen:
+
+* Client A sends an Accounting-Request with ID 1 to Proxy B via RADIUS/UDP
+* Proxy B proxies the Accounting-Request and sends it with ID 101 to Proxy C via RADIUS/TLS
+* Proxy C proxies the Accounting-Request and sends it with ID 201 to Server D via RADIUS/UDP
+* Server D receives the Accounting-Request, but does not send a response.
+* Client A did not receive a response and sends a new Accounting-Request with ID 2 and an Acct-Delay-Time of 1s to Proxy B
+* Proxy B proxies the Request and sends it with ID 102 to Proxy C
+* Proxy C proxies the Request and sends it with ID 202 to Server D
+* Proxy C also retransmits the Request with ID 201 to Server D, because it did not receive a response
+* Client A still did not receive a response and sends a new Accounting-Request with ID 3 and Acct-Delay-Time of 2s to Proxy B
+* Proxy B proxies the Request and sends it with ID 103 to Proxy C
+* Proxy C proxies the Request and sends it with ID 203 to Server D
+* Proxy C also retransmits the Requests with ID 201 and ID 202 to Server D, because those requests did not receive a response
+
+This scenario is simplified, to give a basic understanding of the problem.
+One cause of the problem is that RADIUS does not have the possibility for a client to signal explicitly that it has given up on a request.
+Implicitly, a client could re-use the same ID, in which case a RADIUS proxy gives up on retransmissions on the next connection.
+In the case of proxying from a reliable transports, such as RADIUS/TLS, to unreliable transports, such as RADIUS/UDP or RADIUS/DTLS, the proxy is in charge of retransmissions over the unreliable transport.
+Even if Client A would re-use the same ID and therefore signal Proxy B it has given up on the first request, Proxy B might still use a different ID for the request to Proxy C.
+In this case, Proxy C cannot know that the client has given up on the original request and should stop the retransmissions to Server D.
+
+Proxy C will try to retransmit the requests until it has timed out the request itself.
+Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.
 
 # Acknowledgments
 {:numbered="false"}
