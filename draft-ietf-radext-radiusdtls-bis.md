@@ -163,7 +163,7 @@ RadSec endpoints MUST NOT use the old RADIUS/UDP or RADIUS/TCP ports for RADIUS/
 
 ## (D)TLS requirements
 
-RadSec clients MUST establish a (D)TLS session immediately upon connecting to a new server.
+RadSec clients MUST establish a (D)TLS session immediately upon connecting to a new server, that is without any non-protected negotiations such as done by SMTP STARTTLS or other signalling prior to the (D)TLS handshake.
 All data received over a TCP or UDP port assigned for RadSec is opaque for the RADIUS client or server application and must be handled by the TLS or DTLS implementation.
 Closing TLS connections and discarding invalid UDP datagrams are done by the (D)TLS implementation.
 
