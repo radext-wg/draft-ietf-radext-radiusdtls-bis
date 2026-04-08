@@ -466,7 +466,7 @@ With DTLS, the "next" packet does not depend on proper decoding of the previous 
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
 Subject to the discussion below, implementations of this specification SHOULD treat the text on "silently discard" packets in the RADIUS specifications as "silently discard the packet and close the connection".
-That is, the implementation SHOULD send a TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:
+That is, the implementation SHOULD send a (D)TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:
 
 * Connection from an unknown client
 * Packet where the RADIUS `Length` field is less than the minimum RADIUS packet length
@@ -1083,3 +1083,9 @@ Thanks to Alan DeKok for his constant review of this document over its whole pro
 
 Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.
 
+# Notes to RFC Editor
+{:numbered="false"}
+
+*This section is to be removed before publishing as an RFC.*
+
+* The references to RFC8446 can be replaced with RFC9846 if I-D.ietf-tls-rfc8446bis is published before this document.
