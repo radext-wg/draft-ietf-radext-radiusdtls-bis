@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-22T01:17:21.809770+00:00",
+  "timestamp": "2026-04-09T01:15:42.704925+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1802,6 +1802,54 @@
       "body": "Some editorial comments from Mike Bishop are still open, I'll add those here to keep track:\n\n* [ ] Remove first person plural sentences (\"we recommend\")\n* [ ] Inclusive Language (`traditional`)\n  * Section 7.8 \"Many traditional clients treat RADIUS as subsystem-specific.\" I'm not sure with which word we can replace traditional\n* [ ] Section 3 \"for the handling of establishment of a (D)TLS connection\": Remove the \"handling of\"?\n",
       "createdAt": "2026-03-19T16:23:46Z",
       "updatedAt": "2026-03-19T16:23:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 167,
+      "id": "I_kwDOLrzygc77Zhjd",
+      "title": "General logging in Radsec",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/167",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are some cases in which it might be good to log things, and maybe we should say so.\n\nOne suggestion from Mohamed Boucadair: When a connection is closed due to malformed RADIUS packets.\n\nWe should look over the whole document and identify relevant events where it is good to log this.",
+      "createdAt": "2026-04-07T12:51:27Z",
+      "updatedAt": "2026-04-07T12:51:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 169,
+      "id": "I_kwDOLrzygc77yioM",
+      "title": "TLS-specific Duplicates/Retransmissions: Reword sentences about retries",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/169",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In the [comments from Mike Bishop](https://mailarchive.ietf.org/arch/msg/radext/1N5cSsukN7KpPQAfUOYEcq7hnec/) the section 4.2 was pointed out.\n\nWhy do we explicitly mention changing protocols?\n\nWe should reword this to be more clear on what we mean.",
+      "createdAt": "2026-04-08T12:00:40Z",
+      "updatedAt": "2026-04-08T12:00:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 170,
+      "id": "I_kwDOLrzygc77ykcB",
+      "title": "Move Design Decisions to Appendix?",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/170",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per [Mike Bishop's comments](https://mailarchive.ietf.org/arch/msg/radext/1N5cSsukN7KpPQAfUOYEcq7hnec/), the Design Decisions section could be moved to the appendix.\n\nComments on this are appreciated.",
+      "createdAt": "2026-04-08T12:01:58Z",
+      "updatedAt": "2026-04-08T12:01:58Z",
       "closedAt": null,
       "comments": []
     }
@@ -13401,6 +13449,73 @@
           "updatedAt": "2026-03-06T01:26:58Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 166,
+      "id": "PR_kwDOLrzygc7Qb8Ia",
+      "title": "Appendix on congestion for Acct-Delay-Time/Event-Timestamp",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/166",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This tries to address Gorry's DISCUSS regarding Acct-Delay-Time by adding an explanation of how this can contribute to congestion.\r\n\r\nComments are welcome.\r\nI've removed \"congestive collapse\" for now and replaced it with \"congestion\", maybe in the appendix explanation we can also reference how this can lead to congestive collapse, if this scenario happens over already congested connections.",
+      "createdAt": "2026-04-07T09:04:04Z",
+      "updatedAt": "2026-04-07T12:34:24Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "f30793ff4dddd85d56b4403aeab1e169022b9e28",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "adreview/congestion",
+      "headRefOid": "459c39c7a52da96174091dc1b227b380b7fd4099",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I find the rationale section a bit confusing, because it's a specific example of the issue.  It would be clearer for me if it had a high-level explanation.\r\n\r\ne.g.\r\n\r\nA client wishes to send an Accounting-Request packet to a server.  Unknown to the client, the server can accept a high load, but also has extremely high latency.  The client sends one packet, and doesn't see a response.  What should the client do?\r\n\r\nRADIUS has no link-layer signalling, so there is no way for the server to say \"I received the packet and am still processing it\".  For RADIUS/UDP, there is no way for the client to know if the server is even still alive.  All the client can do is retransmit the packet.\r\n\r\nHowever, on any retransmit, the client must update Acct-Delay-Time, and therefore create an entirely new packet, and send it to the server.  When the server receives the packet, it is treated as an entirely new packet, unrelated to the original one.\r\n\r\nThat is, the only duplicate detection in RADIUS is a link-layer packet ID in the header.  There are no provisions for a globally unique packet ID which can be used to track the packet contents across multiple hops, or even to detect duplicate packets on one client-server link.\r\n\r\nThe result is that the client intends to send one update for a session, but the server has received two updates, both with essentially the same information.  If the client has small retransmission timers, the server may receive multiple copies of the same information, all of which have to be treated as if they were independent, and unrelated.\r\n\r\nThe problem is made worse when a packet transits multiple hops.  If the server does its own retransmission for each packet it proxies, then an exponential explosion of packets is possible.  Each input packet can result in 4 output packets.  Across 4 hops, one packet being sent can then turn into 256 packets received at the destination.\r\n\r\nUsing TCP transport helps, but does not solve the problem completely.  Not every link may use TCP.  Or TCP connections may \"flap\", in which case packets sent on a closed connection have to be retransmitted (with a new ID) on a newly opened connection.\r\n\r\nIf instead the Accounting-Request packet has an Event-Timestamp and no Acct-Delay-Time, the packet does not need to be updated when it is retransmitted.  This change does not completely solve all possible problems, but it does solve the most egregious ones.\r\n\r\nA complete solution would involve adding a globally unique identifier to each packet, which implementations can use to perform duplicate detection based on packet contents instead of on link-local packet headers.  However, that solution is outside of the scope of this specification.",
+          "createdAt": "2026-04-07T12:06:07Z",
+          "updatedAt": "2026-04-07T12:34:24Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My idea was to create a graphic easy-to-grasp explanation in the direction of \"step 1, step 2, step 3, then explosion here\".\r\n\r\nMaybe the longer explanation can still be added, but especially for people who want to understand what our problem is but don't know much about RADIUS (yet), a more graphic explanation helps.",
+          "createdAt": "2026-04-07T12:14:39Z",
+          "updatedAt": "2026-04-07T12:14:39Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 168,
+      "id": "PR_kwDOLrzygc7Qxlzx",
+      "title": "Add an explicit mention of what must not be done",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/168",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hopefully fixes [DISCUSS from \u00c9ric Vyncke](https://mailarchive.ietf.org/arch/msg/radext/Dxm1VG3KWgYzDTpfEmWBhU2i2ns/)",
+      "createdAt": "2026-04-08T10:36:00Z",
+      "updatedAt": "2026-04-08T10:36:00Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "d519836d3eb1bb74a6ff025cc972702caaed692d",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "adreview/explicit-open-immediately",
+      "headRefOid": "5d52b9583e1800f8efa017a423b4de15e95615d8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
