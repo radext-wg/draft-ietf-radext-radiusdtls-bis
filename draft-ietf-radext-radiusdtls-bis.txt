@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 10 October 2026                                       S. Winter
+Expires: 19 October 2026                                       S. Winter
                                                                  RESTENA
-                                                            8 April 2026
+                                                           17 April 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 October 2026.
+   This Internet-Draft will expire on 19 October 2026.
 
 Copyright Notice
 
@@ -267,7 +267,9 @@ Table of Contents
 3.2.  (D)TLS requirements
 
    RadSec clients MUST establish a (D)TLS session immediately upon
-   connecting to a new server.  All data received over a TCP or UDP port
+   connecting to a new server, that is without any non-protected
+   negotiations such as done by SMTP STARTTLS or other signalling prior
+   to the (D)TLS handshake.  All data received over a TCP or UDP port
    assigned for RadSec is opaque for the RADIUS client or server
    application and must be handled by the TLS or DTLS implementation.
    Closing TLS connections and discarding invalid UDP datagrams are done
