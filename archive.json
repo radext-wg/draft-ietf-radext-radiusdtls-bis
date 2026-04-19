@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-09T01:15:42.704925+00:00",
+  "timestamp": "2026-04-19T01:46:28.941134+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13497,24 +13497,26 @@
       "id": "PR_kwDOLrzygc7Qxlzx",
       "title": "Add an explicit mention of what must not be done",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/168",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hopefully fixes [DISCUSS from \u00c9ric Vyncke](https://mailarchive.ietf.org/arch/msg/radext/Dxm1VG3KWgYzDTpfEmWBhU2i2ns/)",
       "createdAt": "2026-04-08T10:36:00Z",
-      "updatedAt": "2026-04-08T10:36:00Z",
+      "updatedAt": "2026-04-17T11:03:15Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "d519836d3eb1bb74a6ff025cc972702caaed692d",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "adreview/explicit-open-immediately",
       "headRefOid": "5d52b9583e1800f8efa017a423b4de15e95615d8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-17T11:03:15Z",
+      "mergedAt": "2026-04-17T11:03:15Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "016bb293ba5357e266cacd504dbb6d94cea79e07"
+      },
       "comments": [],
       "reviews": []
     }
