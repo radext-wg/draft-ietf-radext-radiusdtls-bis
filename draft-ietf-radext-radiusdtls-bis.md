@@ -1121,6 +1121,11 @@ There is no guarantee that a proxy will also re-use the ID on the next hop, maki
 The first proxy would stop retransmissions because the client re-used the same ID, but the next two proxies have no way of knowing that the client has given up on the packet if the ID was not re-used, and will continue retransmitting the packet until it gets an answer or its timed out.
 Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.
 
+If instead the Accounting-Request packets used Event-Timestamp instead of Acct-Delay-Time, the packet content does not need to be updated, and it can be retransmitted using the well-defined retransmission rules.
+Any retransmission will be treated as duplicate, and the server can process the event once and send one response after.
+
+Other solutions to this problem, e.g., adding a globally unique identifier to requests that can be used by implementations to detect duplicate packets based on content instead of link-layer headers, would require changes in the RADIUS protocol and are therefore out of scope for this document.
+
 # Acknowledgments
 {:numbered="false"}
 
