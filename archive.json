@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-19T01:46:28.941134+00:00",
+  "timestamp": "2026-04-26T01:48:12.778289+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13429,13 +13429,13 @@
       "labels": [],
       "body": "Proposal to avoid the term 'configured trust base' and describe more explicitly what is meant: set of CAs change or update revocation info. (address #156)",
       "createdAt": "2026-03-05T17:07:56Z",
-      "updatedAt": "2026-03-06T01:26:58Z",
+      "updatedAt": "2026-04-24T15:03:56Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
-      "baseRefOid": "33a5418cf7c424530024ab9ca70127b9118184e0",
+      "baseRefOid": "a8b082d9dabd88c41c15ad0982b5dcb6008c8c16",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-configured-trust-base",
-      "headRefOid": "db0e891d7feb6ae62192dd8df5d1cd517b0e9b36",
+      "headRefOid": "7c0695df7bbb0777fd0eac7b59ff0adbff322aaa",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13449,7 +13449,48 @@
           "updatedAt": "2026-03-06T01:26:58Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc74HNpI",
+          "commit": {
+            "abbreviatedOid": "db0e891"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-23T13:12:49Z",
+          "updatedAt": "2026-04-23T13:12:49Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n* When the configured set of CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations MUST reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.\n```\n\nThe old suggestion used the term `trust base` again, I think with this clarification we can just remove the term completely.",
+              "createdAt": "2026-04-23T13:12:49Z",
+              "updatedAt": "2026-04-23T13:12:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc74o0LB",
+          "commit": {
+            "abbreviatedOid": "db0e891"
+          },
+          "author": "fmauchle",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-24T15:01:14Z",
+          "updatedAt": "2026-04-24T15:01:15Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "+1, however I would keep the trusted; so 'set of trusted CAs changes'",
+              "createdAt": "2026-04-24T15:01:14Z",
+              "updatedAt": "2026-04-24T15:01:15Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 166,
@@ -13463,13 +13504,13 @@
       "labels": [],
       "body": "This tries to address Gorry's DISCUSS regarding Acct-Delay-Time by adding an explanation of how this can contribute to congestion.\r\n\r\nComments are welcome.\r\nI've removed \"congestive collapse\" for now and replaced it with \"congestion\", maybe in the appendix explanation we can also reference how this can lead to congestive collapse, if this scenario happens over already congested connections.",
       "createdAt": "2026-04-07T09:04:04Z",
-      "updatedAt": "2026-04-07T12:34:24Z",
+      "updatedAt": "2026-04-23T13:10:50Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "f30793ff4dddd85d56b4403aeab1e169022b9e28",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "adreview/congestion",
-      "headRefOid": "459c39c7a52da96174091dc1b227b380b7fd4099",
+      "headRefOid": "536738d8265992150cd899e550f3a4ff4f14164d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13488,6 +13529,13 @@
           "body": "My idea was to create a graphic easy-to-grasp explanation in the direction of \"step 1, step 2, step 3, then explosion here\".\r\n\r\nMaybe the longer explanation can still be added, but especially for people who want to understand what our problem is but don't know much about RADIUS (yet), a more graphic explanation helps.",
           "createdAt": "2026-04-07T12:14:39Z",
           "updatedAt": "2026-04-07T12:14:39Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I've updated the explanation and added some more text.\r\nThanks Alan for your suggestion, I used it as a base for my changes.\r\n\r\nThe example is now also more simplified, I hope it's still graphic enough.",
+          "createdAt": "2026-04-23T13:10:50Z",
+          "updatedAt": "2026-04-23T13:10:50Z"
         }
       ],
       "reviews": []
