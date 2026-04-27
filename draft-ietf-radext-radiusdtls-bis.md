@@ -690,14 +690,15 @@ When the client cannot do anything with responses to a request, it MUST stop ret
 
 ### Acct-Delay-Time and Event-Timestamp
 
-In order to avoid congestive collapse, it is RECOMMENDED that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
+In order to avoid congestion, it is RECOMMENDED that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time ({{?RFC2866, Section 5.2}}) in those packets.
 Instead, those clients SHOULD include Event-Timestamp ({{?RFC2869, Section 5.3}}), which is the time at which the original event occurred.
 The Event-Timestamp MUST NOT be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and create the same problem as with Acct-Delay-Time.
 
 Not using Acct-Delay-Time allows for RADIUS Accounting-Request packets to be retransmitted without change.
 In contrast, updating Acct-Delay-Time would require that the client create and send a new Accounting-Request packet without signaling the server that the previous packet is no longer considered active.
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
-This duplication contributes to congestive collapse of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
+This duplication contributes to congestion of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
+See {{proxy_rationale}} for a more detailed explanation of the problem and its implications.
 
 Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
 While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
@@ -1064,6 +1065,59 @@ The following list contains the most important changes from the previous specifi
 * The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
+
+# Rationale for Event-Timestamp vs. Acct-Delay-Time
+{: #proxy_rationale }
+
+This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.
+
+The Acct-Delay-Time attribute is intended to carry information about the delay between the time of the event (e.g., when the traffic was measured) and the time when the Accounting-Request was sent.
+If an Accounting-Request does not receive an answer, the client can resend the request with an updated Acct-Delay-Time.
+
+The example setup here consists of three RADIUS endpoints.
+Client A acts as a simple RADIUS client, Proxy B acts as RADIUS proxy and Server C acts as RADIUS server.
+The connection A-B uses RADIUS/TLS, B-C uses RADIUS/UDP.
+
+In this scenario, Client A sends accounting updates that are proxied via Proxy B to Server C.
+Unknown to the client and the proxy, Server C may be able to accept a high load, but also has extreme high latency in those situations.
+
+RADIUS does not have link-layer signaling, so there is no way for the server to signal that it received the packet and is processing it.
+Without any response, a client has to assume that the packet was lost and triggers a retransmission.
+While RADIUS/TLS forbids retransmissions, since it is based on a reliable transport protocol, a RADIUS packet with an updated Acct-DelayTime attribute is not a retransmission per RADIUS definitions, and therefore permissable.
+Since it is a new RADIUS packet, a new ID might also be allocated.
+
+Now, the following scenario might happen (simplified):
+
+* Client A sends an Accounting-Request with ID 1 to Proxy B via RADIUS/TLS
+* Proxy B proxies the Accounting-Request and sends it with ID 101 to Server C via RADIUS/UDP
+* Server C receives the Accounting-Request and adds the request to its processing queue.
+* Client A did not receive a response and and after a second sends a new Accounting-Request with ID 2 and an Acct-Delay-Time of 1s to Proxy B
+* Proxy B proxies the Request and sends it with ID 102 to Server C
+* Proxy B also retransmits the Request with ID 101 to Server C, because it did not receive a response
+* Server C receives retransmission of packet with ID 101, recognizes it as duplicate
+* Server C also receives packet with ID 102, and adds it to the processing queue, since it is not a duplicate packet
+* Client A still did not receive a response and sends a new Accounting-Request with ID 3 and Acct-Delay-Time of 2s to Proxy B
+* Proxy B proxies the Request and sends it with ID 103 to Server C
+* Proxy B also retransmits the Requests with ID 101 and ID 102 to Server C, because those requests did not receive a response
+* Server C recognizes the requests with ID 101 and 102 as duplicates, but has to add 103 to its processing queue.
+
+This scenario is simplified and includes only one accounting event, to give a basic understanding of the problem.
+If the client wants to send updates for multiple accounting events, each of these updates will generate their own packets.
+Especially in scenarios where the server is already under high load, this behavior contributes to congestion and could eventually lead to congestive collapse.
+
+One cause of the problem is that RADIUS does not have the possibility for a client to signal explicitly that it has given up on a request.
+Implicitly, a client could indicate that it has given up by re-using the same ID, in which case a RADIUS proxy will also stop retransmissions on the next connection.
+In the case of proxying from a reliable transports to unreliable transports (e.g., from RADIUS/TLS to RADIUS/UDP or RADIUS/DTLS), the proxy is in charge of retransmissions over the unreliable transport.
+In the given scenario, re-using the same ID would stop the retransmission of the outdated packets.
+But if there are multiple hops with mixed transports (e.g., first RADIUS/TLS, then RADIUS/UDP, then RADIUS/TLS again, then RADIUS/UDP again), this is not possible.
+There is no guarantee that a proxy will also re-use the ID on the next hop, making it impossible for proxies down the path to reliably detect that the client has given up.
+The first proxy would stop retransmissions because the client re-used the same ID, but the next two proxies have no way of knowing that the client has given up on the packet if the ID was not re-used, and will continue retransmitting the packet until it gets an answer or its timed out.
+Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.
+
+If instead the Accounting-Request packets used Event-Timestamp instead of Acct-Delay-Time, the packet content does not need to be updated, and it can be retransmitted using the well-defined retransmission rules.
+Any retransmission will be treated as duplicate, and the server can process the event once and send one response after.
+
+Other solutions to this problem, e.g., adding a globally unique identifier to requests that can be used by implementations to detect duplicate packets based on content instead of link-layer headers, would require changes in the RADIUS protocol and are therefore out of scope for this document.
 
 # Acknowledgments
 {:numbered="false"}
