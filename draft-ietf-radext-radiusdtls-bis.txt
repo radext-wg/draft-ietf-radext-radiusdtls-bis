@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 25 October 2026                                       S. Winter
+Expires: 29 October 2026                                       S. Winter
                                                                  RESTENA
-                                                           23 April 2026
+                                                           27 April 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 October 2026.
+   This Internet-Draft will expire on 29 October 2026.
 
 Copyright Notice
 
@@ -344,12 +344,12 @@ Table of Contents
       [RFC6066], Section 6 for TLS 1.2 and [RFC8446], Section 4.2.4 for
       TLS 1.3.
 
-   *  When the configured trust base changes (e.g., removal of a CA from
-      the set of trust anchors; issuance of a new CRL for a CA in the
-      set of trust anchors), implementations MUST reassess the continued
-      validity of the certificate path of all connected peers.  This can
-      either be done by caching the peer's certificate for the duration
-      of the connection and re-evaluating the cached certificate or by
+   *  When the configured set of trusted CAs changes or updated
+      revocation information becomes available (e.g., fetching of a new
+      CRL), implementations MUST reassess the continued validity of the
+      certificate path of all connected peers.  This can either be done
+      by caching the peer's certificate for the duration of the
+      connection and re-evaluating the cached certificate or by
       renegotiating the (D)TLS connection, either directly or by opening
       a new (D)TLS connection and closing the old one.
 
