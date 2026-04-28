@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-26T01:48:12.778289+00:00",
+  "timestamp": "2026-04-28T01:59:21.812527+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13422,24 +13422,26 @@
       "id": "PR_kwDOLrzygc7IRLD8",
       "title": "avoid 'configured trust base'",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/163",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Proposal to avoid the term 'configured trust base' and describe more explicitly what is meant: set of CAs change or update revocation info. (address #156)",
       "createdAt": "2026-03-05T17:07:56Z",
-      "updatedAt": "2026-04-24T15:03:56Z",
+      "updatedAt": "2026-04-27T08:17:29Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "a8b082d9dabd88c41c15ad0982b5dcb6008c8c16",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-configured-trust-base",
       "headRefOid": "7c0695df7bbb0777fd0eac7b59ff0adbff322aaa",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-27T08:17:29Z",
+      "mergedAt": "2026-04-27T08:17:29Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "3b0aaca52e77d9fecb0394243be54ee09f5e285a"
+      },
       "comments": [
         {
           "author": "alandekok",
