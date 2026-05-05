@@ -1371,13 +1371,16 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
             <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-changes-from-rfc6614-radius" class="internal xref">Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-rationale-for-event-timesta" class="internal xref">Rationale for Event-Timestamp vs. Acct-Delay-Time</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-notes-to-rfc-editor" class="internal xref">Notes to RFC Editor</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-notes-to-rfc-editor" class="internal xref">Notes to RFC Editor</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2216,13 +2219,14 @@ When the client cannot do anything with responses to a request, it <span class="
           <h4 id="name-acct-delay-time-and-event-t">
 <a href="#section-6.2.3" class="section-number selfRef">6.2.3. </a><a href="#name-acct-delay-time-and-event-t" class="section-name selfRef">Acct-Delay-Time and Event-Timestamp</a>
           </h4>
-<p id="section-6.2.3-1">In order to avoid congestive collapse, it is <span class="bcp14">RECOMMENDED</span> that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time (<span>[<a href="#RFC2866" class="cite xref">RFC2866</a>], <a href="https://rfc-editor.org/rfc/rfc2866#section-5.2" class="relref">Section 5.2</a></span>) in those packets.
+<p id="section-6.2.3-1">In order to avoid congestion, it is <span class="bcp14">RECOMMENDED</span> that RadSec clients which originate Accounting-Request packets (i.e., not proxies) do not include Acct-Delay-Time (<span>[<a href="#RFC2866" class="cite xref">RFC2866</a>], <a href="https://rfc-editor.org/rfc/rfc2866#section-5.2" class="relref">Section 5.2</a></span>) in those packets.
 Instead, those clients <span class="bcp14">SHOULD</span> include Event-Timestamp (<span>[<a href="#RFC2869" class="cite xref">RFC2869</a>], <a href="https://rfc-editor.org/rfc/rfc2869#section-5.3" class="relref">Section 5.3</a></span>), which is the time at which the original event occurred.
 The Event-Timestamp <span class="bcp14">MUST NOT</span> be updated on any retransmissions, as that would both negate the meaning of Event-Timestamp, and create the same problem as with Acct-Delay-Time.<a href="#section-6.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-2">Not using Acct-Delay-Time allows for RADIUS Accounting-Request packets to be retransmitted without change.
 In contrast, updating Acct-Delay-Time would require that the client create and send a new Accounting-Request packet without signaling the server that the previous packet is no longer considered active.
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
-This duplication contributes to congestive collapse of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
+This duplication contributes to congestion of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
+See <a href="#proxy_rationale" class="auto internal xref">Appendix B</a> for a more detailed explanation of the problem and its implications.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-3">Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
 While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
 If the packet is proxied from RADIUS/TLS to RADIUS/DTLS or RADIUS/UDP, the proxy has to retransmit on its own without changing the value of Acct-Delay-Time, which again introduces non-negligible transmission delays.<a href="#section-6.2.3-3" class="pilcrow">¶</a></p>
@@ -2912,32 +2916,104 @@ These specifications have been merged into this document, and therefore removes 
 <p id="appendix-A-3">The rationales behind some of these changes are outlined in <a href="#design_decisions" class="auto internal xref">Section 8</a>.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="acknowledgments">
+<div id="proxy_rationale">
 <section id="appendix-B">
+      <h2 id="name-rationale-for-event-timesta">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-rationale-for-event-timesta" class="section-name selfRef">Rationale for Event-Timestamp vs. Acct-Delay-Time</a>
+      </h2>
+<p id="appendix-B-1">This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">The Acct-Delay-Time attribute is intended to carry information about the delay between the time of the event (e.g., when the traffic was measured) and the time when the Accounting-Request was sent.
+If an Accounting-Request does not receive an answer, the client can resend the request with an updated Acct-Delay-Time.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-3">The example setup here consists of three RADIUS endpoints.
+Client A acts as a simple RADIUS client, Proxy B acts as RADIUS proxy and Server C acts as RADIUS server.
+The connection A-B uses RADIUS/TLS, B-C uses RADIUS/UDP.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">In this scenario, Client A sends accounting updates that are proxied via Proxy B to Server C.
+Unknown to the client and the proxy, Server C may be able to accept a high load, but also has extreme high latency in those situations.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<p id="appendix-B-5">RADIUS does not have link-layer signaling, so there is no way for the server to signal that it received the packet and is processing it.
+Without any response, a client has to assume that the packet was lost and triggers a retransmission.
+While RADIUS/TLS forbids retransmissions, since it is based on a reliable transport protocol, a RADIUS packet with an updated Acct-DelayTime attribute is not a retransmission per RADIUS definitions, and therefore permissable.
+Since it is a new RADIUS packet, a new ID might also be allocated.<a href="#appendix-B-5" class="pilcrow">¶</a></p>
+<p id="appendix-B-6">Now, the following scenario might happen (simplified):<a href="#appendix-B-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-7.1">
+          <p id="appendix-B-7.1.1">Client A sends an Accounting-Request with ID 1 to Proxy B via RADIUS/TLS<a href="#appendix-B-7.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.2">
+          <p id="appendix-B-7.2.1">Proxy B proxies the Accounting-Request and sends it with ID 101 to Server C via RADIUS/UDP<a href="#appendix-B-7.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.3">
+          <p id="appendix-B-7.3.1">Server C receives the Accounting-Request and adds the request to its processing queue.<a href="#appendix-B-7.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.4">
+          <p id="appendix-B-7.4.1">Client A did not receive a response and and after a second sends a new Accounting-Request with ID 2 and an Acct-Delay-Time of 1s to Proxy B<a href="#appendix-B-7.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.5">
+          <p id="appendix-B-7.5.1">Proxy B proxies the Request and sends it with ID 102 to Server C<a href="#appendix-B-7.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.6">
+          <p id="appendix-B-7.6.1">Proxy B also retransmits the Request with ID 101 to Server C, because it did not receive a response<a href="#appendix-B-7.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.7">
+          <p id="appendix-B-7.7.1">Server C receives retransmission of packet with ID 101, recognizes it as duplicate<a href="#appendix-B-7.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.8">
+          <p id="appendix-B-7.8.1">Server C also receives packet with ID 102, and adds it to the processing queue, since it is not a duplicate packet<a href="#appendix-B-7.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.9">
+          <p id="appendix-B-7.9.1">Client A still did not receive a response and sends a new Accounting-Request with ID 3 and Acct-Delay-Time of 2s to Proxy B<a href="#appendix-B-7.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.10">
+          <p id="appendix-B-7.10.1">Proxy B proxies the Request and sends it with ID 103 to Server C<a href="#appendix-B-7.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.11">
+          <p id="appendix-B-7.11.1">Proxy B also retransmits the Requests with ID 101 and ID 102 to Server C, because those requests did not receive a response<a href="#appendix-B-7.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-7.12">
+          <p id="appendix-B-7.12.1">Server C recognizes the requests with ID 101 and 102 as duplicates, but has to add 103 to its processing queue.<a href="#appendix-B-7.12.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-8">This scenario is simplified and includes only one accounting event, to give a basic understanding of the problem.
+If the client wants to send updates for multiple accounting events, each of these updates will generate their own packets.
+Especially in scenarios where the server is already under high load, this behavior contributes to congestion and could eventually lead to congestive collapse.<a href="#appendix-B-8" class="pilcrow">¶</a></p>
+<p id="appendix-B-9">One cause of the problem is that RADIUS does not have the possibility for a client to signal explicitly that it has given up on a request.
+Implicitly, a client could indicate that it has given up by re-using the same ID, in which case a RADIUS proxy will also stop retransmissions on the next connection.
+In the case of proxying from a reliable transports to unreliable transports (e.g., from RADIUS/TLS to RADIUS/UDP or RADIUS/DTLS), the proxy is in charge of retransmissions over the unreliable transport.
+In the given scenario, re-using the same ID would stop the retransmission of the outdated packets.
+But if there are multiple hops with mixed transports (e.g., first RADIUS/TLS, then RADIUS/UDP, then RADIUS/TLS again, then RADIUS/UDP again), this is not possible.
+There is no guarantee that a proxy will also re-use the ID on the next hop, making it impossible for proxies down the path to reliably detect that the client has given up.
+The first proxy would stop retransmissions because the client re-used the same ID, but the next two proxies have no way of knowing that the client has given up on the packet if the ID was not re-used, and will continue retransmitting the packet until it gets an answer or its timed out.
+Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.<a href="#appendix-B-9" class="pilcrow">¶</a></p>
+<p id="appendix-B-10">If instead the Accounting-Request packets used Event-Timestamp instead of Acct-Delay-Time, the packet content does not need to be updated, and it can be retransmitted using the well-defined retransmission rules.
+Any retransmission will be treated as duplicate, and the server can process the event once and send one response after.<a href="#appendix-B-10" class="pilcrow">¶</a></p>
+<p id="appendix-B-11">Other solutions to this problem, e.g., adding a globally unique identifier to requests that can be used by implementations to detect duplicate packets based on content instead of link-layer headers, would require changes in the RADIUS protocol and are therefore out of scope for this document.<a href="#appendix-B-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-C">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
-<p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
-<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<p id="appendix-C-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
+<p id="appendix-C-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="notes-to-rfc-editor">
-<section id="appendix-C">
+<section id="appendix-D">
       <h2 id="name-notes-to-rfc-editor">
 <a href="#name-notes-to-rfc-editor" class="section-name selfRef">Notes to RFC Editor</a>
       </h2>
-<p id="appendix-C-1"><em>This section is to be removed before publishing as an RFC.</em><a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-D-1"><em>This section is to be removed before publishing as an RFC.</em><a href="#appendix-D-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-C-2.1">
-          <p id="appendix-C-2.1.1">The references to RFC8446 can be replaced with RFC9846 if I-D.ietf-tls-rfc8446bis is published before this document.<a href="#appendix-C-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D-2.1">
+          <p id="appendix-D-2.1.1">The references to RFC8446 can be replaced with RFC9846 if I-D.ietf-tls-rfc8446bis is published before this document.<a href="#appendix-D-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-D">
+<section id="appendix-E">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
