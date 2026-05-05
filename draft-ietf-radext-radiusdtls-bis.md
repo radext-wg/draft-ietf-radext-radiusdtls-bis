@@ -133,7 +133,7 @@ Where "TLS" or "RADIUS/TLS" is mentioned, the specification applies only for RAD
 
 # RadSec Packet and Connection Handling
 
-This section defines the behavior of RadSec endpoints for the handling of establishment of a (D)TLS connection and sending and receiving RADIUS packets.
+This section defines the behavior of RadSec endpoints for the establishment and handling of (D)TLS connections and sending and receiving RADIUS packets.
 
 Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
 Client implementations SHOULD implement both, but MUST implement at least one of RADIUS/TLS or RADIUS/DTLS.
@@ -897,7 +897,7 @@ Doing so may free up idle resources that then allow the server to accept a new c
 RadSec servers MUST limit the number of partially open (D)TLS connections and SHOULD expose this limit as configurable option to the administrator.
 
 To prevent resource exhaustion by partially opening a large number of (D)TLS connections, RadSec servers SHOULD have a timeout on partially open (D)TLS connections.
-We recommend a limit of a few seconds, implementations SHOULD expose this timeout as a configurable option to the administrator.
+A limit of a few seconds is recommended, implementations SHOULD expose this timeout as a configurable option to the administrator.
 If a (D)TLS connection is not established within this timeframe, it is likely that this connection is either not from a valid client, or it is from a valid client with unreliable connectivity.
 In contrast, an established connection might not send packets for longer periods of time, but since the endpoints are mutually authenticated, leaving a connection available does not pose a problem other than the problems mentioned before.
 
@@ -931,14 +931,14 @@ Leaving the connection open and ignoring unknown attributes also ensures forward
 ## Migrating from RADIUS/UDP to RadSec
 
 Since RADIUS/UDP security relies on the MD5 algorithm, which is considered insecure, using RADIUS/UDP over insecure networks is risky.
-We therefore recommend migrating from RADIUS/UDP to RadSec.
+Migrating from RADIUS/UDP to RadSec is therefore recommended.
 Within this migration process, however, there are a few items that need to be considered by administrators.
 
 Firstly, administrators may be tempted to simply migrate from RADIUS/UDP to RadSec with (D)TLS-PSK and reuse the RADIUS shared secret as (D)TLS-PSK.
 While this may seem like an easy way to upgrade RADIUS/UDP to RadSec, the cryptographic problems with the RADIUS/UDP shared secret render the shared secret potentially compromised.
 Using a potentially compromised shared secret as TLS-PSK compromises the whole TLS connection.
 Therefore, as defined in {{?RFC9813, Section 4.1.3}}, any shared secret used with RADIUS/UDP before MUST NOT be used with RadSec and (D)TLS-PSK.
-We also strongly recommend implementers to not reuse the configuration option for the RADIUS/UDP shared secret in the existing user interfaces for the (D)TLS-PSK too.
+As implementation note, it is also strongly recommend to not reuse the configuration option for the RADIUS/UDP shared secret in the existing user interfaces for the (D)TLS-PSK too.
 Instead, these should be separate input fields in order to prevent accidental reuse of an existing shared secret when switching to (D)TLS-PSK.
 
 When upgrading from RADIUS/UDP to RadSec, there may be a period of time, where the connection between client and server is configured for both transport profiles.
@@ -992,7 +992,7 @@ For RADIUS clients, that may run on more constrained hardware, implementers can 
 
 {{RFC6614}} mandates the implementation of the trust profile "certificate with PKIX trust model" for both clients and servers.
 The experience of the deployment of RADIUS/TLS as specified in {{RFC6614}} has shown that most actors still rely on RADIUS/UDP.
-Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification we wanted to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.
+Since dealing with certificates can create a lot of issues, both for implementers and administrators, for the re-specification the goal was to create an alternative to insecure RADIUS transports like RADIUS/UDP that can be deployed easily without much additional administrative overhead.
 
 As with the supported transports, the assumption is that RADIUS servers are less constrained than RADIUS clients.
 Since some client implementations already support using certificates for mutual authentication and there are several use cases, where pre-shared keys are not usable (e.g., a dynamic federation with changing members), the decision was made that, analog to the supported transports, RadSec servers must implement both certificates with PKIX trust model and TLS-PSK as means of mutual authentication.
