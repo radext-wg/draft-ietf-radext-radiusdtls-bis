@@ -220,7 +220,7 @@ Table of Contents
 3.  RadSec Packet and Connection Handling
 
    This section defines the behavior of RadSec endpoints for the
-   handling of establishment of a (D)TLS connection and sending and
+   establishment and handling of (D)TLS connections and sending and
    receiving RADIUS packets.
 
    Server implementations MUST support both RADIUS/TLS and RADIUS/DTLS.
@@ -1665,7 +1665,7 @@ Table of Contents
 
    To prevent resource exhaustion by partially opening a large number of
    (D)TLS connections, RadSec servers SHOULD have a timeout on partially
-   open (D)TLS connections.  We recommend a limit of a few seconds,
+   open (D)TLS connections.  A limit of a few seconds is recommended,
    implementations SHOULD expose this timeout as a configurable option
    to the administrator.  If a (D)TLS connection is not established
    within this timeframe, it is likely that this connection is either
@@ -1727,7 +1727,7 @@ Table of Contents
 
    Since RADIUS/UDP security relies on the MD5 algorithm, which is
    considered insecure, using RADIUS/UDP over insecure networks is
-   risky.  We therefore recommend migrating from RADIUS/UDP to RadSec.
+   risky.  Migrating from RADIUS/UDP to RadSec is therefore recommended.
    Within this migration process, however, there are a few items that
    need to be considered by administrators.
 
@@ -1739,12 +1739,12 @@ Table of Contents
    potentially compromised shared secret as TLS-PSK compromises the
    whole TLS connection.  Therefore, as defined in [RFC9813],
    Section 4.1.3, any shared secret used with RADIUS/UDP before MUST NOT
-   be used with RadSec and (D)TLS-PSK.  We also strongly recommend
-   implementers to not reuse the configuration option for the RADIUS/UDP
-   shared secret in the existing user interfaces for the (D)TLS-PSK too.
-   Instead, these should be separate input fields in order to prevent
-   accidental reuse of an existing shared secret when switching to
-   (D)TLS-PSK.
+   be used with RadSec and (D)TLS-PSK.  As implementation note, it is
+   also strongly recommend to not reuse the configuration option for the
+   RADIUS/UDP shared secret in the existing user interfaces for the
+   (D)TLS-PSK too.  Instead, these should be separate input fields in
+   order to prevent accidental reuse of an existing shared secret when
+   switching to (D)TLS-PSK.
 
    When upgrading from RADIUS/UDP to RadSec, there may be a period of
    time, where the connection between client and server is configured
@@ -1827,9 +1827,9 @@ Table of Contents
    The experience of the deployment of RADIUS/TLS as specified in
    [RFC6614] has shown that most actors still rely on RADIUS/UDP.  Since
    dealing with certificates can create a lot of issues, both for
-   implementers and administrators, for the re-specification we wanted
-   to create an alternative to insecure RADIUS transports like RADIUS/
-   UDP that can be deployed easily without much additional
+   implementers and administrators, for the re-specification the goal
+   was to create an alternative to insecure RADIUS transports like
+   RADIUS/UDP that can be deployed easily without much additional
    administrative overhead.
 
    As with the supported transports, the assumption is that RADIUS
