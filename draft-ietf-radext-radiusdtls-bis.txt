@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 29 October 2026                                       S. Winter
+Expires: 6 November 2026                                       S. Winter
                                                                  RESTENA
-                                                           27 April 2026
+                                                              5 May 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 October 2026.
+   This Internet-Draft will expire on 6 November 2026.
 
 Copyright Notice
 
@@ -1025,14 +1025,14 @@ Table of Contents
    packets from non-conforming clients.
 
    RADIUS clients MUST NOT perform retries by sending a packet on a
-   different protocol or connection (i.e., switching from TLS to DTLS or
-   vice versa).  However, when a connection fails, a RADIUS client MAY
-   send packets associated with that connection over a different
-   configured connection or server.  This requirement does not,
-   therefore, forbid the practice of putting servers with the same IP
-   address and port number but different protocols into a failover or
-   load-balancing pool.  In that situation, RADIUS requests MAY be sent
-   to another server that is known to be part of the same pool.
+   different protocol or connection proactively.  However, when a
+   connection fails, a RADIUS client MAY send packets associated with
+   that connection over a different configured connection or server.
+   This requirement does not, therefore, forbid the practice of putting
+   servers with the same IP address and port number but different
+   protocols into a failover or load-balancing pool.  In that situation,
+   RADIUS requests MAY be sent to another server that is known to be
+   part of the same pool.
 
 5.  RADIUS/DTLS-specific specifications
 
