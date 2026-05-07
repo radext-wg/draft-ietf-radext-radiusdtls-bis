@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-28T01:59:21.812527+00:00",
+  "timestamp": "2026-05-07T01:58:58.915952+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1778,16 +1778,24 @@
       "id": "I_kwDOLrzygc70ZNfu",
       "title": "Remove PMTUD from document",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/164",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "A DISCUSS from Gorry Fairhurst was that the text on PMTU-Discovery is not clear.\n\nIn the radext Session in IETF 125 the suggestion was to remove PMTUD from this document and move it to the proxy BCP document.",
       "createdAt": "2026-03-19T08:51:34Z",
-      "updatedAt": "2026-03-19T08:51:34Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-05-05T07:34:15Z",
+      "closedAt": "2026-05-05T07:34:15Z",
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed in a8b082d",
+          "createdAt": "2026-05-05T07:34:15Z",
+          "updatedAt": "2026-05-05T07:34:15Z"
+        }
+      ]
     },
     {
       "number": 165,
@@ -1799,9 +1807,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Some editorial comments from Mike Bishop are still open, I'll add those here to keep track:\n\n* [ ] Remove first person plural sentences (\"we recommend\")\n* [ ] Inclusive Language (`traditional`)\n  * Section 7.8 \"Many traditional clients treat RADIUS as subsystem-specific.\" I'm not sure with which word we can replace traditional\n* [ ] Section 3 \"for the handling of establishment of a (D)TLS connection\": Remove the \"handling of\"?\n",
+      "body": "Some editorial comments from Mike Bishop are still open, I'll add those here to keep track:\n\n* [x] Remove first person plural sentences (\"we recommend\")\n* [ ] Inclusive Language (`traditional`)\n  * Section 7.8 \"Many traditional clients treat RADIUS as subsystem-specific.\" I'm not sure with which word we can replace traditional\n* [x] Section 3 \"for the handling of establishment of a (D)TLS connection\": Remove the \"handling of\"?\n",
       "createdAt": "2026-03-19T16:23:46Z",
-      "updatedAt": "2026-03-19T16:23:46Z",
+      "updatedAt": "2026-05-05T07:48:10Z",
       "closedAt": null,
       "comments": []
     },
@@ -13499,24 +13507,26 @@
       "id": "PR_kwDOLrzygc7Qb8Ia",
       "title": "Appendix on congestion for Acct-Delay-Time/Event-Timestamp",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/166",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This tries to address Gorry's DISCUSS regarding Acct-Delay-Time by adding an explanation of how this can contribute to congestion.\r\n\r\nComments are welcome.\r\nI've removed \"congestive collapse\" for now and replaced it with \"congestion\", maybe in the appendix explanation we can also reference how this can lead to congestive collapse, if this scenario happens over already congested connections.",
       "createdAt": "2026-04-07T09:04:04Z",
-      "updatedAt": "2026-04-23T13:10:50Z",
+      "updatedAt": "2026-05-05T07:52:46Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "f30793ff4dddd85d56b4403aeab1e169022b9e28",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "adreview/congestion",
       "headRefOid": "536738d8265992150cd899e550f3a4ff4f14164d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-05T07:52:38Z",
+      "mergedAt": "2026-05-05T07:52:38Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "b367269c4eaff4660c0720e6731712280bc1826e"
+      },
       "comments": [
         {
           "author": "alandekok",
