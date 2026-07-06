@@ -759,8 +759,10 @@ This can impact or distort the accuracy of RADIUS attributes for timing which as
 Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations MAY choose to use the method described here, or another, equivalent method.
-When implementations do not use the 5-tuple described below, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
+Implementations MAY choose to use the method described here, using a 5-tuple per connection, or another, equivalent method.
+DTLS 1.3 provides Connection IDs, and an equivalent extension is available for DTLS 1.2 {{?RFC9146}}.
+When Connection IDs or any other tracking method are used for connection tracking, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
+This is to prevent circumventing IP address based restrictions, if a client opens the connection from the allowed IP address range, but then moves to another, untrusted network.
 
 {{RFC5080, Section 2.2.2}} already mandates a duplicate detection cache.
 The session tracking described below can be seen as an extension of that cache, where entries contain DTLS sessions instead of RADIUS/UDP packets.
