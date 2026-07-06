@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 6 November 2026                                       S. Winter
+Expires: 7 January 2027                                        S. Winter
                                                                  RESTENA
-                                                              5 May 2026
+                                                             6 July 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 November 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -1413,11 +1413,16 @@ Table of Contents
    RADIUS/DTLS may need to perform session management of the DTLS
    session in the application layer.  This subsection describes
    logically how this tracking is done.  Implementations MAY choose to
-   use the method described here, or another, equivalent method.  When
-   implementations do not use the 5-tuple described below, note that IP
-   address based policies MUST still be applied for all incoming
-   packets, similar to the mandated behavior for TLS Session Resumption
-   in Section 3.5.
+   use the method described here, using a 5-tuple per connection, or
+   another, equivalent method.  DTLS 1.3 provides Connection IDs, and an
+   equivalent extension is available for DTLS 1.2 [RFC9146].  When
+   Connection IDs or any other tracking method are used for connection
+   tracking, note that IP address based policies MUST still be applied
+   for all incoming packets, similar to the mandated behavior for TLS
+   Session Resumption in Section 3.5.  This is to prevent circumventing
+   IP address based restrictions, if a client opens the connection from
+   the allowed IP address range, but then moves to another, untrusted
+   network.
 
    [RFC5080], Section 2.2.2 already mandates a duplicate detection
    cache.  The session tracking described below can be seen as an
@@ -2029,9 +2034,9 @@ Table of Contents
 
    [I-D.dekok-protocol-error]
               DeKok, A., "Standardising Protocol-Error", Work in
-              Progress, Internet-Draft, draft-dekok-protocol-error-00,
-              24 June 2025, <https://datatracker.ietf.org/doc/html/
-              draft-dekok-protocol-error-00>.
+              Progress, Internet-Draft, draft-dekok-protocol-error-01, 3
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              dekok-protocol-error-01>.
 
    [I-D.ietf-tls-keylogfile]
               Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
@@ -2089,6 +2094,11 @@ Table of Contents
               and F. Gont, "IP Fragmentation Considered Fragile",
               BCP 230, RFC 8900, DOI 10.17487/RFC8900, September 2020,
               <https://www.rfc-editor.org/rfc/rfc8900>.
+
+   [RFC9146]  Rescorla, E., Ed., Tschofenig, H., Ed., Fossati, T., and
+              A. Kraus, "Connection Identifier for DTLS 1.2", RFC 9146,
+              DOI 10.17487/RFC9146, March 2022,
+              <https://www.rfc-editor.org/rfc/rfc9146>.
 
    [RFC9257]  Housley, R., Hoyland, J., Sethi, M., and C. A. Wood,
               "Guidance for External Pre-Shared Key (PSK) Usage in TLS",
