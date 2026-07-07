@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-02T02:13:41.088140+00:00",
+  "timestamp": "2026-07-07T02:05:26.300827+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13585,24 +13585,26 @@
       "id": "PR_kwDOLrzygc7s00Ke",
       "title": "Updated wording for connection IDs",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/171",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As requested from Mike Bishop in his [comments](https://mailarchive.ietf.org/arch/msg/radext/Yx27FPAVSaS6qEw6tFp_RlFf_qw)",
       "createdAt": "2026-07-01T19:10:16Z",
-      "updatedAt": "2026-07-01T19:10:16Z",
+      "updatedAt": "2026-07-06T16:24:40Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "b367269c4eaff4660c0720e6731712280bc1826e",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "iesg-review/cid",
       "headRefOid": "7bf59c4e805d96ddb64ba4ad7e00421a33a0b0e0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-06T16:24:40Z",
+      "mergedAt": "2026-07-06T16:24:40Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f"
+      },
       "comments": [],
       "reviews": []
     }
