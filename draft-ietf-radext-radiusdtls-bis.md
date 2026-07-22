@@ -222,7 +222,7 @@ RadSec clients MUST follow {{!RFC9525}} when validating RadSec server identities
 Specific details are provided below:
 
 * Certificates MAY include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.
-* RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:
+* RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match. If no acceptable identity is found, {{RFC9525, Section 6.6}} applies.
   * If the expected RadSec server is associated with a specific NAI realm, e.g., by dynamic discovery {{!RFC7585}} or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in {{RFC7585, Section 2.2}}.
   * If the expected RadSec server was configured as a hostname, or the hostname was yielded by a dynamic discovery procedure, that name is matched against the presented identifiers of any subjectAltName entry of type dNSName {{!RFC5280}}.  Since a dynamic discovery might by itself not be secured, implementations MAY require the use of DNSSEC {{?RFC4033}} to ensure the authenticity of the DNS result before considering this identity as valid.
   * If the expected RadSec server was configured as an IP address, the configured IP address is matched against the presented identifier in any subjectAltName entry of type iPAddress {{!RFC5280}}.
@@ -236,6 +236,7 @@ Specific details are provided below:
   * Some servers MAY be configured to accept a client coming from a range or set of IP addresses.  In this case, the server MUST verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server MUST match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Implementations MAY consider additional subjectAltName extensions to identify a client.
   * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} certification path validation, e.g., if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy extension {{RFC5280, Section 4.2.1.4}} unless both endpoints are part of a trusted network.
+  * If a RadSec server deems a client to be not acceptable, it MUST terminate the (D)TLS connection immediately. RADIUS/TLS servers MUST also close the TCP connection. RadSec servers SHOULD send the TLS alert access denied(49) (if supported by the (D)TLS implementation).
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g., a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using TLS-PSK (TLS-PSK)
@@ -373,6 +374,7 @@ Therefore, in addition to retransmission of RADIUS packets, RadSec clients also 
 
 Except in cases where a connection attempt with session resumption was closed by the RadSec server, RadSec clients MUST NOT immediately reconnect to a server after a failed connection attempt.
 A connection attempt is treated as failed if it fails at any point until a (D)TLS connection is established successfully.
+If the connection is closed without having received any valid packets from the peer, it is also treated as failed, and the reconnect timers MUST NOT be reset, if the connection lasted shorter than the current reconnect timer.
 Typical reconnections MUST have a lower bound for the time in between retries.
 The lower bound SHOULD be configurable, but MUST NOT be less than 0.5 seconds.
 In cases where the server closes the connection on an attempted TLS session resumption, the client MUST NOT use TLS session resumption for the following connection attempt.
@@ -877,7 +879,7 @@ Some TLS implementations offer cipher suites with NULL encryption, to allow insp
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in {{RFC9325, Section 4.1}}, this specification forbids the usage of NULL encryption cipher suites for RadSec.
 
-For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to {{?I-D.ietf-tls-keylogfile}}.
+For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to {{?RFC9850}}.
 
 ## Possibility of Denial-of-Service attacks
 
