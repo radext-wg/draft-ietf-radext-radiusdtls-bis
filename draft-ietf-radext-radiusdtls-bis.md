@@ -402,7 +402,7 @@ When a packet is retried, it goes through the usual RADIUS processing (e.g., all
 When a connection fails or is closed, a RadSec client SHOULD retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.
 In order to keep the timers consistent, the timers associated with a packet SHOULD NOT be changed when a packet is moved from one connection to another.
 At least the MRD timer SHOULD be preserved to prevent packets staying in the queue indefinitely due to regular connection closure.
-A RadSec client MUST associate a packet with exactly one connection until either the connection is closed, in which case the association moves to a new connection, or the timers reach MRC or MRD, in which case the packet is discarded.
+A RadSec client MUST associate a packet with exactly one connection until either the connection is closed, in which case the association may move to a new connection to a server in the same load-balancing/failover pool, or the timers reach MRC or MRD, in which case the packet is discarded.
 
 The requirements for actions from timers differ for RADIUS/TLS and RADIUS/DTLS.
 
@@ -537,11 +537,6 @@ If the ID changes, any security attributes such as Message-Authenticator MUST be
 
 Despite the above discussion, RADIUS/TLS servers SHOULD still perform duplicate detection on received packets, as described in {{RFC5080, Section 2.2.2}}.
 This detection can prevent duplicate processing of packets from non-conforming clients.
-
-RADIUS clients MUST NOT perform retries by sending a packet on a different protocol or connection proactively.
-However, when a connection fails, a RADIUS client MAY send packets associated with that connection over a different configured connection or server.
-This requirement does not, therefore, forbid the practice of putting servers with the same IP address and port number but different protocols into a failover or load-balancing pool.
-In that situation, RADIUS requests MAY be sent to another server that is known to be part of the same pool.
 
 # RADIUS/DTLS-specific specifications
 {: #dtls_spec }
