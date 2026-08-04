@@ -26,7 +26,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.1
+    platformdirs 4.11.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -1050,7 +1050,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 2 February 2027</td>
+<td class="center">Expires 5 February 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-01" class="published">1 August 2026</time>
+<time datetime="2026-08-04" class="published">4 August 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-02">2 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-02-05">5 February 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1820,17 +1820,19 @@ The following sections define the client behavior.<a href="#section-3.9-1" class
 Therefore, in addition to retransmission of RADIUS packets, RadSec clients also have to perform connection retries.<a href="#section-3.9.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.9.1-2">Except in cases where a connection attempt with session resumption was closed by the RadSec server, RadSec clients <span class="bcp14">MUST NOT</span> immediately reconnect to a server after a failed connection attempt.
 A connection attempt is treated as failed if it fails at any point until a (D)TLS connection is established successfully.
-If the connection is closed without having received any valid packets from the peer, it is also treated as failed, and the reconnect timers <span class="bcp14">MUST NOT</span> be reset, if the connection lasted shorter than the current reconnect timer.
-Typical reconnections <span class="bcp14">MUST</span> have a lower bound for the time in between retries.
+If the (D)TLS connection is established successfully, but closed without having received any valid packets from the server, it is also treated as failed, and the reconnect timers <span class="bcp14">MUST NOT</span> be reset.
+This can happen if additional authorization checks performed after the TLS handshake fail (e.g., because the TLS library only returns the relevant parameters when the connection is already established).
+In this case the server will not answer to any packets from the client, including Status-Server requests.<a href="#section-3.9.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-3">Typical reconnections <span class="bcp14">MUST</span> have a lower bound for the time in between retries.
 The lower bound <span class="bcp14">SHOULD</span> be configurable, but <span class="bcp14">MUST NOT</span> be less than 0.5 seconds.
-In cases where the server closes the connection on an attempted TLS session resumption, the client <span class="bcp14">MUST NOT</span> use TLS session resumption for the following connection attempt.<a href="#section-3.9.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-3">RadSec clients <span class="bcp14">MUST</span> implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
+In cases where the server closes the connection on an attempted TLS session resumption, the client <span class="bcp14">MUST NOT</span> use TLS session resumption for the following connection attempt.<a href="#section-3.9.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-4">RadSec clients <span class="bcp14">MUST</span> implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
 Using an algorithm similar to the retransmission algorithm defined in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span> is <span class="bcp14">RECOMMENDED</span>.
-If a different algorithm is used, it <span class="bcp14">SHOULD</span> include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.<a href="#section-3.9.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-4">When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt or reset the reconnection timer.
+If a different algorithm is used, it <span class="bcp14">SHOULD</span> include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.<a href="#section-3.9.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-5">When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt or reset the reconnection timer.
 Instead, the algorithm <span class="bcp14">SHOULD</span> continue as it would have without the new RADIUS packet.
-However, a client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting when a new RADIUS packet is queued.<a href="#section-3.9.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-5">Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm <span class="bcp14">SHOULD</span> have an upper limit for the time between retries (e.g., 60 seconds) and not give up trying to reconnect.<a href="#section-3.9.1-5" class="pilcrow">¶</a></p>
+However, a client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting when a new RADIUS packet is queued.<a href="#section-3.9.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-6">Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm <span class="bcp14">SHOULD</span> have an upper limit for the time between retries (e.g., 60 seconds) and not give up trying to reconnect.<a href="#section-3.9.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client_retransmission_timers">
