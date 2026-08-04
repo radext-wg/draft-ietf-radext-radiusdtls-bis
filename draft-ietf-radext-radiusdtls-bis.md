@@ -374,7 +374,10 @@ Therefore, in addition to retransmission of RADIUS packets, RadSec clients also 
 
 Except in cases where a connection attempt with session resumption was closed by the RadSec server, RadSec clients MUST NOT immediately reconnect to a server after a failed connection attempt.
 A connection attempt is treated as failed if it fails at any point until a (D)TLS connection is established successfully.
-If the connection is closed without having received any valid packets from the peer, it is also treated as failed, and the reconnect timers MUST NOT be reset, if the connection lasted shorter than the current reconnect timer.
+If the (D)TLS connection is established successfully, but closed without having received any valid packets from the server, it is also treated as failed, and the reconnect timers MUST NOT be reset.
+This can happen if additional authorization checks performed after the TLS handshake fail (e.g., because the TLS library only returns the relevant parameters when the connection is already established).
+In this case the server will not answer to any packets from the client, including Status-Server requests.
+
 Typical reconnections MUST have a lower bound for the time in between retries.
 The lower bound SHOULD be configurable, but MUST NOT be less than 0.5 seconds.
 In cases where the server closes the connection on an attempted TLS session resumption, the client MUST NOT use TLS session resumption for the following connection attempt.
