@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-02T01:49:32.872787+00:00",
+  "timestamp": "2026-08-06T01:40:41.999708+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13620,13 +13620,13 @@
       "labels": [],
       "body": "These changes come from Fabian's review of the draft.\r\n\r\nThe changes are:\r\n* Explicitly state that a connection attempt must be rejected if the peer certificate is not accepted. (or at least for the client, the operator needs to manually override this in order to connect, see RFC9525, Section 6.6)\r\n* Servers should send a TLS alert of access denied\r\n* A connection is treated as \"failed\" if it has not received valid packets within the reconnect window (e.g., closed immediately after the TLS handshake)\r\n* Remove paragraph about retries on different protocol/connection. (This most likely is an artifact from the old \"Server Identity\" discussion, I've clarified things more in the retransmit/retry section)\r\n\r\nIf there are no objections, I'll merge this PR and push a new draft version out after.",
       "createdAt": "2026-07-24T10:44:22Z",
-      "updatedAt": "2026-08-01T08:22:03Z",
+      "updatedAt": "2026-08-04T16:13:06Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "review/fabian",
-      "headRefOid": "88d8dee72ccafbaeca2fe7f272fdf7bd8b491ba8",
+      "headRefOid": "be6ca4f19ace960ce83fc20035af8a0299a7faf9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
