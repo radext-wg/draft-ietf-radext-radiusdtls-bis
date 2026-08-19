@@ -236,7 +236,7 @@ Specific details are provided below:
   * Some servers MAY be configured to accept a client coming from a range or set of IP addresses.  In this case, the server MUST verify that the client IP address of the current connection is a member of the range or set of IP addresses, and the server MUST match the client IP address of the current connection against the presented identifiers of any subjectAltName entry of type iPAddress {{!RFC5280}}.
   * Implementations MAY consider additional subjectAltName extensions to identify a client.
   * If configured by the administrator, the identity check MAY be omitted after a successful {{RFC5280}} certification path validation, e.g., if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization MUST then be validated using a certificate policy extension {{RFC5280, Section 4.2.1.4}} unless both endpoints are part of a trusted network.
-  * If a RadSec server deems a client to be not acceptable, it MUST terminate the (D)TLS connection immediately. RADIUS/TLS servers MUST also close the TCP connection. RadSec servers SHOULD send the TLS alert access denied(49) (if supported by the (D)TLS implementation).
+  * If a RadSec server deems a client to be not acceptable, it SHOULD terminate the (D)TLS connection immediately and close the TCP connection in case of RADIUS/TLS. RadSec servers SHOULD send the TLS alert access denied(49) (if supported by the (D)TLS implementation).
 * Implementations MAY allow configuration of a set of additional properties of the certificate to check for a peer's authorization to communicate (e.g., a set of allowed values presented in  subjectAltName entries of type uniformResourceIdentifier {{RFC5280}} or a set of allowed X.509v3 Certificate Policies).
 
 ### Authentication using TLS-PSK (TLS-PSK)
@@ -374,7 +374,8 @@ Therefore, in addition to retransmission of RADIUS packets, RadSec clients also 
 
 Except in cases where a connection attempt with session resumption was closed by the RadSec server, RadSec clients MUST NOT immediately reconnect to a server after a failed connection attempt.
 A connection attempt is treated as failed if it fails at any point until a (D)TLS connection is established successfully.
-If the (D)TLS connection is established successfully, but closed without having received any valid packets from the server, it is also treated as failed, and the reconnect timers MUST NOT be reset.
+If the (D)TLS connection is established successfully, but closed by the server without the client having received any valid packets, it is also treated as failed.
+Reconnect timers MUST NOT be reset if the connection lasted shorter than the current reconnect timer.
 This can happen if additional authorization checks performed after the TLS handshake fail (e.g., because the TLS library only returns the relevant parameters when the connection is already established).
 In this case the server will not answer to any packets from the client, including Status-Server requests.
 
