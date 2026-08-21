@@ -936,7 +936,8 @@ Table of Contents
    Packets with an invalid code indicate a misconfiguration problem, and
    not a security issue.  Response packets which do not match an
    outstanding requests, or were the Response Authenticator fails
-   validation are in fact seen during normal operations.
+   validation are part of normal network operation, and do not impact
+   security.
 
    When an Identifier is used to match a response to an outstanding
    request, there is a race condition which needs to be addressed.  A
@@ -946,11 +947,13 @@ Table of Contents
    request.  This timeout happens without any notification to the
    server.
 
-   When the client receives an "old" response, it will be unable to
-   validate it against the "new" request.  When this happens, the client
-   MUST silently discard the response, and MUST NOT close the
-   connection.  Network failures and slow servers are a normal part of
-   RADIUS operation.
+   Therefore, when the client receives an "old" response, it will be
+   unable to validate it against the "new" request.  When this happens,
+   the client MUST silently discard the response, and MUST NOT close the
+   connection.
+
+   The larger solution to the limited Identifier space of RADIUS is to
+   switch to using ALPN (Section 3.6 and [RFC9765]).
 
    Taken together these requirements reduce the possibility for a
    misbehaving client or server to wreak havoc on the network.

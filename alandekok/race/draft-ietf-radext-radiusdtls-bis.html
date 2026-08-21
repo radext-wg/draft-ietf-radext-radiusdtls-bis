@@ -1728,7 +1728,7 @@ The re-authorization <span class="bcp14">MUST</span> give the same result as if 
 If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client <span class="bcp14">MUST NOT</span> re-attempt session resumption but perform a full TLS handshake instead.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="application-layer-protocol-negotiation">
+<div id="alpn">
 <section id="section-3.6">
         <h3 id="name-application-layer-protocol-">
 <a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-application-layer-protocol-" class="section-name selfRef">Application-Layer Protocol Negotiation</a>
@@ -1949,10 +1949,11 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a (D)TLS clos
 </li>
         </ul>
 <p id="section-3.12-9">A packet can be silently discarded when doing so does not have security implications.<a href="#section-3.12-9" class="pilcrow">¶</a></p>
-<p id="section-3.12-10">Packets with an invalid code indicate a misconfiguration problem, and not a security issue.  Response packets which do not match an outstanding requests, or were the Response Authenticator fails validation are in fact seen during normal operations.<a href="#section-3.12-10" class="pilcrow">¶</a></p>
+<p id="section-3.12-10">Packets with an invalid code indicate a misconfiguration problem, and not a security issue.  Response packets which do not match an outstanding requests, or were the Response Authenticator fails validation are part of normal network operation, and do not impact security.<a href="#section-3.12-10" class="pilcrow">¶</a></p>
 <p id="section-3.12-11">When an Identifier is used to match a response to an outstanding request, there is a race condition which needs to be addressed.  A server may respond after a long period of time, either due to internal issues, or to network delays. During that time, the client may time out the request, and re-use the Identifier for a new request.  This timeout happens without any notification to the server.<a href="#section-3.12-11" class="pilcrow">¶</a></p>
-<p id="section-3.12-12">When the client receives an "old" response, it will be unable to validate it against the "new" request.  When this happens, the client <span class="bcp14">MUST</span> silently discard the response, and <span class="bcp14">MUST NOT</span> close the connection.  Network failures and slow servers are a normal part of RADIUS operation.<a href="#section-3.12-12" class="pilcrow">¶</a></p>
-<p id="section-3.12-13">Taken together these requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-3.12-13" class="pilcrow">¶</a></p>
+<p id="section-3.12-12">Therefore, when the client receives an "old" response, it will be unable to validate it against the "new" request.  When this happens, the client <span class="bcp14">MUST</span> silently discard the response, and <span class="bcp14">MUST NOT</span> close the connection.<a href="#section-3.12-12" class="pilcrow">¶</a></p>
+<p id="section-3.12-13">The larger solution to the limited Identifier space of RADIUS is to switch to using ALPN (<a href="#alpn" class="auto internal xref">Section 3.6</a> and <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span>).<a href="#section-3.12-13" class="pilcrow">¶</a></p>
+<p id="section-3.12-14">Taken together these requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-3.12-14" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cross-protocol-considerations">
