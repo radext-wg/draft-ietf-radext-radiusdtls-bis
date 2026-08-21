@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 7 January 2027                                        S. Winter
+Expires: 22 February 2027                                      S. Winter
                                                                  RESTENA
-                                                             6 July 2026
+                                                          21 August 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 22 February 2027.
 
 Copyright Notice
 
@@ -906,11 +906,15 @@ Table of Contents
    *  Packet where the Request Authenticator fails validation (where
       validation is required)
 
-   *  Packet where the Response Authenticator fails validation (where
-      validation is required)
-
    *  Packet where the Message-Authenticator attribute fails validation
       (when it occurs in a packet)
+
+   The connection needs to be closed in the above circumstances because
+   of security requirements.  if the application data is not radius,
+   there is no reason to keep the connection open.  If the application
+   data is RADIUS, but the shared secret is wrong, there is no way that
+   packets will be accepted by a server, and there is no reason to keep
+   the connection open.
 
    After applying the above rules, there are still situations where the
    previous specifications allow a packet to be "silently discarded"
@@ -921,10 +925,35 @@ Table of Contents
 
    *  Response packets that do not match any outstanding request
 
+   *  Packet where the Response Authenticator fails validation (where
+      validation is required)
+
    *  A server lacking the resources to process a request
 
-   These requirements reduce the possibility for a misbehaving client or
-   server to wreak havoc on the network.
+   A packet can be silently discarded when doing so does not have
+   security implications.
+
+   Packets with an invalid code indicate a misconfiguration problem, and
+   not a security issue.  Response packets which do not match an
+   outstanding requests, or were the Response Authenticator fails
+   validation are in fact seen during normal operations.
+
+   When an Identifier is used to match a response to an outstanding
+   request, there is a race condition which needs to be addressed.  A
+   server may respond after a long period of time, either due to
+   internal issues, or to network delays.  During that time, the client
+   may time out the request, and re-use the Identifier for a new
+   request.  This timeout happens without any notification to the
+   server.
+
+   When the client receives an "old" response, it will be unable to
+   validate it against the "new" request.  When this happens, the client
+   MUST silently discard the response, and MUST NOT close the
+   connection.  Network failures and slow servers are a normal part of
+   RADIUS operation.
+
+   Taken together these requirements reduce the possibility for a
+   misbehaving client or server to wreak havoc on the network.
 
 3.13.  Cross Protocol Considerations
 
@@ -2048,9 +2077,9 @@ Table of Contents
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
               AEAD Algorithms", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-aead-limits-11, 4 December 2025,
+              irtf-cfrg-aead-limits-12, 7 August 2026,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              aead-limits-11>.
+              aead-limits-12>.
 
    [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
               DOI 10.17487/RFC1321, April 1992,
