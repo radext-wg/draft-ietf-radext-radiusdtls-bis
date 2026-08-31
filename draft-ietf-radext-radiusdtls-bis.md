@@ -800,9 +800,10 @@ Servers MUST limit both the number and impact on resources of partial sessions.
 
 Sessions (both 5-tuple and entry) MUST be deleted when the DTLS session is closed for any reason.
 When a session is deleted due to it failing security requirements, the DTLS session MUST be closed, any TLS session resumption parameters for that session MUST be discarded, and all tracking information MUST be deleted.
-
 Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server MUST keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
+For DTLS 1.3, if an epoch-0 ClientHello is received for a 5-tuple associated with an existing DTLS session, the server SHOULD follow the procedure in {{!RFC9147, Section 5.11}}. The existing session MUST NOT be discarded until reachability of the peer has been established.
+
 Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.
 
 As a result, servers MUST ignore any attempts to reuse an existing 5-tuple from an active session.
