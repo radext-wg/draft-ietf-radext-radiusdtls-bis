@@ -65,7 +65,7 @@ This document obsoletes RFC6614 and RFC7360, which specified experimental versio
 
 # Introduction
 
-This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) {{!RFC8446}} {{!RFC5246}} over TCP, and Datagram Transport Layer Security (DTLS) {{!RFC9147}} {{!RFC6347}} over UDP, allowing secure and reliable transport of RADIUS messages.
+This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) {{!RFC8446}} {{!RFC5246}} over TCP, and Datagram Transport Layer Security (DTLS) {{!RFC9147}} {{!RFC6347}} over UDP, allowing secure and (in case of TLS) reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.  This document obsoletes {{?RFC6614}} and {{?RFC7360}}, which specified experimental versions of RADIUS over TLS and DTLS.
 
 RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in {{!RFC2865}}, {{!RFC2866}}, and {{!RFC5176}}, among others.
@@ -195,7 +195,7 @@ RADIUS/(D)TLS allows for the following modes of mutual authentication, which wil
 * TLS-PSK
 
 Independent of the chosen mode of authentication, the mutual authentication MUST be performed during the initial handshake.
-Alternative methods, such as post-handshake certificate-based client authentication (see {{RFC8446, Section 4.6.2}}) with TLS 1.3 or renegotiation with TLS 1.2, MUST NOT be used to achieve mutual authentication.
+Alternative methods, such as post-handshake certificate-based client authentication (see {{RFC8446, Section 4.6.2}}) with (D)TLS 1.3 or renegotiation with (D)TLS 1.2, MUST NOT be used to achieve mutual authentication.
 
 ### Authentication using X.509 certificates with PKIX trust model (TLS-X.509-PKIX)
 {: #tlsx509pkix }
@@ -209,7 +209,7 @@ If implemented, the following rules apply:
 * Certificate validation MUST include the verification rules as per {{!RFC5280}}.
 * Implementations MAY indicate their trust anchors when opening or accepting TLS connections.
   See {{!RFC5246, Section 7.4.4}} and {{!RFC6066, Section 6}} for TLS 1.2 and {{!RFC8446, Section 4.2.4}} for TLS 1.3.
-* When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations MUST reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.
+* When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations MUST reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly (for (D)TLS 1.2) or by opening a new (D)TLS connection and closing the old one.
 * Implementations SHOULD NOT keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection SHOULD be closed and then possibly re-opened with updated credentials.
 
 RadSec endpoints SHOULD NOT be preconfigured with a set of trusted CAs by the vendor or manufacturer that are enabled by default.
@@ -551,6 +551,7 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 
 The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
+A RadSec endpoint therefore MUST NOT advertise a record_size_limit {{RFC8449}} lower than 4096 bytes.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
 For details about issues with fragmentation see {{?RFC8900}}.
@@ -759,8 +760,7 @@ This can impact or distort the accuracy of RADIUS attributes for timing which as
 Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations MAY choose to use the method described here, using a 5-tuple per connection, or another, equivalent method.
-DTLS 1.3 provides Connection IDs, and an equivalent extension is available for DTLS 1.2 {{?RFC9146}}.
+Implementations MAY choose to use the method described here, using a 5-tuple per connection, or another, equivalent method, e.g. the Connection Identifier extension {{?RFC9146}}.
 When Connection IDs or any other tracking method are used for connection tracking, note that IP address based policies MUST still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in {{tls_session_resumption}}.
 This is to prevent circumventing IP address based restrictions, if a client opens the connection from the allowed IP address range, but then moves to another, untrusted network.
 
