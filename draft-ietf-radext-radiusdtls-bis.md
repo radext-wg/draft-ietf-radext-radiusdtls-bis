@@ -551,7 +551,7 @@ This section discusses all specifications that are only relevant for RADIUS/DTLS
 
 The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations MUST support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
-A RadSec endpoint therefore MUST NOT advertise a record_size_limit {{RFC8449}} lower than 4096 bytes.
+A RadSec endpoint therefore MUST NOT advertise a record_size_limit {{?RFC8449}} lower than 4096 bytes.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
 For details about issues with fragmentation see {{?RFC8900}}.
