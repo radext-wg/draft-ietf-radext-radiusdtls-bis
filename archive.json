@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-23T00:41:38.577480+00:00",
+  "timestamp": "2026-09-06T01:55:55.001676+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13684,6 +13684,40 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 175,
+      "id": "PR_kwDOLrzygc8AAAABCN55Ag",
+      "title": "DTLS1.3 fixes/updates",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/175",
+      "state": "OPEN",
+      "author": "fmauchle",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Some DTLS1.3 related fixes and updates as discussed on the list.",
+      "createdAt": "2026-09-04T14:58:16Z",
+      "updatedAt": "2026-09-04T15:59:09Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
+      "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fmauchle-dtls13-fixes",
+      "headRefOid": "1bdbe609837d2bc4dbd07788e63e4f57ddd8fa27",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 from me",
+          "createdAt": "2026-09-04T15:59:09Z",
+          "updatedAt": "2026-09-04T15:59:09Z"
+        }
+      ],
       "reviews": []
     }
   ]
