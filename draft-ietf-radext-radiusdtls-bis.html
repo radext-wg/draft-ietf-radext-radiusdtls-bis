@@ -19,18 +19,18 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
 <meta content="draft-ietf-radext-radiusdtls-bis-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
-    Python 3.14.5
+    Python 3.14.7
     ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.0
+    platformdirs 4.11.7
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.2
+    wcwidth 0.8.3
 -->
 <link href="draft-ietf-radext-radiusdtls-bis.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -66,7 +66,6 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -115,7 +114,6 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -180,7 +178,6 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1049,11 +1046,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RadSec: RADIUS over TLS and DTLS</td>
-<td class="right">July 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 7 January 2027</td>
+<td class="center">Expires 10 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1066,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-06" class="published">6 July 2026</time>
+<time datetime="2026-09-06" class="published">6 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-10">10 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1132,7 +1129,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1390,7 +1387,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> over UDP, allowing secure and reliable transport of RADIUS messages.
+<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> over UDP, allowing secure and (in case of TLS) reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.  This document obsoletes <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span>, which specified experimental versions of RADIUS over TLS and DTLS.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span>, and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>, among others.
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
@@ -1593,7 +1590,7 @@ Allowing anonymous clients would ensure privacy for RadSec traffic, but would ne
 </li>
         </ul>
 <p id="section-3.3-4">Independent of the chosen mode of authentication, the mutual authentication <span class="bcp14">MUST</span> be performed during the initial handshake.
-Alternative methods, such as post-handshake certificate-based client authentication (see <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.6.2" class="relref">Section 4.6.2</a></span>) with TLS 1.3 or renegotiation with TLS 1.2, <span class="bcp14">MUST NOT</span> be used to achieve mutual authentication.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+Alternative methods, such as post-handshake certificate-based client authentication (see <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.6.2" class="relref">Section 4.6.2</a></span>) with (D)TLS 1.3 or renegotiation with (D)TLS 1.2, <span class="bcp14">MUST NOT</span> be used to achieve mutual authentication.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 <div id="tlsx509pkix">
 <section id="section-3.3.1">
           <h4 id="name-authentication-using-x509-c">
@@ -1614,7 +1611,7 @@ RadSec client implementations <span class="bcp14">SHOULD</span> implement this m
 See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.4.4" class="relref">Section 7.4.4</a></span> and <span>[<a href="#RFC6066" class="cite xref">RFC6066</a>], <a href="https://rfc-editor.org/rfc/rfc6066#section-6" class="relref">Section 6</a></span> for TLS 1.2 and <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.2.4" class="relref">Section 4.2.4</a></span> for TLS 1.3.<a href="#section-3.3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.4">
-              <p id="section-3.3.1-3.4.1">When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations <span class="bcp14">MUST</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-3.4.1">When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations <span class="bcp14">MUST</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly (for (D)TLS 1.2) or by opening a new (D)TLS connection and closing the old one.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.5">
               <p id="section-3.3.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and then possibly re-opened with updated credentials.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
@@ -2035,6 +2032,7 @@ In that situation, RADIUS requests <span class="bcp14">MAY</span> be sent to ano
         </h3>
 <p id="section-5.1-1">The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations <span class="bcp14">MUST</span> support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
+A RadSec endpoint therefore <span class="bcp14">MUST NOT</span> advertise a record_size_limit <span>[<a href="#RFC8449" class="cite xref">RFC8449</a>]</span> lower than 4096 bytes.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
 For details about issues with fragmentation see <span>[<a href="#RFC8900" class="cite xref">RFC8900</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
@@ -2311,8 +2309,7 @@ This can impact or distort the accuracy of RADIUS attributes for timing which as
 <p id="section-6.5-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations <span class="bcp14">MAY</span> choose to use the method described here, using a 5-tuple per connection, or another, equivalent method.
-DTLS 1.3 provides Connection IDs, and an equivalent extension is available for DTLS 1.2 <span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span>.
+Implementations <span class="bcp14">MAY</span> choose to use the method described here, using a 5-tuple per connection, or another, equivalent method, e.g. the Connection Identifier extension <span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span>.
 When Connection IDs or any other tracking method are used for connection tracking, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.
 This is to prevent circumventing IP address based restrictions, if a client opens the connection from the allowed IP address range, but then moves to another, untrusted network.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 <p id="section-6.5-2"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span> already mandates a duplicate detection cache.
@@ -2371,10 +2368,11 @@ DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHel
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
 Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.5.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.5.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
-When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.5.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.5.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
+When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.
+Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server <span class="bcp14">MUST</span> keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.5.1.1-3" class="pilcrow">¶</a></p>
+For DTLS 1.3, if an epoch-0 ClientHello is received for a 5-tuple associated with an existing DTLS session, the server <span class="bcp14">SHOULD</span> follow the procedure in <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>], <a href="https://rfc-editor.org/rfc/rfc9147#section-5.11" class="relref">Section 5.11</a></span>. The existing session <span class="bcp14">MUST NOT</span> be discarded until reachability of the peer has been established.<a href="#section-6.5.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.5.1.1-3">Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.5.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.5.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
 This requirement can generally be reached by simply processing the packet through the existing DTLS session, as with any other packet received via that 5-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.5.1.1-4" class="pilcrow">¶</a></p>
@@ -2810,7 +2808,7 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-aead-limits">[I-D.irtf-cfrg-aead-limits]</dt>
         <dd>
-<span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-11</span>, <time datetime="2025-12-04" class="refDate">4 December 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-11">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-13</span>, <time datetime="2026-09-03" class="refDate">3 September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1321">[RFC1321]</dt>
         <dd>
@@ -2843,6 +2841,10 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 <dt id="RFC7360">[RFC7360]</dt>
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) as a Transport Layer for RADIUS"</span>, <span class="seriesInfo">RFC 7360</span>, <span class="seriesInfo">DOI 10.17487/RFC7360</span>, <time datetime="2014-09" class="refDate">September 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7360">https://www.rfc-editor.org/rfc/rfc7360</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8449">[RFC8449]</dt>
+        <dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Record Size Limit Extension for TLS"</span>, <span class="seriesInfo">RFC 8449</span>, <span class="seriesInfo">DOI 10.17487/RFC8449</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8449">https://www.rfc-editor.org/rfc/rfc8449</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8900">[RFC8900]</dt>
         <dd>

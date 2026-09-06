@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 7 January 2027                                        S. Winter
+Expires: 10 March 2027                                         S. Winter
                                                                  RESTENA
-                                                             6 July 2026
+                                                        6 September 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 10 March 2027.
 
 Copyright Notice
 
@@ -148,10 +148,11 @@ Table of Contents
    This document defines transport profiles for running RADIUS over
    Transport Layer Security (TLS) [RFC8446] [RFC5246] over TCP, and
    Datagram Transport Layer Security (DTLS) [RFC9147] [RFC6347] over
-   UDP, allowing secure and reliable transport of RADIUS messages.
-   RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.
-   This document obsoletes [RFC6614] and [RFC7360], which specified
-   experimental versions of RADIUS over TLS and DTLS.
+   UDP, allowing secure and (in case of TLS) reliable transport of
+   RADIUS messages.  RADIUS/TLS and RADIUS/DTLS are collectively
+   referred to as RadSec.  This document obsoletes [RFC6614] and
+   [RFC7360], which specified experimental versions of RADIUS over TLS
+   and DTLS.
 
    RADIUS is a widely deployed Authentication, Authorization and
    Accounting (AAA) protocol defined in [RFC2865], [RFC2866], and
@@ -319,8 +320,8 @@ Table of Contents
    Independent of the chosen mode of authentication, the mutual
    authentication MUST be performed during the initial handshake.
    Alternative methods, such as post-handshake certificate-based client
-   authentication (see [RFC8446], Section 4.6.2) with TLS 1.3 or
-   renegotiation with TLS 1.2, MUST NOT be used to achieve mutual
+   authentication (see [RFC8446], Section 4.6.2) with (D)TLS 1.3 or
+   renegotiation with (D)TLS 1.2, MUST NOT be used to achieve mutual
    authentication.
 
 3.3.1.  Authentication using X.509 certificates with PKIX trust model
@@ -351,8 +352,9 @@ Table of Contents
       certificate path of all connected peers.  This can either be done
       by caching the peer's certificate for the duration of the
       connection and re-evaluating the cached certificate or by
-      renegotiating the (D)TLS connection, either directly or by opening
-      a new (D)TLS connection and closing the old one.
+      renegotiating the (D)TLS connection, either directly (for (D)TLS
+      1.2) or by opening a new (D)TLS connection and closing the old
+      one.
 
    *  Implementations SHOULD NOT keep a connection open beyond the
       validity period of the peer certificate.  At the time the peer
@@ -1045,11 +1047,13 @@ Table of Contents
    The DTLS encryption adds an overhead to each packet sent.  RADIUS/
    DTLS implementations MUST support sending and receiving RADIUS
    packets of 4096 bytes in length, with a corresponding increase in the
-   maximum size of the encapsulated DTLS packets.  This larger packet
-   size may cause the UDP packet to be larger than the Path MTU (PMTU),
-   which causes the packet to be fragmented.  Implementers and operators
-   should be aware of the possibility of fragmented UDP packets.  For
-   details about issues with fragmentation see [RFC8900].
+   maximum size of the encapsulated DTLS packets.  A RadSec endpoint
+   therefore MUST NOT advertise a record_size_limit [RFC8449] lower than
+   4096 bytes.  This larger packet size may cause the UDP packet to be
+   larger than the Path MTU (PMTU), which causes the packet to be
+   fragmented.  Implementers and operators should be aware of the
+   possibility of fragmented UDP packets.  For details about issues with
+   fragmentation see [RFC8900].
 
    RADIUS/DTLS endpoints MUST send exactly one RADIUS packet per DTLS
    record.  This ensures that the RADIUS packets do not get fragmented
@@ -1414,15 +1418,14 @@ Table of Contents
    session in the application layer.  This subsection describes
    logically how this tracking is done.  Implementations MAY choose to
    use the method described here, using a 5-tuple per connection, or
-   another, equivalent method.  DTLS 1.3 provides Connection IDs, and an
-   equivalent extension is available for DTLS 1.2 [RFC9146].  When
-   Connection IDs or any other tracking method are used for connection
-   tracking, note that IP address based policies MUST still be applied
-   for all incoming packets, similar to the mandated behavior for TLS
-   Session Resumption in Section 3.5.  This is to prevent circumventing
-   IP address based restrictions, if a client opens the connection from
-   the allowed IP address range, but then moves to another, untrusted
-   network.
+   another, equivalent method, e.g. the Connection Identifier extension
+   [RFC9146].  When Connection IDs or any other tracking method are used
+   for connection tracking, note that IP address based policies MUST
+   still be applied for all incoming packets, similar to the mandated
+   behavior for TLS Session Resumption in Section 3.5.  This is to
+   prevent circumventing IP address based restrictions, if a client
+   opens the connection from the allowed IP address range, but then
+   moves to another, untrusted network.
 
    [RFC5080], Section 2.2.2 already mandates a duplicate detection
    cache.  The session tracking described below can be seen as an
@@ -1477,17 +1480,21 @@ Table of Contents
    session is closed for any reason.  When a session is deleted due to
    it failing security requirements, the DTLS session MUST be closed,
    any TLS session resumption parameters for that session MUST be
-   discarded, and all tracking information MUST be deleted.
+   discarded, and all tracking information MUST be deleted.  Since UDP
+   is stateless, the potential exists for the client to initiate a new
+   DTLS session using a particular 5-tuple, before the server has closed
+   the old session.  For security reasons, the server MUST keep the old
+   session active until either it has received secure notification from
+   the client that the session is closed or the server decides to close
+   the session based on idle timeouts.  For DTLS 1.3, if an epoch-0
+   ClientHello is received for a 5-tuple associated with an existing
+   DTLS session, the server SHOULD follow the procedure in [RFC9147],
+   Section 5.11.  The existing session MUST NOT be discarded until
+   reachability of the peer has been established.
 
-   Since UDP is stateless, the potential exists for the client to
-   initiate a new DTLS session using a particular 5-tuple, before the
-   server has closed the old session.  For security reasons, the server
-   MUST keep the old session active until either it has received secure
-   notification from the client that the session is closed or the server
-   decides to close the session based on idle timeouts.  Taking any
-   other action would permit unauthenticated clients to perform a DoS
-   attack, by reusing a 5-tuple and thus causing the server to close an
-   active (and authenticated) DTLS session.
+   Taking any other action would permit unauthenticated clients to
+   perform a DoS attack, by reusing a 5-tuple and thus causing the
+   server to close an active (and authenticated) DTLS session.
 
    As a result, servers MUST ignore any attempts to reuse an existing
    5-tuple from an active session.  This requirement can generally be
@@ -2048,9 +2055,9 @@ Table of Contents
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
               AEAD Algorithms", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-aead-limits-11, 4 December 2025,
+              irtf-cfrg-aead-limits-13, 3 September 2026,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              aead-limits-11>.
+              aead-limits-13>.
 
    [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
               DOI 10.17487/RFC1321, April 1992,
@@ -2089,6 +2096,10 @@ Table of Contents
               Transport Layer for RADIUS", RFC 7360,
               DOI 10.17487/RFC7360, September 2014,
               <https://www.rfc-editor.org/rfc/rfc7360>.
+
+   [RFC8449]  Thomson, M., "Record Size Limit Extension for TLS",
+              RFC 8449, DOI 10.17487/RFC8449, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8449>.
 
    [RFC8900]  Bonica, R., Baker, F., Huston, G., Hinden, R., Troan, O.,
               and F. Gont, "IP Fragmentation Considered Fragile",
