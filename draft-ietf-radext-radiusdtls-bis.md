@@ -290,6 +290,7 @@ If cached data cannot be retrieved securely, resumption MUST NOT be done, by eit
 If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client MUST NOT re-attempt session resumption but perform a full TLS handshake instead.
 
 ## Application-Layer Protocol Negotiation
+{:#alpn}
 
 RadSec clients SHOULD use Application-Layer Protocol Negotiation (ALPN) to signal RadSec support.  The ALPN name assigned to RadSec is "radius/1.0".  Clients implementing ALPN for RadSec MUST use that name.
 
@@ -474,16 +475,28 @@ That is, the implementation SHOULD send a (D)TLS close notification and, in the 
 * Packet where an Attribute `Length` field has the value of zero or one (0 or 1)
 * Packet where the attributes do not exactly fill the packet
 * Packet where the Request Authenticator fails validation (where validation is required)
-* Packet where the Response Authenticator fails validation (where validation is required)
 * Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet)
+
+The connection needs to be closed in the above circumstances because of security requirements.  if the application data is not radius, there is no reason to keep the connection open.  If the application data is RADIUS, but the shared secret is wrong, there is no way that packets will be accepted by a server, and there is no reason to keep the connection open.
 
 After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which it is reasonable that a connection MAY remain open:
 
 * Packet with an invalid code field (see {{radius_packets}} for details)
 * Response packets that do not match any outstanding request
+* Packet where the Response Authenticator fails validation (where validation is required)
 * A server lacking the resources to process a request
 
-These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
+A packet can be silently discarded when doing so does not have security implications.
+
+Packets with an invalid code indicate a misconfiguration problem, and not a security issue.  Response packets which do not match an outstanding requests, or were the Response Authenticator fails validation are part of normal network operation, and do not impact security.
+
+When an Identifier is used to match a response to an outstanding request, there is a race condition which needs to be addressed.  A server may respond after a long period of time, either due to internal issues, or to network delays. During that time, the client may time out the request, and re-use the Identifier for a new request.  This timeout happens without any notification to the server.
+
+Therefore, when the client receives an "old" response, it will be unable to validate it against the "new" request.  When this happens, the client MUST silently discard the response, and MUST NOT close the connection.
+
+The larger solution to the limited Identifier space of RADIUS is to switch to using ALPN ({{alpn}} and {{?RFC9765}}).
+
+Taken together these requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
 ## Cross Protocol Considerations
 
