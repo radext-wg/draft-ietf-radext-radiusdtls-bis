@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-06T01:55:55.001676+00:00",
+  "timestamp": "2026-09-08T02:04:09.736656+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13672,7 +13672,7 @@
       "labels": [],
       "body": "Move a line from \"must close connection\" to \"silently discard packets\"\r\n\r\nAs discussed in https://mailarchive.ietf.org/arch/msg/radext/klBXadgO9MtX9IY-LFdlxyubICo/\r\n\r\n",
       "createdAt": "2026-08-21T14:01:20Z",
-      "updatedAt": "2026-08-21T14:25:51Z",
+      "updatedAt": "2026-09-06T16:14:43Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
@@ -13683,32 +13683,83 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "One comment without reference:\r\n* [ ] This change should be documented in the \"changes from 6614/7360\" section.",
+          "createdAt": "2026-09-06T16:14:43Z",
+          "updatedAt": "2026-09-06T16:14:43Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc8AAAABMYby3Q",
+          "commit": {
+            "abbreviatedOid": "0c890de"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-06T16:10:37Z",
+          "updatedAt": "2026-09-06T16:10:37Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\nThe connection needs to be closed in the above circumstances because of security requirements.\nIf the application data is not RADIUS, there is no reason to keep the connection open.\nIf the application data is RADIUS, but the shared secret is wrong, there is no way that packets will be accepted by a server, and there is no reason to keep the connection open.\n```",
+              "createdAt": "2026-09-06T16:10:37Z",
+              "updatedAt": "2026-09-06T16:10:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABMYcbqg",
+          "commit": {
+            "abbreviatedOid": "0c890de"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-06T16:13:46Z",
+          "updatedAt": "2026-09-06T16:13:46Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "We already have the reference to RFC9765 in the introduction, I don't think we need to reference it in this section too, it does not have any effect for this RadSec spec, it feels more like a \"look over there, this is better\"",
+              "createdAt": "2026-09-06T16:13:46Z",
+              "updatedAt": "2026-09-06T16:13:46Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 175,
       "id": "PR_kwDOLrzygc8AAAABCN55Ag",
       "title": "DTLS1.3 fixes/updates",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/175",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Some DTLS1.3 related fixes and updates as discussed on the list.",
       "createdAt": "2026-09-04T14:58:16Z",
-      "updatedAt": "2026-09-04T15:59:09Z",
+      "updatedAt": "2026-09-06T15:55:11Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-dtls13-fixes",
-      "headRefOid": "1bdbe609837d2bc4dbd07788e63e4f57ddd8fa27",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "aba3669c6fcc4110dd79b70ac9d6c1ab86cd5c1c",
+      "closedAt": "2026-09-06T15:55:11Z",
+      "mergedAt": "2026-09-06T15:55:11Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "9c9e2ea42946dbcd25736723adbf50c01900a481"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -13718,7 +13769,28 @@
           "updatedAt": "2026-09-04T15:59:09Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc8AAAABMYZMww",
+          "commit": {
+            "abbreviatedOid": "1bdbe60"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-06T15:51:56Z",
+          "updatedAt": "2026-09-06T15:51:56Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\nA RadSec endpoint therefore MUST NOT advertise a record_size_limit {{?RFC8449}} lower than 4096 bytes.\n```\n\n(specify as informational reference)",
+              "createdAt": "2026-09-06T15:51:56Z",
+              "updatedAt": "2026-09-06T15:51:56Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
