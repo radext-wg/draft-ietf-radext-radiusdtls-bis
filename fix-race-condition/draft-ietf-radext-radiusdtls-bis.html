@@ -13,24 +13,24 @@
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec. 
        This document obsoletes RFC6614 and RFC7360, which specified experimental versions of RADIUS over TLS and DTLS. 
     " name="description">
-<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="xml2rfc 3.34.1" name="generator">
 <meta content="RADIUS" name="keyword">
 <meta content="TLS" name="keyword">
 <meta content="draft-ietf-radext-radiusdtls-bis-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.0
+  xml2rfc 3.34.1
     Python 3.14.7
-    ConfigArgParse 1.7.5
+    ConfigArgParse 1.7.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.3
+    platformdirs 4.11.10
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.2
+    wcwidth 0.8.4
 -->
 <link href="draft-ietf-radext-radiusdtls-bis.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1046,11 +1046,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RadSec: RADIUS over TLS and DTLS</td>
-<td class="right">August 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rieckers, et al.</td>
-<td class="center">Expires 22 February 2027</td>
+<td class="center">Expires 25 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc6614" class="eref">6614</a>, <a href="https://www.rfc-editor.org/rfc/rfc7360" class="eref">7360</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-21" class="published">21 August 2026</time>
+<time datetime="2026-09-21" class="published">21 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-22">22 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-25">25 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1365,18 +1365,23 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-changes-from-rfc6614-radius" class="internal xref">Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-race-condition-in-request-a" class="internal xref">Race-condition in Request Authenticator Validation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-rationale-for-event-timesta" class="internal xref">Rationale for Event-Timestamp vs. Acct-Delay-Time</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-rationale-for-event-timesta" class="internal xref">Rationale for Event-Timestamp vs. Acct-Delay-Time</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-notes-to-rfc-editor" class="internal xref">Notes to RFC Editor</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-notes-to-rfc-editor" class="internal xref">Notes to RFC Editor</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1387,7 +1392,7 @@ RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.<a href="#sect
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> over UDP, allowing secure and reliable transport of RADIUS messages.
+<p id="section-1-1">This document defines transport profiles for running RADIUS over Transport Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over TCP, and Datagram Transport Layer Security (DTLS) <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> <span>[<a href="#RFC6347" class="cite xref">RFC6347</a>]</span> over UDP, allowing secure and (in case of TLS) reliable transport of RADIUS messages.
 RADIUS/TLS and RADIUS/DTLS are collectively referred to as RadSec.  This document obsoletes <span>[<a href="#RFC6614" class="cite xref">RFC6614</a>]</span> and <span>[<a href="#RFC7360" class="cite xref">RFC7360</a>]</span>, which specified experimental versions of RADIUS over TLS and DTLS.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">RADIUS is a widely deployed Authentication, Authorization and Accounting (AAA) protocol defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, <span>[<a href="#RFC2866" class="cite xref">RFC2866</a>]</span>, and <span>[<a href="#RFC5176" class="cite xref">RFC5176</a>]</span>, among others.
 Deployment experience has shown several shortcomings, such as dependency on the unreliable transport protocol, UDP, and a lack of confidentiality for large parts of RADIUS messages.
@@ -1590,7 +1595,7 @@ Allowing anonymous clients would ensure privacy for RadSec traffic, but would ne
 </li>
         </ul>
 <p id="section-3.3-4">Independent of the chosen mode of authentication, the mutual authentication <span class="bcp14">MUST</span> be performed during the initial handshake.
-Alternative methods, such as post-handshake certificate-based client authentication (see <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.6.2" class="relref">Section 4.6.2</a></span>) with TLS 1.3 or renegotiation with TLS 1.2, <span class="bcp14">MUST NOT</span> be used to achieve mutual authentication.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+Alternative methods, such as post-handshake certificate-based client authentication (see <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.6.2" class="relref">Section 4.6.2</a></span>) with (D)TLS 1.3 or renegotiation with (D)TLS 1.2, <span class="bcp14">MUST NOT</span> be used to achieve mutual authentication.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 <div id="tlsx509pkix">
 <section id="section-3.3.1">
           <h4 id="name-authentication-using-x509-c">
@@ -1611,7 +1616,7 @@ RadSec client implementations <span class="bcp14">SHOULD</span> implement this m
 See <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>], <a href="https://rfc-editor.org/rfc/rfc5246#section-7.4.4" class="relref">Section 7.4.4</a></span> and <span>[<a href="#RFC6066" class="cite xref">RFC6066</a>], <a href="https://rfc-editor.org/rfc/rfc6066#section-6" class="relref">Section 6</a></span> for TLS 1.2 and <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-4.2.4" class="relref">Section 4.2.4</a></span> for TLS 1.3.<a href="#section-3.3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.4">
-              <p id="section-3.3.1-3.4.1">When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations <span class="bcp14">MUST</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly or by opening a new (D)TLS connection and closing the old one.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-3.4.1">When the configured set of trusted CAs changes or updated revocation information becomes available (e.g., fetching of a new CRL), implementations <span class="bcp14">MUST</span> reassess the continued validity of the certificate path of all connected peers.  This can either be done by caching the peer's certificate for the duration of the connection and re-evaluating the cached certificate or by renegotiating the (D)TLS connection, either directly (for (D)TLS 1.2) or by opening a new (D)TLS connection and closing the old one.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.5">
               <p id="section-3.3.1-3.5.1">Implementations <span class="bcp14">SHOULD NOT</span> keep a connection open beyond the validity period of the peer certificate.  At the time the peer certificate expires, the connection <span class="bcp14">SHOULD</span> be closed and then possibly re-opened with updated credentials.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
@@ -1728,7 +1733,7 @@ The re-authorization <span class="bcp14">MUST</span> give the same result as if 
 If a connection that used session resumption is closed by the server before the resumed DTLS session can be established, the RadSec client <span class="bcp14">MUST NOT</span> re-attempt session resumption but perform a full TLS handshake instead.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="alpn">
+<div id="application-layer-protocol-negotiation">
 <section id="section-3.6">
         <h3 id="name-application-layer-protocol-">
 <a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-application-layer-protocol-" class="section-name selfRef">Application-Layer Protocol Negotiation</a>
@@ -1907,53 +1912,61 @@ This action has no further consequences for UDP based transports, as the "next" 
 As a result the behavior with respect to discarded packets has to change, since a malformed RADIUS packet could impact the decoding of succeeding packets.<a href="#section-3.12-2" class="pilcrow">¶</a></p>
 <p id="section-3.12-3">With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records (see <a href="#radius_packet_handling" class="auto internal xref">Section 5.1</a>).
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.<a href="#section-3.12-3" class="pilcrow">¶</a></p>
-<p id="section-3.12-4">Subject to the discussion below, implementations of this specification <span class="bcp14">SHOULD</span> treat the text on "silently discard" packets in the RADIUS specifications as "silently discard the packet and close the connection".
-That is, the implementation <span class="bcp14">SHOULD</span> send a (D)TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection <span class="bcp14">MUST</span> be closed if any of the following circumstances are seen:<a href="#section-3.12-4" class="pilcrow">¶</a></p>
+<p id="section-3.12-4">Similarly, if the validation of the Request Authenticator or the Message-Authenticator fail, the peer is either using the wrong shared secret or is otherwise misbehaving.<a href="#section-3.12-4" class="pilcrow">¶</a></p>
+<p id="section-3.12-5">Subject to the discussion below, implementations of this specification <span class="bcp14">SHOULD</span> treat the text on "silently discard" packets in the RADIUS specifications as "silently discard the packet and close the connection".
+That is, the implementation <span class="bcp14">SHOULD</span> send a (D)TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection <span class="bcp14">MUST</span> be closed if any of the following circumstances are seen:<a href="#section-3.12-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.12-5.1">
-            <p id="section-3.12-5.1.1">Connection from an unknown client<a href="#section-3.12-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.12-6.1">
+            <p id="section-3.12-6.1.1">Connection from an unknown client<a href="#section-3.12-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.2">
-            <p id="section-3.12-5.2.1">Packet where the RADIUS <code>Length</code> field is less than the minimum RADIUS packet length<a href="#section-3.12-5.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.2">
+            <p id="section-3.12-6.2.1">Packet where the RADIUS <code>Length</code> field is less than the minimum RADIUS packet length<a href="#section-3.12-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.3">
-            <p id="section-3.12-5.3.1">Packet where the RADIUS <code>Length</code> field is more than the maximum RADIUS packet length<a href="#section-3.12-5.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.3">
+            <p id="section-3.12-6.3.1">Packet where the RADIUS <code>Length</code> field is more than the maximum RADIUS packet length<a href="#section-3.12-6.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.4">
-            <p id="section-3.12-5.4.1">Packet where an Attribute <code>Length</code> field has the value of zero or one (0 or 1)<a href="#section-3.12-5.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.4">
+            <p id="section-3.12-6.4.1">Packet where an Attribute <code>Length</code> field has the value of zero or one (0 or 1)<a href="#section-3.12-6.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.5">
-            <p id="section-3.12-5.5.1">Packet where the attributes do not exactly fill the packet<a href="#section-3.12-5.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.5">
+            <p id="section-3.12-6.5.1">Packet where the attributes do not exactly fill the packet<a href="#section-3.12-6.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.6">
-            <p id="section-3.12-5.6.1">Packet where the Request Authenticator fails validation (where validation is required)<a href="#section-3.12-5.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.6">
+            <p id="section-3.12-6.6.1">Packet where the Request Authenticator fails validation (where validation is required)<a href="#section-3.12-6.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.12-5.7">
-            <p id="section-3.12-5.7.1">Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet)<a href="#section-3.12-5.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.12-6.7">
+            <p id="section-3.12-6.7.1">Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet and is validated)<a href="#section-3.12-6.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.12-6">The connection needs to be closed in the above circumstances because of security requirements.  if the application data is not radius, there is no reason to keep the connection open.  If the application data is RADIUS, but the shared secret is wrong, there is no way that packets will be accepted by a server, and there is no reason to keep the connection open.<a href="#section-3.12-6" class="pilcrow">¶</a></p>
 <p id="section-3.12-7">After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which it is reasonable that a connection <span class="bcp14">MAY</span> remain open:<a href="#section-3.12-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.12-8.1">
             <p id="section-3.12-8.1.1">Packet with an invalid code field (see <a href="#radius_packets" class="auto internal xref">Section 3.7</a> for details)<a href="#section-3.12-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.12-8.2">
-            <p id="section-3.12-8.2.1">Response packets that do not match any outstanding request<a href="#section-3.12-8.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.12-8.3">
-            <p id="section-3.12-8.3.1">Packet where the Response Authenticator fails validation (where validation is required)<a href="#section-3.12-8.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.12-8.4">
-            <p id="section-3.12-8.4.1">A server lacking the resources to process a request<a href="#section-3.12-8.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.12-8.2.1">A server lacking the resources to process a request<a href="#section-3.12-8.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.12-9">A packet can be silently discarded when doing so does not have security implications.<a href="#section-3.12-9" class="pilcrow">¶</a></p>
-<p id="section-3.12-10">Packets with an invalid code indicate a misconfiguration problem, and not a security issue.  Response packets which do not match an outstanding requests, or were the Response Authenticator fails validation are part of normal network operation, and do not impact security.<a href="#section-3.12-10" class="pilcrow">¶</a></p>
-<p id="section-3.12-11">When an Identifier is used to match a response to an outstanding request, there is a race condition which needs to be addressed.  A server may respond after a long period of time, either due to internal issues, or to network delays. During that time, the client may time out the request, and re-use the Identifier for a new request.  This timeout happens without any notification to the server.<a href="#section-3.12-11" class="pilcrow">¶</a></p>
-<p id="section-3.12-12">Therefore, when the client receives an "old" response, it will be unable to validate it against the "new" request.  When this happens, the client <span class="bcp14">MUST</span> silently discard the response, and <span class="bcp14">MUST NOT</span> close the connection.<a href="#section-3.12-12" class="pilcrow">¶</a></p>
-<p id="section-3.12-13">The larger solution to the limited Identifier space of RADIUS is to switch to using ALPN (<a href="#alpn" class="auto internal xref">Section 3.6</a> and <span>[<a href="#RFC9765" class="cite xref">RFC9765</a>]</span>).<a href="#section-3.12-13" class="pilcrow">¶</a></p>
-<p id="section-3.12-14">Taken together these requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-3.12-14" class="pilcrow">¶</a></p>
+<p id="section-3.12-9">In the following cases, RadSec clients <span class="bcp14">MUST</span> keep the connection open, but still discard the packet in question:<a href="#section-3.12-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.12-10.1">
+            <p id="section-3.12-10.1.1">Response packets that do not match any outstanding request<a href="#section-3.12-10.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.12-10.2">
+            <p id="section-3.12-10.2.1">Packet where the Response Authenticator fails validation (where validation is required)<a href="#section-3.12-10.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.12-11">A packet can be silently discarded when doing so does not have security implications.<a href="#section-3.12-11" class="pilcrow">¶</a></p>
+<p id="section-3.12-12">Packets with an invalid code indicate a configuration problem or use of RADIUS features that the peer does not support, and are not a security issue.
+Missing resources also do not require the connection to be closed, since the resources may free up quickly again.
+In these cases, implementations may still choose to close the connection, either as implementation choice or as configured by an administrator.<a href="#section-3.12-12" class="pilcrow">¶</a></p>
+<p id="section-3.12-13">Response packets that do not match outstanding requests can be a result of different timeout configurations.
+If a client times out a request earlier than the server, the server might send a response to a request the client has already discarded.
+Especially in proxy fabrics, this could even be exploited to regularly tear down connections by purposely delaying responses, therefore the connection must remain open.<a href="#section-3.12-13" class="pilcrow">¶</a></p>
+<p id="section-3.12-14">A packet with an invalid Response Authenticator may be the result of a race condition when re-using the same Identifier for a RADIUS request, and is not a security issue, if the packet is silently discarded, similar to responses without outstanding requests.
+If a response fails the Response Authenticator validation, the validation of the Message-Authenticator attribute is irrelevant.
+This is discussed further in <a href="#request_auth_validation" class="auto internal xref">Appendix A.1</a>.<a href="#section-3.12-14" class="pilcrow">¶</a></p>
+<p id="section-3.12-15">These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.<a href="#section-3.12-15" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cross-protocol-considerations">
@@ -2038,6 +2051,7 @@ In that situation, RADIUS requests <span class="bcp14">MAY</span> be sent to ano
         </h3>
 <p id="section-5.1-1">The DTLS encryption adds an overhead to each packet sent.
 RADIUS/DTLS implementations <span class="bcp14">MUST</span> support sending and receiving RADIUS packets of 4096 bytes in length, with a corresponding increase in the maximum size of the encapsulated DTLS packets.
+A RadSec endpoint therefore <span class="bcp14">MUST NOT</span> advertise a record_size_limit <span>[<a href="#RFC8449" class="cite xref">RFC8449</a>]</span> lower than 4096 bytes.
 This larger packet size may cause the UDP packet to be larger than the Path MTU (PMTU), which causes the packet to be fragmented.
 Implementers and operators should be aware of the possibility of fragmented UDP packets.
 For details about issues with fragmentation see <span>[<a href="#RFC8900" class="cite xref">RFC8900</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
@@ -2228,7 +2242,7 @@ The Event-Timestamp <span class="bcp14">MUST NOT</span> be updated on any retran
 In contrast, updating Acct-Delay-Time would require that the client create and send a new Accounting-Request packet without signaling the server that the previous packet is no longer considered active.
 This process can occur repeatedly, which leads to multiple different packets containing effectively the same information (except for Acct-Delay-Time).
 This duplication contributes to congestion of the network, if one or more RADIUS proxies performs retransmission to the next hop for each of those packets independently.
-See <a href="#proxy_rationale" class="auto internal xref">Appendix B</a> for a more detailed explanation of the problem and its implications.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
+See <a href="#proxy_rationale" class="auto internal xref">Appendix A.2</a> for a more detailed explanation of the problem and its implications.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-3">Additionally, the different properties of the RADIUS/TLS transport as well as cross-protocol proxying change the assumption of a negligible transmission time of the RADIUS packet, on which the value of Acct-Delay-Time is based.
 While a single UDP packet may have a negligible transmission time, application data sent via TLS could arrive at the server with a significant delay due to the underlying TCP retransmission mechanism.
 If the packet is proxied from RADIUS/TLS to RADIUS/DTLS or RADIUS/UDP, the proxy has to retransmit on its own without changing the value of Acct-Delay-Time, which again introduces non-negligible transmission delays.<a href="#section-6.2.3-3" class="pilcrow">¶</a></p>
@@ -2314,8 +2328,7 @@ This can impact or distort the accuracy of RADIUS attributes for timing which as
 <p id="section-6.5-1">Where RADIUS/TLS can rely on the TCP state machine to perform session tracking, RADIUS/DTLS cannot.
 As a result, implementations of RADIUS/DTLS may need to perform session management of the DTLS session in the application layer.
 This subsection describes logically how this tracking is done.
-Implementations <span class="bcp14">MAY</span> choose to use the method described here, using a 5-tuple per connection, or another, equivalent method.
-DTLS 1.3 provides Connection IDs, and an equivalent extension is available for DTLS 1.2 <span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span>.
+Implementations <span class="bcp14">MAY</span> choose to use the method described here, using a 5-tuple per connection, or another, equivalent method, e.g. the Connection Identifier extension <span>[<a href="#RFC9146" class="cite xref">RFC9146</a>]</span>.
 When Connection IDs or any other tracking method are used for connection tracking, note that IP address based policies <span class="bcp14">MUST</span> still be applied for all incoming packets, similar to the mandated behavior for TLS Session Resumption in <a href="#tls_session_resumption" class="auto internal xref">Section 3.5</a>.
 This is to prevent circumventing IP address based restrictions, if a client opens the connection from the allowed IP address range, but then moves to another, untrusted network.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 <p id="section-6.5-2"><span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span> already mandates a duplicate detection cache.
@@ -2374,10 +2387,11 @@ DTLS sessions <span class="bcp14">SHOULD NOT</span> be tracked until a ClientHel
 Server implementation <span class="bcp14">SHOULD</span> have a way of tracking DTLS sessions that are partially set up.
 Servers <span class="bcp14">MUST</span> limit both the number and impact on resources of partial sessions.<a href="#section-6.5.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.5.1.1-2">Sessions (both 5-tuple and entry) <span class="bcp14">MUST</span> be deleted when the DTLS session is closed for any reason.
-When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.<a href="#section-6.5.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.5.1.1-3">Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
+When a session is deleted due to it failing security requirements, the DTLS session <span class="bcp14">MUST</span> be closed, any TLS session resumption parameters for that session <span class="bcp14">MUST</span> be discarded, and all tracking information <span class="bcp14">MUST</span> be deleted.
+Since UDP is stateless, the potential exists for the client to initiate a new DTLS session using a particular 5-tuple, before the server has closed the old session.
 For security reasons, the server <span class="bcp14">MUST</span> keep the old session active until either it has received secure notification from the client that the session is closed or the server decides to close the session based on idle timeouts.
-Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.5.1.1-3" class="pilcrow">¶</a></p>
+For DTLS 1.3, if an epoch-0 ClientHello is received for a 5-tuple associated with an existing DTLS session, the server <span class="bcp14">SHOULD</span> follow the procedure in <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>], <a href="https://rfc-editor.org/rfc/rfc9147#section-5.11" class="relref">Section 5.11</a></span>. The existing session <span class="bcp14">MUST NOT</span> be discarded until reachability of the peer has been established.<a href="#section-6.5.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.5.1.1-3">Taking any other action would permit unauthenticated clients to perform a DoS attack, by reusing a 5-tuple and thus causing the server to close an active (and authenticated) DTLS session.<a href="#section-6.5.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.5.1.1-4">As a result, servers <span class="bcp14">MUST</span> ignore any attempts to reuse an existing 5-tuple from an active session.
 This requirement can generally be reached by simply processing the packet through the existing DTLS session, as with any other packet received via that 5-tuple.
 Non-compliant, or unexpected packets will be ignored by the DTLS layer.<a href="#section-6.5.1.1-4" class="pilcrow">¶</a></p>
@@ -2813,7 +2827,7 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-aead-limits">[I-D.irtf-cfrg-aead-limits]</dt>
         <dd>
-<span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-12</span>, <time datetime="2026-08-07" class="refDate">7 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-12">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-13</span>, <time datetime="2026-09-03" class="refDate">3 September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1321">[RFC1321]</dt>
         <dd>
@@ -2846,6 +2860,10 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 <dt id="RFC7360">[RFC7360]</dt>
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) as a Transport Layer for RADIUS"</span>, <span class="seriesInfo">RFC 7360</span>, <span class="seriesInfo">DOI 10.17487/RFC7360</span>, <time datetime="2014-09" class="refDate">September 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7360">https://www.rfc-editor.org/rfc/rfc7360</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8449">[RFC8449]</dt>
+        <dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Record Size Limit Extension for TLS"</span>, <span class="seriesInfo">RFC 8449</span>, <span class="seriesInfo">DOI 10.17487/RFC8449</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8449">https://www.rfc-editor.org/rfc/rfc8449</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8900">[RFC8900]</dt>
         <dd>
@@ -2920,108 +2938,134 @@ These specifications have been merged into this document, and therefore removes 
         <li class="normal" id="appendix-A-2.12">
           <p id="appendix-A-2.12.1">The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.<a href="#appendix-A-2.12.1" class="pilcrow">¶</a></p>
 </li>
+        <li class="normal" id="appendix-A-2.13">
+          <p id="appendix-A-2.13.1"><span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> mandates that the connection must be closed if the Response Authenticator fails validation. This could lead to unwanted connection closures due to a race condition. This document now mandates that RadSec clients must discard the packet, but leave the connection open.<a href="#appendix-A-2.13.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-2.13.2.1">
+              <p id="appendix-A-2.13.2.1.1">For responses without an outstanding request, <span>[<a href="#RFC6613" class="cite xref">RFC6613</a>]</span> allowed the connection to remain open or be closed, as an implementation choice. Since this may occur when client and server use different timeouts, RadSec clients are now mandated to leave the connection open.<a href="#appendix-A-2.13.2.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</li>
       </ul>
 <p id="appendix-A-3">The rationales behind some of these changes are outlined in <a href="#design_decisions" class="auto internal xref">Section 8</a>.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<div id="request_auth_validation">
+<section id="appendix-A.1">
+        <h3 id="name-race-condition-in-request-a">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-race-condition-in-request-a" class="section-name selfRef">Race-condition in Request Authenticator Validation</a>
+        </h3>
+<p id="appendix-A.1-1">RFC 6613 mandates that the connection must be closed if a client receives a RADIUS response where the Response Authenticator fails validation.
+Normally, a failure in validation means that the peer is using the wrong shared secret or is otherwise misbehaving.
+In the case of the Request Authenticator, a failed validation can be the result of a race condition, and therefore does not necessarily indicate a security problem.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-2">In RADIUS, requests and responses are matched using the Identifier.
+If the client times out a request, it may re-use the Identifier for a new request.
+Especially in high-load situations, an Identifier might be re-used immediately after a request has been timed out.
+This creates a small window in which the server may send a response to the old request, before the new request from the client was received.
+The client already discarded the old request and validates the Response Authenticator against the new request, which fails.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-3">In this case, the client can simply discard the request and leave the connection open.
+Discarding the request also implies that the Message-Authenticator attribute is not checked, and the requirement to close a connection when the Message-Authenticator attribute fails validation does not apply.
+However, a response packet where the Request Authenticator is valid, but the Message-Authenticator validation fails is an idication of a misbehaving peer and the connection must be closed.<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="proxy_rationale">
-<section id="appendix-B">
-      <h2 id="name-rationale-for-event-timesta">
-<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-rationale-for-event-timesta" class="section-name selfRef">Rationale for Event-Timestamp vs. Acct-Delay-Time</a>
-      </h2>
-<p id="appendix-B-1">This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<p id="appendix-B-2">The Acct-Delay-Time attribute is intended to carry information about the delay between the time of the event (e.g., when the traffic was measured) and the time when the Accounting-Request was sent.
-If an Accounting-Request does not receive an answer, the client can resend the request with an updated Acct-Delay-Time.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
-<p id="appendix-B-3">The example setup here consists of three RADIUS endpoints.
+<section id="appendix-A.2">
+        <h3 id="name-rationale-for-event-timesta">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-rationale-for-event-timesta" class="section-name selfRef">Rationale for Event-Timestamp vs. Acct-Delay-Time</a>
+        </h3>
+<p id="appendix-A.2-1">This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-2">The Acct-Delay-Time attribute is intended to carry information about the delay between the time of the event (e.g., when the traffic was measured) and the time when the Accounting-Request was sent.
+If an Accounting-Request does not receive an answer, the client can resend the request with an updated Acct-Delay-Time.<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-3">The example setup here consists of three RADIUS endpoints.
 Client A acts as a simple RADIUS client, Proxy B acts as RADIUS proxy and Server C acts as RADIUS server.
-The connection A-B uses RADIUS/TLS, B-C uses RADIUS/UDP.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
-<p id="appendix-B-4">In this scenario, Client A sends accounting updates that are proxied via Proxy B to Server C.
-Unknown to the client and the proxy, Server C may be able to accept a high load, but also has extreme high latency in those situations.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
-<p id="appendix-B-5">RADIUS does not have link-layer signaling, so there is no way for the server to signal that it received the packet and is processing it.
+The connection A-B uses RADIUS/TLS, B-C uses RADIUS/UDP.<a href="#appendix-A.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-4">In this scenario, Client A sends accounting updates that are proxied via Proxy B to Server C.
+Unknown to the client and the proxy, Server C may be able to accept a high load, but also has extreme high latency in those situations.<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-5">RADIUS does not have link-layer signaling, so there is no way for the server to signal that it received the packet and is processing it.
 Without any response, a client has to assume that the packet was lost and triggers a retransmission.
 While RADIUS/TLS forbids retransmissions, since it is based on a reliable transport protocol, a RADIUS packet with an updated Acct-DelayTime attribute is not a retransmission per RADIUS definitions, and therefore permissable.
-Since it is a new RADIUS packet, a new ID might also be allocated.<a href="#appendix-B-5" class="pilcrow">¶</a></p>
-<p id="appendix-B-6">Now, the following scenario might happen (simplified):<a href="#appendix-B-6" class="pilcrow">¶</a></p>
+Since it is a new RADIUS packet, a new ID might also be allocated.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-6">Now, the following scenario might happen (simplified):<a href="#appendix-A.2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-7.1">
-          <p id="appendix-B-7.1.1">Client A sends an Accounting-Request with ID 1 to Proxy B via RADIUS/TLS<a href="#appendix-B-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.2-7.1">
+            <p id="appendix-A.2-7.1.1">Client A sends an Accounting-Request with ID 1 to Proxy B via RADIUS/TLS<a href="#appendix-A.2-7.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.2">
-          <p id="appendix-B-7.2.1">Proxy B proxies the Accounting-Request and sends it with ID 101 to Server C via RADIUS/UDP<a href="#appendix-B-7.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.2">
+            <p id="appendix-A.2-7.2.1">Proxy B proxies the Accounting-Request and sends it with ID 101 to Server C via RADIUS/UDP<a href="#appendix-A.2-7.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.3">
-          <p id="appendix-B-7.3.1">Server C receives the Accounting-Request and adds the request to its processing queue.<a href="#appendix-B-7.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.3">
+            <p id="appendix-A.2-7.3.1">Server C receives the Accounting-Request and adds the request to its processing queue.<a href="#appendix-A.2-7.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.4">
-          <p id="appendix-B-7.4.1">Client A did not receive a response and and after a second sends a new Accounting-Request with ID 2 and an Acct-Delay-Time of 1s to Proxy B<a href="#appendix-B-7.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.4">
+            <p id="appendix-A.2-7.4.1">Client A did not receive a response and and after a second sends a new Accounting-Request with ID 2 and an Acct-Delay-Time of 1s to Proxy B<a href="#appendix-A.2-7.4.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.5">
-          <p id="appendix-B-7.5.1">Proxy B proxies the Request and sends it with ID 102 to Server C<a href="#appendix-B-7.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.5">
+            <p id="appendix-A.2-7.5.1">Proxy B proxies the Request and sends it with ID 102 to Server C<a href="#appendix-A.2-7.5.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.6">
-          <p id="appendix-B-7.6.1">Proxy B also retransmits the Request with ID 101 to Server C, because it did not receive a response<a href="#appendix-B-7.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.6">
+            <p id="appendix-A.2-7.6.1">Proxy B also retransmits the Request with ID 101 to Server C, because it did not receive a response<a href="#appendix-A.2-7.6.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.7">
-          <p id="appendix-B-7.7.1">Server C receives retransmission of packet with ID 101, recognizes it as duplicate<a href="#appendix-B-7.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.7">
+            <p id="appendix-A.2-7.7.1">Server C receives retransmission of packet with ID 101, recognizes it as duplicate<a href="#appendix-A.2-7.7.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.8">
-          <p id="appendix-B-7.8.1">Server C also receives packet with ID 102, and adds it to the processing queue, since it is not a duplicate packet<a href="#appendix-B-7.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.8">
+            <p id="appendix-A.2-7.8.1">Server C also receives packet with ID 102, and adds it to the processing queue, since it is not a duplicate packet<a href="#appendix-A.2-7.8.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.9">
-          <p id="appendix-B-7.9.1">Client A still did not receive a response and sends a new Accounting-Request with ID 3 and Acct-Delay-Time of 2s to Proxy B<a href="#appendix-B-7.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.9">
+            <p id="appendix-A.2-7.9.1">Client A still did not receive a response and sends a new Accounting-Request with ID 3 and Acct-Delay-Time of 2s to Proxy B<a href="#appendix-A.2-7.9.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.10">
-          <p id="appendix-B-7.10.1">Proxy B proxies the Request and sends it with ID 103 to Server C<a href="#appendix-B-7.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.10">
+            <p id="appendix-A.2-7.10.1">Proxy B proxies the Request and sends it with ID 103 to Server C<a href="#appendix-A.2-7.10.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.11">
-          <p id="appendix-B-7.11.1">Proxy B also retransmits the Requests with ID 101 and ID 102 to Server C, because those requests did not receive a response<a href="#appendix-B-7.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.11">
+            <p id="appendix-A.2-7.11.1">Proxy B also retransmits the Requests with ID 101 and ID 102 to Server C, because those requests did not receive a response<a href="#appendix-A.2-7.11.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-7.12">
-          <p id="appendix-B-7.12.1">Server C recognizes the requests with ID 101 and 102 as duplicates, but has to add 103 to its processing queue.<a href="#appendix-B-7.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-7.12">
+            <p id="appendix-A.2-7.12.1">Server C recognizes the requests with ID 101 and 102 as duplicates, but has to add 103 to its processing queue.<a href="#appendix-A.2-7.12.1" class="pilcrow">¶</a></p>
 </li>
-      </ul>
-<p id="appendix-B-8">This scenario is simplified and includes only one accounting event, to give a basic understanding of the problem.
+        </ul>
+<p id="appendix-A.2-8">This scenario is simplified and includes only one accounting event, to give a basic understanding of the problem.
 If the client wants to send updates for multiple accounting events, each of these updates will generate their own packets.
-Especially in scenarios where the server is already under high load, this behavior contributes to congestion and could eventually lead to congestive collapse.<a href="#appendix-B-8" class="pilcrow">¶</a></p>
-<p id="appendix-B-9">One cause of the problem is that RADIUS does not have the possibility for a client to signal explicitly that it has given up on a request.
+Especially in scenarios where the server is already under high load, this behavior contributes to congestion and could eventually lead to congestive collapse.<a href="#appendix-A.2-8" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-9">One cause of the problem is that RADIUS does not have the possibility for a client to signal explicitly that it has given up on a request.
 Implicitly, a client could indicate that it has given up by re-using the same ID, in which case a RADIUS proxy will also stop retransmissions on the next connection.
 In the case of proxying from a reliable transports to unreliable transports (e.g., from RADIUS/TLS to RADIUS/UDP or RADIUS/DTLS), the proxy is in charge of retransmissions over the unreliable transport.
 In the given scenario, re-using the same ID would stop the retransmission of the outdated packets.
 But if there are multiple hops with mixed transports (e.g., first RADIUS/TLS, then RADIUS/UDP, then RADIUS/TLS again, then RADIUS/UDP again), this is not possible.
 There is no guarantee that a proxy will also re-use the ID on the next hop, making it impossible for proxies down the path to reliably detect that the client has given up.
 The first proxy would stop retransmissions because the client re-used the same ID, but the next two proxies have no way of knowing that the client has given up on the packet if the ID was not re-used, and will continue retransmitting the packet until it gets an answer or its timed out.
-Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.<a href="#appendix-B-9" class="pilcrow">¶</a></p>
-<p id="appendix-B-10">If instead the Accounting-Request packets used Event-Timestamp instead of Acct-Delay-Time, the packet content does not need to be updated, and it can be retransmitted using the well-defined retransmission rules.
-Any retransmission will be treated as duplicate, and the server can process the event once and send one response after.<a href="#appendix-B-10" class="pilcrow">¶</a></p>
-<p id="appendix-B-11">Other solutions to this problem, e.g., adding a globally unique identifier to requests that can be used by implementations to detect duplicate packets based on content instead of link-layer headers, would require changes in the RADIUS protocol and are therefore out of scope for this document.<a href="#appendix-B-11" class="pilcrow">¶</a></p>
+Until this happens, it cannot use the ID for another request, and if the ID space is exhausted, it must open a new connection to the server, or drop incoming requests.<a href="#appendix-A.2-9" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-10">If instead the Accounting-Request packets used Event-Timestamp instead of Acct-Delay-Time, the packet content does not need to be updated, and it can be retransmitted using the well-defined retransmission rules.
+Any retransmission will be treated as duplicate, and the server can process the event once and send one response after.<a href="#appendix-A.2-10" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-11">Other solutions to this problem, e.g., adding a globally unique identifier to requests that can be used by implementations to detect duplicate packets based on content instead of link-layer headers, would require changes in the RADIUS protocol and are therefore out of scope for this document.<a href="#appendix-A.2-11" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="acknowledgments">
-<section id="appendix-C">
+<section id="appendix-B">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-<p id="appendix-C-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
-<p id="appendix-C-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
-<p id="appendix-C-4">Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">Thanks to the original authors of RFC 6613, RFC 6614 and RFC 7360: Alan DeKok, Stefan Winter, Mike McCauley, Stig Venaas and Klaas Wierenga.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">Thanks to Arran Curdbard-Bell for text around keepalives and the Status-Server watchdog algorithm.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-3">Thanks to Alan DeKok for his constant review of this document over its whole process and his many text contributions, like text around forwarding issues between TCP and UDP based transports.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">Thanks to the following people for their feedback and suggested text changes: Alexander Clouter, Mark Donnelly, Fabian Mauchle, Valery Smyslov, Heikki Vatiainen, Paul Wouters.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="notes-to-rfc-editor">
-<section id="appendix-D">
+<section id="appendix-C">
       <h2 id="name-notes-to-rfc-editor">
 <a href="#name-notes-to-rfc-editor" class="section-name selfRef">Notes to RFC Editor</a>
       </h2>
-<p id="appendix-D-1"><em>This section is to be removed before publishing as an RFC.</em><a href="#appendix-D-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-1"><em>This section is to be removed before publishing as an RFC.</em><a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-D-2.1">
-          <p id="appendix-D-2.1.1">The references to RFC8446 can be replaced with RFC9846 if I-D.ietf-tls-rfc8446bis is published before this document.<a href="#appendix-D-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-C-2.1">
+          <p id="appendix-C-2.1.1">The references to RFC8446 can be replaced with RFC9846 if I-D.ietf-tls-rfc8446bis is published before this document.<a href="#appendix-C-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-E">
+<section id="appendix-D">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
