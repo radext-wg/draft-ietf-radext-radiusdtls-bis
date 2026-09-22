@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-08T02:04:09.736656+00:00",
+  "timestamp": "2026-09-22T02:25:15.588729+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -1624,7 +1624,7 @@
       "id": "I_kwDOLrzygc7tzmbj",
       "title": "\"Configured Trust Base\" is not defined",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/156",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1634,8 +1634,8 @@
       "labels": [],
       "body": "Russ Housley's review pointed out that \"configured trust base\" is not defined.  We should figure out how to define it (in terms section) or use different words.\n",
       "createdAt": "2026-02-25T14:13:34Z",
-      "updatedAt": "2026-03-02T17:42:42Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-21T17:11:33Z",
+      "closedAt": "2026-09-21T17:11:33Z",
       "comments": [
         {
           "author": "smyslov",
@@ -1658,7 +1658,7 @@
       "id": "I_kwDOLrzygc7tztMN",
       "title": "Add support for PKIX-PSK",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/157",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1668,8 +1668,8 @@
       "labels": [],
       "body": "Russ suggested that we should consider adding this.  Should we do it now or consider later?\n\nConcern that no current implementations support it.",
       "createdAt": "2026-02-25T14:18:30Z",
-      "updatedAt": "2026-02-25T16:28:49Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-21T17:11:17Z",
+      "closedAt": "2026-09-21T17:11:17Z",
       "comments": [
         {
           "author": "smyslov",
@@ -1719,15 +1719,15 @@
       "id": "I_kwDOLrzygc7t0GfR",
       "title": "MUST reassess when trust base changes, and add logging?",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/159",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Issue from Meir?\n\nWG already had discussion that SHOULD was sufficient?\n\nThis may depend on what part of the trust base changes?  \n\nWeak consensus for MUST reassess.  Need more feedback from the WG.",
       "createdAt": "2026-02-25T14:38:21Z",
-      "updatedAt": "2026-03-03T18:18:10Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-21T17:11:47Z",
+      "closedAt": "2026-09-21T17:11:47Z",
       "comments": [
         {
           "author": "Janfred",
@@ -1762,15 +1762,15 @@
       "id": "I_kwDOLrzygc7usgQF",
       "title": "Editorial comments from Deb Cooley",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/issues/161",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mrw42",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Deb Cooley sent editorial comments with her \u201cno objection\u201d:\n\nSection 7.3:  This appears to be an ideal place for a MUST NOT vs 'forbids'. \nBoth are normative, but one is more visible in the text.\n\nNits:\nSection 7.1, para 1:  s/downbidding/downgrade",
       "createdAt": "2026-02-28T13:14:33Z",
-      "updatedAt": "2026-02-28T13:14:33Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-21T17:11:58Z",
+      "closedAt": "2026-09-21T17:11:58Z",
       "comments": []
     },
     {
@@ -13669,10 +13669,12 @@
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "conflicting-A"
+      ],
       "body": "Move a line from \"must close connection\" to \"silently discard packets\"\r\n\r\nAs discussed in https://mailarchive.ietf.org/arch/msg/radext/klBXadgO9MtX9IY-LFdlxyubICo/\r\n\r\n",
       "createdAt": "2026-08-21T14:01:20Z",
-      "updatedAt": "2026-09-06T16:14:43Z",
+      "updatedAt": "2026-09-21T15:49:26Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
@@ -13787,6 +13789,141 @@
               "body": "```suggestion\nA RadSec endpoint therefore MUST NOT advertise a record_size_limit {{?RFC8449}} lower than 4096 bytes.\n```\n\n(specify as informational reference)",
               "createdAt": "2026-09-06T15:51:56Z",
               "updatedAt": "2026-09-06T15:51:56Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 176,
+      "id": "PR_kwDOLrzygc8AAAABEcnLXw",
+      "title": "Request Authenticator race condition (alternative wording)",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/176",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "conflicting-A"
+      ],
+      "body": "I've reworded Alan's PR (#174) a little.\r\n\r\n* Responses without outstanding requests are the same as responses where validation fails -> Keep the connection open\r\n* Added item in the \"Changes from 6613/6614/7360\" section\r\n* Added subsection in appendix explaining the race-condition in detail.",
+      "createdAt": "2026-09-21T15:49:07Z",
+      "updatedAt": "2026-09-21T16:46:26Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "main",
+      "baseRefOid": "9c9e2ea42946dbcd25736723adbf50c01900a481",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "fix-race-condition",
+      "headRefOid": "95e3b80c58abe51e9bdcdc91b17fc711c45f4d1a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc8AAAABOg8gwA",
+          "commit": {
+            "abbreviatedOid": "95e3b80"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-21T16:15:24Z",
+          "updatedAt": "2026-09-21T16:16:46Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Perhaps `Request packets where the  Message-Authenticator attribute exists in the packet and fails validation`\n\nWe don't want that requirement to be there for response packets.",
+              "createdAt": "2026-09-21T16:15:25Z",
+              "updatedAt": "2026-09-21T16:16:46Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "also\n\n* Response packets where the  Message-Authenticator attribute exists in the packet and fails validation\n\nbecause that's exactly the same case as where the Response Authenticator fails validation ",
+              "createdAt": "2026-09-21T16:16:05Z",
+              "updatedAt": "2026-09-21T16:16:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABOhBx-w",
+          "commit": {
+            "abbreviatedOid": "95e3b80"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-21T16:23:19Z",
+          "updatedAt": "2026-09-21T16:23:20Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "I would argue that it's not the same.\r\nIf the Response Authenticator is valid, but the Message-Authenticator of the response fails validation, this should be a major red flag.",
+              "createdAt": "2026-09-21T16:23:19Z",
+              "updatedAt": "2026-09-21T16:23:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABOhGfhQ",
+          "commit": {
+            "abbreviatedOid": "95e3b80"
+          },
+          "author": "alandekok",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-21T16:30:13Z",
+          "updatedAt": "2026-09-21T16:30:13Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "They're different validations, sure. But the text didn't say that it should discard packets when the Message-Authenticator is invalid. That's what I was trying to address.",
+              "createdAt": "2026-09-21T16:30:13Z",
+              "updatedAt": "2026-09-21T16:30:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABOhIcMA",
+          "commit": {
+            "abbreviatedOid": "95e3b80"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-21T16:33:48Z",
+          "updatedAt": "2026-09-21T16:33:48Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "I was struggling with the first \"when it occurs in a packet and is validated\" change, how I can correctly phrase it, so it is correct to keep the connection open if the response authenticator is invalid.\r\n\r\nI wouldn't say it is acceptable for the Message-Authenticator to be invalid when the Response Authenticator is valid. If this happens, the connection should really be closed.",
+              "createdAt": "2026-09-21T16:33:48Z",
+              "updatedAt": "2026-09-21T16:33:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABOhPPZQ",
+          "commit": {
+            "abbreviatedOid": "95e3b80"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-21T16:46:26Z",
+          "updatedAt": "2026-09-21T16:46:26Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Maybe this is a better wording?\r\n\r\n```suggestion\r\n* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet) unless the packet would be discarded due to other rules\r\n```\r\n\r\nThis would make it explicit that if the response authenticator check fails, the message-authenticator attribute does not need to be checked.",
+              "createdAt": "2026-09-21T16:46:26Z",
+              "updatedAt": "2026-09-21T16:46:26Z"
             }
           ]
         }
