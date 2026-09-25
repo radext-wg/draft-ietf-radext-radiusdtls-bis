@@ -504,6 +504,9 @@ This is discussed further in {{request_auth_validation}}.
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
+To help with debugging, implementations SHOULD log details about errors (e.g., packet code, packet ID, violated rule).
+If the connection is not closed, logging ignored packets SHOULD be rate limited, to prevent resource exhaustion due to logging if the client sends a high number of similar packets.
+
 ## Cross Protocol Considerations
 
 A client may be configured to use multiple servers, and therefore needs to be able to distinguish servers from one another.  Those servers may use different transport protocols, in any combination.  For example, a client may be configured with a RADIUS/UDP server, and RADIUS/DTLS server, and a RADIUS/TLS server all at the same time.  These servers may share IP addresses, but not the same UDP or TCP ports.  These considerations also affect RADIUS servers.
