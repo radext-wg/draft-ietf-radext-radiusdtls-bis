@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-22T02:25:15.588729+00:00",
+  "timestamp": "2026-09-27T02:31:37.813241+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13928,6 +13928,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 179,
+      "id": "PR_kwDOLrzygc8AAAABFLZEnw",
+      "title": "Add logging for \"silently discard\"",
+      "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/179",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This adds the logging as suggested by Prem:\r\nhttps://mailarchive.ietf.org/arch/msg/radext/HFw53uc9ZFmFEODV5-9XCqqCTjk",
+      "createdAt": "2026-09-25T20:38:00Z",
+      "updatedAt": "2026-09-25T20:38:00Z",
+      "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "baseRefName": "fix-race-condition",
+      "baseRefOid": "95e3b80c58abe51e9bdcdc91b17fc711c45f4d1a",
+      "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
+      "headRefName": "logging-closures",
+      "headRefOid": "e4709d4a7e7e25ce5890f1b452612cb877b9995e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
