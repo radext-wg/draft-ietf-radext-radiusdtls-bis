@@ -465,6 +465,8 @@ As a result the behavior with respect to discarded packets has to change, since 
 With DTLS, the "next" packet does not depend on proper decoding of the previous packet, since the RADIUS packets are sent in independent DTLS records (see {{radius_packet_handling}}).
 However, since both TLS and DTLS provide integrity protection and ensure that the packet was sent by the peer, a protocol violation at this stage implies that the peer is misbehaving.
 
+Similarly, if the validation of the Request Authenticator or the Message-Authenticator fail, the peer is either using the wrong shared secret or is otherwise misbehaving.
+
 Subject to the discussion below, implementations of this specification SHOULD treat the text on "silently discard" packets in the RADIUS specifications as "silently discard the packet and close the connection".
 That is, the implementation SHOULD send a (D)TLS close notification and, in the case of RADIUS/TLS, the underlying TCP connection MUST be closed if any of the following circumstances are seen:
 
@@ -474,16 +476,36 @@ That is, the implementation SHOULD send a (D)TLS close notification and, in the 
 * Packet where an Attribute `Length` field has the value of zero or one (0 or 1)
 * Packet where the attributes do not exactly fill the packet
 * Packet where the Request Authenticator fails validation (where validation is required)
-* Packet where the Response Authenticator fails validation (where validation is required)
-* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet)
+* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet) unless the packet would be discarded due to other rules
 
 After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which it is reasonable that a connection MAY remain open:
 
 * Packet with an invalid code field (see {{radius_packets}} for details)
-* Response packets that do not match any outstanding request
 * A server lacking the resources to process a request
 
+In the following cases, RadSec clients MUST keep the connection open, but still discard the packet in question:
+
+* Response packets that do not match any outstanding request
+* Response packets where the Response Authenticator fails validation (where validation is required)
+
+A packet can be silently discarded when doing so does not have security implications.
+
+Packets with an invalid code indicate a configuration problem or use of RADIUS features that the peer does not support, and are not a security issue.
+Missing resources also do not require the connection to be closed, since the resources may free up quickly again.
+In these cases, implementations may still choose to close the connection, either as implementation choice or as configured by an administrator.
+
+Response packets that do not match outstanding requests can be a result of different timeout configurations.
+If a client times out a request earlier than the server, the server might send a response to a request the client has already discarded.
+Especially in proxy fabrics, this could even be exploited to regularly tear down connections by purposely delaying responses, therefore the connection must remain open.
+
+A packet with an invalid Response Authenticator may be the result of a race condition when re-using the same Identifier for a RADIUS request, and is not a security issue, if the packet is silently discarded, similar to responses without outstanding requests.
+If a response fails the Response Authenticator validation, the validation of the Message-Authenticator attribute is irrelevant.
+This is discussed further in {{request_auth_validation}}.
+
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
+
+To help with debugging, implementations SHOULD log details about the error and the packet causing it (e.g., packet code, packet ID, violated rule).
+If the connection is not closed, logging ignored packets SHOULD be rate limited, to prevent resource exhaustion due to logging if the peer sends a high number of similar packets.
 
 ## Cross Protocol Considerations
 
@@ -1067,10 +1089,29 @@ The following list contains the most important changes from the previous specifi
 * {{RFC6613}} only included limited text around retransmissions, this document now gives more guidance on how to handle retransmissions and retries, especially across different transports.
 * The rules for verifying the peer certificate have been updated to follow guidance provided in {{!RFC9525}}.  Using the Common Name RDN for validation of server certificates is now forbidden.
 * The response to unwanted packets has changed. Endpoints should now reply with a Protocol-Error packet, which is connection-specific and should not be proxied.
+* {{RFC6613}} mandates that the connection must be closed if the Response Authenticator fails validation. This could lead to unwanted connection closures due to a race condition. This document now mandates that RadSec clients must discard the packet, but leave the connection open.
+  * For responses without an outstanding request, {{RFC6613}} allowed the connection to remain open or be closed, as an implementation choice. Since this may occur when client and server use different timeouts, RadSec clients are now mandated to leave the connection open.
 
 The rationales behind some of these changes are outlined in {{design_decisions}}.
 
-# Rationale for Event-Timestamp vs. Acct-Delay-Time
+## Race-condition in Request Authenticator Validation
+{: #request_auth_validation }
+
+RFC 6613 mandates that the connection must be closed if a client receives a RADIUS response where the Response Authenticator fails validation.
+Normally, a failure in validation means that the peer is using the wrong shared secret or is otherwise misbehaving.
+In the case of the Request Authenticator, a failed validation can be the result of a race condition, and therefore does not necessarily indicate a security problem.
+
+In RADIUS, requests and responses are matched using the Identifier.
+If the client times out a request, it may re-use the Identifier for a new request.
+Especially in high-load situations, an Identifier might be re-used immediately after a request has been timed out.
+This creates a small window in which the server may send a response to the old request, before the new request from the client was received.
+The client already discarded the old request and validates the Response Authenticator against the new request, which fails.
+
+In this case, the client can simply discard the request and leave the connection open.
+Discarding the request also implies that the Message-Authenticator attribute is not checked, and the requirement to close a connection when the Message-Authenticator attribute fails validation does not apply.
+However, a response packet where the Request Authenticator is valid, but the Message-Authenticator validation fails is an idication of a misbehaving peer and the connection must be closed.
+
+## Rationale for Event-Timestamp vs. Acct-Delay-Time
 {: #proxy_rationale }
 
 This appendix gives an example of a setup where using Acct-Delay-Time in Accounting-Requests can cause or contribute to congestion in proxy environments.
