@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 29 March 2027                                         S. Winter
+Expires: 3 April 2027                                          S. Winter
                                                                  RESTENA
-                                                       25 September 2026
+                                                       30 September 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 March 2027.
+   This Internet-Draft will expire on 3 April 2027.
 
 Copyright Notice
 
@@ -963,11 +963,11 @@ Table of Contents
    These requirements reduce the possibility for a misbehaving client or
    server to wreak havoc on the network.
 
-   To help with debugging, implementations SHOULD log details about
-   errors (e.g., packet code, packet ID, violated rule).  If the
-   connection is not closed, logging ignored packets SHOULD be rate
-   limited, to prevent resource exhaustion due to logging if the client
-   sends a high number of similar packets.
+   To help with debugging, implementations SHOULD log details about the
+   error and the packet causing it (e.g., packet code, packet ID,
+   violated rule).  If the connection is not closed, logging ignored
+   packets SHOULD be rate limited, to prevent resource exhaustion due to
+   logging if the peer sends a high number of similar packets.
 
 3.13.  Cross Protocol Considerations
 
