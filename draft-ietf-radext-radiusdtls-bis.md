@@ -476,7 +476,7 @@ That is, the implementation SHOULD send a (D)TLS close notification and, in the 
 * Packet where an Attribute `Length` field has the value of zero or one (0 or 1)
 * Packet where the attributes do not exactly fill the packet
 * Packet where the Request Authenticator fails validation (where validation is required)
-* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet and is validated)
+* Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet) unless the packet would be discarded due to other rules
 
 After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which it is reasonable that a connection MAY remain open:
 
