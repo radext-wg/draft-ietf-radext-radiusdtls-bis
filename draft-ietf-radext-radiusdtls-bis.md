@@ -504,8 +504,8 @@ This is discussed further in {{request_auth_validation}}.
 
 These requirements reduce the possibility for a misbehaving client or server to wreak havoc on the network.
 
-To help with debugging, implementations SHOULD log details about errors (e.g., packet code, packet ID, violated rule).
-If the connection is not closed, logging ignored packets SHOULD be rate limited, to prevent resource exhaustion due to logging if the client sends a high number of similar packets.
+To help with debugging, implementations SHOULD log details about the error and the packet causing it (e.g., packet code, packet ID, violated rule).
+If the connection is not closed, logging ignored packets SHOULD be rate limited, to prevent resource exhaustion due to logging if the peer sends a high number of similar packets.
 
 ## Cross Protocol Considerations
 
