@@ -486,7 +486,7 @@ After applying the above rules, there are still situations where the previous sp
 In the following cases, RadSec clients MUST keep the connection open, but still discard the packet in question:
 
 * Response packets that do not match any outstanding request
-* Packet where the Response Authenticator fails validation (where validation is required)
+* Response packets where the Response Authenticator fails validation (where validation is required)
 
 A packet can be silently discarded when doing so does not have security implications.
 
