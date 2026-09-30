@@ -6,9 +6,9 @@ RADIUS EXTensions                                         J.-F. Rieckers
 Internet-Draft                                                       DFN
 Obsoletes: 6614, 7360 (if approved)                       M. Cullen, Ed.
 Intended status: Standards Track                       Painless Security
-Expires: 25 March 2027                                         S. Winter
+Expires: 3 April 2027                                          S. Winter
                                                                  RESTENA
-                                                       21 September 2026
+                                                       30 September 2026
 
 
     RadSec: RADIUS over Transport Layer Security (TLS) and Datagram
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 March 2027.
+   This Internet-Draft will expire on 3 April 2027.
 
 Copyright Notice
 
@@ -914,7 +914,8 @@ Table of Contents
       validation is required)
 
    *  Packet where the Message-Authenticator attribute fails validation
-      (when it occurs in a packet and is validated)
+      (when it occurs in a packet) unless the packet would be discarded
+      due to other rules
 
    After applying the above rules, there are still situations where the
    previous specifications allow a packet to be "silently discarded"
