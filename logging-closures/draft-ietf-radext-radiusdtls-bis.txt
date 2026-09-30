@@ -914,7 +914,8 @@ Table of Contents
       validation is required)
 
    *  Packet where the Message-Authenticator attribute fails validation
-      (when it occurs in a packet and is validated)
+      (when it occurs in a packet) unless the packet would be discarded
+      due to other rules
 
    After applying the above rules, there are still situations where the
    previous specifications allow a packet to be "silently discarded"
@@ -930,8 +931,8 @@ Table of Contents
 
    *  Response packets that do not match any outstanding request
 
-   *  Packet where the Response Authenticator fails validation (where
-      validation is required)
+   *  Response packets where the Response Authenticator fails validation
+      (where validation is required)
 
    A packet can be silently discarded when doing so does not have
    security implications.

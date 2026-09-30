@@ -1935,7 +1935,7 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a (D)TLS clos
             <p id="section-3.12-6.6.1">Packet where the Request Authenticator fails validation (where validation is required)<a href="#section-3.12-6.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.12-6.7">
-            <p id="section-3.12-6.7.1">Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet and is validated)<a href="#section-3.12-6.7.1" class="pilcrow">¶</a></p>
+            <p id="section-3.12-6.7.1">Packet where the Message-Authenticator attribute fails validation (when it occurs in a packet) unless the packet would be discarded due to other rules<a href="#section-3.12-6.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.12-7">After applying the above rules, there are still situations where the previous specifications allow a packet to be "silently discarded" upon receipt, but in which it is reasonable that a connection <span class="bcp14">MAY</span> remain open:<a href="#section-3.12-7" class="pilcrow">¶</a></p>
@@ -1953,7 +1953,7 @@ That is, the implementation <span class="bcp14">SHOULD</span> send a (D)TLS clos
             <p id="section-3.12-10.1.1">Response packets that do not match any outstanding request<a href="#section-3.12-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.12-10.2">
-            <p id="section-3.12-10.2.1">Packet where the Response Authenticator fails validation (where validation is required)<a href="#section-3.12-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.12-10.2.1">Response packets where the Response Authenticator fails validation (where validation is required)<a href="#section-3.12-10.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.12-11">A packet can be silently discarded when doing so does not have security implications.<a href="#section-3.12-11" class="pilcrow">¶</a></p>
