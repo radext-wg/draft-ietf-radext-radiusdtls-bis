@@ -1633,7 +1633,7 @@ This does not preclude vendors or manufacturers including their set of trusted C
               <p id="section-3.3.1-7.1.1">Certificates <span class="bcp14">MAY</span> include a single wildcard in the identifiers of DNS names and realm names, but only as the complete, left-most label.<a href="#section-3.3.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-7.2">
-              <p id="section-3.3.1-7.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match:<a href="#section-3.3.1-7.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-7.2.1">RadSec clients validate the server's identity to match their local configuration, accepting the identity on the first match. If no acceptable identity is found, <span>[<a href="#RFC9525" class="cite xref">RFC9525</a>], <a href="https://rfc-editor.org/rfc/rfc9525#section-6.6" class="relref">Section 6.6</a></span> applies.<a href="#section-3.3.1-7.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-7.2.2.1">
                   <p id="section-3.3.1-7.2.2.1.1">If the expected RadSec server is associated with a specific NAI realm, e.g., by dynamic discovery <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>]</span> or static configuration, that realm is matched against the presented identifiers of any subjectAltName entry of type otherName whose name form is NAIRealm as defined in <span>[<a href="#RFC7585" class="cite xref">RFC7585</a>], <a href="https://rfc-editor.org/rfc/rfc7585#section-2.2" class="relref">Section 2.2</a></span>.<a href="#section-3.3.1-7.2.2.1.1" class="pilcrow">¶</a></p>
@@ -1673,6 +1673,9 @@ The database may enumerate acceptable clients either by IP address or by a name 
 </li>
                 <li class="normal" id="section-3.3.1-7.3.2.5">
                   <p id="section-3.3.1-7.3.2.5.1">If configured by the administrator, the identity check <span class="bcp14">MAY</span> be omitted after a successful <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> certification path validation, e.g., if the client used dynamic lookup there is no configured client identity to verify.  The client's authorization <span class="bcp14">MUST</span> then be validated using a certificate policy extension <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>], <a href="https://rfc-editor.org/rfc/rfc5280#section-4.2.1.4" class="relref">Section 4.2.1.4</a></span> unless both endpoints are part of a trusted network.<a href="#section-3.3.1-7.3.2.5.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.1-7.3.2.6">
+                  <p id="section-3.3.1-7.3.2.6.1">If a RadSec server deems a client to be not acceptable, it <span class="bcp14">MUST</span> terminate the (D)TLS connection immediately. RADIUS/TLS servers <span class="bcp14">MUST</span> also close the TCP connection. RadSec servers <span class="bcp14">SHOULD</span> send the TLS alert access denied(49) (if supported by the (D)TLS implementation).<a href="#section-3.3.1-7.3.2.6.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -1822,16 +1825,19 @@ The following sections define the client behavior.<a href="#section-3.9-1" class
 Therefore, in addition to retransmission of RADIUS packets, RadSec clients also have to perform connection retries.<a href="#section-3.9.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.9.1-2">Except in cases where a connection attempt with session resumption was closed by the RadSec server, RadSec clients <span class="bcp14">MUST NOT</span> immediately reconnect to a server after a failed connection attempt.
 A connection attempt is treated as failed if it fails at any point until a (D)TLS connection is established successfully.
-Typical reconnections <span class="bcp14">MUST</span> have a lower bound for the time in between retries.
+If the (D)TLS connection is established successfully, but closed without having received any valid packets from the server, it is also treated as failed, and the reconnect timers <span class="bcp14">MUST NOT</span> be reset.
+This can happen if additional authorization checks performed after the TLS handshake fail (e.g., because the TLS library only returns the relevant parameters when the connection is already established).
+In this case the server will not answer to any packets from the client, including Status-Server requests.<a href="#section-3.9.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-3">Typical reconnections <span class="bcp14">MUST</span> have a lower bound for the time in between retries.
 The lower bound <span class="bcp14">SHOULD</span> be configurable, but <span class="bcp14">MUST NOT</span> be less than 0.5 seconds.
-In cases where the server closes the connection on an attempted TLS session resumption, the client <span class="bcp14">MUST NOT</span> use TLS session resumption for the following connection attempt.<a href="#section-3.9.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-3">RadSec clients <span class="bcp14">MUST</span> implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
+In cases where the server closes the connection on an attempted TLS session resumption, the client <span class="bcp14">MUST NOT</span> use TLS session resumption for the following connection attempt.<a href="#section-3.9.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-4">RadSec clients <span class="bcp14">MUST</span> implement an algorithm for handling the timing of such reconnection attempts that includes an exponential back-off.
 Using an algorithm similar to the retransmission algorithm defined in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.1" class="relref">Section 2.2.1</a></span> is <span class="bcp14">RECOMMENDED</span>.
-If a different algorithm is used, it <span class="bcp14">SHOULD</span> include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.<a href="#section-3.9.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-4">When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt or reset the reconnection timer.
+If a different algorithm is used, it <span class="bcp14">SHOULD</span> include a configurable lower and upper bound for the time between retries, a configurable timeout after which the client gives up reconnecting, and a jitter.<a href="#section-3.9.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-5">When a reconnection attempt is queued on a reconnection timer, adding subsequent RADIUS packets to be sent <span class="bcp14">SHOULD NOT</span> trigger an immediate reconnection attempt or reset the reconnection timer.
 Instead, the algorithm <span class="bcp14">SHOULD</span> continue as it would have without the new RADIUS packet.
-However, a client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting when a new RADIUS packet is queued.<a href="#section-3.9.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.9.1-5">Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm <span class="bcp14">SHOULD</span> have an upper limit for the time between retries (e.g., 60 seconds) and not give up trying to reconnect.<a href="#section-3.9.1-5" class="pilcrow">¶</a></p>
+However, a client <span class="bcp14">MAY</span> reset the timeout for giving up reconnecting when a new RADIUS packet is queued.<a href="#section-3.9.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.9.1-6">Where the connection to a RadSec server is configured to be static and always kept open, the reconnect algorithm <span class="bcp14">SHOULD</span> have an upper limit for the time between retries (e.g., 60 seconds) and not give up trying to reconnect.<a href="#section-3.9.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client_retransmission_timers">
@@ -1847,7 +1853,7 @@ When a packet is retried, it goes through the usual RADIUS processing (e.g., all
 <p id="section-3.9.2-3">When a connection fails or is closed, a RadSec client <span class="bcp14">SHOULD</span> retry packets over a different connection, either a different connection to the same server or a different configured server in the same load-balancing/failover pool.
 In order to keep the timers consistent, the timers associated with a packet <span class="bcp14">SHOULD NOT</span> be changed when a packet is moved from one connection to another.
 At least the MRD timer <span class="bcp14">SHOULD</span> be preserved to prevent packets staying in the queue indefinitely due to regular connection closure.
-A RadSec client <span class="bcp14">MUST</span> associate a packet with exactly one connection until either the connection is closed, in which case the association moves to a new connection, or the timers reach MRC or MRD, in which case the packet is discarded.<a href="#section-3.9.2-3" class="pilcrow">¶</a></p>
+A RadSec client <span class="bcp14">MUST</span> associate a packet with exactly one connection until either the connection is closed, in which case the association may move to a new connection to a server in the same load-balancing/failover pool, or the timers reach MRC or MRD, in which case the packet is discarded.<a href="#section-3.9.2-3" class="pilcrow">¶</a></p>
 <p id="section-3.9.2-4">The requirements for actions from timers differ for RADIUS/TLS and RADIUS/DTLS.<a href="#section-3.9.2-4" class="pilcrow">¶</a></p>
 <p id="section-3.9.2-5">As UDP is not a reliable transport, RADIUS/DTLS clients <span class="bcp14">MUST</span> retransmit packets when indicated by the timers to deal with packets dropped by the network.
 When the timers reach MRC or MRD, the packet is discarded.<a href="#section-3.9.2-5" class="pilcrow">¶</a></p>
@@ -2032,10 +2038,6 @@ As this procedure involves using a new connection, the ID of the packet <span cl
 If the ID changes, any security attributes such as Message-Authenticator <span class="bcp14">MUST</span> be recalculated.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">Despite the above discussion, RADIUS/TLS servers <span class="bcp14">SHOULD</span> still perform duplicate detection on received packets, as described in <span>[<a href="#RFC5080" class="cite xref">RFC5080</a>], <a href="https://rfc-editor.org/rfc/rfc5080#section-2.2.2" class="relref">Section 2.2.2</a></span>.
 This detection can prevent duplicate processing of packets from non-conforming clients.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2-3">RADIUS clients <span class="bcp14">MUST NOT</span> perform retries by sending a packet on a different protocol or connection proactively.
-However, when a connection fails, a RADIUS client <span class="bcp14">MAY</span> send packets associated with that connection over a different configured connection or server.
-This requirement does not, therefore, forbid the practice of putting servers with the same IP address and port number but different protocols into a failover or load-balancing pool.
-In that situation, RADIUS requests <span class="bcp14">MAY</span> be sent to another server that is known to be part of the same pool.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2491,7 +2493,7 @@ However, these methods are not capable of reliably detecting and suppressing the
 <p id="section-7.3-1">Some TLS implementations offer cipher suites with NULL encryption, to allow inspection of the plaintext with packet sniffing tools.
 Since with RadSec the RADIUS shared secret is set to a static string ("radsec" for RADIUS/TLS, "radius/dtls" for RADIUS/DTLS), using a NULL encryption cipher suite will also result in complete disclosure of the whole RADIUS packet, including the encrypted RADIUS attributes, to any party eavesdropping on the conversation.
 Following the recommendations in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>], <a href="https://rfc-editor.org/rfc/rfc9325#section-4.1" class="relref">Section 4.1</a></span>, this specification forbids the usage of NULL encryption cipher suites for RadSec.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to <span>[<a href="#I-D.ietf-tls-keylogfile" class="cite xref">I-D.ietf-tls-keylogfile</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">For cases where administrators need access to the decrypted RadSec traffic, different approaches should be used, like exporting the key material from TLS libraries according to <span>[<a href="#RFC9850" class="cite xref">RFC9850</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="possibility-of-denial-of-service-attacks">
@@ -2823,10 +2825,6 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
         <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Standardising Protocol-Error"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-dekok-protocol-error-01</span>, <time datetime="2026-07-03" class="refDate">3 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-dekok-protocol-error-01">https://datatracker.ietf.org/doc/html/draft-dekok-protocol-error-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-tls-keylogfile">[I-D.ietf-tls-keylogfile]</dt>
-        <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"The SSLKEYLOGFILE Format for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-keylogfile-05</span>, <time datetime="2025-06-09" class="refDate">9 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05">https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile-05</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-aead-limits">[I-D.irtf-cfrg-aead-limits]</dt>
         <dd>
 <span class="refAuthor">Günther, F.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Usage Limits on AEAD Algorithms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-aead-limits-13</span>, <time datetime="2026-09-03" class="refDate">3 September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-aead-limits-13</a>&gt;</span>. </dd>
@@ -2888,8 +2886,12 @@ The additional effort that is needed to protect 0-RTT data against replays outwe
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"RADIUS/1.1: Leveraging Application-Layer Protocol Negotiation (ALPN) to Remove MD5"</span>, <span class="seriesInfo">RFC 9765</span>, <span class="seriesInfo">DOI 10.17487/RFC9765</span>, <time datetime="2025-04" class="refDate">April 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9765">https://www.rfc-editor.org/rfc/rfc9765</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9813">[RFC9813]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">DeKok, A.</span>, <span class="refTitle">"Operational Considerations for Using TLS Pre-Shared Keys (TLS-PSKs) with RADIUS"</span>, <span class="seriesInfo">BCP 243</span>, <span class="seriesInfo">RFC 9813</span>, <span class="seriesInfo">DOI 10.17487/RFC9813</span>, <time datetime="2025-07" class="refDate">July 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9813">https://www.rfc-editor.org/rfc/rfc9813</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9850">[RFC9850]</dt>
+      <dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"The SSLKEYLOGFILE Format for TLS"</span>, <span class="seriesInfo">RFC 9850</span>, <span class="seriesInfo">DOI 10.17487/RFC9850</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9850">https://www.rfc-editor.org/rfc/rfc9850</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

@@ -382,7 +382,8 @@ Table of Contents
       label.
 
    *  RadSec clients validate the server's identity to match their local
-      configuration, accepting the identity on the first match:
+      configuration, accepting the identity on the first match.  If no
+      acceptable identity is found, [RFC9525], Section 6.6 applies.
 
       -  If the expected RadSec server is associated with a specific NAI
          realm, e.g., by dynamic discovery [RFC7585] or static
@@ -447,6 +448,12 @@ Table of Contents
          authorization MUST then be validated using a certificate policy
          extension [RFC5280], Section 4.2.1.4 unless both endpoints are
          part of a trusted network.
+
+      -  If a RadSec server deems a client to be not acceptable, it MUST
+         terminate the (D)TLS connection immediately.  RADIUS/TLS
+         servers MUST also close the TCP connection.  RadSec servers
+         SHOULD send the TLS alert access denied(49) (if supported by
+         the (D)TLS implementation).
 
    *  Implementations MAY allow configuration of a set of additional
       properties of the certificate to check for a peer's authorization
@@ -708,8 +715,17 @@ Table of Contents
    was closed by the RadSec server, RadSec clients MUST NOT immediately
    reconnect to a server after a failed connection attempt.  A
    connection attempt is treated as failed if it fails at any point
-   until a (D)TLS connection is established successfully.  Typical
-   reconnections MUST have a lower bound for the time in between
+   until a (D)TLS connection is established successfully.  If the (D)TLS
+   connection is established successfully, but closed without having
+   received any valid packets from the server, it is also treated as
+   failed, and the reconnect timers MUST NOT be reset.  This can happen
+   if additional authorization checks performed after the TLS handshake
+   fail (e.g., because the TLS library only returns the relevant
+   parameters when the connection is already established).  In this case
+   the server will not answer to any packets from the client, including
+   Status-Server requests.
+
+   Typical reconnections MUST have a lower bound for the time in between
    retries.  The lower bound SHOULD be configurable, but MUST NOT be
    less than 0.5 seconds.  In cases where the server closes the
    connection on an attempted TLS session resumption, the client MUST
@@ -763,9 +779,9 @@ Table of Contents
    SHOULD be preserved to prevent packets staying in the queue
    indefinitely due to regular connection closure.  A RadSec client MUST
    associate a packet with exactly one connection until either the
-   connection is closed, in which case the association moves to a new
-   connection, or the timers reach MRC or MRD, in which case the packet
-   is discarded.
+   connection is closed, in which case the association may move to a new
+   connection to a server in the same load-balancing/failover pool, or
+   the timers reach MRC or MRD, in which case the packet is discarded.
 
    The requirements for actions from timers differ for RADIUS/TLS and
    RADIUS/DTLS.
@@ -1068,16 +1084,6 @@ Table of Contents
    duplicate detection on received packets, as described in [RFC5080],
    Section 2.2.2.  This detection can prevent duplicate processing of
    packets from non-conforming clients.
-
-   RADIUS clients MUST NOT perform retries by sending a packet on a
-   different protocol or connection proactively.  However, when a
-   connection fails, a RADIUS client MAY send packets associated with
-   that connection over a different configured connection or server.
-   This requirement does not, therefore, forbid the practice of putting
-   servers with the same IP address and port number but different
-   protocols into a failover or load-balancing pool.  In that situation,
-   RADIUS requests MAY be sent to another server that is known to be
-   part of the same pool.
 
 5.  RADIUS/DTLS-specific specifications
 
@@ -1684,7 +1690,7 @@ Table of Contents
 
    For cases where administrators need access to the decrypted RadSec
    traffic, different approaches should be used, like exporting the key
-   material from TLS libraries according to [I-D.ietf-tls-keylogfile].
+   material from TLS libraries according to [RFC9850].
 
 7.4.  Possibility of Denial-of-Service attacks
 
@@ -2087,13 +2093,6 @@ Table of Contents
               July 2026, <https://datatracker.ietf.org/doc/html/draft-
               dekok-protocol-error-01>.
 
-   [I-D.ietf-tls-keylogfile]
-              Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
-              SSLKEYLOGFILE Format for TLS", Work in Progress, Internet-
-              Draft, draft-ietf-tls-keylogfile-05, 9 June 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              keylogfile-05>.
-
    [I-D.irtf-cfrg-aead-limits]
               Günther, F., Thomson, M., and C. A. Wood, "Usage Limits on
               AEAD Algorithms", Work in Progress, Internet-Draft, draft-
@@ -2171,6 +2170,11 @@ Table of Contents
               Shared Keys (TLS-PSKs) with RADIUS", BCP 243, RFC 9813,
               DOI 10.17487/RFC9813, July 2025,
               <https://www.rfc-editor.org/rfc/rfc9813>.
+
+   [RFC9850]  Thomson, M., Rosomakho, Y., and H. Tschofenig, "The
+              SSLKEYLOGFILE Format for TLS", RFC 9850,
+              DOI 10.17487/RFC9850, July 2026,
+              <https://www.rfc-editor.org/rfc/rfc9850>.
 
 Appendix A.  Changes from RFC6614 (RADIUS/TLS) and RFC7360 (RADIUS/DTLS)
 
