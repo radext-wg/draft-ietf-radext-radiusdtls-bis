@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-27T02:31:37.813241+00:00",
+  "timestamp": "2026-10-01T03:06:19.539552+00:00",
   "repo": "radext-wg/draft-ietf-radext-radiusdtls-bis",
   "labels": [
     {
@@ -13613,24 +13613,26 @@
       "id": "PR_kwDOLrzygc71z8NB",
       "title": "Fixes as suggested by Fabian after his review",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/172",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "These changes come from Fabian's review of the draft.\r\n\r\nThe changes are:\r\n* Explicitly state that a connection attempt must be rejected if the peer certificate is not accepted. (or at least for the client, the operator needs to manually override this in order to connect, see RFC9525, Section 6.6)\r\n* Servers should send a TLS alert of access denied\r\n* A connection is treated as \"failed\" if it has not received valid packets within the reconnect window (e.g., closed immediately after the TLS handshake)\r\n* Remove paragraph about retries on different protocol/connection. (This most likely is an artifact from the old \"Server Identity\" discussion, I've clarified things more in the retransmit/retry section)\r\n\r\nIf there are no objections, I'll merge this PR and push a new draft version out after.",
       "createdAt": "2026-07-24T10:44:22Z",
-      "updatedAt": "2026-08-04T16:13:06Z",
+      "updatedAt": "2026-09-30T19:04:20Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "review/fabian",
       "headRefOid": "be6ca4f19ace960ce83fc20035af8a0299a7faf9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-09-30T19:04:19Z",
+      "mergedAt": "2026-09-30T19:04:19Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "1f624d234db9404afba3919d174c852d432d5e0a"
+      },
       "comments": [],
       "reviews": []
     },
@@ -13639,25 +13641,33 @@
       "id": "PR_kwDOLrzygc8AAAABAPownQ",
       "title": "Incorporate feedback from the list.",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/173",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "fmauchle",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Incorporate feedback by Peter Deacon.",
       "createdAt": "2026-08-19T06:55:27Z",
-      "updatedAt": "2026-08-19T06:55:27Z",
+      "updatedAt": "2026-09-30T19:03:14Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "review/fabian",
       "baseRefOid": "be6ca4f19ace960ce83fc20035af8a0299a7faf9",
       "headRepository": "fmauchle/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fmauchle-review",
       "headRefOid": "eff8b1832908904e653dd99e72862490924bc0ae",
-      "closedAt": null,
+      "closedAt": "2026-09-30T19:03:14Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As discussed on the mailing list, I don't think this is the right approach, and there are multiple strong opinions against it, so I'm closing this PR.",
+          "createdAt": "2026-09-30T19:03:14Z",
+          "updatedAt": "2026-09-30T19:03:14Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -13665,7 +13675,7 @@
       "id": "PR_kwDOLrzygc8AAAABAjv4Ag",
       "title": "Address race conditions with response packets",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/174",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alandekok",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -13674,14 +13684,14 @@
       ],
       "body": "Move a line from \"must close connection\" to \"silently discard packets\"\r\n\r\nAs discussed in https://mailarchive.ietf.org/arch/msg/radext/klBXadgO9MtX9IY-LFdlxyubICo/\r\n\r\n",
       "createdAt": "2026-08-21T14:01:20Z",
-      "updatedAt": "2026-09-21T15:49:26Z",
+      "updatedAt": "2026-09-30T19:03:41Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "1318edcaa4ba8f755de58cdd0f26f88ddeab302f",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "alandekok/race",
       "headRefOid": "0c890de15af4e9163650ad768238dd5c70e9f866",
-      "closedAt": null,
+      "closedAt": "2026-09-30T19:03:40Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -13692,6 +13702,13 @@
           "body": "One comment without reference:\r\n* [ ] This change should be documented in the \"changes from 6614/7360\" section.",
           "createdAt": "2026-09-06T16:14:43Z",
           "updatedAt": "2026-09-06T16:14:43Z"
+        },
+        {
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this PR in favor of #176 ",
+          "createdAt": "2026-09-30T19:03:41Z",
+          "updatedAt": "2026-09-30T19:03:41Z"
         }
       ],
       "reviews": [
@@ -13799,7 +13816,7 @@
       "id": "PR_kwDOLrzygc8AAAABEcnLXw",
       "title": "Request Authenticator race condition (alternative wording)",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/176",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -13808,17 +13825,19 @@
       ],
       "body": "I've reworded Alan's PR (#174) a little.\r\n\r\n* Responses without outstanding requests are the same as responses where validation fails -> Keep the connection open\r\n* Added item in the \"Changes from 6613/6614/7360\" section\r\n* Added subsection in appendix explaining the race-condition in detail.",
       "createdAt": "2026-09-21T15:49:07Z",
-      "updatedAt": "2026-09-21T16:46:26Z",
+      "updatedAt": "2026-09-30T19:01:37Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "main",
       "baseRefOid": "9c9e2ea42946dbcd25736723adbf50c01900a481",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "fix-race-condition",
-      "headRefOid": "95e3b80c58abe51e9bdcdc91b17fc711c45f4d1a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "4e909e34b5fd66ddcfa13b1525daec6308077074",
+      "closedAt": "2026-09-30T19:01:37Z",
+      "mergedAt": "2026-09-30T19:01:37Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "9203a92e771b68abf42a93aca04ed0dd5baf4d3b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -13926,6 +13945,26 @@
               "updatedAt": "2026-09-21T16:46:26Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABQB4ivw",
+          "commit": {
+            "abbreviatedOid": "3c1e856"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-30T18:59:27Z",
+          "updatedAt": "2026-09-30T18:59:27Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\n* Response packets where the Response Authenticator fails validation (where validation is required)\n```",
+              "createdAt": "2026-09-30T18:59:27Z",
+              "updatedAt": "2026-09-30T18:59:27Z"
+            }
+          ]
         }
       ]
     },
@@ -13934,26 +13973,69 @@
       "id": "PR_kwDOLrzygc8AAAABFLZEnw",
       "title": "Add logging for \"silently discard\"",
       "url": "https://github.com/radext-wg/draft-ietf-radext-radiusdtls-bis/pull/179",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Janfred",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This adds the logging as suggested by Prem:\r\nhttps://mailarchive.ietf.org/arch/msg/radext/HFw53uc9ZFmFEODV5-9XCqqCTjk",
       "createdAt": "2026-09-25T20:38:00Z",
-      "updatedAt": "2026-09-25T20:38:00Z",
+      "updatedAt": "2026-09-30T19:01:38Z",
       "baseRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "baseRefName": "fix-race-condition",
-      "baseRefOid": "95e3b80c58abe51e9bdcdc91b17fc711c45f4d1a",
+      "baseRefOid": "4e909e34b5fd66ddcfa13b1525daec6308077074",
       "headRepository": "radext-wg/draft-ietf-radext-radiusdtls-bis",
       "headRefName": "logging-closures",
-      "headRefOid": "e4709d4a7e7e25ce5890f1b452612cb877b9995e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "e101bf95a4cb4940a4499ce73b91c4be8ec191ad",
+      "closedAt": "2026-09-30T19:01:38Z",
+      "mergedAt": "2026-09-30T19:01:38Z",
+      "mergedBy": "Janfred",
+      "mergeCommit": {
+        "oid": "9203a92e771b68abf42a93aca04ed0dd5baf4d3b"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLrzygc8AAAABQBDQMg",
+          "commit": {
+            "abbreviatedOid": "e4709d4"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-30T17:37:12Z",
+          "updatedAt": "2026-09-30T17:37:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nIf the connection is not closed, logging ignored packets SHOULD be rate limited, to prevent resource exhaustion due to logging if the peer sends a high number of similar packets.\n```\n\n(it's not just the server which can get these packets)",
+              "createdAt": "2026-09-30T17:37:12Z",
+              "updatedAt": "2026-09-30T17:37:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLrzygc8AAAABQBDwQg",
+          "commit": {
+            "abbreviatedOid": "e4709d4"
+          },
+          "author": "Janfred",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-30T17:37:58Z",
+          "updatedAt": "2026-09-30T17:37:58Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\nTo help with debugging, implementations SHOULD log details about the error and the packet causing it (e.g., packet code, packet ID, violated rule).\n```",
+              "createdAt": "2026-09-30T17:37:58Z",
+              "updatedAt": "2026-09-30T17:37:58Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
